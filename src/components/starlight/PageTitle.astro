@@ -1,0 +1,57 @@
+---
+export const PAGE_TITLE_ID = '_top';
+
+const { entry } = Astro.locals.starlightRoute;
+const title = entry.data.title;
+const pathname = Astro.url.pathname;
+
+let projectBadge: { text: string; class: string } | null = null;
+if (pathname.startsWith('/chat')) {
+	projectBadge = { text: 'EpoCanvas Chat', class: 'badge-chat' };
+} else if (pathname.startsWith('/mail')) {
+	projectBadge = { text: 'EpoMail Service', class: 'badge-mail' };
+} else if (pathname.startsWith('/eccp')) {
+	projectBadge = { text: 'ECCP Protocol Spec', class: 'badge-eccp' };
+}
+---
+
+<div class="page-title-wrapper">
+	{projectBadge && (
+		<div class="project-tag-container">
+			<span class:list={['project-badge', projectBadge.class]}>{projectBadge.text}</span>
+		</div>
+	)}
+	<h1 id={PAGE_TITLE_ID} class="page-title-heading">{title}</h1>
+</div>
+
+<style>
+	.page-title-wrapper {
+		margin-top: 1rem;
+		margin-bottom: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.project-tag-container {
+		display: flex;
+		align-items: center;
+	}
+
+	.project-badge {
+		font-size: 0.72rem;
+		font-weight: 700;
+		padding: 0.2rem 0.55rem;
+		border-radius: var(--ep-radius-xs, 4px);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.page-title-heading {
+		font-size: var(--sl-text-h1, 2.25rem);
+		line-height: var(--sl-line-height-headings, 1.2);
+		font-weight: 700;
+		color: var(--sl-color-white);
+		letter-spacing: -0.02em;
+	}
+</style>

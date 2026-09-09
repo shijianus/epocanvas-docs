@@ -1,0 +1,43 @@
+---
+title: EpoCanvas Documentation
+description: Unified documentation hub for EpoCanvas Chat, EpoMail, and the ECCP Protocol.
+template: splash
+hero:
+  tagline: Enterprise-grade End-to-End Encrypted (E2EE) communication suites and protocol specifications.
+  actions:
+    - text: EpoCanvas Chat
+      link: /chat/
+      icon: right-arrow
+      variant: primary
+    - text: EpoMail
+      link: /mail/
+      icon: email
+      variant: secondary
+    - text: ECCP RFC Spec
+      link: /eccp/
+      icon: document
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Multi-Project Ecosystem
+
+<CardGrid stagger>
+	<Card title="EpoCanvas (Chat)" icon="chat">
+		Next-generation instant messaging platform built with Zero-Knowledge End-to-End Encryption (E2EE), Signal Protocol ratcheting, and high-concurrency Synapse federation.
+		<LinkCard title="Explore Chat Docs" href="/chat/" description="Architecture, client features, and self-hosted server deployment." />
+	</Card>
+	<Card title="EpoMail" icon="email">
+		Modern privacy-first mail service supporting PGP/MIME, post-quantum key exchange, autonomous domain hosting, and zero telemetry collection.
+		<LinkCard title="Explore EpoMail Docs" href="/mail/" description="Setup guides, SMTP/IMAP relays, and custom key management." />
+	</Card>
+	<Card title="ECCP Protocol Spec" icon="document">
+		**EpoCanvas Cryptographic Protocol** specifications modeled after RFC engineering standards. Covers handshake negotiation, key derivation, and ephemeral sessions.
+		<LinkCard title="Read RFC Specification" href="/eccp/" description="Formal specification for cryptographic handshakes and packet schemas." />
+	</Card>
+	<Card title="Open Source & Audit" icon="github">
+		All cryptographic primitives are audited and fully open-source. Discover security disclosures, formal verification reports, and reproducible builds.
+		<LinkCard title="GitHub Repository" href="https://github.com/shijianus/epocanvas" description="Source code, releases, and developer issue tracker." />
+	</Card>
+</CardGrid>

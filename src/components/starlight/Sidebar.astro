@@ -1,0 +1,111 @@
+---
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+
+const { sidebar } = Astro.locals.starlightRoute;
+
+// Contextual project detection
+const pathname = Astro.url.pathname;
+let currentProject = { name: 'Global Hub', icon: '🌐', color: 'var(--sl-color-accent)' };
+if (pathname.startsWith('/chat')) {
+	currentProject = { name: 'EpoCanvas (Chat)', icon: '💬', color: '#425aef' };
+} else if (pathname.startsWith('/mail')) {
+	currentProject = { name: 'EpoMail', icon: '✉️', color: '#00c4b6' };
+} else if (pathname.startsWith('/eccp')) {
+	currentProject = { name: 'ECCP Protocol Spec', icon: '📜', color: '#e38100' };
+}
+---
+
+<div class="sidebar-wrapper">
+	<!-- Project Context Pill -->
+	<div class="project-context-card">
+		<div class="context-indicator">
+			<span class="context-dot" style={`background-color: ${currentProject.color};`}></span>
+			<span class="context-icon">{currentProject.icon}</span>
+			<span class="context-title">{currentProject.name}</span>
+		</div>
+		<div class="context-quick-links">
+			<a href="/chat/" class:list={['quick-pill', { active: pathname.startsWith('/chat') }]}>Chat</a>
+			<a href="/mail/" class:list={['quick-pill', { active: pathname.startsWith('/mail') }]}>Mail</a>
+			<a href="/eccp/" class:list={['quick-pill', { active: pathname.startsWith('/eccp') }]}>ECCP</a>
+		</div>
+	</div>
+
+	<SidebarPersister>
+		<SidebarSublist sublist={sidebar} />
+	</SidebarPersister>
+
+	<div class="md:sl-hidden mobile-footer-slot">
+		<MobileMenuFooter />
+	</div>
+</div>
+
+<style>
+	.sidebar-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		height: 100%;
+	}
+
+	.project-context-card {
+		padding: 0.65rem 0.85rem;
+		background: var(--sl-color-gray-6);
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: var(--ep-radius-md, 8px);
+		margin-bottom: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+	}
+
+	.context-indicator {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--sl-color-white);
+	}
+
+	.context-dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.context-quick-links {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.quick-pill {
+		font-size: 0.72rem;
+		padding: 0.15rem 0.45rem;
+		border-radius: var(--ep-radius-xs, 4px);
+		text-decoration: none;
+		color: var(--sl-color-gray-3);
+		background: var(--sl-color-gray-5);
+		transition: all 0.15s ease-in-out;
+		font-weight: 500;
+	}
+
+	.quick-pill:hover {
+		color: var(--sl-color-white);
+	}
+
+	.quick-pill.active {
+		background: var(--ep-theme-main, #425aef);
+		color: #ffffff;
+		font-weight: 600;
+	}
+
+	.mobile-footer-slot {
+		margin-top: auto;
+		padding-top: 1rem;
+		border-top: 1px solid var(--sl-color-gray-5);
+	}
+</style>
