@@ -1,141 +1,247 @@
 /* ==========================================================================
-   EpoCanvas Documentation - Design Tokens & Custom Styles
-   Inherited & Unified with EpoCanvas Ecosystem (shijianus-blog)
+   EpoCanvas Documentation - Clean 3-Tier Theme
+   Inspired by VitePress & Modern Enterprise Documentation Standards
    ========================================================================== */
 
 :root {
-  /* Brand Accents */
-  --ep-theme-main: #425aef;
-  --ep-theme-deep: #1856fb;
-  --ep-theme-light: #5ca1ff;
-  --ep-theme-op: rgba(66, 90, 239, 0.12);
-  --ep-theme-op-deep: rgba(66, 90, 239, 0.85);
+  /* Layout Sizing Tokens */
+  --sl-sidebar-width: 17rem;
+  --sl-content-width: 52rem;
+  --sl-nav-height: 3.75rem;
 
-  /* Functional Palettes */
-  --ep-color-green: #57bd6a;
-  --ep-color-red: #d8213c;
-  --ep-color-yellow: #ffc93e;
-  --ep-color-orange: #e38100;
-  --ep-color-purple: #7952eb;
-  --ep-color-cyan: #00c4b6;
+  /* Primary Tech Accent (Clean Modern Blue) */
+  --sl-color-accent-low: rgba(37, 99, 235, 0.08);
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #1d4ed8;
 
-  /* Starlight Primary Accent Override (Light Theme) */
-  --sl-color-accent-low: #e8ecfd;
-  --sl-color-accent: #425aef;
-  --sl-color-accent-high: #1856fb;
-
-  /* Neutrals & Surfaces (Light) */
-  --sl-color-white: #1e2029;
-  --sl-color-gray-1: #2d3142;
-  --sl-color-gray-2: #4f556d;
-  --sl-color-gray-3: #757c9a;
-  --sl-color-gray-4: #c0c6dc;
-  --sl-color-gray-5: #e2e6f4;
-  --sl-color-gray-6: #f4f6fd;
+  /* Neutrals & Surfaces (Light Mode) */
+  --sl-color-white: #0f172a;
+  --sl-color-gray-1: #1e293b;
+  --sl-color-gray-2: #334155;
+  --sl-color-gray-3: #64748b;
+  --sl-color-gray-4: #94a3b8;
+  --sl-color-gray-5: #e2e8f0;
+  --sl-color-gray-6: #f8fafc;
   --sl-color-black: #ffffff;
-  --sl-color-bg: #f7f9fe;
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.94);
+  --sl-color-hairline: #e2e8f0;
 
-  /* Typography */
-  --sl-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Lato, Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  /* Clean Typography */
+  --sl-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
   --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
-  /* Radius Tokens (Consistent 8px System) */
-  --ep-radius-xs: 4px;
-  --ep-radius-sm: 6px;
-  --ep-radius-md: 8px;
-  --ep-radius-lg: 10px;
-
-  /* Shadows */
-  --ep-shadow-sm: 0 2px 6px rgba(10, 20, 50, 0.04);
-  --ep-shadow-md: 0 6px 18px rgba(10, 20, 50, 0.06);
-  --ep-shadow-hover: 0 10px 24px rgba(66, 90, 239, 0.12);
+  --sl-line-height: 1.75;
 }
 
 :root[data-theme='dark'] {
-  /* Starlight Primary Accent Override (Dark Theme) */
-  --sl-color-accent-low: #1c234a;
-  --sl-color-accent: #5c7cfa;
-  --sl-color-accent-high: #91a7ff;
+  /* Primary Tech Accent (Dark Mode) */
+  --sl-color-accent-low: rgba(59, 130, 246, 0.12);
+  --sl-color-accent: #3b82f6;
+  --sl-color-accent-high: #60a5fa;
 
-  /* Neutrals & Surfaces (Dark) */
-  --sl-color-white: #f8f9fc;
-  --sl-color-gray-1: #e2e5f0;
-  --sl-color-gray-2: #b4bacd;
-  --sl-color-gray-3: #7e86a0;
-  --sl-color-gray-4: #3c4258;
-  --sl-color-gray-5: #232738;
-  --sl-color-gray-6: #13151f;
-  --sl-color-black: #0b0c12;
-  --sl-color-bg: #0d0d14;
-
-  --ep-theme-op: rgba(92, 124, 250, 0.18);
-  --ep-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
-  --ep-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.4);
-  --ep-shadow-hover: 0 10px 24px rgba(92, 124, 250, 0.18);
+  /* Neutrals & Surfaces (Dark Mode) */
+  --sl-color-white: #f8fafc;
+  --sl-color-gray-1: #e2e8f0;
+  --sl-color-gray-2: #cbd5e1;
+  --sl-color-gray-3: #94a3b8;
+  --sl-color-gray-4: #475569;
+  --sl-color-gray-5: #1e293b;
+  --sl-color-gray-6: #111827;
+  --sl-color-black: #0b0f19;
+  --sl-color-bg: #0b0f19;
+  --sl-color-bg-nav: rgba(11, 15, 25, 0.94);
+  --sl-color-hairline: #1e293b;
 }
 
-/* ==========================================================================
-   Global Polish & Layout Overrides
-   ========================================================================== */
-
+/* Base resets & layout */
 html, body {
   font-family: var(--sl-font);
   background-color: var(--sl-color-bg);
-  letter-spacing: -0.01em;
+  color: var(--sl-color-gray-2);
+  line-height: var(--sl-line-height);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
+/* Header Border & Backdrop */
+header.header {
+  border-bottom: 1px solid var(--sl-color-hairline);
+  background-color: var(--sl-color-bg-nav);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* Rounded Cards & Code Blocks */
-.card, pre, code {
-  border-radius: var(--ep-radius-md);
+/* Sidebar Styling */
+nav.sidebar {
+  border-inline-end: 1px solid var(--sl-color-hairline);
+  background-color: var(--sl-color-bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--sl-color-hairline) transparent;
 }
 
-/* Badge Styles */
-.sl-badge {
-  border-radius: var(--ep-radius-xs) !important;
-  font-size: 0.72rem !important;
+/* Sidebar navigation links */
+.sidebar-content a {
+  font-size: 0.875rem !important;
+  color: var(--sl-color-gray-2) !important;
+  border-radius: 6px !important;
+  padding: 0.35rem 0.75rem !important;
+  transition: all 0.15s ease !important;
+  line-height: 1.45 !important;
+  margin: 0.1rem 0 !important;
+}
+
+.sidebar-content a:hover {
+  background-color: var(--sl-color-gray-6) !important;
+  color: var(--sl-color-white) !important;
+}
+
+/* Refined active link: Clean accent text matching VitePress */
+.sidebar-content a[aria-current='page'] {
+  background-color: transparent !important;
+  color: var(--sl-color-accent) !important;
   font-weight: 600 !important;
-  padding: 0.15rem 0.5rem !important;
-  letter-spacing: 0.02em;
 }
 
-/* Project Identifier Badges */
-.badge-chat {
-  background: rgba(66, 90, 239, 0.12) !important;
-  color: #425aef !important;
-  border: 1px solid rgba(66, 90, 239, 0.3) !important;
+/* Sidebar group headers */
+.sidebar-content summary,
+.sidebar-content .group-label {
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  color: var(--sl-color-gray-3) !important;
+  padding: 0.4rem 0.75rem !important;
+  letter-spacing: 0.03em !important;
+  text-transform: none !important;
 }
 
-.badge-mail {
-  background: rgba(0, 196, 182, 0.12) !important;
-  color: #009688 !important;
-  border: 1px solid rgba(0, 196, 182, 0.3) !important;
+/* Main Content Typography */
+.main-pane {
+  max-width: 100%;
 }
 
-.badge-eccp {
-  background: rgba(227, 129, 0, 0.12) !important;
-  color: #d97706 !important;
-  border: 1px solid rgba(227, 129, 0, 0.3) !important;
+.sl-markdown-content {
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--sl-color-gray-2);
 }
 
-:root[data-theme='dark'] .badge-chat {
-  background: rgba(92, 124, 250, 0.2) !important;
-  color: #91a7ff !important;
-  border-color: rgba(92, 124, 250, 0.4) !important;
+.sl-markdown-content h1 {
+  color: var(--sl-color-white);
+  font-size: 2.15rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
-:root[data-theme='dark'] .badge-mail {
-  background: rgba(0, 196, 182, 0.2) !important;
-  color: #4dd0e1 !important;
-  border-color: rgba(0, 196, 182, 0.4) !important;
+.sl-markdown-content h2 {
+  color: var(--sl-color-white);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
 }
 
-:root[data-theme='dark'] .badge-eccp {
-  background: rgba(255, 179, 71, 0.2) !important;
-  color: #fbbf24 !important;
-  border-color: rgba(255, 179, 71, 0.4) !important;
+.sl-markdown-content h3 {
+  color: var(--sl-color-white);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.sl-markdown-content p {
+  margin: 1.1rem 0;
+}
+
+.sl-markdown-content ul,
+.sl-markdown-content ol {
+  padding-inline-start: 1.5rem;
+  margin: 1rem 0;
+}
+
+.sl-markdown-content li {
+  margin: 0.35rem 0;
+}
+
+/* Content Images: Elegant Framing */
+.sl-markdown-content img {
+  border-radius: 8px;
+  border: 1px solid var(--sl-color-hairline);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin: 1.75rem 0;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:root[data-theme='dark'] .sl-markdown-content img {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Markdown Tables */
+.sl-markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.sl-markdown-content th {
+  background-color: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+.sl-markdown-content td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+  color: var(--sl-color-gray-2);
+}
+
+.sl-markdown-content tr:last-child td {
+  border-bottom: none;
+}
+
+.sl-markdown-content tr:hover td {
+  background-color: var(--sl-color-gray-6);
+}
+
+/* Code Blocks */
+.sl-markdown-content pre {
+  border-radius: 8px !important;
+  border: 1px solid var(--sl-color-hairline) !important;
+  margin: 1.25rem 0 !important;
+}
+
+/* Inline Code */
+.sl-markdown-content :not(pre) > code {
+  background-color: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.85em;
+  color: var(--sl-color-accent);
+}
+
+/* Blockquotes & Asides */
+.sl-markdown-content blockquote {
+  border-inline-start: 3px solid var(--sl-color-accent);
+  background-color: var(--sl-color-gray-6);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+  font-style: normal;
+}
+
+/* On-This-Page Table of Contents Column */
+.right-sidebar {
+  border-inline-start: 1px solid var(--sl-color-hairline) !important;
 }

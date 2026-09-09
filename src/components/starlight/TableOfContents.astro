@@ -2,17 +2,17 @@
 import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
 
 const { toc } = Astro.locals.starlightRoute;
+const items = toc?.items ? toc.items.filter((item) => item.slug !== '_top') : [];
 ---
 
 {
-	toc && (
-		<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
+	items.length > 0 && (
+		<starlight-toc data-min-h={toc?.minHeadingLevel} data-max-h={toc?.maxHeadingLevel}>
 			<nav aria-labelledby="starlight__on-this-page" class="toc-container">
 				<h2 id="starlight__on-this-page" class="toc-header">
-					<span class="toc-header-icon">📑</span>
-					<span>{Astro.locals.t('tableOfContents.onThisPage')}</span>
+					{Astro.locals.t('tableOfContents.onThisPage')}
 				</h2>
-				<TableOfContentsList toc={toc.items} />
+				<TableOfContentsList toc={items} />
 			</nav>
 		</starlight-toc>
 	)
@@ -22,22 +22,15 @@ const { toc } = Astro.locals.starlightRoute;
 
 <style>
 	.toc-container {
-		padding: 0.5rem 0;
+		padding: 0.25rem 0;
 	}
 
 	.toc-header {
-		font-size: var(--sl-text-xs, 0.75rem);
-		font-weight: 700;
+		font-size: 0.75rem;
+		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: var(--sl-color-gray-2);
+		letter-spacing: 0.05em;
+		color: var(--sl-color-gray-3);
 		margin-bottom: 0.75rem;
-		display: flex;
-		align-items: center;
-		gap: 0.4rem;
-	}
-
-	.toc-header-icon {
-		font-size: 0.85rem;
 	}
 </style>

@@ -7,12 +7,23 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'EpoCanvas Docs',
-			description: 'Unified End-to-End Encrypted Ecosystem Documentation & Protocol Specifications',
+			description: 'EpoCanvas Ecosystem Technical Documentation & Protocol Specifications',
+			defaultLocale: 'root',
+			locales: {
+				root: {
+					label: '简体中文',
+					lang: 'zh-CN',
+				},
+			},
+			logo: {
+				src: './public/images/logo.svg',
+				replacesTitle: false,
+			},
 			social: {
 				github: 'https://github.com/shijianus/epocanvas',
 			},
 			customCss: ['./src/styles/custom.css'],
-			// EJECT MODE: Local Component Overrides for Full Customization
+			// Local Component Overrides for Clean Documentation Theme
 			components: {
 				Header: './src/components/starlight/Header.astro',
 				Sidebar: './src/components/starlight/Sidebar.astro',
@@ -20,21 +31,33 @@ export default defineConfig({
 				PageTitle: './src/components/starlight/PageTitle.astro',
 				TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
 			},
-			// Multi-Project Segregated Sidebar
+			// Multi-Section Partitioned Sidebar Definitions
 			sidebar: [
 				{
+					label: 'EpoMail',
+					items: [
+						{ label: '项目概览', link: '/mail/' },
+						{
+							label: '部署指南',
+							items: [
+								{ label: '界面与服务部署', link: '/mail/deployment/' },
+								{ label: '域名与 DNS 解析', link: '/mail/dns-setup/' },
+							],
+						},
+						{
+							label: '系统配置',
+							items: [
+								{ label: '系统设置与服务集成', link: '/mail/system-config/' },
+							],
+						},
+					],
+				},
+				{
 					label: 'EpoCanvas (Chat)',
-					badge: { text: 'E2EE IM', variant: 'tip' },
 					autogenerate: { directory: 'chat' },
 				},
 				{
-					label: 'EpoMail Service',
-					badge: { text: 'Encrypted Mail', variant: 'note' },
-					autogenerate: { directory: 'mail' },
-				},
-				{
 					label: 'ECCP Protocol Spec',
-					badge: { text: 'RFC Standards', variant: 'caution' },
 					autogenerate: { directory: 'eccp' },
 				},
 			],
