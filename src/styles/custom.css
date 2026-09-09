@@ -1,15 +1,15 @@
 /* ==========================================================================
-   EpoCanvas Documentation - Clean 3-Tier Theme
-   Inspired by VitePress & Modern Enterprise Documentation Standards
+   EpoCanvas Documentation - Dignified Minimal 3-Tier Theme
+   Standardized UI Components, Icon-Driven Navigation & Balanced Layout
    ========================================================================== */
 
 :root {
-  /* Layout Sizing Tokens */
-  --sl-sidebar-width: 17rem;
+  /* Mature 3-Column Sizing */
+  --sl-sidebar-width: 17.5rem;
   --sl-content-width: 52rem;
   --sl-nav-height: 3.75rem;
 
-  /* Primary Tech Accent (Clean Modern Blue) */
+  /* Primary Tech Accent (Dignified Modern Indigo-Blue) */
   --sl-color-accent-low: rgba(37, 99, 235, 0.08);
   --sl-color-accent: #2563eb;
   --sl-color-accent-high: #1d4ed8;
@@ -24,7 +24,7 @@
   --sl-color-gray-6: #f8fafc;
   --sl-color-black: #ffffff;
   --sl-color-bg: #ffffff;
-  --sl-color-bg-nav: rgba(255, 255, 255, 0.94);
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.96);
   --sl-color-hairline: #e2e8f0;
 
   /* Clean Typography */
@@ -49,7 +49,7 @@
   --sl-color-gray-6: #111827;
   --sl-color-black: #0b0f19;
   --sl-color-bg: #0b0f19;
-  --sl-color-bg-nav: rgba(11, 15, 25, 0.94);
+  --sl-color-bg-nav: rgba(11, 15, 25, 0.96);
   --sl-color-hairline: #1e293b;
 }
 
@@ -70,6 +70,22 @@ header.header {
   -webkit-backdrop-filter: blur(12px);
 }
 
+/* Search Input Styling */
+.header-center button[data-open-modal] {
+  border-radius: 8px !important;
+  border: 1px solid var(--sl-color-hairline) !important;
+  background-color: var(--sl-color-gray-6) !important;
+  padding: 0.35rem 0.85rem !important;
+  font-size: 0.85rem !important;
+  color: var(--sl-color-gray-3) !important;
+  transition: all 0.18s ease !important;
+}
+
+.header-center button[data-open-modal]:hover {
+  border-color: var(--sl-color-gray-4) !important;
+  color: var(--sl-color-white) !important;
+}
+
 /* Sidebar Styling */
 nav.sidebar {
   border-inline-end: 1px solid var(--sl-color-hairline);
@@ -83,10 +99,11 @@ nav.sidebar {
   font-size: 0.875rem !important;
   color: var(--sl-color-gray-2) !important;
   border-radius: 6px !important;
-  padding: 0.35rem 0.75rem !important;
+  padding: 0.4rem 0.75rem !important;
   transition: all 0.15s ease !important;
   line-height: 1.45 !important;
   margin: 0.1rem 0 !important;
+  border-inline-start: 2px solid transparent !important;
 }
 
 .sidebar-content a:hover {
@@ -94,22 +111,23 @@ nav.sidebar {
   color: var(--sl-color-white) !important;
 }
 
-/* Refined active link: Clean accent text matching VitePress */
+/* Active link: Clean, dignified, crisp accent text + subtle indicator */
 .sidebar-content a[aria-current='page'] {
-  background-color: transparent !important;
+  background-color: var(--sl-color-accent-low) !important;
   color: var(--sl-color-accent) !important;
   font-weight: 600 !important;
+  border-inline-start: 2px solid var(--sl-color-accent) !important;
 }
 
-/* Sidebar group headers */
+/* Sidebar group headers (Category labels) */
 .sidebar-content summary,
 .sidebar-content .group-label {
-  font-size: 0.8125rem !important;
+  font-size: 0.76rem !important;
   font-weight: 600 !important;
   color: var(--sl-color-gray-3) !important;
-  padding: 0.4rem 0.75rem !important;
-  letter-spacing: 0.03em !important;
-  text-transform: none !important;
+  padding: 0.5rem 0.75rem 0.3rem !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
 }
 
 /* Main Content Typography */
@@ -165,7 +183,7 @@ nav.sidebar {
   margin: 0.35rem 0;
 }
 
-/* Content Images: Elegant Framing */
+/* Content Images: Dignified Framing */
 .sl-markdown-content img {
   border-radius: 8px;
   border: 1px solid var(--sl-color-hairline);
