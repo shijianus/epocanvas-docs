@@ -424,6 +424,11 @@ nav.sidebar {
   margin: 1.25rem 0 !important;
 }
 
+/* 终端风格代码边框：没有显式 title 时头部只剩一条空白栏，直接隐藏 */
+.sl-markdown-content .frame.is-terminal:not(.has-title) .header {
+  display: none;
+}
+
 /* Inline Code */
 .sl-markdown-content :not(pre) > code {
   background-color: var(--sl-color-gray-6);

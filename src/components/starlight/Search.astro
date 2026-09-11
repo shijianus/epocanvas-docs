@@ -364,7 +364,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				event?.stopPropagation();
 				dialog.showModal();
 				document.body.toggleAttribute('data-search-modal-open', true);
-				this.querySelector('#starlight__search input')?.focus();
+				this.querySelector<HTMLInputElement>('#starlight__search input')?.focus();
 				window.addEventListener('click', onClick);
 			};
 
