@@ -62,4 +62,12 @@ export const navigationConfig: NavItem[] = [
 		href: '/canvas/troubleshooting/',
 		match: (pathname: string) => pathname.includes('troubleshooting'),
 	},
+	{
+		id: 'release',
+		labelKey: 'nav.release',
+		defaultLabel: 'v1.2.0',
+		href: 'https://github.com/shijianus/epocanvas-docs/releases',
+		isExternal: true,
+		badge: 'v1.2.0',
+	},
 ];

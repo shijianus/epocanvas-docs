@@ -39,8 +39,8 @@ const initialLang = 'zh-CN';
 								title="查看 GitHub Release 版本记录"
 								data-i18n-title="nav.releases"
 							>
-								<span>{item.badge || item.defaultLabel}</span>
-								<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ext-icon">
+								<span class="release-version">{item.badge || item.defaultLabel}</span>
+								<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ext-icon" aria-hidden="true">
 									<path d="M7 17L17 7H7M17 7V17" />
 								</svg>
 							</a>
@@ -407,35 +407,16 @@ const initialLang = 'zh-CN';
 		border-color: rgba(59, 130, 246, 0.3);
 	}
 
-	.nav-btn-version {
-		font-size: 0.78rem;
-		color: var(--sl-color-gray-3, #64748b);
-		padding: 0.22rem 0.55rem;
-		border-radius: 6px;
-		background-color: var(--sl-color-gray-6, #f8fafc);
-		border: 1px solid var(--sl-color-hairline, #e2e8f0);
-	}
-
-	:root[data-theme='dark'] .nav-btn-version {
-		background-color: #111827;
-		border-color: #1e293b;
-		color: #94a3b8;
-	}
-
-	.nav-btn-version:hover {
-		color: var(--sl-color-accent, #2563eb);
-		border-color: var(--sl-color-accent, #2563eb);
-		background-color: var(--sl-color-accent-low, rgba(37, 99, 235, 0.08));
-	}
-
-	:root[data-theme='dark'] .nav-btn-version:hover {
-		color: #60a5fa;
-		border-color: #3b82f6;
-		background-color: rgba(59, 130, 246, 0.15);
-	}
-
 	.ext-icon {
 		opacity: 0.75;
+		transition: transform 0.18s ease;
+		flex-shrink: 0;
+		margin-left: 0.2rem;
+	}
+
+	.nav-btn:hover .ext-icon {
+		opacity: 1;
+		transform: translate(1px, -1px);
 	}
 
 	.nav-divider {
