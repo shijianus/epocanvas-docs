@@ -45,7 +45,9 @@ export const navigationConfig: NavItem[] = [
 			pathname.includes('markdown') ||
 			pathname.includes('rendering') ||
 			pathname.includes('syntax') ||
-			pathname.includes('configuration'),
+			pathname.includes('configuration') ||
+			pathname.includes('components') ||
+			pathname.includes('recipes'),
 	},
 	{
 		id: 'deploy',
@@ -54,6 +56,7 @@ export const navigationConfig: NavItem[] = [
 		href: '/canvas/cloudflare/',
 		match: (pathname: string) =>
 			pathname.includes('cloudflare') ||
+			pathname.includes('seo') ||
 			pathname.includes('releases'),
 	},
 	{

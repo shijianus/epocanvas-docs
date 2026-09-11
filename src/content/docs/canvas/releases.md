@@ -112,9 +112,43 @@ jobs:
 
 ---
 
-## 4. CI 构建检查
+## 4. 内容协作工作流
 
-仓库还配置了 `.github/workflows/build.yml`，在每次推送到 `main` 分支时自动执行依赖安装与全量构建，提前暴露断链、Frontmatter 错误等构建期问题。提交前在本地跑一遍同样的检查，可以避免推送后 CI 失败：
+多人维护文档时，按"分支 → 审查 → 合并 → 发布"的固定流程协作，保证线上内容始终可 build：
+
+```text
+main 分支（始终可发布，对应线上站点）
+  │
+  ├─ 1. 从 main 拉出功能分支        git checkout -b docs/new-guide
+  ├─ 2. 编写/修改 Markdown
+  ├─ 3. 本地自检                    pnpm exec astro check && pnpm run build
+  ├─ 4. 推送分支并开 Pull Request   触发 CI 构建
+  ├─ 5. 审查通过后合并到 main       触发线上自动部署
+  └─ 6. 需要发版时打 v* 标签        触发 GitHub Release 流水线
+```
+
+### Pull Request 审查要点
+
+CI（`build.yml`）只保证"能构建通过"，以下问题需要人工审查：
+
+- **链接有效性**：新增的站内链接、锚点能否跳转；改路径的文档是否登记了重定向；
+- **渲染效果**：提示框用的 `:::` 语法、代码块标注在页面上显示是否正常（CI 不检查视觉）；
+- **图文对应**：新增截图是否有说明文字、是否清晰；
+- **命名规范**：文件名小写加中划线，Frontmatter 的 `title`、`description` 完整。
+
+### 分工建议
+
+| 角色 | 职责 |
+| :--- | :--- |
+| 文档作者 | 编写内容、本地自检、发起 PR |
+| 审查者 | 核对渲染效果与链接，合并代码 |
+| 发布管理员 | 打版本标签、维护 `RELEASE_NOTES.md`、同步导航栏版本徽标 |
+
+---
+
+## 5. CI 构建检查
+
+仓库配置了 `.github/workflows/build.yml`，在每次推送到 `main` 分支和每个 Pull Request 上自动执行依赖安装与全量构建，提前暴露断链、Frontmatter 错误等构建期问题。提交前在本地跑一遍同样的检查，可以避免推送后 CI 失败：
 
 ```bash
 pnpm exec astro check && pnpm run build

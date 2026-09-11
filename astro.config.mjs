@@ -33,6 +33,8 @@ export default defineConfig({
 			social: {
 				github: 'https://github.com/shijianus/epocanvas-docs',
 			},
+			// 页面"最后更新于"时间戳取自构建时的 Git 提交历史
+			lastUpdated: true,
 			customCss: ['./src/styles/custom.css'],
 			// Local Component Overrides for Clean Documentation Theme
 			components: {
@@ -72,12 +74,15 @@ export default defineConfig({
 					label: '配置与二次开发',
 					items: [
 						{ label: '站点全局配置与样式定制', link: '/canvas/configuration/' },
+						{ label: '界面组件与二次开发', link: '/canvas/components/' },
+						{ label: '常见定制场景速查', link: '/canvas/recipes/' },
 					],
 				},
 				{
 					label: '发布与运维部署',
 					items: [
 						{ label: 'Cloudflare Pages 部署上线', link: '/canvas/cloudflare/' },
+						{ label: 'SEO 与性能优化', link: '/canvas/seo/' },
 						{ label: '版本管理与自动化工作流', link: '/canvas/releases/' },
 						{ label: '常见问题与故障排查 FAQ', link: '/canvas/troubleshooting/' },
 					],
