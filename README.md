@@ -5,27 +5,32 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](./LICENSE)
 [![Built with Astro](https://img.shields.io/badge/Built_with-Astro_5-orange.svg?style=flat-square)](https://astro.build)
 
-EpoCanvas 的官方文档站点，基于 Astro 5 和 Starlight 搭建。三栏布局、全文搜索、多语言切换这些能力开箱即用，内容就是普通的 Markdown 文件，改完一条命令就能发布到 Cloudflare Pages。
+English | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md)
 
-在线访问：[https://doc.epocanvas.com](https://doc.epocanvas.com)（备用地址 [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
+EpoCanvas Docs is the official documentation site of the EpoCanvas project. It is built with Astro 5 and Starlight and provides a three-column reading layout, dual-mode search, and a localized interface out of the box. All content is written in plain Markdown and published to Cloudflare Pages.
 
-## 界面
+**Live site**: [https://doc.epocanvas.com](https://doc.epocanvas.com) · Mirror: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)
 
-![EpoCanvas Docs 文档站首页](./public/images/canvas/ui-home-landing.png)
+## Preview
 
-左侧是分类导航，中间是正文，右侧是当前页面的目录。默认深色主题，跟随系统设置，也可以在右上角手动切换。
+![EpoCanvas Docs documentation home page](./public/images/canvas/ui-home-landing.png)
 
-## 功能
+The site uses a three-column layout: category navigation on the left, article content in the center, and the table of contents of the current page on the right. The dark theme is the default, follows the system preference, and can be toggled manually from the header.
 
-- **三栏布局**：正文行宽做了限制，长文阅读不累。切换页面时侧边栏记住滚动位置，右侧目录会随滚动高亮当前小节。
-- **全文搜索**：索引在构建时生成，搜索全部在浏览器里完成，`Ctrl+K` / `Cmd+K` 呼出。不依赖第三方搜索服务，内网环境同样可用。
-- **多语言**：界面支持简体中文、繁体中文、英语、日语、韩语、德语、法语、西班牙语、俄语、阿拉伯语共 10 种语言，切换后文字就地更新，页面不刷新，阅读位置保持不变。
-- **排版扩展**：Note / Tip / Important / Warning / Caution 五种提示框；代码块支持 Shiki 高亮、文件名标签、指定行高亮和 diff 展示；Mermaid 可直接在 Markdown 里画流程图和时序图。
-- **部署**：纯静态输出，托管在 Cloudflare Pages，绑定自定义域名后证书自动配置。
+## Features
 
-## 快速上手
+- **Three-column reading layout** — the content width is capped for long-form reading; the sidebar keeps its scroll position across page transitions, and the right-hand outline highlights the current section while scrolling.
+- **Dual-mode search** — the search box in the header finds matches within the current page, while `Ctrl+K` / `Cmd+K` opens a site-wide search dialog powered by Pagefind. The index is generated at build time and all queries run in the browser, with no third-party search service involved, so the site also works on intranets and offline.
+- **Interface localization** — the UI is translated into 10 languages: Simplified Chinese (default), Traditional Chinese, English, Japanese, Korean, Spanish, French, German, Russian, and Portuguese. Switching updates the text in place without reloading the page.
+- **Markdown extensions** — five admonition types (`:::note`, `:::tip`, `:::important`, `:::warning`, `:::caution`), Shiki code highlighting with file-name labels, line highlighting, and diff rendering.
+- **One-command deployment** — the site builds to static files and publishes to Cloudflare Pages with a single command; custom domains and HTTPS certificates are provisioned automatically.
 
-环境要求：Node.js 20 或更高版本（18.17+ 也可以），pnpm 10。
+## Requirements
+
+- Node.js 20 or later (18.17+ is supported)
+- pnpm 10
+
+## Quick Start
 
 ```bash
 git clone https://github.com/shijianus/epocanvas-docs.git
@@ -34,66 +39,66 @@ pnpm install
 pnpm run dev
 ```
 
-打开 `http://localhost:4321`，修改 Markdown 后页面会实时更新。
+Open `http://localhost:4321` in your browser. While the dev server is running, Markdown changes are reflected immediately.
 
-### 常用命令
+### Commands
 
-| 命令 | 用途 |
+| Command | Description |
 | :--- | :--- |
-| `pnpm run dev` | 启动本地开发服务，带热更新 |
-| `pnpm run build` | 构建静态页面到 `dist/`，同时生成搜索索引 |
-| `pnpm run preview` | 本地预览构建产物 |
-| `pnpm run deploy` | 构建并发布到 Cloudflare Pages |
+| `pnpm run dev` | Start the local dev server with hot reload |
+| `pnpm run build` | Build the static site into `dist/` and generate the search index |
+| `pnpm run preview` | Preview the build output locally |
+| `pnpm run deploy` | Build and publish to Cloudflare Pages |
 
-## 目录结构
+## Project Structure
 
 ```text
 epocanvas-docs/
-├── public/images/canvas/       # 文档里用到的截图和示意图
+├── public/images/canvas/       # Screenshots and diagrams used by the documentation
 ├── src/
-│   ├── components/starlight/   # 覆写的 Starlight 组件（Header、Sidebar 等）
-│   ├── config/navigation.ts    # 顶部导航栏配置
-│   ├── content/docs/           # 文档正文，全部是 Markdown
-│   ├── styles/custom.css       # 主题色与布局样式
-│   └── utils/i18n.ts           # 多语言翻译字典
-├── astro.config.mjs            # 站点配置：标题、侧边栏、重定向
-├── AGENTS.md                   # 技术写作规范
+│   ├── components/starlight/   # Overridden Starlight components (Header, Sidebar, …)
+│   ├── config/navigation.ts    # Top navigation bar configuration
+│   ├── content/docs/           # Documentation content, written in Markdown
+│   ├── styles/custom.css       # Theme colors and layout styles
+│   └── utils/i18n.ts           # Client-side translation dictionary
+├── astro.config.mjs            # Site configuration: title, sidebar, redirects
+├── AGENTS.md                   # Technical writing guidelines
 ├── LICENSE
 └── package.json
 ```
 
-## 写一篇新文档
+## Writing Documentation
 
-1. 在 `src/content/docs/canvas/` 下新建 `.md` 文件；
-2. 文件开头写好 frontmatter：
+1. Create a new `.md` file under `src/content/docs/canvas/`.
+2. Add frontmatter at the top of the file:
 
    ```yaml
    ---
-   title: 文档标题
-   description: 一句话说明这篇文档讲什么
+   title: Document title
+   description: A one-sentence description of the page
    ---
    ```
 
-3. 打开 `astro.config.mjs`，在 `sidebar` 对应的分组里加上这篇文档的链接，否则侧边栏不会显示；
-4. 图片放到 `public/images/canvas/`，正文里用绝对路径引用：
+3. Register the page in the `sidebar` array in `astro.config.mjs`; pages that are not registered do not appear in the navigation.
+4. Store images in `public/images/canvas/` and reference them with an absolute path:
 
    ```markdown
-   ![说明文字](/images/canvas/your-image.png)
+   ![alt text](/images/canvas/your-image.png)
    ```
 
-写完先在本地跑一遍 `pnpm run build`，确认没有报错再提交。
+Run `pnpm run build` before committing to verify that the site builds without errors.
 
-## 发布
+## Deployment
 
-站点托管在 Cloudflare Pages，两种发布方式：
+The site is hosted on Cloudflare Pages:
 
-- **本地发布**：先 `wrangler login` 完成授权，之后执行 `pnpm run deploy` 即可构建并上传；
-- **绑定域名**：在 Cloudflare 控制台进入 Pages 项目 `epocanvas-docs`，在 Custom domains 里添加域名，CNAME 解析和 SSL 证书会自动配好。
+- **Local publishing** — run `wrangler login` once to authorize, then `pnpm run deploy` builds and publishes the site.
+- **Custom domain** — in the Cloudflare dashboard, open the Pages project `epocanvas-docs` and add the domain under *Custom domains*. The CNAME record and the SSL certificate are provisioned automatically.
 
-## 参与
+## Contributing
 
-发现文档错误或者有改进建议，欢迎提 Issue 和 PR。提交 PR 前请在本地跑一下 `pnpm run build` 确认构建通过。
+Issues and pull requests are welcome. Please run `pnpm run build` locally and make sure it passes before submitting a PR.
 
-## 许可证
+## License
 
 [MIT](./LICENSE)
