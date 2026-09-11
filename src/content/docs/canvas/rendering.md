@@ -74,6 +74,10 @@ description: EpoCanvas Docs 完整渲染规则：从 Markdown 文件到最终页
 GitHub 风格的 `> [!TIP]` 引用块语法**不受支持**。这样写不会报错，但提示框不会生成——`[!TIP]` 会以普通文字显示在引用块里。遇到旧文档迁移时，请把 `> [!NOTE]` 改写成 `:::note`。
 :::
 
+![五种彩色提示框的真实渲染效果](/images/canvas/ui-markup-examples.png)
+
+*图：五种提示框按上述语法书写后的实际显示效果，截取自[提示框、代码块与图表示例](/canvas/syntax/)页。*
+
 ---
 
 ## 代码块规则

@@ -5,10 +5,6 @@ description: EpoCanvas Docs 文档文件存放规范、Frontmatter 头部元数�
 
 在 **EpoCanvas Docs** 中添加或编辑文档非常轻松。所有正文内容都用标准 **Markdown** 语法编写，只要你会写 Markdown，就能立即参与文档的撰写和维护。
 
-![Markdown 编写指南页面在浏览器中的真实渲染效果](/images/canvas/ui-markdown-guide.png)
-
-*图：本篇文章在浏览器中的实际渲染效果。*
-
 ---
 
 ## 1. 文档文件放在哪里？
