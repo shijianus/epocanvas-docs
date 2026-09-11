@@ -6,7 +6,7 @@ head:
   - tag: title
     content: EpoCanvas Docs
 hero:
-  tagline: 专为 EpoCanvas 生态打造的官方文档站点系统。基于 Astro 5 与 Starlight 构建，开箱自带三栏清晰排版、全文秒级搜索、10 种语言免刷新切换以及一键部署到 Cloudflare Pages。
+  tagline: 专为 EpoCanvas 生态打造的官方文档站点系统。基于 Astro 5 与 Starlight 构建，开箱自带三栏清晰排版、页内查找与全站检索、10 种界面语言免刷新切换以及一键部署到 Cloudflare Pages。
   image:
     file: ../../assets/logo.svg
     alt: EpoCanvas Docs Logo
@@ -39,27 +39,27 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 		<LinkCard title="查看快速上手指南" href="/canvas/deployment/" description="安装步骤、常用命令与环境要求。" />
 	</Card>
 	<Card title="阅读界面与交互体验" icon="document">
-		清晰的“左侧分类导航 + 中央正文 + 右侧本页大纲”三栏排版，页面切换保持滚动条位置，自适应手机与电脑。
+		清晰的“左侧分类导航 + 中央正文 + 右侧本页目录”三栏排版，页面切换保持滚动位置，自适应手机与电脑。
 		<LinkCard title="了解界面布局" href="/canvas/layout/" description="三栏布局结构、主题切换与字体排版。" />
 	</Card>
-	<Card title="全文搜索与快捷键" icon="magnifier">
-		内置轻量本地搜索引擎，支持拼音与中英双语检索，按下 Cmd+K / Ctrl+K 即可秒级定位文档内容。
-		<LinkCard title="了解搜索功能" href="/canvas/search-engine/" description="搜索使用技巧与本地索引原理。" />
+	<Card title="页内查找与全站检索" icon="magnifier">
+		顶栏搜索框定位当前页内容，Ctrl+K / Cmd+K 打开全站检索弹窗，全部在浏览器本地完成。
+		<LinkCard title="了解搜索功能" href="/canvas/search-engine/" description="双模式搜索用法与本地索引原理。" />
 	</Card>
 	<Card title="多语言即时切换" icon="translate">
-		支持中文、繁体、英语、日语等 10 种语言，在页面右上角点击即可瞬间切换界面语言，无需重新加载网页。
+		界面支持中文、繁体、英语、日语等 10 种语言，在页面右上角点击即可就地切换，无需重新加载网页。
 		<LinkCard title="了解多语言系统" href="/canvas/i18n/" description="支持的语言列表与词条添加方法。" />
 	</Card>
 	<Card title="Markdown 撰写指南" icon="pencil">
-		支持常用的 Markdown 语法、5 种彩色提示框（Note/Tip/Warning 等）、代码块语法高亮以及流程图绘制。
-		<LinkCard title="阅读排版指南" href="/canvas/markdown/" description="标题规范、代码高亮写法与图表嵌入。" />
+		文件存放位置、Frontmatter 规范与常用排版语法，附真实渲染效果示例。
+		<LinkCard title="阅读排版指南" href="/canvas/markdown/" description="标题规范、图片规范与写作约定。" />
 	</Card>
-	<Card title="站点配置与样式修改" icon="setting">
-		如何修改网站标题、Logo 图标、导航菜单以及主题配色，打造属于自己的专案文档风格。
-		<LinkCard title="查看配置说明" href="/canvas/configuration/" description="配置文件参数与 CSS 颜色修改。" />
+	<Card title="渲染规则详解" icon="setting">
+		Markdown 从文件到页面的完整渲染管线，提示框、代码块、图片与链接的全部约定和不支持的语法。
+		<LinkCard title="查看渲染规则" href="/canvas/rendering/" description="渲染管线、语法约定与常见误区。" />
 	</Card>
 	<Card title="部署上线与常见问题" icon="cloudflare">
-		如何免费部署到 Cloudflare Pages 并绑定自己的独立域名，以及遇到常见报错时的快速自查清单。
-		<LinkCard title="查看部署与常见问题" href="/canvas/cloudflare/" description="一键发布命令、域名绑定与 FAQ。" />
+		免费部署到 Cloudflare Pages 并绑定独立域名，附部署结果验证方法与常见报错自查清单。
+		<LinkCard title="查看部署与常见问题" href="/canvas/cloudflare/" description="发布命令、域名绑定与 FAQ。" />
 	</Card>
 </CardGrid>
