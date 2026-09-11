@@ -1,64 +1,22 @@
 ---
-import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
 import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
 
 const { sidebar } = Astro.locals.starlightRoute;
-const pathname = Astro.url.pathname;
-
-// Multi-Project Partition Isolation
-let currentSectionEntries = sidebar;
-
-const isMail = pathname.startsWith('/mail');
-const isChat = pathname.startsWith('/chat');
-const isEccp = pathname.startsWith('/eccp');
-
-if (isMail) {
-	const mailGroup = sidebar.find(
-		(item) => item.type === 'group' && item.label.toLowerCase().includes('mail')
-	);
-	if (mailGroup && mailGroup.type === 'group') {
-		currentSectionEntries = mailGroup.entries;
-	}
-} else if (isChat) {
-	const chatGroup = sidebar.find(
-		(item) => item.type === 'group' && item.label.toLowerCase().includes('chat')
-	);
-	if (chatGroup && chatGroup.type === 'group') {
-		currentSectionEntries = chatGroup.entries;
-	}
-} else if (isEccp) {
-	const eccpGroup = sidebar.find(
-		(item) => item.type === 'group' && item.label.toLowerCase().includes('eccp')
-	);
-	if (eccpGroup && eccpGroup.type === 'group') {
-		currentSectionEntries = eccpGroup.entries;
-	}
-}
 ---
 
 <div class="sidebar-wrapper">
 	<SidebarPersister>
-		<SidebarSublist sublist={currentSectionEntries} />
+		<SidebarSublist sublist={sidebar} />
 	</SidebarPersister>
-
-	<div class="md:sl-hidden mobile-footer-slot">
-		<MobileMenuFooter />
-	</div>
 </div>
 
 <style>
 	.sidebar-wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		height: 100%;
-		padding: 0.5rem 0;
-	}
-
-	.mobile-footer-slot {
-		margin-top: auto;
-		padding-top: 1rem;
-		border-top: 1px solid var(--sl-color-hairline, #e2e8f0);
+		height: auto;
+		min-height: 0;
+		padding: 0.5rem 0 1.25rem 0;
 	}
 </style>

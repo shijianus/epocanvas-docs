@@ -1,5 +1,6 @@
 ---
 import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
+import { getTranslation } from '../../utils/i18n';
 
 const { toc } = Astro.locals.starlightRoute;
 const items = toc?.items ? toc.items.filter((item) => item.slug !== '_top') : [];
@@ -9,9 +10,19 @@ const items = toc?.items ? toc.items.filter((item) => item.slug !== '_top') : []
 	items.length > 0 && (
 		<starlight-toc data-min-h={toc?.minHeadingLevel} data-max-h={toc?.maxHeadingLevel}>
 			<nav aria-labelledby="starlight__on-this-page" class="toc-container">
-				<h2 id="starlight__on-this-page" class="toc-header">
-					{Astro.locals.t('tableOfContents.onThisPage')}
-				</h2>
+				<div class="toc-header-wrapper">
+					<svg class="toc-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="8" y1="6" x2="21" y2="6" />
+						<line x1="8" y1="12" x2="21" y2="12" />
+						<line x1="8" y1="18" x2="21" y2="18" />
+						<line x1="3" y1="6" x2="3.01" y2="6" />
+						<line x1="3" y1="12" x2="3.01" y2="12" />
+						<line x1="3" y1="18" x2="3.01" y2="18" />
+					</svg>
+					<h2 id="starlight__on-this-page" class="toc-header" data-i18n="toc.title">
+						{getTranslation('toc.title')}
+					</h2>
+				</div>
 				<TableOfContentsList toc={items} />
 			</nav>
 		</starlight-toc>
@@ -22,15 +33,32 @@ const items = toc?.items ? toc.items.filter((item) => item.slug !== '_top') : []
 
 <style>
 	.toc-container {
-		padding: 0.25rem 0;
+		padding: 0;
+	}
+
+	.toc-header-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin-bottom: 0.65rem;
+		padding-inline-start: 0.5rem;
+	}
+
+	.toc-icon {
+		color: var(--sl-color-accent, #2563eb);
+		opacity: 0.85;
 	}
 
 	.toc-header {
-		font-size: 0.75rem;
+		font-size: 0.78rem;
 		font-weight: 600;
+		color: var(--sl-color-white, #0f172a);
+		letter-spacing: 0.04em;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: var(--sl-color-gray-3);
-		margin-bottom: 0.75rem;
+		margin: 0;
+	}
+
+	:root[data-theme='dark'] .toc-header {
+		color: #e2e8f0;
 	}
 </style>

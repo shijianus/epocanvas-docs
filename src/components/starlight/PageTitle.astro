@@ -1,4 +1,6 @@
 ---
+import { getTranslation } from '../../utils/i18n';
+
 export const PAGE_TITLE_ID = '_top';
 
 const { entry } = Astro.locals.starlightRoute;
@@ -7,22 +9,49 @@ const title = entry.data.title;
 
 <div class="page-title-wrapper">
 	<h1 id={PAGE_TITLE_ID} class="page-title-heading">{title}</h1>
+	<div class="page-metadata">
+		<span class="meta-item">
+			<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="12" cy="12" r="10" />
+				<polyline points="12 6 12 12 16 14" />
+			</svg>
+			<span data-i18n="page.updated">{getTranslation('page.updated')}</span>：2026-09-10
+		</span>
+		<span class="meta-separator">/</span>
+		<span class="meta-item" data-i18n="page.specification">{getTranslation('page.specification')}</span>
+	</div>
 </div>
 
 <style>
 	.page-title-wrapper {
 		margin-top: 0.5rem;
-		margin-bottom: 2rem;
-		padding-bottom: 0.75rem;
-		border-bottom: 1px solid var(--sl-color-hairline, #e2e8f0);
+		margin-bottom: 2.25rem;
 	}
 
 	.page-title-heading {
-		font-size: var(--sl-text-h1, 2.25rem);
-		line-height: var(--sl-line-height-headings, 1.25);
+		font-size: 2.35rem;
+		line-height: 1.25;
 		font-weight: 700;
 		color: var(--sl-color-white);
 		letter-spacing: -0.025em;
-		margin: 0;
+		margin: 0 0 0.65rem 0;
+	}
+
+	.page-metadata {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.8125rem;
+		color: var(--sl-color-gray-3);
+	}
+
+	.meta-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.meta-separator {
+		color: var(--sl-color-hairline);
 	}
 </style>

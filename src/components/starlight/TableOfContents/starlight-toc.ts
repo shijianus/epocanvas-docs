@@ -94,4 +94,6 @@ export class StarlightTOC extends HTMLElement {
 	}
 }
 
-customElements.define('starlight-toc', StarlightTOC);
+if (!customElements.get('starlight-toc')) {
+	customElements.define('starlight-toc', StarlightTOC);
+}

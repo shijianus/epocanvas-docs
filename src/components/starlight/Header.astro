@@ -1,42 +1,15 @@
 ---
 import config from 'virtual:starlight/user-config';
-import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
 import Search from 'virtual:starlight/components/Search';
 import SiteTitle from 'virtual:starlight/components/SiteTitle';
-import SocialIcons from 'virtual:starlight/components/SocialIcons';
-import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import { navigationConfig } from '../../config/navigation';
+import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS, getTranslation } from '../../utils/i18n';
 
 const shouldRenderSearch =
 	config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
 
 const pathname = Astro.url.pathname;
-const isMail = pathname.startsWith('/mail');
-const isChat = pathname.startsWith('/chat');
-const isEccp = pathname.startsWith('/eccp');
-
-const navIconButtons = [
-	{
-		id: 'mail',
-		href: '/mail/',
-		active: isMail,
-		tooltip: 'EpoMail 邮件服务',
-		svg: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
-	},
-	{
-		id: 'chat',
-		href: '/chat/',
-		active: isChat,
-		tooltip: 'EpoCanvas (Chat) 即时通讯',
-		svg: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>`,
-	},
-	{
-		id: 'eccp',
-		href: '/eccp/',
-		active: isEccp,
-		tooltip: 'ECCP 密码学协议规范',
-		svg: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-	},
-];
+const initialLang = 'zh-CN';
 ---
 
 <div class="header sl-flex">
@@ -46,162 +19,686 @@ const navIconButtons = [
 		</div>
 	</div>
 
-	<div class="header-center sl-flex print:hidden">
+	<div class="header-center sl-flex">
 		{shouldRenderSearch && <Search />}
 	</div>
 
-	<div class="header-right sl-flex print:hidden">
-		<!-- Desktop Section Navigation as Icon Buttons with Tooltip Comments -->
-		<nav class="nav-icon-group sl-hidden md:sl-flex" aria-label="文档专案快速导航">
-			{navIconButtons.map((item) => (
-				<a
-					href={item.href}
-					class:list={['nav-icon-button', { 'is-active': item.active }]}
-					aria-current={item.active ? 'page' : undefined}
-					data-tooltip={item.tooltip}
-					title={item.tooltip}
-					aria-label={item.tooltip}
-				>
-					<Fragment set:html={item.svg} />
-				</a>
-			))}
+	<div class="header-right sl-hidden md:sl-flex print:hidden">
+		<!-- Dynamic & Flexible Navigation Buttons -->
+		<nav class="nav-links sl-flex" aria-label="全局导航">
+			{
+				navigationConfig.map((item) => {
+					const isActive = item.match ? item.match(pathname) : pathname === item.href;
+					if (item.isExternal) {
+						return (
+							<a
+								href={item.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="nav-btn nav-btn-version"
+								title="查看 GitHub Release 版本记录"
+								data-i18n-title="nav.releases"
+							>
+								<span>{item.badge || item.defaultLabel}</span>
+								<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ext-icon">
+									<path d="M7 17L17 7H7M17 7V17" />
+								</svg>
+							</a>
+						);
+					}
+					return (
+						<a
+							href={item.href}
+							class:list={['nav-btn', { active: isActive }]}
+							data-i18n={item.labelKey}
+						>
+							{getTranslation(item.labelKey, initialLang)}
+						</a>
+					);
+				})
+			}
 		</nav>
 
-		<div class="action-divider sl-hidden md:sl-block"></div>
+		<div class="nav-divider"></div>
 
-		<div class="sl-flex items-center gap-2">
-			<div class="sl-hidden sm:sl-flex social-icons" title="GitHub 仓库" data-tooltip="GitHub 仓库">
-				<SocialIcons />
+		<!-- Multi-Language Picker with 10 Mainstream Languages -->
+		<div class="lang-dropdown-wrapper">
+			<button
+				id="vp-lang-btn"
+				class="vp-lang-btn"
+				type="button"
+				aria-label={getTranslation('lang.select', initialLang)}
+				aria-haspopup="true"
+				aria-expanded="false"
+				title={getTranslation('lang.select', initialLang)}
+				data-i18n-title="lang.select"
+				data-i18n-aria="lang.select"
+			>
+				<svg class="icon-translate" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="m5 8 6 6" />
+					<path d="m4 14 6-6 2-3" />
+					<path d="M2 5h12" />
+					<path d="M7 2h1" />
+					<path d="m22 22-5-10-5 10" />
+					<path d="M14 18h6" />
+				</svg>
+				<span id="current-lang-code" class="current-lang-text">ZH</span>
+				<svg class="icon-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="m6 9 6 6 6-6" />
+				</svg>
+			</button>
+			<div id="vp-lang-menu" class="vp-lang-menu">
+				<div class="lang-menu-scroll">
+					{
+						SUPPORTED_LANGUAGES.map((lang) => (
+							<button
+								type="button"
+								class:list={['lang-item-btn', { active: lang.code === 'zh-CN' }]}
+								data-lang-code={lang.code}
+							>
+								<span class="lang-label">{lang.label}</span>
+								<svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M20 6 9 17l-5-5" />
+								</svg>
+							</button>
+						))
+					}
+				</div>
 			</div>
-			<div class="theme-select-wrapper" title="切换色彩主题" data-tooltip="切换色彩主题">
-				<ThemeSelect />
-			</div>
-			<LanguageSelect />
+		</div>
+
+		<!-- High-Contrast Appearance Switch Toggle -->
+		<div class="theme-switch-wrapper" title="切换色彩模式" data-i18n-title="theme.toggle">
+			<button
+				id="vp-theme-toggle"
+				class="vp-theme-toggle"
+				type="button"
+				role="switch"
+				aria-label={getTranslation('theme.toggle', initialLang)}
+				data-i18n-aria="theme.toggle"
+			>
+				<span class="toggle-track">
+					<span class="toggle-thumb">
+						<!-- Clear high-contrast sun icon with stroked rays and solid amber center -->
+						<svg class="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="4.5" fill="#f59e0b" stroke="#d97706" stroke-width="1.5" />
+							<line x1="12" y1="1" x2="12" y2="4" stroke="#d97706" />
+							<line x1="12" y1="20" x2="12" y2="23" stroke="#d97706" />
+							<line x1="4.22" y1="4.22" x2="6.34" y2="6.34" stroke="#d97706" />
+							<line x1="17.66" y1="17.66" x2="19.78" y2="19.78" stroke="#d97706" />
+							<line x1="1" y1="12" x2="4" y2="12" stroke="#d97706" />
+							<line x1="20" y1="12" x2="23" y2="12" stroke="#d97706" />
+							<line x1="4.22" y1="19.78" x2="6.34" y2="17.66" stroke="#d97706" />
+							<line x1="17.66" y1="6.34" x2="19.78" y2="4.22" stroke="#d97706" />
+						</svg>
+						<!-- Clear glowing sky-blue crescent moon icon -->
+						<svg class="icon-moon" width="13" height="13" viewBox="0 0 24 24" fill="#38bdf8" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+						</svg>
+					</span>
+				</span>
+			</button>
+		</div>
+
+		<div class="nav-divider"></div>
+
+		<!-- Social Icons -->
+		<div class="header-social-links sl-flex">
+			<a
+				href="https://github.com/shijianus/epocanvas-docs"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="social-link"
+				title="GitHub 源码仓库"
+				aria-label="GitHub 源码仓库"
+				data-i18n-title="social.github"
+				data-i18n-aria="social.github"
+			>
+				<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+				</svg>
+			</a>
+
+			<a
+				href="https://t.me/epocanvas"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="social-link"
+				title="Telegram 技术社群"
+				aria-label="Telegram 技术社群"
+				data-i18n-title="social.telegram"
+				data-i18n-aria="social.telegram"
+			>
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="m22 2-7 20-4-9-9-4Z" />
+					<path d="M22 2 11 13" />
+				</svg>
+			</a>
 		</div>
 	</div>
+
 </div>
+
+<script define:vars={{ UI_TRANSLATIONS }}>
+	window.__EPO_TRANSLATIONS__ = UI_TRANSLATIONS;
+
+	function applyLocale(lang) {
+		const dict = window.__EPO_TRANSLATIONS__[lang] || window.__EPO_TRANSLATIONS__['zh-CN'];
+		if (!dict) return;
+
+		document.documentElement.lang = lang;
+		localStorage.setItem('epocanvas-lang', lang);
+
+		// Update Current Lang Badge
+		const langBadge = document.getElementById('current-lang-code');
+		if (langBadge) {
+			const shortCode = lang.split('-')[0].toUpperCase();
+			langBadge.textContent = shortCode;
+		}
+
+		// Update Active Dropdown Button
+		document.querySelectorAll('.lang-item-btn').forEach((btn) => {
+			const isMatch = btn.getAttribute('data-lang-code') === lang;
+			btn.classList.toggle('active', isMatch);
+		});
+
+		// Update Text Elements
+		document.querySelectorAll('[data-i18n]').forEach((el) => {
+			const key = el.getAttribute('data-i18n');
+			if (key && dict[key]) {
+				el.textContent = dict[key];
+			}
+		});
+
+		// Update Aria Labels
+		document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+			const key = el.getAttribute('data-i18n-aria');
+			if (key && dict[key]) {
+				el.setAttribute('aria-label', dict[key]);
+			}
+		});
+
+		// Update Titles
+		document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+			const key = el.getAttribute('data-i18n-title');
+			if (key && dict[key]) {
+				el.setAttribute('title', dict[key]);
+			}
+		});
+
+		// Dispatch custom event for dynamic components
+		window.dispatchEvent(new CustomEvent('epocanvas:langchange', { detail: { lang, dict } }));
+	}
+
+	// Language Dropdown Setup
+	const langBtn = document.getElementById('vp-lang-btn');
+	const langWrapper = langBtn?.closest('.lang-dropdown-wrapper');
+	if (langBtn && langWrapper) {
+		langBtn.addEventListener('click', (e) => {
+			e.stopPropagation();
+			const isOpen = langWrapper.classList.toggle('open');
+			langBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+		});
+
+		document.addEventListener('click', (e) => {
+			if (!langWrapper.contains(e.target)) {
+				langWrapper.classList.remove('open');
+				langBtn.setAttribute('aria-expanded', 'false');
+			}
+		});
+
+		// Click lang item
+		document.querySelectorAll('.lang-item-btn').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const code = btn.getAttribute('data-lang-code');
+				if (code) {
+					applyLocale(code);
+					langWrapper.classList.remove('open');
+					langBtn.setAttribute('aria-expanded', 'false');
+				}
+			});
+		});
+	}
+
+	// Initialize language from localStorage or default
+	const savedLang = localStorage.getItem('epocanvas-lang');
+	if (savedLang && window.__EPO_TRANSLATIONS__[savedLang]) {
+		applyLocale(savedLang);
+	}
+
+	// Theme Toggle Setup
+	const themeBtn = document.getElementById('vp-theme-toggle');
+	if (themeBtn) {
+		const updateTheme = (theme) => {
+			document.documentElement.dataset.theme = theme;
+			localStorage.setItem('starlight-theme', theme);
+			themeBtn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
+		};
+
+		themeBtn.addEventListener('click', () => {
+			const current = document.documentElement.dataset.theme || 'light';
+			const next = current === 'dark' ? 'light' : 'dark';
+			updateTheme(next);
+		});
+
+		const current = document.documentElement.dataset.theme || 'light';
+		themeBtn.setAttribute('aria-checked', current === 'dark' ? 'true' : 'false');
+	}
+</script>
 
 <style>
 	.header {
-		gap: 1.25rem;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
 		height: 100%;
 		width: 100%;
-		padding: 0 1rem;
+		padding: 0 1.25rem;
+		gap: 1rem;
 	}
 
 	.header-left {
+		justify-self: start;
+		display: flex;
 		align-items: center;
-		gap: 1rem;
 		min-width: 0;
-		flex-shrink: 0;
 	}
 
 	.title-wrapper {
+		align-items: center;
 		overflow: clip;
 		padding: 0.25rem 0;
 		min-width: 0;
 	}
 
 	.header-center {
-		flex: 1;
-		max-width: 28rem;
-		margin: 0 auto;
+		justify-self: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 0;
+		padding: 0;
 	}
 
 	.header-right {
+		justify-self: end;
+		display: flex;
 		align-items: center;
-		gap: 1rem;
-		flex-shrink: 0;
+		justify-content: flex-end;
+		gap: 0.65rem;
+		min-width: 0;
 	}
 
-	/* Dignified, minimal Icon Button Group */
-	.nav-icon-group {
+	/* Navigation Bar - Flexible Modern Navigation Buttons */
+	.nav-links {
 		align-items: center;
-		gap: 0.4rem;
+		gap: 0.3rem;
 	}
 
-	.nav-icon-button {
-		position: relative;
+	.nav-btn {
+		font-size: 0.82rem;
+		font-weight: 500;
+		color: var(--sl-color-gray-2, #334155);
+		text-decoration: none;
 		display: inline-flex;
 		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
+		gap: 0.25rem;
+		padding: 0.35rem 0.68rem;
 		border-radius: 8px;
-		color: var(--sl-color-gray-2);
-		text-decoration: none;
 		border: 1px solid transparent;
-		background: transparent;
-		transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+		background-color: transparent;
+		transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+		line-height: 1.25;
+		cursor: pointer;
+		user-select: none;
 	}
 
-	.nav-icon-button:hover {
-		color: var(--sl-color-white);
-		background-color: var(--sl-color-gray-6);
-		border-color: var(--sl-color-hairline);
-		transform: translateY(-1px);
+	:root[data-theme='dark'] .nav-btn {
+		color: #cbd5e1;
 	}
 
-	.nav-icon-button.is-active {
-		color: var(--sl-color-accent);
-		background-color: var(--sl-color-accent-low);
-		border-color: rgba(37, 99, 235, 0.25);
+	.nav-btn:hover {
+		color: var(--sl-color-white, #0f172a);
+		background-color: var(--sl-color-gray-6, #f8fafc);
 	}
 
-	:root[data-theme='dark'] .nav-icon-button.is-active {
-		border-color: rgba(59, 130, 246, 0.35);
-	}
-
-	/* Tooltip (shijianus-blog standard: floating pill with micro-transition) */
-	.nav-icon-button::after {
-		position: absolute;
-		top: calc(100% + 9px);
-		left: 50%;
-		z-index: 100;
-		min-width: max-content;
-		padding: 5px 9px;
-		border-radius: 6px;
-		background: #0f172a;
-		color: #ffffff;
-		content: attr(data-tooltip);
-		font-size: 0.75rem;
-		font-weight: 500;
-		line-height: 1.2;
-		letter-spacing: 0.02em;
-		opacity: 0;
-		pointer-events: none;
-		transform: translate(-50%, -4px);
-		transition: opacity 0.18s ease, transform 0.18s ease;
-		white-space: nowrap;
-		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-	}
-
-	:root[data-theme='dark'] .nav-icon-button::after {
-		background: #1e293b;
+	:root[data-theme='dark'] .nav-btn:hover {
 		color: #f8fafc;
-		border-color: #334155;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+		background-color: #1e293b;
 	}
 
-	.nav-icon-button:hover::after {
-		opacity: 1;
-		transform: translate(-50%, 0);
+	/* Prominent Active State */
+	.nav-btn.active {
+		color: var(--sl-color-accent, #2563eb);
+		background-color: var(--sl-color-accent-low, rgba(37, 99, 235, 0.08));
+		border-color: rgba(37, 99, 235, 0.2);
+		font-weight: 600;
 	}
 
-	.action-divider {
+	:root[data-theme='dark'] .nav-btn.active {
+		color: #60a5fa;
+		background-color: rgba(59, 130, 246, 0.15);
+		border-color: rgba(59, 130, 246, 0.3);
+	}
+
+	.nav-btn-version {
+		font-size: 0.78rem;
+		color: var(--sl-color-gray-3, #64748b);
+		padding: 0.22rem 0.55rem;
+		border-radius: 6px;
+		background-color: var(--sl-color-gray-6, #f8fafc);
+		border: 1px solid var(--sl-color-hairline, #e2e8f0);
+	}
+
+	:root[data-theme='dark'] .nav-btn-version {
+		background-color: #111827;
+		border-color: #1e293b;
+		color: #94a3b8;
+	}
+
+	.nav-btn-version:hover {
+		color: var(--sl-color-accent, #2563eb);
+		border-color: var(--sl-color-accent, #2563eb);
+		background-color: var(--sl-color-accent-low, rgba(37, 99, 235, 0.08));
+	}
+
+	:root[data-theme='dark'] .nav-btn-version:hover {
+		color: #60a5fa;
+		border-color: #3b82f6;
+		background-color: rgba(59, 130, 246, 0.15);
+	}
+
+	.ext-icon {
+		opacity: 0.75;
+	}
+
+	.nav-divider {
 		width: 1px;
-		height: 1.25rem;
+		height: 1.2rem;
 		background: var(--sl-color-hairline, #e2e8f0);
 	}
 
-	.social-icons,
-	.theme-select-wrapper {
+	:root[data-theme='dark'] .nav-divider {
+		background: #1e293b;
+	}
+
+	/* Language Picker */
+	.lang-dropdown-wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.vp-lang-btn {
 		display: inline-flex;
 		align-items: center;
+		gap: 0.35rem;
+		padding: 0.35rem 0.55rem;
+		height: 32px;
+		border-radius: 7px;
+		border: 1px solid transparent;
+		background-color: transparent;
+		color: var(--sl-color-gray-3, #64748b);
+		cursor: pointer;
+		transition: all 0.18s ease;
+	}
+
+	:root[data-theme='dark'] .vp-lang-btn {
+		color: #94a3b8;
+	}
+
+	.vp-lang-btn:hover,
+	.lang-dropdown-wrapper.open .vp-lang-btn {
+		color: var(--sl-color-white, #0f172a);
+		background-color: var(--sl-color-gray-6, #f8fafc);
+	}
+
+	:root[data-theme='dark'] .vp-lang-btn:hover,
+	:root[data-theme='dark'] .lang-dropdown-wrapper.open .vp-lang-btn {
+		color: #f8fafc;
+		background-color: #1e293b;
+	}
+
+	.current-lang-text {
+		font-size: 0.75rem;
+		font-weight: 600;
+		font-family: var(--sl-font-mono, monospace);
+		letter-spacing: 0.05em;
+	}
+
+	.icon-chevron {
+		transition: transform 0.2s ease;
+		opacity: 0.7;
+	}
+
+	.lang-dropdown-wrapper.open .icon-chevron {
+		transform: rotate(180deg);
+	}
+
+	.vp-lang-menu {
+		display: none;
+		position: absolute;
+		top: calc(100% + 8px);
+		right: 0;
+		width: 136px;
+		background-color: var(--sl-color-bg, #ffffff);
+		border: 1px solid var(--sl-color-hairline, #e2e8f0);
+		border-radius: 10px;
+		box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+		padding: 4px;
+		z-index: 100;
+		animation: menuFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	:root[data-theme='dark'] .vp-lang-menu {
+		background-color: #0f172a;
+		border-color: #1e293b;
+		box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.55);
+	}
+
+	@keyframes menuFadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(-4px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.lang-dropdown-wrapper.open .vp-lang-menu {
+		display: block;
+	}
+
+	.lang-menu-scroll {
+		max-height: 280px;
+		overflow-y: auto;
+		scrollbar-width: thin;
+		scrollbar-color: var(--sl-color-hairline) transparent;
+	}
+
+	.lang-item-btn {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 6px 10px;
+		border-radius: 6px;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		text-align: left;
+		transition: all 0.15s ease;
+	}
+
+	.lang-item-btn:hover {
+		background-color: var(--sl-color-gray-6, #f8fafc);
+	}
+
+	:root[data-theme='dark'] .lang-item-btn:hover {
+		background-color: #1e293b;
+	}
+
+	.lang-label {
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: var(--sl-color-gray-2, #334155);
+	}
+
+	:root[data-theme='dark'] .lang-label {
+		color: #cbd5e1;
+	}
+
+	.check-icon {
+		color: var(--sl-color-accent, #2563eb);
+		opacity: 0;
+		transition: opacity 0.15s ease;
+		flex-shrink: 0;
+	}
+
+	.lang-item-btn.active .check-icon {
+		opacity: 1;
+	}
+
+	.lang-item-btn.active .lang-label {
+		color: var(--sl-color-accent, #2563eb);
+		font-weight: 600;
+	}
+
+	:root[data-theme='dark'] .lang-item-btn.active .lang-label {
+		color: #60a5fa;
+	}
+
+	/* High-Contrast Theme Switch Toggle */
+	.theme-switch-wrapper {
+		display: flex;
+		align-items: center;
+	}
+
+	.vp-theme-toggle {
 		position: relative;
+		width: 42px;
+		height: 23px;
+		border-radius: 12px;
+		border: 1px solid var(--sl-color-hairline, #cbd5e1);
+		background-color: #e2e8f0;
+		cursor: pointer;
+		padding: 0;
+		display: inline-flex;
+		align-items: center;
+		transition: border-color 0.25s, background-color 0.25s;
+		box-sizing: border-box;
+	}
+
+	:root[data-theme='dark'] .vp-theme-toggle {
+		background-color: #1e293b;
+		border-color: #334155;
+	}
+
+	.toggle-track {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		display: block;
+	}
+
+	.toggle-thumb {
+		position: absolute;
+		top: 1.5px;
+		left: 2px;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		background-color: #ffffff;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s;
+	}
+
+	:root[data-theme='dark'] .toggle-thumb {
+		transform: translateX(18px);
+		background-color: #0b0f19;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+	}
+
+	.icon-sun,
+	.icon-moon {
+		position: absolute;
+		transition: opacity 0.2s ease, transform 0.2s ease;
+	}
+
+	.icon-sun {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.icon-moon {
+		opacity: 0;
+		transform: scale(0.6);
+	}
+
+	:root[data-theme='dark'] .icon-sun {
+		opacity: 0;
+		transform: scale(0.6);
+	}
+
+	:root[data-theme='dark'] .icon-moon {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	/* Social Links */
+	.header-social-links {
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.social-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 7px;
+		color: var(--sl-color-gray-3, #64748b);
+		text-decoration: none;
+		transition: all 0.18s ease;
+	}
+
+	:root[data-theme='dark'] .social-link {
+		color: #94a3b8;
+	}
+
+	.social-link:hover {
+		color: var(--sl-color-white, #0f172a);
+		background-color: var(--sl-color-gray-6, #f8fafc);
+	}
+
+	:root[data-theme='dark'] .social-link:hover {
+		color: #f8fafc;
+		background-color: #1e293b;
+	}
+
+	.header-mobile {
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	@media (max-width: 50rem) {
+		.header {
+			padding: 0 0.75rem;
+		}
+		.header-left {
+			flex: 0 0 auto;
+		}
+		.header-center {
+			flex: 1 1 auto;
+			padding: 0 0.35rem;
+			justify-content: flex-end;
+		}
 	}
 
 	@media (min-width: 50rem) {

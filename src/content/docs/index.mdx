@@ -1,43 +1,55 @@
 ---
-title: EpoCanvas Documentation
-description: Unified documentation hub for EpoCanvas Chat, EpoMail, and the ECCP Protocol.
+title: EpoCanvas 官方文档
+description: EpoCanvas 全栈技术与架构指南 - 现代化数字画布平台、交互工作台、流式规则引擎、AI 协同中枢与开放 API
 template: splash
 hero:
-  tagline: Enterprise-grade End-to-End Encrypted (E2EE) communication suites and protocol specifications.
+  tagline: 现代化自建全栈数字画布平台与协同开发生态。涵盖多层渲染架构、响应式交互工作台、流式规则分流、统一高亮与全局检索、OAuth 2.0 / OIDC 认证与多模型 AI 协同中枢。
+  image:
+    file: ../../assets/logo.svg
+    alt: EpoCanvas Logo
   actions:
-    - text: EpoCanvas Chat
-      link: /chat/
+    - text: 架构概览与核心功能
+      link: /canvas/
       icon: right-arrow
       variant: primary
-    - text: EpoMail
-      link: /mail/
-      icon: email
+    - text: 快速部署与环境搭建
+      link: /canvas/deployment/
+      icon: rocket
       variant: secondary
-    - text: ECCP RFC Spec
-      link: /eccp/
-      icon: document
+    - text: 开放 API 参考
+      link: /canvas/api-reference/
+      icon: external
       variant: minimal
 ---
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-## Multi-Project Ecosystem
+## 核心技术与架构导航
 
 <CardGrid stagger>
-	<Card title="EpoCanvas (Chat)" icon="chat">
-		Next-generation instant messaging platform built with Zero-Knowledge End-to-End Encryption (E2EE), Signal Protocol ratcheting, and high-concurrency Synapse federation.
-		<LinkCard title="Explore Chat Docs" href="/chat/" description="Architecture, client features, and self-hosted server deployment." />
+	<Card title="全栈部署与环境搭建" icon="rocket">
+		基于现代化容器编排与边缘分布式云原生架构，支持一键拉起 Web 前端、Worker 引擎、分布式缓存与数据库集群。
+		<LinkCard title="查看全栈部署指南" href="/canvas/deployment/" description="环境要求、安全密钥生成与一键集群拉起。" />
 	</Card>
-	<Card title="EpoMail" icon="email">
-		Modern privacy-first mail service supporting PGP/MIME, post-quantum key exchange, autonomous domain hosting, and zero telemetry collection.
-		<LinkCard title="Explore EpoMail Docs" href="/mail/" description="Setup guides, SMTP/IMAP relays, and custom key management." />
+	<Card title="高效交互画布工作台" icon="laptop">
+		多图层混合编排、三态智能导航、流式 Markdown 与矢量画布协作，原生支持大资源切片秒传与线程化会话聚合。
+		<LinkCard title="查看工作台指南" href="/canvas/workbench/" description="画布操作流程、草稿自动存盘与快捷键矩阵。" />
 	</Card>
-	<Card title="ECCP Protocol Spec" icon="document">
-		**EpoCanvas Cryptographic Protocol** specifications modeled after RFC engineering standards. Covers handshake negotiation, key derivation, and ephemeral sessions.
-		<LinkCard title="Read RFC Specification" href="/eccp/" description="Formal specification for cryptographic handshakes and packet schemas." />
+	<Card title="智能规则与工作流分流" icon="puzzle">
+		多层级拦截管道（预处理 -> 规则匹配 -> 标签染色 -> 自动分流），配合条件表达式与自动化工作流引擎。
+		<LinkCard title="查看规则引擎指南" href="/canvas/rule-engine/" description="条件表达式、权重阻断与自动化工作流配置。" />
 	</Card>
-	<Card title="Open Source & Audit" icon="github">
-		All cryptographic primitives are audited and fully open-source. Discover security disclosures, formal verification reports, and reproducible builds.
-		<LinkCard title="GitHub Repository" href="https://github.com/shijianus/epocanvas" description="Source code, releases, and developer issue tracker." />
+	<Card title="AI 智能协同中枢与多模型池" icon="star">
+		原生支持 OpenAI、Claude、Gemini、DeepSeek 等主流大模型，支持自动摘要生成、智能润色重写与多 Provider 负载均衡。
+		<LinkCard title="查看 AI Hub 文档" href="/canvas/ai-hub/" description="模型接入、Prompt 编排与流式推理安全控制。" />
+	</Card>
+	<Card title="身份认证与 RBAC 权限体系" icon="seti:lock">
+		内置 Argon2id 散列算法、强制 TOTP 双因素认证与安全验证码防护，实现全功能粒度多租户 RBAC 权限隔离。
+		<LinkCard title="查看安全与权限指南" href="/canvas/security-rbac/" description="用户生命周期、访问控制矩阵与会话审计。" />
+	</Card>
+	<Card title="开发者生态与开放 REST API" icon="code">
+		提供标准化 RESTful API 与实时 Webhook 事件流，支持安全 Bearer 鉴权，助力业务系统与内部系统深度集成。
+		<LinkCard title="查阅开放 API 参考" href="/canvas/api-reference/" description="端点说明、请求示例、返回 Schema 与响应码定义。" />
 	</Card>
 </CardGrid>
+

@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="flowBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+    <linearGradient id="storageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="fedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6" />
+      <stop offset="100%" stop-color="#db2777" />
+    </linearGradient>
+    <filter id="boxGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="960" height="460" rx="16" fill="url(#flowBg)" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title & Subtitle -->
+  <text x="40" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">EpoCanvas 端到端事件流转与联邦数据流拓扑</text>
+  <text x="40" y="68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">从客户端 E2EE 加密、服务端流式规则引擎、边缘存储到 P2P 联邦 DAG 状态同步全生命周期</text>
+
+  <!-- Stage 1: Client Origin -->
+  <g transform="translate(40, 100)" filter="url(#boxGlow)">
+    <rect width="190" height="310" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect width="190" height="38" rx="12" fill="url(#clientGrad)"/>
+    <rect x="0" y="26" width="190" height="12" fill="url(#clientGrad)"/>
+    <text x="16" y="24" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">1. 客户端发起 (PrivChat)</text>
+
+    <!-- Sub items -->
+    <g transform="translate(14, 52)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">E2EE 棘轮加密</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">Double Ratchet + X25519</text>
+    </g>
+    <g transform="translate(14, 114)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">数字信封与签名</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">Ed25519 密钥对签名</text>
+    </g>
+    <g transform="translate(14, 176)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">本地 IndexedDB 存盘</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">乐观更新 · 毫秒级上屏</text>
+    </g>
+    <g transform="translate(14, 238)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">WebSocket / HTTPS</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">双向心跳流式投递</text>
+    </g>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 230 255 L 268 255" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <polygon points="274,255 264,250 264,260" fill="#38bdf8"/>
+
+  <!-- Stage 2: Homeserver Processing -->
+  <g transform="translate(276, 100)" filter="url(#boxGlow)">
+    <rect width="200" height="310" rx="12" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
+    <rect width="200" height="38" rx="12" fill="url(#serverGrad)"/>
+    <rect x="0" y="26" width="200" height="12" fill="url(#serverGrad)"/>
+    <text x="16" y="24" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">2. 核心节点处理 (Node)</text>
+
+    <!-- Sub items -->
+    <g transform="translate(14, 52)">
+      <rect width="172" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">鉴权与身份核验</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">Bearer JWT + 设备白名单</text>
+    </g>
+    <g transform="translate(14, 114)">
+      <rect width="172" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">四阶段规则拦截流</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">过滤、染色、路由与审计</text>
+    </g>
+    <g transform="translate(14, 176)">
+      <rect width="172" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">事件图 DAG 组装</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">父哈希挂载 · 拓扑定序</text>
+    </g>
+    <g transform="translate(14, 238)">
+      <rect width="172" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">AI Hub 协处理</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">智能润色 · 摘要 · 翻译</text>
+    </g>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 476 255 L 514 255" stroke="#818cf8" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <polygon points="520,255 510,250 510,260" fill="#818cf8"/>
+
+  <!-- Stage 3: Distributed Storage -->
+  <g transform="translate(522, 100)" filter="url(#boxGlow)">
+    <rect width="190" height="310" rx="12" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+    <rect width="190" height="38" rx="12" fill="url(#storageGrad)"/>
+    <rect x="0" y="26" width="190" height="12" fill="url(#storageGrad)"/>
+    <text x="16" y="24" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">3. 边缘存储与持久化</text>
+
+    <!-- Sub items -->
+    <g transform="translate(14, 52)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">D1 / SQLite 关系库</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">事件元数据 · 拓扑关系</text>
+    </g>
+    <g transform="translate(14, 114)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">KV 高频缓存</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">在线游标 · OAuth 会话</text>
+    </g>
+    <g transform="translate(14, 176)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">R2 / S3 大对象存储</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">加密附件 · 离线媒体直传</text>
+    </g>
+    <g transform="translate(14, 238)">
+      <rect width="162" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">Drawing 独立图床</text>
+      <text x="10" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">画板素材 · 静态资源秒级 CDN</text>
+    </g>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 712 255 L 748 255" stroke="#34d399" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <polygon points="754,255 744,250 744,260" fill="#34d399"/>
+
+  <!-- Stage 4: Federation Hub -->
+  <g transform="translate(756, 100)" filter="url(#boxGlow)">
+    <rect width="164" height="310" rx="12" fill="#1e293b" stroke="#f472b6" stroke-width="1.5"/>
+    <rect width="164" height="38" rx="12" fill="url(#fedGrad)"/>
+    <rect x="0" y="26" width="164" height="12" fill="url(#fedGrad)"/>
+    <text x="14" y="24" font-family="-apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">4. 联邦网络与广播</text>
+
+    <!-- Sub items -->
+    <g transform="translate(12, 52)">
+      <rect width="140" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">P2P 节点握手</text>
+      <text x="8" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">mTLS 8448 端口广播</text>
+    </g>
+    <g transform="translate(12, 114)">
+      <rect width="140" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">DAG 分支合并</text>
+      <text x="8" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">State Resolution v2</text>
+    </g>
+    <g transform="translate(12, 176)">
+      <rect width="140" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">对端客户端接收</text>
+      <text x="8" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">远端终端解密展现</text>
+    </g>
+    <g transform="translate(12, 238)">
+      <rect width="140" height="52" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">Bridges 跨界转发</text>
+      <text x="8" y="38" font-family="-apple-system, sans-serif" font-size="10" fill="#94a3b8">Telegram / Signal 桥接</text>
+    </g>
+  </g>
+</svg>
