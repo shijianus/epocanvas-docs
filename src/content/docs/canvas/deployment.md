@@ -1,220 +1,114 @@
 ---
-title: 快速上手与环境初始化指南
-description: EpoCanvas Docs 本地开发环境准备、依赖安装、构建指令与配置文件深度解析。
+title: 快速上手 (3分钟运行)
+description: EpoCanvas Docs 本地环境准备、安装依赖、启动本地开发服务与常用操作命令速查。
 ---
 
-# 快速上手与环境初始化指南
+# 快速上手 (3分钟运行)
 
-> [!NOTE]
-> 本章旨在指导开发者与文档协作者从零开始搭建 **EpoCanvas Docs** 的本地工程环境，涵盖依赖环境检查、构建工具链调用、核心配置参数详解以及热重载（HMR）调试流程。
-
----
-
-## 1. 前置依赖与开发工具链
-
-在开始之前，请确保本地工作站已安装符合以下版本的环境依赖：
-
-| 工具链组件 | 最低版本要求 | 推荐版本 | 验证命令 | 作用说明 |
-| :--- | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.14.1` | `>= 20.10.0 LTS` | `node -v` | Astro 5 与 Sharp 原生模块运行时底座 |
-| **pnpm** | `>= 8.6.0` | `>= 9.15.0` | `pnpm -v` | 推荐的高性能、硬链接包管理工具 |
-| **Git** | `>= 2.30.0` | 最新稳定版 | `git --version` | 分支管理与 GitHub Actions 触发依赖 |
-| **Wrangler** | `>= 3.80.0` | `^4.131.0` (内建) | `npx wrangler -v` | Cloudflare Pages 边缘即时发布 CLI |
-
-> [!IMPORTANT]
-> 推荐使用 `pnpm` 作为主包管理工具。专案已锁定 `pnpm-lock.yaml`。若使用 `npm` 或 `yarn`，请确保依赖解析策略与 lockfile 一致，以防 Sharp 原生 C++ 扩展编译冲突。
+本章节将带你在本地电脑上快速把 **EpoCanvas Docs** 跑起来。整个过程只需要几行命令，完成之后你就可以在浏览器中一边修改 Markdown 文件，一边实时查看排版渲染效果。
 
 ---
 
-## 2. 仓库克隆与依赖安装
+## 准备工作
 
-通过 SSH 或 HTTPS 协议克隆专案源码至本地目录：
+在开始之前，请确认你的电脑上安装了以下基础开发环境：
+
+| 工具 | 推荐版本 | 检查命令 | 说明 |
+| :--- | :--- | :--- | :--- |
+| **Node.js** | `>= 18.14.1`（推荐 20 LTS） | `node -v` | 运行 JavaScript 与构建静态页面的底座环境 |
+| **pnpm** | `>= 8.6.0`（推荐 9.x） | `pnpm -v` | 推荐使用的包管理器，安装速度快且节省硬盘空间 |
+| **Git** | 最新稳定版 | `git --version` | 用于拉取代码与版本管理 |
+
+> [!TIP]
+> 如果你的电脑上还没安装 `pnpm`，可以通过 Node.js 自带的 npm 快速全局安装：
+> ```bash
+> npm install -g pnpm
+> ```
+
+---
+
+## 3步在本地跑起来
+
+### 第一步：克隆代码仓库到本地
+打开终端（Terminal），执行以下命令克隆项目代码并进入项目文件夹：
 
 ```bash
-# 1. 克隆代码库
 git clone https://github.com/shijianus/epocanvas-docs.git
-
-# 2. 进入专案根目录
 cd epocanvas-docs
+```
 
-# 3. 安装项目全部依赖（包括 Sharp 本地原生构建依赖）
+### 第二步：安装项目依赖
+在项目根目录下执行安装命令：
+
+```bash
 pnpm install
 ```
+pnpm 会自动根据 `pnpm-lock.yaml` 下载所需的前端依赖，包含 Astro、Starlight 和本地图片处理模块，通常几十秒即可完成。
 
-依赖安装完成后，包管理器将在根目录生成 `node_modules/`，并确保 `@astrojs/starlight`、`sharp`、`@pagefind/default-ui` 等核心组件已就绪。
+### 第三步：启动本地开发预览服务器
+依赖安装完成后，运行启动指令：
 
----
-
-## 3. 本地开发与工作流指令
-
-EpoCanvas Docs 在 `package.json` 中预置了完整的开发与发布脚本体系：
-
-```json
-{
-  "name": "epocanvas-docs",
-  "version": "1.2.0",
-  "type": "module",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true",
-    "cf:deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true",
-    "preview": "astro preview",
-    "astro": "astro"
-  }
-}
-```
-
-### 3.1 核心指令详解：
-
-#### 启动本地极速开发服务器
 ```bash
 pnpm run dev
 ```
-- 默认监听：`http://localhost:4321/`
-- 特性：启用 Astro 5 原生极速 HMR，修改 `src/content/docs/**/*.md` 或 `.astro` 组件时无需全量重载，局部毫秒级热更新。
 
-#### 执行全量静态打包
-```bash
-pnpm run build
-```
-- 输出目录：`dist/`
-- 构建链路：
-  1. 遍历 `src/content/docs/` 并执行 Zod Schema 内容严格校验；
-  2. 预热 Astro 静态页面渲染器并输出标准 HTML、CSS 与资产文件；
-  3. Sharp 自动化优化与压缩静态图片资源；
-  4. 触发 Pagefind CLI 扫描 `dist/` 生成分块 WebAssembly 倒排索引；
-  5. 生成 Pagefind 分片文件 `dist/pagefind/`。
+终端将输出类似如下的信息：
+```text
+  🚀  astro  v5.x.x started in 320ms
 
-#### 本地预览打包产物
-```bash
-pnpm run preview
+  ┃ Local    http://localhost:4321/
+  ┃ Network  use --host to expose
 ```
-- 本地启动轻量 HTTP 服务器运行 `dist/` 产物，精准模拟生产环境下的静态托管行为与路由重定向。
 
-#### 一键推送到 Cloudflare Pages
-```bash
-pnpm run deploy
-# 或
-pnpm run cf:deploy
-```
-- 自动化连贯执行 `build` 打包，并通过 Wrangler CLI 校验 Cloudflare 凭证，秒级部署最新制品至 `epocanvas-docs.pages.dev` 边缘服务。
+此时打开浏览器，访问 `http://localhost:4321`，就能看到完整的文档站点了！
 
 ---
 
-## 4. 核心配置文件深度解析 (`astro.config.mjs`)
+## 常用开发命令速查
 
-`astro.config.mjs` 是 EpoCanvas Docs 的中枢控制文件，其配置严格体现了 Starlight 深度集成与自定义覆写：
+在日常编写文档或维护专案时，主要使用以下几个命令：
 
-```javascript
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
-
-export default defineConfig({
-  // 1. 生产环境官方权威站点根域名
-  site: 'https://doc.epocanvas.com',
-
-  integrations: [
-    starlight({
-      // 2. 站点核心元数据
-      title: 'EpoCanvas Docs',
-      description: 'EpoCanvas 全栈技术、架构与产品运维指南',
-      defaultLocale: 'root',
-      locales: {
-        root: {
-          label: '简体中文',
-          lang: 'zh-CN',
-        },
-      },
-      logo: {
-        src: './public/images/logo.svg',
-        replacesTitle: false,
-      },
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
-      // 3. 注入全局样式令牌
-      customCss: ['./src/styles/custom.css'],
-
-      // 4. Starlight 组件覆写（Eject Overrides）
-      components: {
-        Header: './src/components/starlight/Header.astro',
-        Sidebar: './src/components/starlight/Sidebar.astro',
-        TableOfContents: './src/components/starlight/TableOfContents.astro',
-        PageTitle: './src/components/starlight/PageTitle.astro',
-        TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
-        Search: './src/components/starlight/Search.astro',
-      },
-
-      // 5. 声明式文档侧边栏大纲
-      sidebar: [
-        {
-          label: '专案概览与架构',
-          items: [
-            { label: 'EpoCanvas Docs 架构总览', link: '/canvas/' },
-            { label: '快速上手与环境初始化', link: '/canvas/deployment/' },
-          ],
-        },
-        {
-          label: '架构内核与组件覆写',
-          items: [
-            { label: 'Starlight 组件覆写体系', link: '/canvas/workbench/' },
-            { label: 'UI 设计系统与三栏布局', link: '/canvas/dns-setup/' },
-            { label: '内容集合与写作规范', link: '/canvas/system-config/' },
-          ],
-        },
-        // ...更多章节配置
-      ],
-    }),
-  ],
-
-  // 6. 路径重定向规则
-  redirects: {
-    '/mail': '/canvas',
-  },
-});
-```
-
-### 关键配置项工程价值：
-1. **`site`**：指定规范化的 Canonical URL，决定了 OpenGraph 元标签、Sitemap 以及 Pagefind 检索基础路径的准确性。
-2. **`components` 映射字典**：Starlight 官方支持的插槽替换机制。通过指定相对路径，直接接管内置的 Header、Sidebar 等组件，从而彻底摆脱框架原本的强样式约束。
-3. **`sidebar` 声明式分组**：采用树状结构配置各章节层级与 URL 映射，Astro 在构建期据此生成双向导航链接。
+| 命令 | 适用场景 | 详细说明 |
+| :--- | :--- | :--- |
+| `pnpm run dev` | **日常写文档** | 启动本地调试服务，支持热更新（HMR）。修改任意 `.md` 文件后，浏览器会自动刷新更新内容。 |
+| `pnpm run build` | **打包测试** | 在本地完整编译全站静态页面，并在 `dist/` 目录下生成 HTML、CSS 以及 Pagefind 搜索索引。 |
+| `pnpm run preview` | **预览打包产物** | 本地启动轻量 Web 服务器来运行 `dist/` 产物，用于在正式发布前检查链接和样式是否正常。 |
+| `pnpm run deploy` | **一键发布上线** | 先自动运行 build，再调用 Wrangler 工具直接将文档推送到 Cloudflare Pages 线上生产环境。 |
 
 ---
 
-## 5. TypeScript 严格模式配置 (`tsconfig.json`)
+## 核心配置文件在哪里？
 
-专案启用了最高安全等级的 TypeScript 类型推导，继承 Astro 官方严格规范：
+如果需要修改网站的基础信息，主要关注以下几个文件：
 
-```json
-{
-  "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
-}
-```
-
-这确保了：
-- 在 `src/config/navigation.ts` 中定义的导航数据模型 `NavItem` 拥有精确类型补全与防拼写错误；
-- 在 `src/utils/i18n.ts` 中的多语言词条索引能在开发阶段完成键值穷尽性校验；
-- 在组件模板中调用 `Astro.locals.starlightRoute` 时享有完整代码提示。
+- **网站名称与目录菜单**：修改根目录下的 `astro.config.mjs`。你可以修改网站的 `title`（站点标题）、`site`（线上域名）以及 `sidebar`（左侧目录菜单）。
+- **顶部导航栏按钮**：修改 `src/config/navigation.ts`。在这里可以增减顶部的“首页”、“文档”、“部署”等按钮及其跳转路径。
+- **页面颜色与字体样式**：修改 `src/styles/custom.css`。在这里可以调整浅色和深色模式下的主题颜色。
+- **添加新文档**：直接在 `src/content/docs/canvas/` 目录下新建 `.md` 文件即可。
 
 ---
 
-## 6. 开发环境自检清单 (Verification Checklist)
+## 常见启动问题排查
 
-在向远程仓库提交代码或发布新版本前，请依次执行以下本地质检命令：
-
+### 1. 启动时提示端口 `4321` 被占用
+**原因**：本地之前启动的服务没有正常关闭，或者有其他程序正在使用 4321 端口。  
+**解决办法**：你可以通过 `--port` 参数指定一个新端口启动：
 ```bash
-# 1. 检查代码格式与类型安全
-pnpm exec astro check
-
-# 2. 检查静态全量打包是否零警告、零报错
-pnpm run build
-
-# 3. 验证本地静态索引产物是否存在
-ls -lh dist/pagefind/pagefind.wasm
+pnpm run dev -- --port 4322
 ```
 
-通过上述自检后，即可安全进入文档内容撰写与组件自定义扩展环节。
+### 2. 执行 `pnpm install` 提示 Sharp 模块编译异常
+**原因**：Sharp 是用于在构建期压缩优化图片的底层 C++ 模块，当本地 Node.js 版本与之前的缓存不匹配时可能出现此提示。  
+**解决办法**：清理 node_modules 后重新安装：
+```bash
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+```
+
+---
+
+## 下一步
+
+本地服务成功运行后，你可以继续了解：
+- **[页面布局与阅读体验](/canvas/dns-setup/)**：了解顶部、侧边栏和正文界面的布局细节。
+- **[Markdown 编写与排版指南](/canvas/system-config/)**：学习如何在文档中编写漂亮的排版、代码块和图表。

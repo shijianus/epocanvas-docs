@@ -1,143 +1,116 @@
 ---
-title: 二次开发与生态扩展指南
-description: EpoCanvas Docs 自定义 Astro 组件扩展、样式插件定制、Remark/Rehype 插件集成与性能调优指南。
+title: 站点全局配置与样式定制
+description: EpoCanvas Docs 核心配置文件修改指南、侧边栏菜单调整、品牌 Logo 替换与主题颜色定制。
 ---
 
-# 二次开发与生态扩展指南
+# 站点全局配置与样式定制
 
-> [!NOTE]
-> **EpoCanvas Docs** 具备极高的可扩展性。开发者不仅可以基于本专案快速构建衍生站点的官方技术文档，还能自由注入自定义 Astro 交互组件、扩展 Markdown 编译管线，或集成数学公式与图像灯箱画廊等生态插件。
-
----
-
-## 1. 架构扩展分层拓扑
-
-专案提供了清晰的扩展插槽与钩子，允许在不侵入 Starlight 内核的前提下完成功能叠加：
-
-![EpoCanvas Docs 四层系统工程架构](/images/canvas/docs-architecture.svg)
+如果你想把 **EpoCanvas Docs** 用于你自己的团队专案，或者调整现有的网站标题、Logo 图标、目录结构与主题色，本章节将指导你如何进行快速定制。
 
 ---
 
-## 2. 自定义 Astro 交互组件开发
+## 1. 站点基本信息配置 (`astro.config.mjs`)
 
-在文档中嵌入自定义交互组件是提升读者实践体验的重要方式。
+根目录下的 `astro.config.mjs` 是整个文档站的主配置文件。打开该文件，你可以修改以下常用选项：
 
-### 2.1 创建通用卡片组件示例 (`src/components/MetricCard.astro`)：
-```astro
----
-interface Props {
-  title: string;
-  value: string;
-  trend?: string;
-}
-
-const { title, value, trend } = Astro.props;
----
-
-<div class="metric-card">
-  <div class="metric-title">{title}</div>
-  <div class="metric-value">{value}</div>
-  {trend && <div class="metric-trend">{trend}</div>}
-</div>
-
-<style>
-  .metric-card {
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    background-color: var(--sl-color-gray-6);
-    border: 1px solid var(--sl-color-hairline);
-    margin: 1rem 0;
-  }
-  .metric-title {
-    font-size: 0.875rem;
-    color: var(--sl-color-gray-3);
-  }
-  .metric-value {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--sl-color-text-accent);
-    margin-top: 0.25rem;
-  }
-  .metric-trend {
-    font-size: 0.75rem;
-    color: var(--sl-color-accent-high);
-    margin-top: 0.25rem;
-  }
-</style>
-```
-
-### 2.2 在 MDX 文档中直接引入使用：
-```mdx
----
-title: 性能基准测试
----
-
-import MetricCard from '../../components/MetricCard.astro';
-
-<MetricCard title="平均 TTFB" value="38ms" trend="同比缩短 42%" />
-```
-
----
-
-## 3. Remark 与 Rehype 编译管线扩展
-
-Astro 允许在 `astro.config.mjs` 中轻松注入丰富的 Markdown 处理器插件：
-
-### 3.1 引入数学公式支持 (KaTeX)
-若文档需要撰写严谨的算法与加密学公式，可集成 `remark-math` 与 `rehype-katex`：
-
-```bash
-pnpm add remark-math rehype-katex katex
-```
-
-在 `astro.config.mjs` 中配置：
 ```javascript
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
+import { defineConfig } from 'astro/config';
+import starlight from '@astrojs/starlight';
 
 export default defineConfig({
-  markdown: {
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex],
-  },
-  // 在 customCss 中引入 KaTeX 官方样式
+  // 1. 站点的生产环境域名（影响 SEO 链接与 Sitemap）
+  site: 'https://doc.epocanvas.com',
+
   integrations: [
     starlight({
-      customCss: ['./src/styles/custom.css', 'katex/dist/katex.min.css'],
+      // 2. 网站的大标题与副标题描述
+      title: 'EpoCanvas Docs',
+      description: 'EpoCanvas 官方技术与产品使用指南',
+
+      // 3. 网站左上角的 Logo 图标路径
+      logo: {
+        src: './public/images/logo.svg',
+        replacesTitle: false, // 设置为 true 则隐藏文字只显示 Logo 图片
+      },
+
+      // 4. 右上角的 GitHub 仓库链接
+      social: {
+        github: 'https://github.com/shijianus/epocanvas-docs',
+      },
+
+      // 5. 引入的自定义样式表
+      customCss: ['./src/styles/custom.css'],
     }),
   ],
 });
 ```
 
-配置完成后即可在 Markdown 中直接书写 LaTeX 复杂公式：
-```markdown
-$$
-\mathcal{H}(m) = \text{Argon2id}(m, \text{salt}, t=3, m=65536, p=4)
-$$
+---
+
+## 2. 如何修改左侧目录菜单？
+
+左侧的文档分类目录由 `astro.config.mjs` 中的 `sidebar` 数组控制。你可以非常直观地增删章节：
+
+```javascript
+sidebar: [
+  // 分组一：产品概览
+  {
+    label: '产品概览与入门',
+    items: [
+      { label: '产品简介与核心价值', link: '/canvas/' },
+      { label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
+    ],
+  },
+  // 分组二：你可以新增属于自己的业务模块
+  {
+    label: '用户指南',
+    items: [
+      { label: '账号注册与登录', link: '/canvas/login/' },
+      { label: '协同画布基本操作', link: '/canvas/workbench/' },
+    ],
+  },
+];
 ```
 
----
+- **`label`**：在侧边栏上显示的中文分类名称或文章名称；
+- **`link`**：文章对应的访问 URL 路径（以 `/` 开头和结尾）。
 
-## 4. 性能极致调优最佳实践
-
-为保持全站 **Lighthouse 性能得分 > 98 分**，请遵循以下工程准则：
-
-### 4.1 静态图像资产优化
-- 优先采用 `.svg` 矢量格式保存架构拓扑图、交互流程图与系统模型；
-- 位图必须经过 Sharp 预先优化，建议宽度不超过 `1920px`，并转换为现代 `.webp` 格式；
-- 严禁在页面中直接引入未经压缩的几十兆 RAW 原始图。
-
-### 4.2 客户端 JavaScript 体积控制
-- 坚持 **纯静态优先（Static-First）** 原则，避免在正文页面无节制引入大型前端框架（如 React / Vue 全家桶）；
-- 尽量使用原生 Web API（如 `IntersectionObserver`、`localStorage`、`fetch`、CSS 动画）实现轻量交互。
+保存修改后，本地正在运行的预览服务会自动热更新，侧边栏会立刻刷新显示。
 
 ---
 
-## 5. 贡献代码与 Pull Request 流程规范
+## 3. 自定义品牌主题色 (`src/styles/custom.css`)
 
-若为本专案贡献新功能或修正，请严格遵循分支工作流：
-1. **Fork 仓库** 到个人 GitHub 空间；
-2. 基于 `main` 分支创建特性分支（如 `feature/dark-mode-polish` 或 `fix/typo-deployment`）；
-3. 本地运行 `pnpm run build` 确保构建通过且 Pagefind 索引正常生成；
-4. 提交清晰规范的 Git Commit 信息（遵循 Conventional Commits 规范）；
-5. 向主仓库的 `main` 分支发起 Pull Request 并附带详细变更描述与效果截图。
+EpoCanvas Docs 所有的色彩都是通过 CSS 变量（Variables）控制的。打开 `src/styles/custom.css`，你可以轻松替换为自己品牌的专属色调：
+
+```css
+:root {
+  /* 品牌核心主色调（默认采用充满科技感的经典蓝） */
+  --sl-color-accent: #3b82f6; /* 主色 */
+  --sl-color-accent-low: #1e3a8a; /* 浅色半透明背景色 */
+  --sl-color-accent-high: #93c5fd; /* 悬浮高亮与链接亮色 */
+
+  /* 深色模式默认背景 */
+  --sl-color-bg: #0b0f19;
+  --sl-color-bg-sidebar: #0f172a;
+  --sl-color-hairline: #1e293b; /* 分割线颜色 */
+}
+
+/* 浅色模式自适应重载 */
+:root[data-theme='light'] {
+  --sl-color-accent: #2563eb;
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-sidebar: #f8fafc;
+  --sl-color-hairline: #e2e8f0;
+}
+```
+
+例如，如果你希望将全站主色调改为活力绿，只需要将 `--sl-color-accent` 改为绿色代码（如 `#10b981`）即可，按钮、高亮选中框与图标会自动同步变色。
+
+---
+
+## 4. 替换站点 Logo
+
+1. 准备一张你自己的品牌 Logo 矢量图（推荐 `.svg` 格式，也可以使用清晰的 `.png`）；
+2. 将图片保存到项目的 `public/images/logo.svg`；
+3. 刷新浏览器，顶栏左侧的图标便会自动替换。

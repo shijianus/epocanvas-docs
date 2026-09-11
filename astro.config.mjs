@@ -34,40 +34,40 @@ export default defineConfig({
 			},
 			sidebar: [
 				{
-					label: '专案概览与架构',
+					label: '产品概览与入门',
 					items: [
-						{ label: 'EpoCanvas Docs 架构总览', link: '/canvas/' },
-						{ label: '快速上手与环境初始化', link: '/canvas/deployment/' },
+						{ label: '产品简介与核心价值', link: '/canvas/' },
+						{ label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
 					],
 				},
 				{
-					label: '架构内核与组件覆写',
+					label: '核心功能与使用指南',
 					items: [
-						{ label: 'Starlight 组件覆写体系', link: '/canvas/workbench/' },
-						{ label: 'UI 设计系统与三栏布局', link: '/canvas/dns-setup/' },
-						{ label: '内容集合与写作规范', link: '/canvas/system-config/' },
+						{ label: '页面布局与阅读体验', link: '/canvas/dns-setup/' },
+						{ label: '全文搜索与快捷键使用', link: '/canvas/search-engine/' },
+						{ label: '多语言支持与阅读切换', link: '/canvas/ai-hub/' },
+						{ label: '顶部导航与页面路由', link: '/canvas/oauth-provider/' },
 					],
 				},
 				{
-					label: '核心功能与引擎机制',
+					label: '文档编写与内容管理',
 					items: [
-						{ label: 'Pagefind 静态全文检索', link: '/canvas/search-engine/' },
-						{ label: '动态多语言与国际化架构', link: '/canvas/ai-hub/' },
-						{ label: '声明式导航与路由策略', link: '/canvas/oauth-provider/' },
+						{ label: 'Markdown 编写与排版指南', link: '/canvas/system-config/' },
+						{ label: '提示框、代码块与图表示例', link: '/canvas/workbench/' },
 					],
 				},
 				{
-					label: '部署与发布运维',
+					label: '配置与二次开发',
 					items: [
-						{ label: 'Cloudflare Pages 边缘部署', link: '/canvas/rule-engine/' },
-						{ label: '自动化 CI/CD 与版本发布', link: '/canvas/security-rbac/' },
+						{ label: '站点全局配置与样式定制', link: '/canvas/api-reference/' },
 					],
 				},
 				{
-					label: '扩展定制与问题排查',
+					label: '发布与运维部署',
 					items: [
-						{ label: '二次开发与生态扩展指南', link: '/canvas/api-reference/' },
-						{ label: '生产运维与故障排查手册', link: '/canvas/troubleshooting/' },
+						{ label: 'Cloudflare Pages 部署上线', link: '/canvas/rule-engine/' },
+						{ label: '版本管理与自动化工作流', link: '/canvas/security-rbac/' },
+						{ label: '常见问题与故障排查 FAQ', link: '/canvas/troubleshooting/' },
 					],
 				},
 			],

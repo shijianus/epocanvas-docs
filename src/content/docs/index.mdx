@@ -1,18 +1,18 @@
 ---
-title: EpoCanvas Docs 官方文档
-description: EpoCanvas Docs 专案架构、设计系统、Starlight 组件覆写与边缘部署全栈指南
+title: EpoCanvas Docs 官方使用与开发说明
+description: EpoCanvas Docs 官方产品说明书 - 专为现代开源专案打造的静态文档站点，提供三栏阅读、离线搜索、多语言切换与边缘部署。
 template: splash
 hero:
-  tagline: 现代化自建全栈技术文档构建平台。专为 EpoCanvas 生态打造，基于 Astro 5 + Starlight 内核，具备深度组件覆写、三栏极简布局、10 国语言无刷新动态切换、Pagefind 零服务端毫秒级全文检索与 Cloudflare Pages 边缘即时分发。
+  tagline: 专为 EpoCanvas 生态打造的官方文档站点系统。基于 Astro 5 与 Starlight 构建，开箱自带三栏清晰排版、全文秒级搜索、10 种语言免刷新切换以及一键部署到 Cloudflare Pages。
   image:
     file: ../../assets/logo.svg
     alt: EpoCanvas Docs Logo
   actions:
-    - text: 系统架构总览
+    - text: 查看产品说明
       link: /canvas/
       icon: right-arrow
       variant: primary
-    - text: 快速上手与环境
+    - text: 3分钟本地运行
       link: /canvas/deployment/
       icon: rocket
       variant: secondary
@@ -24,55 +24,39 @@ hero:
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-## 核心架构与工程能力导航
+## 快速导航与功能指引
 
 <CardGrid stagger>
-	<Card title="专案概览与四层架构" icon="laptop">
-		深入解析 EpoCanvas Docs 的底层分层模型、构建引擎、技术栈选型与目录工程规范，全面了解现代化文档架构。
-		<LinkCard title="阅读系统架构总览" href="/canvas/" description="四层分层模型、Astro 5 内核与技术选型对比。" />
+	<Card title="产品简介与核心价值" icon="laptop">
+		了解 EpoCanvas Docs 的诞生背景、解决的问题、核心特性以及与其他主流文档工具的真实差异。
+		<LinkCard title="阅读产品简介" href="/canvas/" description="功能清单、适用场景与设计初衷。" />
 	</Card>
-	<Card title="快速上手与环境初始化" icon="rocket">
-		从 Node.js 环境准备到 pnpm 依赖安装、本地 HMR 调试到全量构建，快速搭建本地文档开发与预览工作流。
-		<LinkCard title="阅读快速上手指南" href="/canvas/deployment/" description="环境要求、构建脚本清单与 astro.config.mjs 参数解析。" />
+	<Card title="3分钟快速上手" icon="rocket">
+		只需几行命令，在本地电脑安装依赖并启动热更新开发服务，边写 Markdown 边实时预览。
+		<LinkCard title="查看快速上手指南" href="/canvas/deployment/" description="安装步骤、常用命令与环境要求。" />
 	</Card>
-	<Card title="Starlight 组件覆写体系" icon="puzzle">
-		基于 Starlight Eject 机制完全接管 Header、Sidebar、PageTitle、Search、TOC 与 TwoColumnContent 核心组件。
-		<LinkCard title="查看组件覆写详解" href="/canvas/workbench/" description="6 大覆写组件原理、Astro.locals 运行时上下文与数据流。" />
+	<Card title="阅读界面与交互体验" icon="document">
+		清晰的“左侧分类导航 + 中央正文 + 右侧本页大纲”三栏排版，页面切换保持滚动条位置，自适应手机与电脑。
+		<LinkCard title="了解界面布局" href="/canvas/dns-setup/" description="三栏布局结构、主题切换与字体排版。" />
 	</Card>
-	<Card title="三栏式布局与设计令牌" icon="document">
-		极简 3-Tier 视口布局拓扑，严格设计的 CSS 变量令牌，完美自适应浅色/深色主题，提供极致沉浸式阅读体验。
-		<LinkCard title="查看布局与设计系统" href="/canvas/dns-setup/" description="三栏拓扑比例、CSS Tokens、排版规范与主题自适应。" />
+	<Card title="全文搜索与快捷键" icon="magnifier">
+		内置轻量本地搜索引擎，支持拼音与中英双语检索，按下 Cmd+K / Ctrl+K 即可秒级定位文档内容。
+		<LinkCard title="了解搜索功能" href="/canvas/search-engine/" description="搜索使用技巧与本地索引原理。" />
 	</Card>
-	<Card title="Pagefind 零服务端全文检索" icon="magnifier">
-		构建期自动抽取静态反向倒排索引，分块压缩与 WebAssembly 执行，配合全局 Cmd+K 快捷键实现零延迟检索。
-		<LinkCard title="探索静态全文检索系统" href="/canvas/search-engine/" description="索引抽取流水线、分词优化与客户端检索模态实现。" />
+	<Card title="多语言即时切换" icon="translate">
+		支持中文、繁体、英语、日语等 10 种语言，在页面右上角点击即可瞬间切换界面语言，无需重新加载网页。
+		<LinkCard title="了解多语言系统" href="/canvas/ai-hub/" description="支持的语言列表与词条添加方法。" />
 	</Card>
-	<Card title="10 种主流语言动态国际化" icon="translate">
-		内置客户端轻量翻译字典，支持中、英、日、韩、德、法等 10 国语言秒级无刷新置换与双层降级容灾。
-		<LinkCard title="查看多语言与 i18n 架构" href="/canvas/ai-hub/" description="动态语言字典、客户端替换算法与本地存储策略。" />
+	<Card title="Markdown 撰写指南" icon="pencil">
+		支持常用的 Markdown 语法、5 种彩色提示框（Note/Tip/Warning 等）、代码块语法高亮以及流程图绘制。
+		<LinkCard title="阅读排版指南" href="/canvas/system-config/" description="标题规范、代码高亮写法与图表嵌入。" />
 	</Card>
-	<Card title="声明式导航与路由策略" icon="bars">
-		类型安全的导航配置模型、动态路径激活匹配、继承自 shijianus-blog 的交互标准与平滑路径重定向。
-		<LinkCard title="查看导航与路由控制" href="/canvas/oauth-provider/" description="声明式导航结构、路径匹配函数与版本徽标集成。" />
+	<Card title="站点配置与样式修改" icon="setting">
+		如何修改网站标题、Logo 图标、导航菜单以及主题配色，打造属于自己的专案文档风格。
+		<LinkCard title="查看配置说明" href="/canvas/api-reference/" description="配置文件参数与 CSS 颜色修改。" />
 	</Card>
-	<Card title="内容集合与 Markdown/MDX 规范" icon="pencil">
-		基于 Astro 5 Content Collections 的类型安全文档体系，支持 GFM 扩展、5 级警示块、Shiki 高亮与原生 Mermaid。
-		<LinkCard title="阅读内容规范与排版指南" href="/canvas/system-config/" description="Frontmatter 模式、代码块增强与图表绘制规范。" />
-	</Card>
-	<Card title="Cloudflare Pages 边缘即时部署" icon="cloudflare">
-		基于 Cloudflare Anycast CDN 边缘网络，搭配 Wrangler CLI 打造全球低延迟、自动化 SSL 与秒级发布体系。
-		<LinkCard title="查看边缘部署全流程" href="/canvas/rule-engine/" description="Wrangler CLI 指令、自定义域名与边缘缓存配置。" />
-	</Card>
-	<Card title="自动化 CI/CD 与 Release 管理" icon="github">
-		基于 GitHub Actions 的持续集成与发布工作流，严格遵循 SemVer 2.0.0 规范，自动化打标与 Release Notes 生成。
-		<LinkCard title="查看版本发布与 CI/CD" href="/canvas/security-rbac/" description="发布流水线配置、Tag 触发机制与版本声明规范。" />
-	</Card>
-	<Card title="二次开发与生态扩展指南" icon="code">
-		如何基于 EpoCanvas Docs 快速衍生出新专案文档站点，扩展自定义 Astro 组件、Remark/Rehype 插件与样式主题。
-		<LinkCard title="查阅扩展开发手册" href="/canvas/api-reference/" description="自定义组件开发、插件注入与性能调优最佳实践。" />
-	</Card>
-	<Card title="生产运维与故障排查手册" icon="warning">
-		系统化梳理构建期异常、类型校验错误、Pagefind 索引缺失、样式的优先级冲突及边缘部署 404 排查清单。
-		<LinkCard title="查看故障排查 Runbook" href="/canvas/troubleshooting/" description="常见错误诊断、日志定位与快速自愈指南。" />
+	<Card title="部署上线与常见问题" icon="cloudflare">
+		如何免费部署到 Cloudflare Pages 并绑定自己的独立域名，以及遇到常见报错时的快速自查清单。
+		<LinkCard title="查看部署与常见问题" href="/canvas/rule-engine/" description="一键发布命令、域名绑定与 FAQ。" />
 	</Card>
 </CardGrid>

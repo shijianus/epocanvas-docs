@@ -1,63 +1,26 @@
 ---
-title: 生产运维与故障排查手册
-description: EpoCanvas Docs 构建异常诊断、Pagefind 索引缺失、Cloudflare Pages 边缘部署与 CSS 样式冲突排障清单。
+title: 常见问题与故障排查 FAQ
+description: EpoCanvas Docs 本地运行报错、文档排版遗漏、搜索失效与 Cloudflare Pages 部署排查清单。
 ---
 
-# 生产运维与故障排查手册
+# 常见问题与故障排查 FAQ
 
-> [!NOTE]
-> 本手册为 **EpoCanvas Docs** 生产运维与本地开发的高频故障诊断指南（Runbook）。系统化梳理了从 Astro 5 构建期语法校验、Pagefind 索引生成异常、Cloudflare Pages 边缘分发阻断到 CSS 层叠样式冲突的根本原因与标准自愈步骤。
-
----
-
-## 1. 故障诊断流程与决策树
-
-当遇到构建中断或页面渲染异常时，请依照以下自查顺序进行排查：
-
-```mermaid
-flowchart TD
-    Start["构建或部署异常"] --> CheckNode{"Node.js 版本 >= 18.14.1?"}
-    CheckNode -- "否" --> FixNode["升级 Node.js 至 20 LTS"]
-    CheckNode -- "是" --> CheckSchema{"pnpm exec astro check 报错?"}
-    CheckSchema -- "是" --> FixFrontmatter["修复 Frontmatter 元数据或 MDX 标签"]
-    CheckSchema -- "否" --> CheckPagefind{"dist/pagefind/pagefind.wasm 是否生成?"}
-    CheckPagefind -- "否" --> FixPagefind["检查正文标签选择器与构建脚本"]
-    CheckPagefind -- "是" --> CheckDeploy{"Cloudflare Pages 部署 HTTP 状态"}
-    CheckDeploy -- "404" --> FixRoute["检查 URL 后缀斜杠与重定向规则"]
-    CheckDeploy -- "200" --> Success["系统恢复正常并成功上线"]
-```
+在使用、编写或部署 **EpoCanvas Docs** 的过程中，如果遇到异常情况，不用慌张。本手册整理了开发者最常遇到的几类问题及其对应的快速解决办法。
 
 ---
 
-## 2. Astro 5 构建期高频故障诊断
+## 一、 本地启动与安装问题
 
-### 2.1 Frontmatter Schema 校验不通过
-- **典型报错**：
-  ```
-  [AstroContentError] "title" is required in "src/content/docs/canvas/xxx.md"
-  ```
-- **根本原因**：
-  文档头部缺少必填的 YAML 元数据字段，或缩进格式错误导致 YAML 解析器无法识别。
-- **排障方案**：
-  检查对应 Markdown 文件头部，确保包含标准的 `---` 围栏与合法字段：
-  ```yaml
-  ---
-  title: 文档标题
-  description: 简明描述文本
-  ---
+### Q1: 执行 `pnpm run dev` 提示端口 4321 被占用
+- **原因**：本地之前启动的开发服务器未完全退出，或者有其他程序正在使用 4321 端口。
+- **解决办法**：在命令后加上 `--port` 参数指定一个空闲端口，例如：
+  ```bash
+  pnpm run dev -- --port 4322
   ```
 
----
-
-### 2.2 Sharp 图像处理原生模块缺失
-- **典型报错**：
-  ```
-  Error: Could not load the "sharp" module using the linux-x64 runtime
-  ```
-- **根本原因**：
-  在切换 Node.js 大版本或使用不同架构的容器后，Sharp 本地预编译二进制文件与当前操作系统不兼容。
-- **排障方案**：
-  强制重新安装 platform-specific 依赖：
+### Q2: 安装依赖时提示 Sharp 模块编译错误
+- **原因**：Sharp 是用于在本地压缩图片的底层模块，如果你的 Node.js 版本发生过变动，可能导致旧缓存冲突。
+- **解决办法**：清理本地依赖缓存并重新安装：
   ```bash
   rm -rf node_modules pnpm-lock.yaml
   pnpm install
@@ -65,85 +28,70 @@ flowchart TD
 
 ---
 
-## 3. Pagefind 静态全文检索异常诊断
+## 二、 文档编写与排版问题
 
-![Pagefind 静态全文检索流水线](/images/canvas/docs-search-engine.svg)
-
-### 3.1 检索索引未生成或提示 `No indexable text found`
-- **根本原因**：
-  Astro 打包未输出到 `dist/` 目录，或页面模板缺少 `<main>` 语义化标签导致 Pagefind 选择器抓取落空。
-- **排障步骤**：
-  1. 确认构建产物目录存在：
-     ```bash
-     ls -la dist/index.html
-     ```
-  2. 手动在终端执行 Pagefind 独立扫描并观察详细输出：
-     ```bash
-     npx pagefind --site dist --verbose
-     ```
-
----
-
-### 3.2 客户端按下 `Cmd+K` 无响应或控制台报错
-- **根本原因**：
-  浏览器的 Content Security Policy (CSP) 策略阻断了 WebAssembly 编译，或 `Search.astro` 未能正确挂载快捷键监听器。
-- **排障步骤**：
-  1. 检查浏览器 Console 是否存在 `CompileError: WebAssembly.instantiate`；
-  2. 确保 HTTP 响应头未禁止 `wasm-unsafe-eval`。Cloudflare Pages 默认策略原生支持该特性。
-
----
-
-## 4. Cloudflare Pages 边缘部署高频问题
-
-### 4.1 访问自定义域名返回 `Error 525 / SSL Handshake Failed`
-- **根本原因**：
-  新增的自定义域名（如 `doc.epocanvas.com`）在 Cloudflare 边缘端证书签发流程尚处于 `initializing` 阶段，CA 验证存在 5~10 分钟传播延迟。
-- **排障方案**：
-  1. 在 Cloudflare 控制台确认 DNS CNAME 记录代理状态为 Proxied（橘色云朵）；
-  2. 耐心等待 5 分钟，或临时直接通过官方分配的边缘域名 `https://epocanvas-docs.pages.dev` 访问验证，该域名受默认通配符证书保护，即时生效。
-
----
-
-### 4.2 路由死循环 (`ERR_TOO_MANY_REDIRECTS`)
-- **根本原因**：
-  在 `astro.config.mjs` 中配置了相互重定向（如 `/a -> /b` 同时存在 `/b -> /a`），或重定向目标包含了末尾斜杠不一致的递归规则。
-- **排障方案**：
-  排查 `astro.config.mjs` 中的 `redirects` 映射表，确保所有目标 URL 唯一且单向终结：
+### Q3: 新建了一篇 Markdown，但在左侧侧边栏看不见它？
+- **原因**：侧边栏的目录结构是手动声明管理的，新建文件后需要将其登记在配置文件中。
+- **解决办法**：打开根目录下的 `astro.config.mjs`，找到 `sidebar` 数组，在合适的分组下追加你的新文档路径即可，例如：
   ```javascript
-  redirects: {
-    '/mail': '/canvas', // 正确：单向终结重定向
-  }
+  { label: '新功能说明', link: '/canvas/new-feature/' }
   ```
 
----
+### Q4: 终端报错 `[AstroContentError] "title" is required`
+- **原因**：Markdown 头部漏写了 `title` 属性，或者开头的三个横线 `---` 格式不规范。
+- **解决办法**：打开报错的文件，检查最上方是否包含规范的 Frontmatter：
+  ```yaml
+  ---
+  title: 这是文章标题
+  description: 这是文章描述
+  ---
+  ```
 
-## 5. CSS 样式层叠冲突与布局异常
-
-### 5.1 移动端出现横向滚动条 (Horizontal Overflow)
-- **根本原因**：
-  正文中插入的宽表格、长代码块或内联 SVG 指定了固定像素宽度（如 `width: 1000px`），打破了视口容器边界。
-- **排障方案**：
-  1. 在 `src/styles/custom.css` 中为大尺寸元素注入最大宽度自适应属性：
-     ```css
-     svg,
-     img,
-     pre {
-       max-width: 100%;
-       height: auto;
-     }
-     ```
-  2. 表格容器添加横向滚动包裹层：`overflow-x: auto`。
+### Q5: 插入的图片在页面上显示“裂图”（无法加载）
+- **原因**：图片文件路径写错，或者没有把图片放进 `public/` 静态目录。
+- **解决办法**：
+  1. 确保图片保存在 `public/images/canvas/your-pic.png`；
+  2. 在 Markdown 中引用时，路径必须以 `/` 开头：`![描述](/images/canvas/your-pic.png)`。千万不要写成相对路径 `../public/...`。
 
 ---
 
-## 6. 一键健康巡检脚本 (Health Check Script)
+## 三、 全文搜索功能问题
 
-在本地根目录下可运行以下复合检测指令快速诊断当前工程健康度：
+### Q6: 为什么我在本地 `pnpm dev` 调试时，搜不到刚才写的新文章？
+- **原因**：为了保持本地写文档时的极速响应，开发服务器在 HMR 实时热重载时不会反复遍历编译庞大的静态索引。
+- **解决办法**：当你需要完整测试搜索功能时，在终端运行一次打包命令：
+  ```bash
+  pnpm run build
+  pnpm run preview
+  ```
+  Pagefind 会在 `build` 阶段完整扫描所有新文章并生成索引，此时打开 `http://localhost:4321` 即可测试完整的全文搜索。
+
+### Q7: 键盘按下 `Cmd+K` 搜索弹窗没有呼出
+- **原因**：你的电脑上可能有某些输入法、剪贴板管理工具或截图软件占用了 `Cmd+K` / `Ctrl+K` 快捷键。
+- **解决办法**：直接用鼠标点击顶栏中间的搜索框，同样可以瞬间呼出搜索弹窗。
+
+---
+
+## 四、 Cloudflare Pages 部署问题
+
+### Q8: 刚绑定的独立域名访问提示 `SSL 握手失败 (Error 525)`
+- **原因**：在 Cloudflare 添加新域名后，系统向权威 CA 机构申请 Universal SSL 免费证书通常需要 2~5 分钟的全球广播时间。
+- **解决办法**：
+  1. 耐心等待 3 分钟后按强制刷新（Ctrl+F5 或 Cmd+Shift+R）；
+  2. 也可以先直接访问官方分配的 `https://epocanvas-docs.pages.dev` 域名，该域名自带默认泛域名证书，永远都是即时可用的。
+
+### Q9: 运行 `pnpm run deploy` 报错 `Project not found`
+- **原因**：本地部署命令中的 `--project-name` 参数与你在 Cloudflare 控制台创建的项目名称不一致。
+- **解决办法**：确认你的项目在 Cloudflare 中的名称，或在 `package.json` 的 `deploy` 脚本中将项目名修改一致。
+
+---
+
+## 五、 本地一键自检命令
+
+在向 GitHub 提交代码前，建议运行以下一键自检指令，它会自动检查类型、执行全量编译并确认产物健康：
 
 ```bash
-echo "=== 1. TypeScript & Astro 检查 ===" && pnpm exec astro check && \
-echo "=== 2. 全量静态构建测试 ===" && pnpm run build && \
-echo "=== 3. Pagefind 索引产物验证 ===" && test -f dist/pagefind/pagefind.wasm && \
-echo "=== 4. 远程生产域名可用性探测 ===" && curl -sI https://epocanvas-docs.pages.dev | grep "HTTP/" && \
-echo ">>> 全项巡检通过，系统运行稳健！"
+pnpm exec astro check && pnpm run build
 ```
+
+如果输出 `[build] Complete!`，说明你的文档站点没有任何语法错误，可以放心提交发布。
