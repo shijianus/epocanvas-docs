@@ -14,7 +14,7 @@ description: EpoCanvas Docs 核心配置文件修改指南、侧边栏菜单调�
 ```javascript
 export default defineConfig({
   // 站点的生产环境域名，影响 SEO 链接与 Sitemap 生成
-  site: 'https://doc.epocanvas.com',
+  site: 'https://docs.epocanvas.com',
 
   integrations: [
     starlight({

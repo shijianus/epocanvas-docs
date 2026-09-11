@@ -9,7 +9,7 @@
 
 EpoCanvas Docs est le site de documentation officiel du projet EpoCanvas. Il repose sur Astro 5 et Starlight et propose, dès l'installation, une mise en page de lecture à trois colonnes, une recherche en deux modes et une interface multilingue. Le contenu est rédigé en Markdown standard et publié sur Cloudflare Pages.
 
-**Site en ligne** : [https://doc.epocanvas.com](https://doc.epocanvas.com) (miroir : [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
+**Site en ligne** : [https://docs.epocanvas.com](https://docs.epocanvas.com) (miroir : [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
 
 ## Aperçu
 
@@ -22,7 +22,7 @@ Le site utilise une mise en page à trois colonnes : navigation par catégories 
 - **Mise en page de lecture à trois colonnes** — la largeur du contenu est limitée pour faciliter la lecture longue ; la barre latérale conserve sa position de défilement d'une page à l'autre, et le sommaire à droite surligne la section en cours pendant le défilement.
 - **Recherche en deux modes** — le champ de recherche de l'en-tête recherche dans la page en cours, tandis que `Ctrl+K` / `Cmd+K` ouvre une fenêtre de recherche sur l'ensemble du site, propulsée par Pagefind. L'index est généré au moment de la compilation et toutes les requêtes s'exécutent dans le navigateur, sans service de recherche tiers ; le site fonctionne donc également sur un réseau interne ou hors ligne.
 - **Interface multilingue** — l'interface est traduite en 10 langues : chinois simplifié (par défaut), chinois traditionnel, anglais, japonais, coréen, espagnol, français, allemand, russe et portugais. Le changement de langue met le texte à jour sur place, sans recharger la page.
-- **Extensions Markdown** — cinq types d'encadrés (`:::note`, `:::tip`, `:::important`, `:::warning`, `:::caution`), coloration syntaxique Shiki avec étiquette de nom de fichier, surlignage de lignes et rendu des diffs.
+- **Extensions Markdown** — quatre types d'encadrés (`:::note`, `:::tip`, `:::caution`, `:::danger`), coloration syntaxique Shiki avec étiquette de nom de fichier, surlignage de lignes et rendu des diffs.
 - **Déploiement en une commande** — le site est compilé en fichiers statiques et publié sur Cloudflare Pages ; les domaines personnalisés et les certificats HTTPS sont configurés automatiquement.
 
 ## Prérequis

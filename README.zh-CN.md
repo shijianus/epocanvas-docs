@@ -9,7 +9,7 @@
 
 EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 Starlight 构建，内置三栏阅读布局、双模式搜索与多语言界面。全部内容以标准 Markdown 编写，可发布至 Cloudflare Pages。
 
-**在线站点**：[https://doc.epocanvas.com](https://doc.epocanvas.com)（备用地址：[https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
+**在线站点**：[https://docs.epocanvas.com](https://docs.epocanvas.com)（备用地址：[https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
 
 ## 界面预览
 
@@ -22,7 +22,7 @@ EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 St
 - **三栏阅读布局**：正文行宽经过限制，适合长文阅读；左侧导航在页面切换时保持滚动位置，右侧目录随滚动高亮当前小节。
 - **双模式搜索**：顶栏搜索框负责在当前页面内查找，`Ctrl+K` / `Cmd+K` 呼出基于 Pagefind 的全站检索弹窗。索引在构建时生成，检索完全在浏览器内完成，不依赖第三方搜索服务，内网及离线环境同样可用。
 - **界面多语言**：界面提供 10 种语言——简体中文（默认）、繁体中文、英语、日语、韩语、西班牙语、法语、德语、俄语、葡萄牙语。切换时文字就地更新，无需重新加载页面。
-- **Markdown 扩展**：支持 `:::note`、`:::tip`、`:::important`、`:::warning`、`:::caution` 五种提示框；代码块支持 Shiki 语法高亮、文件名标签、指定行高亮与 diff 渲染。
+- **Markdown 扩展**：支持 `:::note`、`:::tip`、`:::caution`、`:::danger` 四种提示框；代码块支持 Shiki 语法高亮、文件名标签、指定行高亮与 diff 渲染。
 - **一键部署**：站点构建为纯静态文件，通过单条命令发布到 Cloudflare Pages，自定义域名与 HTTPS 证书自动配置。
 
 ## 环境要求

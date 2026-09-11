@@ -93,10 +93,10 @@ pnpm run deploy
 
 ## 绑定自定义域名
 
-Cloudflare 默认分配的 `xxx.pages.dev` 域名可以直接使用；绑定自己的域名（例如 `doc.epocanvas.com`）只需几分钟：
+Cloudflare 默认分配的 `xxx.pages.dev` 域名可以直接使用；绑定自己的域名（例如 `docs.epocanvas.com`）只需几分钟：
 
 1. 在 Cloudflare Pages 项目后台进入**自定义域**标签页；
-2. 点击**设置自定义域**，输入你的二级域名（如 `doc.epocanvas.com`）；
+2. 点击**设置自定义域**，输入你的二级域名（如 `docs.epocanvas.com`）；
 3. 如果域名 DNS 已托管在 Cloudflare，系统自动添加 CNAME 记录；托管在别处的域名需要手动加一条 CNAME 记录指向 `<项目名>.pages.dev`；
 4. 等待证书签发（通常 2~5 分钟），状态变为**活动**后即可通过新域名访问。
 

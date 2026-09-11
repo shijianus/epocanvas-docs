@@ -49,7 +49,7 @@ EpoCanvas Docs 正是为了解决这些实际痛点而设计的。
 ### 4. 专业的 Markdown 与代码排版
 
 - 基于 Expressive Code 的代码高亮，支持为代码块标注文件名标题、高亮指定行、展示 diff 对比。
-- 原生支持 5 种彩色提示框（Note、Tip、Important、Warning、Caution），并支持自定义标题。
+- 原生支持 4 种彩色提示框（Note、Tip、Caution、Danger），并支持自定义标题。
 - 支持 GFM 表格、任务清单、删除线等常用 Markdown 扩展语法，完整规则见[渲染规则详解](/canvas/rendering/)。
 
 ### 5. 构建快、托管免费

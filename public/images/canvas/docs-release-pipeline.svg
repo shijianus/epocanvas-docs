@@ -98,7 +98,7 @@
     <text x="12" y="100" fill="#38bdf8" font-size="9">.pages.dev</text>
 
     <text x="12" y="130" fill="#f8fafc" font-size="11" font-weight="600">自定义独立域</text>
-    <text x="12" y="150" fill="#38bdf8" font-size="9">doc.epocanvas.com</text>
+    <text x="12" y="150" fill="#38bdf8" font-size="9">docs.epocanvas.com</text>
 
     <text x="12" y="180" fill="#f8fafc" font-size="11" font-weight="600">安全与加速</text>
     <text x="12" y="200" fill="#94a3b8" font-size="9">Cloudflare SSL</text>

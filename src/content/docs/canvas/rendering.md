@@ -44,7 +44,7 @@ description: EpoCanvas Docs 完整渲染规则：从 Markdown 文件到最终页
 
 ## 提示框规则 (Asides)
 
-提示框使用 Starlight 的三冒号语法，支持 5 种类型：
+提示框使用 Starlight 的三冒号语法，支持 4 种类型：
 
 ```markdown
 :::note
@@ -55,28 +55,29 @@ description: EpoCanvas Docs 完整渲染规则：从 Markdown 文件到最终页
 提高效率的小技巧。
 :::
 
-:::important
-必须注意的关键操作。
-:::
-
-:::warning
-潜在风险警告。
-:::
-
 :::caution
-涉及数据安全的危险操作提醒。
+需要注意的风险或容易出错的操作。
+:::
+
+:::danger
+涉及数据丢失或不可逆操作的高危提醒。
 :::
 ```
 
 还可以在类型后加自定义标题：`:::tip[安装提速]`。
 
 :::caution
-GitHub 风格的 `> [!TIP]` 引用块语法**不受支持**。这样写不会报错，但提示框不会生成——`[!TIP]` 会以普通文字显示在引用块里。遇到旧文档迁移时，请把 `> [!NOTE]` 改写成 `:::note`。
+两个高频误区请注意：
+
+- GitHub 风格的 `> [!TIP]` 引用块语法**不受支持**，写出后 `[!TIP]` 会以普通文字显示在引用块里；
+- `:::important` 与 `:::warning` **不是合法类型**，不报错但会静默渲染成普通段落。
+
+迁移旧文档时：`> [!NOTE]` → `:::note`，`> [!WARNING]` → `:::caution`，`> [!CAUTION]` → `:::danger`。
 :::
 
-![五种彩色提示框的真实渲染效果](/images/canvas/ui-markup-examples.png)
+![四种彩色提示框的真实渲染效果](/images/canvas/ui-markup-examples.png)
 
-*图：五种提示框按上述语法书写后的实际显示效果，截取自[提示框、代码块与图表示例](/canvas/syntax/)页。*
+*图：四种提示框按上述语法书写后的实际显示效果，截取自[提示框、代码块与图表示例](/canvas/syntax/)页。*
 
 ---
 

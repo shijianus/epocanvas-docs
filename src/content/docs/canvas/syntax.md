@@ -1,15 +1,15 @@
 ---
 title: 提示框、代码块与图表示例
-description: EpoCanvas Docs 5 级彩色提示框、代码块标题与行高亮、diff 对比与图表插入的实际用法和真实渲染效果。
+description: EpoCanvas Docs 4 种彩色提示框、代码块标题与行高亮、diff 对比与图表插入的实际用法和真实渲染效果。
 ---
 
 编写高质量的技术文档，不仅需要清晰的文字，还需要醒目的重点提示、格式规整的代码范例和一目了然的示意图。本页所有示例都是实际生效的语法，你看到的效果就是渲染结果——本文本身就是一个活的示例页。
 
 ---
 
-## 1. 五种彩色提示框
+## 1. 四种彩色提示框
 
-提示框使用三冒号语法：`:::类型` 开头、`:::` 结尾，中间写内容。
+提示框使用三冒号语法：`:::类型` 开头、`:::` 结尾，中间写内容。本站基于 Starlight，支持 **note、tip、caution、danger** 四种类型。
 
 ### 语法与实际效果对照
 
@@ -21,16 +21,12 @@ description: EpoCanvas Docs 5 级彩色提示框、代码块标题与行高亮�
 **tip（实用技巧）**：用于分享提高操作效率的小妙招或最佳实践。
 :::
 
-:::important
-**important（关键操作）**：必须严格遵守的执行步骤或核心配置，跳过可能导致失败。
-:::
-
-:::warning
-**warning（注意警告）**：提示可能存在的兼容性冲突、潜在错误或即将废弃的功能。
-:::
-
 :::caution
-**caution（高危提醒）**：涉及数据丢失、生产环境覆盖或不可逆操作的最高级别警示。
+**caution（注意警告）**：提示可能存在的兼容性冲突、潜在错误或需要特别留意的操作。
+:::
+
+:::danger
+**danger（高危提醒）**：涉及数据丢失、生产环境覆盖或不可逆操作的最高级别警示。
 :::
 
 ### 提示框内可以放任意内容
@@ -46,7 +42,12 @@ npm install -g pnpm
 :::
 
 :::caution
-请注意：GitHub 风格的 `> [!NOTE]` 语法**不被支持**，直接使用会原样显示成普通引用块。务必使用本页介绍的 `:::` 语法。
+两个常见的无效写法，请注意避开：
+
+- GitHub 风格的 `> [!NOTE]` 引用块语法不受支持，会原样显示成普通引用块；
+- `:::important` 与 `:::warning` **不是本站支持的类型**，不会报错，但会静默渲染成普通段落，没有任何提示框样式。
+
+从 GitHub 文档迁移时，请把 `> [!NOTE]` 改写为 `:::note`，`> [!WARNING]` 改写为 `:::caution`，`> [!CAUTION]` 改写为 `:::danger`。
 :::
 
 ---
@@ -83,7 +84,7 @@ export const siteConfig = {
 ```diff
   export default defineConfig({
 -   site: 'http://localhost:3000',
-+   site: 'https://doc.epocanvas.com',
++   site: 'https://docs.epocanvas.com',
   });
 ```
 ````
@@ -93,7 +94,7 @@ export const siteConfig = {
 ```diff
   export default defineConfig({
 -   site: 'http://localhost:3000',
-+   site: 'https://doc.epocanvas.com',
++   site: 'https://docs.epocanvas.com',
   });
 ```
 

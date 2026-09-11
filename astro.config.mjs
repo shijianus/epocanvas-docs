@@ -3,7 +3,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://doc.epocanvas.com',
+	site: 'https://docs.epocanvas.com',
 	integrations: [
 		starlight({
 			title: 'EpoCanvas Docs',
