@@ -7,6 +7,8 @@ description: EpoCanvas Docs 5 级彩色提示框、代码高亮高级标注、Me
 
 编写高质量的技术文档，不仅需要清晰的文字，还需要醒目的重点提示、格式规整的代码范例和一目了然的流程图。**EpoCanvas Docs** 原生支持了丰富的扩展语法，帮助你轻松创作出富有表现力的技术内容。
 
+![提示框与富文本语法真实渲染效果展示](/images/canvas/ui-markup-examples.png)
+
 ---
 
 ## 1. 5 种彩色提示框 (Callouts)

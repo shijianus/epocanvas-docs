@@ -1,38 +1,54 @@
-# EpoCanvas Docs v1.2.0 Release Notes
+# EpoCanvas Docs v1.2.0 发布说明
 
 **发布版本**: `v1.2.0`  
 **发布时间**: 2026-09-11  
-**站点地址**: [https://doc.epocanvas.com](https://doc.epocanvas.com) / [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)  
-**源码仓库**: [https://github.com/shijianus/epocanvas-docs](https://github.com/shijianus/epocanvas-docs)
+**文档官网**: [https://doc.epocanvas.com](https://doc.epocanvas.com) / [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)  
+**开源仓库**: [https://github.com/shijianus/epocanvas-docs](https://github.com/shijianus/epocanvas-docs)
 
 ---
 
-## 🌟 重大更新与版本说明
+## 🎯 本版本核心目标
 
-本版本对 **EpoCanvas Docs** 官方文档站点进行了全方位的去套话、规范化重构：
-- 建立了工作区专属的 **产品说明写作规范技能 (`product-docs-writing`)** 与 **`AGENTS.md` 工程规范**，坚决摒弃虚浮假大空的 AI 八股套话；
-- 全站内容 100% 聚焦于 **EpoCanvas Docs 产品使用与开发说明**，语言平实通俗、结构清晰合理、步骤详实可操作；
-- 完整覆盖产品简介、3 分钟快速上手、界面阅读体验、全文搜索技巧、多语言切换、Markdown 排版指南、配置与定制开发、Cloudflare Pages 部署以及常见问题 FAQ。
+v1.2.0 是 **EpoCanvas Docs** 项目的里程碑发布版本。
 
----
-
-## 🚀 核心章节与更新明细
-
-1. **产品简介与核心价值 (`/canvas/`)**：清晰介绍专案定位、解决的实际痛点（页面重、导航难、搜索依赖外网、多语言刷新）、核心功能一览与常用文档工具对比表。
-2. **快速上手 (3分钟运行) (`/canvas/deployment/`)**：环境要求、3 步克隆与启动开发服务、日常常用开发指令表、核心配置文件指引。
-3. **页面布局与阅读体验 (`/canvas/dns-setup/`)**：三栏式排版各区域交互详解（顶栏、左侧目录、正文面包屑、右侧大纲随动高亮）、深浅色主题切换与手机端响应式适配。
-4. **全文搜索与快捷键使用 (`/canvas/search-engine/`)**：快捷键 `Cmd+K` / `Ctrl+K` 唤起使用技巧、搜索结果高亮、Pagefind 本地静态搜索原理解析。
-5. **多语言支持与阅读切换 (`/canvas/ai-hub/`)**：支持 10 种全球主流语言列表、零刷新瞬间就地置换机制、新功能词条添加教程。
-6. **顶部导航与页面路由 (`/canvas/oauth-provider/`)**：`src/config/navigation.ts` 导航配置模型、动态路径高亮规则、外部版本链接与 301 重定向。
-7. **Markdown 编写与排版指南 (`/canvas/system-config/`)**：文档文件存放位置、Frontmatter 必填与选填属性、标准 Markdown 语法与图片存放路径规范。
-8. **提示框、代码块与图表示例 (`/canvas/workbench/`)**：5 种彩色提示框（Note/Tip/Important/Warning/Caution）、Shiki 代码高亮、文件名标签、增量 Diff 代码对比与 Mermaid 流程图/时序图原生绘制。
-9. **站点全局配置与样式定制 (`/canvas/api-reference/`)**：`astro.config.mjs` 基础信息配置、左侧目录分组调整、CSS 主题颜色修改与 Logo 替换。
-10. **Cloudflare Pages 部署上线 (`/canvas/rule-engine/`)**：本地 `pnpm run deploy` 一键直传、GitHub 提交自动触发构建、独立域名绑定与免费 SSL 证书。
-11. **版本管理与自动化工作流 (`/canvas/security-rbac/`)**：SemVer 语义化版本号规则、发布新版本 3 步操作流程、GitHub Actions 自动化流水线。
-12. **常见问题与故障排查 FAQ (`/canvas/troubleshooting/`)**：精选本地运行报错、图片裂图、搜索搜不到、部署域名 SSL 提示等 9 大高频问题与明确解决方案。
+本次发布将专案全面确立为 **EpoCanvas 官方技术文档与产品手册系统**。彻底清除了早期的测试残留文件，基于 **Astro 5** 与 **Starlight** 构建了**清爽的三栏式排版、本地零服务端全文搜索、10 种语言免刷新切换以及 Cloudflare Pages 边缘极速分发**，并配套了全套真实的运行界面截图与详细的使用开发指南。
 
 ---
 
-## 🛠️ 规范与工作区技能支持
-- 新增 [`.agents/skills/product-docs-writing/SKILL.md`](file:///home/shijian/projects/epocanvas-docs/.agents/skills/product-docs-writing/SKILL.md)：设立产品文档与技术写作反 AI 假大空规范。
-- 新增 [`AGENTS.md`](file:///home/shijian/projects/epocanvas-docs/AGENTS.md)：工作区级别全局写作规范约束。
+## 🌟 核心更新重点 (Highlights)
+
+### 1. 全新的三栏式阅读体验
+- **左侧分类导航**：层级分明，换页时自动记忆滚动条位置，彻底解决在深层文章中阅读跳转时侧边栏乱跳的问题。
+- **中央正文阅读区**：符合人体工学的行宽限制（54rem），大字号与柔和色彩对比，长时间阅读不串行、不累眼。
+- **右侧大纲随动高亮**：自动抓取文章中的二级与三级小标题，随着鼠标向下滚动自动高亮当前阅读小节，支持平滑锚点跳转。
+- **自适应深浅色模式**：默认采用深色护眼模式，支持自动检测操作系统偏好，右上角一键手动切换。
+
+### 2. 本地零延迟全文搜索 (Cmd+K)
+- 内置轻量级 Pagefind 静态搜索引擎，不依赖任何第三方云端收费服务。
+- 支持键盘快捷键 <kbd>Cmd+K</kbd> / <kbd>Ctrl+K</kbd> 瞬间呼出搜索窗口。
+- 支持中英双语与正文高亮，所有计算均在本地浏览器秒级完成，在弱网或内网环境下完全正常可用。
+
+### 3. 10 种主流语言即时免刷新切换
+- 支持简体中文、繁体中文、英语、日语、韩语、德语、法语、西班牙语、俄语、阿拉伯语 10 种语言。
+- 采用前端轻量字典原地置换机制，点击右上角语言切换后文字即刻就地更新，**无需重新加载整张网页，阅读进度与滚动条位置 100% 保持**。
+
+### 4. 强大的技术文档排版与图表支持
+- **5 级彩色提示框**：原生支持 Note（提示）、Tip（技巧）、Important（重要）、Warning（警告）、Caution（危险）。
+- **专业代码块**：Shiki 语法高亮、支持代码块文件名标签（`title="..."`）、行号高亮标记与增量对比（Diff）模式。
+- **用文字直接画图**：原生集成 Mermaid 引擎，无需外部截图，在 Markdown 中直接用文字渲染流程图与时序图。
+
+### 5. 极速打包与 Cloudflare Pages 边缘免费托管
+- 基于 Astro 5 静态编译，全站打包体积轻巧（首屏仅约 15KB）。
+- 内置 `pnpm run deploy` 一键直传命令，无服务器免维护，全球 300+ CDN 节点 Anycast 加速。
+- 绑定官方独立域名 `doc.epocanvas.com`，自动签发 Universal SSL 证书。
+
+### 6. 严谨务实的文档写作规范
+- 建立了工作区专属的 `product-docs-writing` 写作规范技能与 `AGENTS.md` 规则。
+- 坚决摒弃虚浮假大空的 AI 八股套话，用接地气、务实的人话编写完整的 12 大功能模块与快速上手指南。
+- 规范全站图示体系：仅包含**精准的系统架构矢量图**与**浏览器真实运行截图**，禁止虚假模拟图。
+
+---
+
+## 📦 开源项目基础完善
+- **开源许可证**：正式添加标准 [MIT License](./LICENSE)。
+- **项目自述文件**：新增全面详实的 [README.md](./README.md)，包含界面展示、特性列表、3 分钟快速上手、目录结构、编写指南与部署方法。

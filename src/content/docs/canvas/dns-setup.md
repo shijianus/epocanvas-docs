@@ -13,7 +13,11 @@ description: EpoCanvas Docs 三栏式排版设计、界面各区域交互细节�
 
 打开任意一篇文档，页面默认分为四个主要功能区域：
 
-![EpoCanvas Docs 页面布局示意图](/images/canvas/docs-layout-3tier.svg)
+![EpoCanvas Docs 真实三栏式阅读界面截图](/images/canvas/ui-layout-reading.png)
+
+*图：EpoCanvas Docs 实际在浏览器中运行的三栏排版效果，左侧为分类目录，中央为文章正文，右侧为自动生成的大纲。*
+
+![EpoCanvas Docs 布局架构示意图](/images/canvas/docs-layout-3tier.svg)
 
 ### 1. 顶部全局导航栏 (Header)
 位于页面最上方，固定悬浮，在向下滚动浏览时始终保持可见：

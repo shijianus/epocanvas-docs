@@ -26,7 +26,7 @@ EpoCanvas Docs 正是为了解决这些实际痛点而设计的。
 
 ## 核心功能一览
 
-![EpoCanvas Docs 界面与布局展示](/images/canvas/docs-layout-3tier.svg)
+![EpoCanvas Docs 真实三栏阅读界面截图](/images/canvas/ui-docs-reading.png)
 
 ### 1. 清晰的三栏式阅读界面
 - **左侧导航栏**：按模块组织所有文档分类，带有层级折叠和滚动条记忆功能，换页不跳动。

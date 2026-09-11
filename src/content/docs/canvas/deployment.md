@@ -62,6 +62,8 @@ pnpm run dev
 
 此时打开浏览器，访问 `http://localhost:4321`，就能看到完整的文档站点了！
 
+![EpoCanvas Docs 快速上手与本地运行界面截图](/images/canvas/ui-quickstart.png)
+
 ---
 
 ## 常用开发命令速查

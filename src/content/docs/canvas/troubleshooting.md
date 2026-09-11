@@ -7,6 +7,8 @@ description: EpoCanvas Docs 本地运行报错、文档排版遗漏、搜索失�
 
 在使用、编写或部署 **EpoCanvas Docs** 的过程中，如果遇到异常情况，不用慌张。本手册整理了开发者最常遇到的几类问题及其对应的快速解决办法。
 
+![常见问题与故障排查页面实际展示](/images/canvas/ui-troubleshooting.png)
+
 ---
 
 ## 一、 本地启动与安装问题
