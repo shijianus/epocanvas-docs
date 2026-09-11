@@ -1,118 +1,162 @@
 ---
-title: 画布工作台与交互引擎
-description: 深度解析 PrivChat 客户端交互范式、数字白板协同、音视频多方通道、C-01/C-08 信任徽章与 Tier 0–4 弹窗仲裁体系
+title: Starlight 组件覆写体系与定制引擎
+description: EpoCanvas Docs 深度覆写 Starlight 内核组件机制、6 大核心定制组件拆解与运行时上下文数据流。
 ---
 
-EpoCanvas 为高频协同团队与极客用户打造了高度沉浸、响应迅速的现代化数字协作工作台。无论是桌面大屏、笔记本还是移动端，系统均以毫秒级的响应延迟提供端对端加密即时通信、实时数字画板协同与 WebRTC 多方音视频会议体验。
+# Starlight 组件覆写体系与定制引擎
 
-![PrivChat 协作工作台与主会话视图](/images/canvas/workbench-chat.png)
+> [!NOTE]
+> **EpoCanvas Docs** 采用 Starlight 官方倡导的组件替换机制（Component Overrides），通过在 `astro.config.mjs` 中注册专属组件映射，彻底接管默认的页面顶栏、侧边栏、大纲目录、主标题、网格容器与全文检索模块，从而实现完全自主可控的极简三栏技术设计。
 
 ---
 
-## 🗂️ 工作台架构与三栏视觉分区
+## 1. 组件覆写机制架构拓扑
 
-工作台采用符合人机工学的可折叠多栏响应式结构，确保信息密度与注意力聚焦的平衡：
+在 Starlight 的渲染流水线中，每个页面路由都会在服务器端生成一个全局上下文对象 `Astro.locals.starlightRoute`。自定义组件通过解构该上下文，获取当前页面的导航树、大纲目录以及元数据信息，并输出自定义的 DOM 结构：
 
+![Starlight 组件覆写与运行时注入拓扑](/images/canvas/docs-component-overrides.svg)
+
+### 覆写组件注册矩阵 (`astro.config.mjs`)：
+```javascript
+components: {
+  Header: './src/components/starlight/Header.astro',
+  Sidebar: './src/components/starlight/Sidebar.astro',
+  TableOfContents: './src/components/starlight/TableOfContents.astro',
+  PageTitle: './src/components/starlight/PageTitle.astro',
+  TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
+  Search: './src/components/starlight/Search.astro',
+}
 ```
-┌──────────────┬────────────────────┬───────────────────────────────────────┐
-│ 空间与频道栏  │  会话与讨论流       │            主协作与画布视口            │
-│ Spaces &     │  Session Timeline  │   Interactive Canvas / Media Viewport │
-│ Channels     │                    │                                       │
-│              │ 🔍 全局检索指令     │ 💬 E2EE 实时讨论流 (Markdown + KaTeX) │
-│ 🏢 核心团队   │                    ├───────────────────────────────────────┤
-│ 🔒 绝密项目   │ # 常规讨论 (E2EE)  │ 🎨 实时数字矢量画板协作               │
-│ 👻 隐形房间   │ # 架构研讨         │                                       │
-│ 📡 联邦频道   │ 👤 成员会话 (P2P)  │ 📞 WebRTC 多方音视频画中画通道        │
-│              │                    │                                       │
-└──────────────┴────────────────────┴───────────────────────────────────────┘
-```
-
-### 1. 空间与频道导航栏 (Spaces & Channels)
-- **多空间组织架构**：支持个人、团队与企业空间划分，每个空间内可独立建立多层嵌套频道。
-- **Shadow Rooms 隐形通道**：在侧边栏以“幽灵模式”折叠展示，仅在通过一次性加密票据加入后呈现，不在公共目录暴露任何元数据。
-- **状态感知小红点**：精准区分“直接 @提及我的消息”（高亮猩红徽标）与“普通群聊未读”（弱化灰色点），避免信息过载。
-
-### 2. 会话与讨论流 (Session Timeline)
-- **智能置顶与线程化讨论 (Threads)**：支持在长消息流中针对单条事件开启独立侧边 Thread 讨论，保持主频道的整洁。
-- **端对端加密状态指示器**：每条消息右下角显示双棘轮演化密钥指纹图标（已解密、未加密、正在同步、密钥握手受阻）。
-
-### 3. 主协作与画布视口 (Main Viewport)
-- **富文本实时排版引擎**：原生支持 GFM Markdown、代码块语法高亮、Mermaid 流程图动态生成与 KaTeX 科学公式解析。
-- **多方音视频协作面板**：无缝集成 WebRTC 音视频通信，支持屏幕共享与发言者自动聚焦（Speaker Active Tracking）。
-
-![PrivChat 音视频通话与频道协作](/images/canvas/call-channel.png)
 
 ---
 
-## 🛡️ 安全可视化规范：C-01 与 C-08 信任徽章体系
+## 2. 核心定制组件深度剖析
 
-为了彻底消除通信系统中的“中间人攻击”、“仿冒服务器”与“假冒加密房间”痛点，EpoCanvas 制定了业界首个严格正交的双轴安全徽章规范（遵循 `ECCP v7.4 UX Design Spec`）：
+### 2.1 `Header.astro`：全局品牌导航与动态多语言中枢
+- **源码路径**：`src/components/starlight/Header.astro`
+- **核心功能**：
+  1. **响应式品牌呈现**：左侧内嵌 SVG Logo 与品牌标题，点击返回站点根目录；
+  2. **检索中枢插槽**：中央集成全局快捷搜索框，并显示 `⌘K` / `Ctrl+K` 热键提示；
+  3. **声明式主导航**：基于 `src/config/navigation.ts` 动态渲染导航项（首页、文档、部署、API 参考），并根据当前 URL 路径执行 `item.match(pathname)` 自动高亮激活项；
+  4. **动态版本外链徽标**：展示当前稳定版本（如 `v1.2.0 ↗`），点击直达 GitHub Releases 历史；
+  5. **10 国语言无刷新下拉菜单**：基于 `src/utils/i18n.ts` 字典，用户点击语言切换时直接遍历替换 DOM 文本，无需重新发起页面重载；
+  6. **移动端折叠抽屉**：在移动端竖屏下自适应隐藏冗余菜单，保留简洁易触达的汉堡抽屉。
 
-### 1. C-01 伺服器信任徽章 (Server Trust Badge)
-该徽章固定显示在工作台顶栏及连接信息区，用于标识当前接入服务器的真实背书来源：
+```astro
+<!-- Header 核心结构片段 -->
+<div class="header sl-flex">
+  <div class="header-left sl-flex">
+    <SiteTitle />
+  </div>
+  <div class="header-center sl-flex">
+    {shouldRenderSearch && <Search />}
+  </div>
+  <div class="header-right sl-hidden md:sl-flex print:hidden">
+    <nav class="nav-links sl-flex" aria-label="全局导航">
+      {navigationConfig.map((item) => (
+        <a href={item.href} class:list={['nav-btn', { active: item.match(pathname) }]}>
+          {item.defaultLabel}
+        </a>
+      ))}
+    </nav>
+    <div class="lang-dropdown-wrapper">
+      <!-- 多语言选择器交互 -->
+    </div>
+  </div>
+</div>
+```
 
-| 信任来源 | 标识颜色 | 语义定义与适用场景 |
+---
+
+### 2.2 `Sidebar.astro` & `SidebarPersister`：滚动持久化导航树
+- **源码路径**：`src/components/starlight/Sidebar.astro`
+- **设计难点与解决**：
+  传统文档站点在跳转新页面时，左侧侧边栏往往会自动重置滚动条位置，导致用户在深层目录中浏览时产生强烈的跳变与迷航。
+- **架构方案**：
+  覆写组件引入 Starlight 内置的 `<SidebarPersister>` 容器包裹 `<SidebarSublist>`，在浏览器端利用 `sessionStorage` 自动记忆当前滚动像素位置，并在页面渲染完成后瞬时平滑恢复。
+
+```astro
+---
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+
+const { sidebar } = Astro.locals.starlightRoute;
+---
+
+<div class="sidebar-wrapper">
+  <SidebarPersister>
+    <SidebarSublist sublist={sidebar} />
+  </SidebarPersister>
+</div>
+```
+
+---
+
+### 2.3 `PageTitle.astro`：规范化文档标题与元数据
+- **源码路径**：`src/components/starlight/PageTitle.astro`
+- **核心功能**：
+  从当前页面的 Frontmatter 元数据中提取 `title`、`description` 与自定义状态标签，并统一注入结构化数据与语义化 `<h1>` 标签，确保符合 SEO 与可访问性（a11y）标准。
+
+---
+
+### 2.4 `TableOfContents.astro` & `starlight-toc.ts`：视口交叉动态大纲
+- **源码路径**：`src/components/starlight/TableOfContents.astro`
+- **工作机制**：
+  1. 服务端根据文章中的 `h2` 与 `h3` 标题生成大纲树；
+  2. 客户端由 `starlight-toc.ts` 挂载 `IntersectionObserver`（视口交叉观察器）；
+  3. 当用户向下滚动正文时，观察器实时计算哪个标题处于阅读活跃区域，并在右侧大纲对应条目上添加 `.active` 高亮样式；
+  4. 采用微任务调度，滚动帧率始终锁定在 60 FPS，无任何卡顿。
+
+---
+
+### 2.5 `TwoColumnContent.astro`：三栏响应式网格主容器
+- **源码路径**：`src/components/starlight/TwoColumnContent.astro`
+- **布局规范**：
+  - 在宽屏设备（`min-width: 72rem`）下激活双列分流：左侧渲染主要正文文章卡片，右侧以 `position: fixed` 固定宽度（`20rem`）展示大纲目录；
+  - 设置 `isolation: isolate` 创建独立的层叠上下文，避免正文中的浮动元素或富文本组件破坏页面整体层级。
+
+```css
+@media (min-width: 72rem) {
+  .two-column-layout {
+    display: flex;
+  }
+  .right-sidebar-container {
+    order: 2;
+    position: relative;
+    width: 20rem;
+    flex-shrink: 0;
+  }
+  .right-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 20rem;
+    height: 100vh;
+    padding-top: calc(var(--sl-nav-height) + 1.25rem);
+    overflow-y: auto;
+  }
+}
+```
+
+---
+
+### 2.6 `Search.astro`：Pagefind 全文检索模态
+- **源码路径**：`src/components/starlight/Search.astro`
+- **工作机制**：
+  接管默认的搜索框渲染，嵌入 Pagefind 专用的检索触发器，并在用户按下快捷键 `Cmd+K` 或点击搜索栏时，瞬时唤起全局检索对话框，实现全站静态索引毫秒级直达。
+
+---
+
+## 3. 运行时上下文 `Astro.locals.starlightRoute` 规范
+
+Starlight 为覆写组件注入了完整的页面运行时状态，常用字段如下：
+
+| 属性字段 | 数据类型 | 字段说明与典型用途 |
 | :--- | :--- | :--- |
-| **Official** | `#10b981` (绿色) | 官方背书节点，由 EpoCanvas 核心基金会签发并维护 CRL |
-| **Authorized** | `#3b82f6` (蓝色) | 通过官方企业认证并满足合规 SLA 的受信任商业伙伴节点 |
-| **Affiliate** | `#64748b` (灰色) | 与官方联盟签署对等互通协议的独立节点 |
-| **Custom Root** | `#8b5cf6` (紫色) | 用户在客户端手动导入私有根 CA 证书的私有化企业专网节点 |
-| **Community** | `#94a3b8` (淡灰) | 完全自建、未经过中心化机构认证的纯自托管社区节点 |
+| `starlightRoute.id` | `string` | 当前页面文档的唯一标识路径（如 `canvas/index.md`） |
+| `starlightRoute.entry` | `CollectionEntry` | 当前页面的 Frontmatter 元数据对象（标题、描述、标签等） |
+| `starlightRoute.sidebar` | `SidebarEntry[]` | 根据 `astro.config.mjs` 生成的完整侧边栏导航树结构 |
+| `starlightRoute.toc` | `{ minHeadingLevel, maxHeadingLevel, items }` | 当前页面的二级/三级标题层级树，用于渲染右侧大纲 |
+| `starlightRoute.hasSidebar` | `boolean` | 标识当前页面是否开启了侧边栏（splash 首页为 false） |
 
-> [!IMPORTANT]
-> **正交设计原则**：信任来源与验证风险必须彻底分离！例如，一个「Authorized 节点」如果发生 CRL 吊销过期，系统绝不会将其降级为「Community 节点」，而是显示为带有硬阻断警告的「Authorized + 证书状态异常」组合状态，避免将安全漏洞粉饰为普通状态。
-
-### 2. C-08 房间保护徽章 (Room Protection Badge)
-显示在每个房间/频道的顶部标题栏，明确告知成员当前会话的数据防线级别：
-
-- **🛡️ Sovereign (主权房间)**：纯本地端对端加密（Double Ratchet + Megolm），服务端仅充当盲中继，无任何第三方托管或密钥恢复备份，安全性最高。
-- **🔐 Escrow Active (托管保护中)**：企业用户启用了密钥托管或多签名合规归档，在房间顶部常驻提示，提示成员内容按企业策略加密归档。
-- **🌐 Public Room (公开频道)**：明文广播频道，允许匿名游览与搜索引擎爬取索引。
-
----
-
-## 🚦 Tier 0–4 全局弹窗与横幅排队仲裁器 (Global Overlay Resolver)
-
-在复杂的分布式协作网络中，可能同时发生多种系统级事件（如：断网重连、存储配额耗尽、密钥撤销、新设备授权请求）。EpoCanvas 严禁各组件随意弹出横幅遮挡视口，强制由 `GlobalOverlayResolver` 单一仲裁器按严格优先级排队：
-
-```
-Tier 0 (系统级紧急中断)  ──▶  TCR 恢复否决入口 (立即拦截，不可被覆盖)
-Tier 1 (全屏阻断级)       ──▶  严重存储告警 / 核心密钥已失效
-Tier 2 (常驻通知栏，清单堆叠) ──▶  唯读流亡状态 · 分区断线 · 证书告警 (可折叠聚合)
-Tier 3 (房间上下文提示)   ──▶  当前房间 Escrow 状态提示 (仅限局部)
-Tier 4 (浮动 Toast)       ──▶  操作成功反馈 / 装置次要通知 (数秒后自动淡出)
-```
-
-| 级别 | 类型 | 行为表现 | 典型触发场景 |
-| :--- | :--- | :--- | :--- |
-| **Tier 0** | 紧急中断 | 类似手机来电通知，打断当前所有操作，必须立刻响应 | 检测到他人试图用助记词恢复你的账号 (TCR 否决期) |
-| **Tier 1** | 全屏阻断 | 界面全屏锁定，需用户完成特定操作才能继续使用 | 本地密钥损坏或存储配额达到 100% |
-| **Tier 2** | 常驻堆叠 | 顶栏常驻，多个同时发生时自动收起为「N 项系统提醒」 | 跨节点联邦断线重试、无吊销机制提示、节点迁移倒计时 |
-| **Tier 3** | 局部情境 | 仅在特定房间顶栏可见，不抢占全域版位 | 房间内有未验证设备加入、房间开启限时阅后即焚 |
-| **Tier 4** | 浮动 Toast | 悬浮右下角，4 秒后自动平滑淡出 | 消息发送成功、复制链接成功、切换语言模式 |
-
----
-
-## 🎨 矢量画板协同与多方互动
-
-进入画板模式后，工作台变身为无限缩放的矢量创作画布：
-
-![PrivChat 多方大屏音视频与协作矩阵](/images/canvas/conference-collab.png)
-
-- **无限画布缩放与平移**：基于 Canvas 2D / WebGL 双引擎驱动，支持 10%~3200% 平滑缩放。
-- **多人协同光标**：实时展示所有在线协作者的头像与鼠标指针位置，毫秒级同步绘制笔迹。
-- **多媒体切片直传**：支持将高清设计稿、思维导图、SVG 矢量图标直接拖拽上画布，直通 `drawing.epocanvas.com` 分布式图床。
-
----
-
-## ⌨️ 效率键盘快捷键矩阵
-
-| 组合键 (macOS / Windows) | 动作说明 |
-| :--- | :--- |
-| `Cmd + K` / `Ctrl + K` | 唤起全局智能检索与快速跳转面板 |
-| `Alt + ↑ / ↓` | 在频道列表中快速上下切换会话 |
-| `Esc` | 关闭当前弹窗 / 取消回复状态 / 退出画板全屏 |
-| `↑ (在空输入框)` | 快速调出上一条发送的消息进行就地编辑 |
-| `Cmd + Shift + M` | 开启 / 关闭麦克风静音状态 |
-| `Cmd + Shift + V` | 开启 / 关闭摄像头视频流 |
-| `Cmd + Enter` | 立即发送消息并触发流式分发 |
+通过这套完备的组件覆写系统，EpoCanvas Docs 实现了在保证 Starlight 核心生态兼容性的同时，呈现出高度定制、极具工程美感的现代化技术文档体验。

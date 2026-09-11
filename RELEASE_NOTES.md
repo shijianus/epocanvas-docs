@@ -9,39 +9,37 @@
 
 ## 🌟 重大更新与里程碑概述
 
-本版本对 EpoCanvas 官方技术文档库（`epocanvas-docs`）完成了全方位的重构与代际演进：彻底清除了早期测试阶段的 Epomail 遗留主题，全面升级为聚焦 **EpoCanvas 数字协作平台** 与 **ECCP (EpoCanvas Communication Protocol v7.4)** 协议标准的官方技术与运维指南。
+本版本对 **EpoCanvas Docs 官方文档工程**（`epocanvas-docs`）完成了彻底的重构与官方文档体系的全面确立：
+将专案全面聚焦于 **EpoCanvas Docs 文档构建系统本身**，系统化梳理了从 Astro 5 + Starlight 核心底座、组件覆写引擎、3-Tier 三栏响应式拓扑、10 国语言客户端动态国际化、Pagefind 零服务端静态倒排检索，到 Cloudflare Pages 全球 Anycast 边缘部署与 GitHub Actions CI/CD 自动化流水线的完整工程实现。
 
 ---
 
-## 🚀 核心更新明细
+## 🚀 核心架构与功能更新明细
 
-### 1. 全域内容重构与架构分层体系
-- **全面聚焦 EpoCanvas**：全量删除旧版邮件系统相关文档与组件路由，重写了全部 12 大核心技术文档。
-- **ECCP 四层分工体系**：
-  - **Layer 1: 协议标准层 (The Standard)**：Double Ratchet 双棘轮算法、X25519 协商、Ed25519 签名、Megolm 群组加密与 DAG 事件状态决议。
-  - **Layer 2: 服务端节点层 (Homeservers / Nodes)**：Cloudflare Workers 边缘 Serverless 架构与 Docker 独立容器化双模部署。
-  - **Layer 3: 客户端应用层 (Apps)**：PrivChat 官方旗舰跨平台 App 与 exine 极客客户端。
-  - **Layer 4: 生态扩展层 (Ecosystem)**：Shadow Rooms 隐形通道、加密 Bot API、跨协议 Bridges 与 Drawing 图床。
+### 1. EpoCanvas Docs 官方文档体系重构
+- **全面聚焦 EpoCanvas Docs 工程建设**：
+  - **专案架构总览 (`/canvas/`)**：四层系统模型（Core Runtime -> Content Engine -> Ejected Components -> Edge Delivery），与传统文档框架横向基准对比。
+  - **快速上手与环境初始化 (`/canvas/deployment/`)**：Node.js 20 LTS、pnpm 工具链、`astro.config.mjs` 参数详解与本地 HMR 调试指南。
+  - **Starlight 组件覆写体系 (`/canvas/workbench/`)**：深度接管 Header, Sidebar, PageTitle, Search, TOC, TwoColumnContent 6 大核心定制组件与运行时上下文。
+  - **UI 设计系统与三栏布局 (`/canvas/dns-setup/`)**：极简 3-Tier 页面拓扑（18rem + min(100%, 54rem) + 20rem）、CSS 设计令牌与深浅色模式自适应。
+  - **内容集合与写作规范 (`/canvas/system-config/`)**：Astro 5 Content Layer 类型安全模式、Frontmatter 规范、5 级警示块与原生 Mermaid 图表。
+  - **Pagefind 静态全文检索 (`/canvas/search-engine/`)**：构建期倒排索引切片、WebAssembly 毫秒级打分、Cmd+K 全局快捷键模态。
+  - **动态多语言与国际化架构 (`/canvas/ai-hub/`)**：10 种全球主流语言即时免刷新切换、双层降级容灾与客户端毫秒级 DOM 置换。
+  - **声明式导航与路由控制 (`/canvas/oauth-provider/`)**：NavItem 模型、动态路由激活函数、shijianus-blog 标准 Tooltip 与 HTTP 301 重定向。
+  - **Cloudflare Pages 边缘即时部署 (`/canvas/rule-engine/`)**：Serverless 边缘托管、Wrangler CLI 一键直传与自定义域名 SSL 证书管理。
+  - **自动化 CI/CD 与版本发布 (`/canvas/security-rbac/`)**：GitHub Actions 流水线、SemVer 2.0.0 规范与版本打标发布标准流程。
+  - **二次开发与生态扩展指南 (`/canvas/api-reference/`)**：自定义 Astro 组件扩展、Remark/Rehype 编译管线与性能极致调优。
+  - **生产运维与故障排查手册 (`/canvas/troubleshooting/`)**：Astro 构建报错、Pagefind 索引缺失、404/重定向死循环排查决策树与自愈脚本。
 
-### 2. 深度植入真实高保真界面截图与矢量架构图
-- `architecture.svg`：EpoCanvas 系统分层全景架构图。
-- `event-flow.svg`：端到端事件流转、双棘轮加密、边缘存储与 P2P 联邦数据流拓扑图。
-- `client-landing.png`：PrivChat 旗舰客户端启动与欢迎大屏。
-- `workbench-chat.png`：现代化三栏式会话与 Markdown 实时渲染协作视口。
-- `call-channel.png`：WebRTC SFU 音视频协同与频道通话视口。
-- `conference-collab.png`：多方大屏音视频会议与协同矩阵。
-- `auth-login.png`：基于 Argon2id、TOTP 2FA 与 Passkeys 的零信任登录中心。
-- `analytics-dashboard.png`：AI Hub 多模型池 Token 消耗走势与模型分布数据大屏。
-- `rules-labels.png`：四阶段流式规则引擎编排与多维度标签治理界面。
-- `rbac-matrix.svg`：6 大内置角色与权限细粒度访问控制矩阵。
-- `rule-engine-levels.svg`：三层递进规则裁决瀑布流架构图。
+### 2. 高保真矢量架构图全面升级
+为全套技术文档配套打造了 6 组现代高分辨率矢量架构拓扑图：
+- `docs-architecture.svg`：EpoCanvas Docs 四层系统工程架构图
+- `docs-layout-3tier.svg`：三栏式响应布局体系视口拓扑图
+- `docs-component-overrides.svg`：Starlight 组件覆写与运行时注入拓扑图
+- `docs-search-engine.svg`：Pagefind 静态全文检索流水线图
+- `docs-release-pipeline.svg`：自动化 CI/CD 与 Cloudflare 边缘分发流水线图
+- `docs-i18n-workflow.svg`：客户端动态多语言国际化架构时序图
 
-### 3. 前端交互规范与 UX 设计标准
-- **C-01 伺服器信任徽章**：Official (绿) / Authorized (蓝) / Affiliate (灰) / Custom Root (紫) / Community (淡灰) 双轴正交体系。
-- **C-08 房间保护徽章**：Sovereign (主权房间) / Escrow active (托管保护) / Public (公开房间)。
-- **Tier 0–4 弹窗排队仲裁器 (Global Overlay Resolver)**：严格避免弹窗打架，确保 TCR 否决与危急告警等最高优先级信号万无一失。
-- **双引擎搜索体系**：纯前端 CSS Custom Highlight API 页面无损高亮 + 零知识本地客户端倒排索引检索。
-
-### 4. 自动化构建与 Cloudflare 全球边缘部署
-- 编译生成 14 个完整静态路由页面，通过 Pagefind 完成全站离线分词检索索引构建。
-- 自动化流水线直连 Cloudflare Pages，主控域名 `https://doc.epocanvas.com` 及全球分发节点 `https://epocanvas-docs.pages.dev` 实时秒级生效。
+### 3. 构建与部署成果
+- 全站 14 个静态页面构建耗时稳定在 11 秒左右，Pagefind 静态索引 100% 成功生成。
+- Cloudflare Pages 边缘节点自动同步更新，`https://epocanvas-docs.pages.dev` 与 `https://doc.epocanvas.com` 实时返回 HTTP/2 200。

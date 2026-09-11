@@ -1,127 +1,149 @@
 ---
-title: 故障排查与运维最佳实践
-description: 覆盖联邦握手互联、E2EE 密钥解密、D1/R2 存储、WebRTC 穿透与生产级日志诊断
+title: 生产运维与故障排查手册
+description: EpoCanvas Docs 构建异常诊断、Pagefind 索引缺失、Cloudflare Pages 边缘部署与 CSS 样式冲突排障清单。
 ---
 
-本文档系统汇总了在搭建、运维与扩展 EpoCanvas 过程中最常见的技术挑战、故障排查路径与恢复方案，帮助团队运维人员与站长迅速定位问题并保障集群的长期高可用。
+# 生产运维与故障排查手册
 
----
-
-## 🛑 1. 部署与边缘基础设施常见异常
-
-### 异常 1：`wrangler deploy` 报错 `D1_ERROR` 或 `Database not found`
-- **故障根因**：`wrangler.toml` 中的 `database_id` 与实际在 Cloudflare 控制台中创建的数据库 UUID 不一致。
-- **排查与修复**：
-  ```bash
-  # 1. 查询当前账户下全部 D1 数据库实例
-  wrangler d1 list
-  # 2. 找到名为 epocanvas_db 的实例，复制其 UUID
-  # 3. 检查 wrangler.toml 中的 database_id 并修正
-  ```
-
-### 异常 2：数据库迁移执行失败 `table already exists`
-- **故障根因**：之前曾手动执行过建表 SQL，再次运行迁移脚本发生冲突。
-- **修复方式**：在执行迁移文件前检查是否存在 `IF NOT EXISTS` 守卫语句，或者通过 `wrangler d1 execute epocanvas_db --remote --command="SELECT name FROM sqlite_master WHERE type='table';"` 巡检当前已存在的表集合。
+> [!NOTE]
+> 本手册为 **EpoCanvas Docs** 生产运维与本地开发的高频故障诊断指南（Runbook）。系统化梳理了从 Astro 5 构建期语法校验、Pagefind 索引生成异常、Cloudflare Pages 边缘分发阻断到 CSS 层叠样式冲突的根本原因与标准自愈步骤。
 
 ---
 
-## 🌐 2. 联邦网络互通与发现故障 (Federation Troubleshooting)
+## 1. 故障诊断流程与决策树
 
-### 故障 1：其他节点无法向本节点投递事件，报错 `M_UNKNOWN_HOST`
-- **排查步骤**：
-  1. **检查 Well-Known 服务发现**：
-     ```bash
-     curl -i https://yourdomain.com/.well-known/eccp/server
-     ```
-     确认返回包含 `{"m.server": "chat.yourdomain.com:8448"}`，且响应头包含 `Access-Control-Allow-Origin: *`。
-  2. **检查 8448 端口公网可达性**：
-     通过外部探针网络运行 `nc -zv chat.yourdomain.com 8448`。若连接超时，检查云服务器安全组（Security Group）与本地防火墙（UFW）是否放行了 `8448/tcp`。
+当遇到构建中断或页面渲染异常时，请依照以下自查顺序进行排查：
 
-### 故障 2：联邦请求返回 `401 M_UNAUTHORIZED` 或签名校验失败
-- **故障根因**：请求中携带的 Ed25519 节点签名与远端节点通过 Key 接口获取的公钥指纹不匹配。
-- **排查方式**：
-  ```bash
-  # 检查本节点对外公布的签名公钥
-  curl https://chat.yourdomain.com:8448/_eccp/federation/v1/version
-  ```
-  确认服务器系统时间（NTP）是否与标准原子钟偏差超过 5 秒（时间漂移会导致数字签名时间戳判定过期）。
-
----
-
-## 🔐 3. 端对端加密 (E2EE) 与密钥同步故障
-
-### 现象 1：部分历史消息显示「正在等待对端协商会话密钥 (UTD - Unable to Decrypt)」
-- **故障根因**：
-  1. 当前设备是新登入设备，发信方尚未向新设备分享 Megolm 群组会话棘轮。
-  2. 发件人的客户端离线，尚未收到增量一次性公钥 (One-Time Keys)。
-- **解决方法**：
-  1. **主动发起密钥索取**：在工作台消息右键菜单选择「重新请求此消息的加密密钥」。
-  2. **检查一次性密钥水位**：确保用户的当前设备在连接时上传了充足的 OTKs（建议维持 50~100 个预留公钥）：
-     ```bash
-     curl -H "Authorization: Bearer <TOKEN>" \
-       https://chat.yourdomain.com/_eccp/client/v1/keys/upload
-     ```
-
-### 现象 2：意外触发了 TCR 恢复否决警告（Tier 0 阻断）
-- **处理建议**：
-  若并非本人发起助记词恢复，请**务必在 48 小时冷静期内立即点击【否决此操作】**，并前往安全中心执行【一键吊销所有异常设备】，重新生成主恢复凭据。
-
----
-
-## 📦 4. 对象存储与 Drawing 图床直传排障
-
-### 现象 1：客户端直传附件时，浏览器控制台抛出 `403 CORS Policy Blocked`
-- **故障根因**：Cloudflare R2 或 AWS S3 存储桶未配置跨域资源共享规则。
-- **修复配置**：
-  前往 Cloudflare 控制台 → **R2** → 选择 `epocanvas-media` → **Settings** → **CORS Policy**，添加：
-  ```json
-  [
-    {
-      "AllowedOrigins": ["https://chat.yourdomain.com", "http://localhost:*"],
-      "AllowedMethods": ["GET", "PUT", "POST", "HEAD"],
-      "AllowedHeaders": ["*"],
-      "ExposeHeaders": ["ETag"],
-      "MaxAgeSeconds": 3600
-    }
-  ]
-  ```
-
----
-
-## 📞 5. WebRTC 音视频与白板协同延迟排查
-
-### 现象 1：发起通话后双方界面卡在「ICE 协商中 (Connecting...)」
-- **排查步骤**：
-  1. **检查双方网络拓扑**：若双方均处于对称型 NAT（常见于校园网、大型移动基站或企业内网），P2P 直连将无法穿透，必须强制依赖 TURN 中继。
-  2. **验证 TURN 服务可用性**：使用 [Trickle ICE 在线测试工具](https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/) 填入你在 `epocanvas.config.ts` 中配置的 TURN 节点地址与临时认证密钥，确保能成功收集到类型为 `relay` 的候选候选人。
-
----
-
-## 🩺 6. 生产级实时日志捕获与健康探针
-
-### 使用 Wrangler Tail 实时监控边缘报错
-无需侵入代码即可实时流式抓取 Cloudflare Worker 执行日志：
-
-```bash
-# 启动实时控制台日志追踪
-wrangler tail epocanvas-core --format=pretty
-
-# 针对 HTTP 500 级异常进行定向过滤
-wrangler tail epocanvas-core --status=error
+```mermaid
+flowchart TD
+    Start["构建或部署异常"] --> CheckNode{"Node.js 版本 >= 18.14.1?"}
+    CheckNode -- "否" --> FixNode["升级 Node.js 至 20 LTS"]
+    CheckNode -- "是" --> CheckSchema{"pnpm exec astro check 报错?"}
+    CheckSchema -- "是" --> FixFrontmatter["修复 Frontmatter 元数据或 MDX 标签"]
+    CheckSchema -- "否" --> CheckPagefind{"dist/pagefind/pagefind.wasm 是否生成?"}
+    CheckPagefind -- "否" --> FixPagefind["检查正文标签选择器与构建脚本"]
+    CheckPagefind -- "是" --> CheckDeploy{"Cloudflare Pages 部署 HTTP 状态"}
+    CheckDeploy -- "404" --> FixRoute["检查 URL 后缀斜杠与重定向规则"]
+    CheckDeploy -- "200" --> Success["系统恢复正常并成功上线"]
 ```
 
-### 生产容器级健康巡检脚本
-对于 Docker 自建节点，可配置系统 Cron 定期运行健康探活探针：
+---
+
+## 2. Astro 5 构建期高频故障诊断
+
+### 2.1 Frontmatter Schema 校验不通过
+- **典型报错**：
+  ```
+  [AstroContentError] "title" is required in "src/content/docs/canvas/xxx.md"
+  ```
+- **根本原因**：
+  文档头部缺少必填的 YAML 元数据字段，或缩进格式错误导致 YAML 解析器无法识别。
+- **排障方案**：
+  检查对应 Markdown 文件头部，确保包含标准的 `---` 围栏与合法字段：
+  ```yaml
+  ---
+  title: 文档标题
+  description: 简明描述文本
+  ---
+  ```
+
+---
+
+### 2.2 Sharp 图像处理原生模块缺失
+- **典型报错**：
+  ```
+  Error: Could not load the "sharp" module using the linux-x64 runtime
+  ```
+- **根本原因**：
+  在切换 Node.js 大版本或使用不同架构的容器后，Sharp 本地预编译二进制文件与当前操作系统不兼容。
+- **排障方案**：
+  强制重新安装 platform-specific 依赖：
+  ```bash
+  rm -rf node_modules pnpm-lock.yaml
+  pnpm install
+  ```
+
+---
+
+## 3. Pagefind 静态全文检索异常诊断
+
+![Pagefind 静态全文检索流水线](/images/canvas/docs-search-engine.svg)
+
+### 3.1 检索索引未生成或提示 `No indexable text found`
+- **根本原因**：
+  Astro 打包未输出到 `dist/` 目录，或页面模板缺少 `<main>` 语义化标签导致 Pagefind 选择器抓取落空。
+- **排障步骤**：
+  1. 确认构建产物目录存在：
+     ```bash
+     ls -la dist/index.html
+     ```
+  2. 手动在终端执行 Pagefind 独立扫描并观察详细输出：
+     ```bash
+     npx pagefind --site dist --verbose
+     ```
+
+---
+
+### 3.2 客户端按下 `Cmd+K` 无响应或控制台报错
+- **根本原因**：
+  浏览器的 Content Security Policy (CSP) 策略阻断了 WebAssembly 编译，或 `Search.astro` 未能正确挂载快捷键监听器。
+- **排障步骤**：
+  1. 检查浏览器 Console 是否存在 `CompileError: WebAssembly.instantiate`；
+  2. 确保 HTTP 响应头未禁止 `wasm-unsafe-eval`。Cloudflare Pages 默认策略原生支持该特性。
+
+---
+
+## 4. Cloudflare Pages 边缘部署高频问题
+
+### 4.1 访问自定义域名返回 `Error 525 / SSL Handshake Failed`
+- **根本原因**：
+  新增的自定义域名（如 `doc.epocanvas.com`）在 Cloudflare 边缘端证书签发流程尚处于 `initializing` 阶段，CA 验证存在 5~10 分钟传播延迟。
+- **排障方案**：
+  1. 在 Cloudflare 控制台确认 DNS CNAME 记录代理状态为 Proxied（橘色云朵）；
+  2. 耐心等待 5 分钟，或临时直接通过官方分配的边缘域名 `https://epocanvas-docs.pages.dev` 访问验证，该域名受默认通配符证书保护，即时生效。
+
+---
+
+### 4.2 路由死循环 (`ERR_TOO_MANY_REDIRECTS`)
+- **根本原因**：
+  在 `astro.config.mjs` 中配置了相互重定向（如 `/a -> /b` 同时存在 `/b -> /a`），或重定向目标包含了末尾斜杠不一致的递归规则。
+- **排障方案**：
+  排查 `astro.config.mjs` 中的 `redirects` 映射表，确保所有目标 URL 唯一且单向终结：
+  ```javascript
+  redirects: {
+    '/mail': '/canvas', // 正确：单向终结重定向
+  }
+  ```
+
+---
+
+## 5. CSS 样式层叠冲突与布局异常
+
+### 5.1 移动端出现横向滚动条 (Horizontal Overflow)
+- **根本原因**：
+  正文中插入的宽表格、长代码块或内联 SVG 指定了固定像素宽度（如 `width: 1000px`），打破了视口容器边界。
+- **排障方案**：
+  1. 在 `src/styles/custom.css` 中为大尺寸元素注入最大宽度自适应属性：
+     ```css
+     svg,
+     img,
+     pre {
+       max-width: 100%;
+       height: auto;
+     }
+     ```
+  2. 表格容器添加横向滚动包裹层：`overflow-x: auto`。
+
+---
+
+## 6. 一键健康巡检脚本 (Health Check Script)
+
+在本地根目录下可运行以下复合检测指令快速诊断当前工程健康度：
 
 ```bash
-#!/usr/bin/env bash
-HEALTH_URL="https://chat.yourdomain.com/_eccp/client/v1/health"
-STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_URL")
-
-if [ "$STATUS_CODE" -ne 200 ]; then
-    echo "[ERROR] EpoCanvas 服务异常，HTTP 状态码: $STATUS_CODE"
-    # 可在此触发企业微信/钉钉/Telegram 报警通知
-    exit 1
-fi
-echo "[OK] EpoCanvas 服务正常运行中"
+echo "=== 1. TypeScript & Astro 检查 ===" && pnpm exec astro check && \
+echo "=== 2. 全量静态构建测试 ===" && pnpm run build && \
+echo "=== 3. Pagefind 索引产物验证 ===" && test -f dist/pagefind/pagefind.wasm && \
+echo "=== 4. 远程生产域名可用性探测 ===" && curl -sI https://epocanvas-docs.pages.dev | grep "HTTP/" && \
+echo ">>> 全项巡检通过，系统运行稳健！"
 ```

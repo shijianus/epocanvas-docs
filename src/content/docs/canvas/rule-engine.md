@@ -1,143 +1,121 @@
 ---
-title: 智能流式规则引擎与工作流自动化
-description: 四阶段事件拦截管道、三层递进裁决体系、自动化动作绑定与事件总线分流
+title: Cloudflare Pages 边缘即时部署指南
+description: EpoCanvas Docs 基于 Cloudflare Pages 的 Serverless 静态托管、Wrangler CLI 极速分发与自定义域名 SSL 证书配置。
 ---
 
-在去中心化实时协作与通信网络中，面对海量的事件洪峰（文字讨论、画板图元、媒体附件传输、通话呼叫），需要高效、轻量且具备确定性的自动化分流体系。EpoCanvas 设计并实现了高吞吐的**流式规则引擎 (Stream Rule Engine)**，支持在边缘计算节点上毫秒级完成事件拦截、安全过滤、标签染色与工作流分流。
+# Cloudflare Pages 边缘即时部署指南
 
-![三层智能规则引擎架构设计](/images/canvas/rule-engine-levels.svg)
-
----
-
-## 🌊 1. 四阶段事件拦截与分流管道 (Pipeline Architecture)
-
-当客户端或远程联邦节点向本地服务投递事件时，核心 Worker 引擎按顺序驱动四阶段流水线：
-
-```
-                    收到入站事件 (ECCP Event)
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│ 阶段 1: 预处理与合规校验 (Pre-Process & Schema Validation)     │
-│ - 格式验证 · 签名核验 · 速率配额检查 (Rate Limiting)          │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│ 阶段 2: 三层递进判决引擎 (Three-Tier Decision Waterfall)     │
-│ - Level 1 绝对名单 ──▶ Level 2 用户复合逻辑 ──▶ Level 3 启发式  │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│ 阶段 3: 标签染色与元数据注入 (Tagging & Labeling)            │
-│ - 注入分类标记 · 权重计分 · 优先级染色                        │
-└──────────────────────────────┬──────────────────────────────┘
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│ 阶段 4: 动作分发与工作流总线 (Action Dispatch & Webhooks)    │
-│ - 存盘持久化 · 自动归档 · 触发 Bot · 外部 Webhook 广播        │
-└─────────────────────────────────────────────────────────────┘
-```
+> [!NOTE]
+> **EpoCanvas Docs** 官方生产环境托管于 **Cloudflare Pages** 边缘计算平台。借助 Cloudflare 遍布全球 300 多个核心城市的 Anycast 边缘网络，全站静态资源实现毫秒级首字节到达（TTFB < 50ms），并原生享有免费 Universal SSL 加密与全球 DDoS 攻击防御。
 
 ---
 
-## ⚡ 2. 三层递进裁决架构原理 (Three-Tier Waterfall)
+## 1. 边缘部署与全球分发拓扑
 
-为了杜绝传统平行过滤引擎经常发生的“规则打架与误杀无解”问题，EpoCanvas 规则引擎规定**高优先级层级具有绝对压制权**：
+从本地构建打包到全球边缘节点生效的完整交付流水线如下：
 
-```
-Level 1 (绝对意志层) ──▶ 强行放行白名单 / 恶意拒绝对等黑名单 (Priority = 1)
-     │ 未命中
-     ▼
-Level 2 (用户自定义层) ──▶ 复合条件规则 · 正则过滤 · 例外否决 (Priority = 2)
-     │ 未命中
-     ▼
-Level 3 (系统启发式层) ──▶ 流量暴增风控 · 垃圾机器人识别 · 自动化打标 (Priority = 3)
-```
-
-### Level 1：绝对意志层 (Absolute Will)
-- **全局受信名单 (Allowlist)**：来自特定合作伙伴域名或核心团队成员的事件，直接跳过下级过滤，享受零延迟快速通道。
-- **全局封禁名单 (Blocklist)**：已知恶意滥用节点或被吊销设备发起的握手，直接在边缘计算层予以丢弃（HTTP 403 / Dropped），防止垃圾流量污染内部存储。
-
-### Level 2：用户自定义逻辑层 (User Composite Rules)
-团队与用户可在工作台中自定义编排业务规则：
-- **条件组合**：支持 `AND`（与）、`OR`（或）、`NOT`（非）逻辑连接。
-- **作用范围**：可按事件类型（文字、代码、文件直传、矢量图元）、发送者身份、空间频道进行针对性限定。
-- **例外否决 (Exceptions)**：支持配置“若包含标星标记则不执行归档”等反向例外条件。
-
-### Level 3：系统启发式与智能防刷层 (System Heuristics)
-系统内置的兜底防线，基于时间滑动窗口统计与异常行为分析：
-- **高频刷屏抑制**：单设备连续高频发送重复哈希事件时，自动触发 60 秒冷却流控。
-- **异地突发大附件**：来自新设备的超大附件传输自动附加“待安全确认”染色。
+![自动化 CI/CD 与 Cloudflare 边缘分发流水线](/images/canvas/docs-release-pipeline.svg)
 
 ---
 
-## 🎯 3. 自动化动作矩阵 (Action Matrix)
+## 2. 为什么选择 Cloudflare Pages 边缘托管
 
-一旦事件命中既定规则，引擎支持并行执行以下动作：
-
-| 动作类型 | 说明与执行行为 | 典型适用场景 |
+| 对比维度 | 传统 Nginx 虚拟主机 / 容器 | Cloudflare Pages 边缘云 |
 | :--- | :--- | :--- |
-| **`Tag / Label`** | 向事件元数据追加自定义标签（如 `urgent`, `billing`, `dev`）。 | 分类整理、看板动态聚合 |
-| **`Mute / Silence`** | 抑制客户端弹出系统级震动与桌面通知，静默入库。 | 订阅型机器人日常监控日志 |
-| **`Route to Shadow`** | 自动将特定敏感会话分流至 Shadow Room 隐形通道中。 | 安全应急响应、内审机密事件 |
-| **`Trigger Webhook`** | 向外部第三方服务（如 Telegram / 钉钉 / 自建系统）发起异步 HTTP POST。 | 业务系统自动化联动 |
-| **`Sync to Drawing`** | 自动将图元与素材同步至 `drawing.epocanvas.com` 图床。 | 白板设计素材自动归档 |
-| **`Drop / Block`** | 阻断事件入库并向发送端返回受阻错误码。 | 抵御垃圾内容、阻断无权限调用 |
-
-![规则过滤配置与自定义标签管理界面](/images/canvas/rules-labels.png)
+| **机房分布** | 单一物理机房或少数可用区 | **全球 300+ 城市 Anycast 边缘节点** |
+| **首字节时间 (TTFB)** | 跨国访问通常需 300~800ms | **全球任意地区访问普遍 < 50ms** |
+| **运维与维护成本** | 需维护 OS、Nginx、安全补丁 | **零运维（Serverless），免服务器维护** |
+| **SSL 证书生命周期** | 需配置 Certbot 定期续签 | **自动申请与轮转 Cloudflare Universal SSL** |
+| **并发承载力** | 受单机带宽与 CPU 限制 | **无上限抗海量并发与原生 DDoS 清洗** |
 
 ---
 
-## 📝 4. 规则配置 DSL 示例
+## 3. 本地与 CLI 一键部署实操
 
-EpoCanvas 规则支持通过可视界面编排，亦支持以 JSON DSL 格式导入导出：
+专案在 `package.json` 中预置了连贯部署指令，本地开发者或 CI 代理无需手动压缩上传：
 
-```json
-{
-  "rule_id": "rule_sec_auto_forward",
-  "name": "严重安全告警自动推送到应急响应室",
-  "priority": 2,
-  "enabled": true,
-  "conditions": {
-    "logic": "AND",
-    "predicates": [
-      {
-        "field": "event.type",
-        "operator": "EQUALS",
-        "value": "m.room.message"
-      },
-      {
-        "field": "content.body",
-        "operator": "REGEX_MATCH",
-        "value": "\\[CRITICAL\\]|\\[SECURITY-ALERT\\]"
-      }
-    ]
-  },
-  "actions": [
-    {
-      "type": "ADD_TAG",
-      "payload": { "tag": "security-alert", "color": "#ef4444" }
-    },
-    {
-      "type": "FORWARD_TO_ROOM",
-      "payload": { "target_room_id": "!emergency_sec_team:example.com" }
-    },
-    {
-      "type": "DISPATCH_WEBHOOK",
-      "payload": {
-        "url": "https://api.example.com/alerts/webhook",
-        "secret_token": "env:ALERT_WEBHOOK_SECRET"
-      }
-    }
-  ]
-}
+```bash
+# 执行完整构建并直接推送至 Cloudflare Pages 边缘集群
+pnpm run deploy
+# 或
+pnpm run cf:deploy
+```
+
+### 3.1 底层执行指令与参数解析：
+```bash
+pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true
+```
+
+| 参数选项 | 核心作用与工程含义 |
+| :--- | :--- |
+| `dist` | 指定静态输出产物目录（包含编译好的 HTML、CSS、JS 及 Pagefind 索引） |
+| `--project-name epocanvas-docs` | 绑定 Cloudflare 控制台中注册的官方专案名称 |
+| `--branch main` | 指定生产环境发布分支，确保部署进入 Production 环境而非临时 Preview |
+| `--commit-dirty=true` | 允许在本地存在未打标修改或构建临时文件时继续上传，避免中断流水线 |
+
+### 3.2 部署过程终端输出示例：
+```
+✨ Successfully built static site into dist/
+Uploading dist/ (38 files)
+✨ Success! Uploaded 38 files (2.4 sec)
+✨ Deployment complete! Take a peek over at:
+   https://epocanvas-docs.pages.dev
 ```
 
 ---
 
-## 🔄 5. 闭环纠错与正向自适应学习
+## 4. 自定义域名绑定与 SSL 证书链 (`doc.epocanvas.com`)
 
-规则误判在所难免，EpoCanvas 提供了完整的一键纠错机制：
-1. **反向纠错按钮**：当一条正常消息被误判或打上不适标签时，用户在详情操作栏点击“移除错误标签 / 信任此发件人”。
-2. **白名单自动反哺**：系统将自动将该协作者的设备与用户标识加入用户的 Level 1 个人信任库，杜绝下一次相同误判发生。
-3. **审计追溯**：安全审计员可通过日志追溯每一次规则命中的命中链（Hit Trace），直观定位哪一条规则引发了动作分发。
+EpoCanvas Docs 配置了专属的权威二级域名 `doc.epocanvas.com`：
+
+### 4.1 DNS 记录映射规范：
+在 Cloudflare DNS 管理控制台中，为 `epocanvas.com` 添加一条 CNAME 记录：
+- **类型 (Type)**：`CNAME`
+- **名称 (Name)**：`doc`
+- **目标 (Target)**：`epocanvas-docs.pages.dev`
+- **代理状态 (Proxy status)**：开启（Proxied 橘色云朵，享受 CDN 加速与 WAF 防护）
+
+### 4.2 Universal SSL 证书分发状态机：
+```mermaid
+stateDiagram-v2
+    [*] --> Initializing: 添加自定义域名
+    Initializing --> PendingValidation: 提交 Google CA / Let's Encrypt 签发申请
+    PendingValidation --> Active: 边缘验证成功，分发双向证书
+    Active --> [*]: 生产环境 HTTP/2 与 HTTP/3 握手就绪
+```
+
+---
+
+## 5. 边缘缓存策略与 HTTP 标头规范
+
+Cloudflare Pages 默认配置了极佳的静态资源缓存调度：
+- **HTML 页面 (`/` / `/canvas/*`)**：
+  ```http
+  cache-control: public, max-age=0, must-revalidate
+  ```
+  保证当有新版本部署时，全球用户在下一次刷新时能瞬时获取最新文档，杜绝缓存死锁。
+- **带有内容指纹的静态资源 (`/_astro/*.css`, `/_astro/*.js`)**：
+  文件自带哈希指纹，启用 `max-age=31536000, immutable` 强缓存，实现秒开且绝不污染新版。
+
+---
+
+## 6. 生产环境连通性验证命令
+
+通过 `curl` 命令行工具快速验证边缘节点返回状态：
+
+```bash
+# 验证官方 Pages.dev 域名
+curl -sI https://epocanvas-docs.pages.dev | head -n 5
+
+# 验证官方自定义独立域名
+curl -sI https://doc.epocanvas.com | head -n 5
+```
+
+预期标准输出：
+```http
+HTTP/2 200
+date: Fri, 11 Sep 2026 12:45:00 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+```
+返回 `HTTP/2 200` 即证明边缘交付管线完全正常运作。

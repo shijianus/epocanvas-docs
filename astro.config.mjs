@@ -33,41 +33,41 @@ export default defineConfig({
 				Search: './src/components/starlight/Search.astro',
 			},
 			sidebar: [
-				{ label: '系统概览与架构', link: '/canvas/' },
 				{
-					label: '部署与环境搭建',
+					label: '专案概览与架构',
 					items: [
-						{ label: '全栈部署指南', link: '/canvas/deployment/' },
-						{ label: '域名解析与网络配置', link: '/canvas/dns-setup/' },
+						{ label: 'EpoCanvas Docs 架构总览', link: '/canvas/' },
+						{ label: '快速上手与环境初始化', link: '/canvas/deployment/' },
 					],
 				},
 				{
-					label: '核心功能指南',
+					label: '架构内核与组件覆写',
 					items: [
-						{ label: '画布工作台与交互引擎', link: '/canvas/workbench/' },
-						{ label: '双引擎检索与语法规范', link: '/canvas/search-engine/' },
+						{ label: 'Starlight 组件覆写体系', link: '/canvas/workbench/' },
+						{ label: 'UI 设计系统与三栏布局', link: '/canvas/dns-setup/' },
+						{ label: '内容集合与写作规范', link: '/canvas/system-config/' },
 					],
 				},
 				{
-					label: '规则引擎与安全体系',
+					label: '核心功能与引擎机制',
 					items: [
-						{ label: '智能流式规则引擎', link: '/canvas/rule-engine/' },
-						{ label: '身份认证与 RBAC 权限', link: '/canvas/security-rbac/' },
+						{ label: 'Pagefind 静态全文检索', link: '/canvas/search-engine/' },
+						{ label: '动态多语言与国际化架构', link: '/canvas/ai-hub/' },
+						{ label: '声明式导航与路由策略', link: '/canvas/oauth-provider/' },
 					],
 				},
 				{
-					label: 'AI 枢纽与扩展集成',
+					label: '部署与发布运维',
 					items: [
-						{ label: 'AI Hub 与多模型池', link: '/canvas/ai-hub/' },
-						{ label: 'OAuth 2.0 / OIDC 认证中心', link: '/canvas/oauth-provider/' },
-						{ label: '系统全局设置与服务集成', link: '/canvas/system-config/' },
+						{ label: 'Cloudflare Pages 边缘部署', link: '/canvas/rule-engine/' },
+						{ label: '自动化 CI/CD 与版本发布', link: '/canvas/security-rbac/' },
 					],
 				},
 				{
-					label: '开发者参考与运维',
+					label: '扩展定制与问题排查',
 					items: [
-						{ label: '开放 REST API 参考', link: '/canvas/api-reference/' },
-						{ label: '故障排查与运维最佳实践', link: '/canvas/troubleshooting/' },
+						{ label: '二次开发与生态扩展指南', link: '/canvas/api-reference/' },
+						{ label: '生产运维与故障排查手册', link: '/canvas/troubleshooting/' },
 					],
 				},
 			],

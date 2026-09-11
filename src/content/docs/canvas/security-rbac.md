@@ -1,74 +1,129 @@
 ---
-title: 身份认证、密码学规范与 RBAC 权限体系
-description: 端对端加密双棘轮规范、无手机号零知识身份、6 大企业级角色矩阵、TOTP 双重认证与硬件密钥
+title: 自动化 CI/CD 与版本发布管理
+description: EpoCanvas Docs 基于 GitHub Actions 的自动化持续集成流水线、语义化版本（SemVer）与发布声明规范。
 ---
 
-EpoCanvas 严格恪守零信任（Zero Trust）与最小特权（PoLP）工程哲学。不同于传统商业通信软件以明文数据库与中心化密码为主的脆弱体系，EpoCanvas 将**端侧现代密码学**与**精细化多租户 RBAC 权限控制**无缝融合，确保即使服务端基础设施遭遇入侵，通信数据与用户私钥依然享有密码学级的绝对安全。
+# 自动化 CI/CD 与版本发布管理
 
-![RBAC 角色权限与资源矩阵](/images/canvas/rbac-matrix.svg)
-
----
-
-## 🔐 1. 密码学协议栈与零知识身份哲学
-
-### 1.1 无手机号身份绑定
-EpoCanvas 坚决摒弃了传统应用绑架用户手机号、身份证等实体身份的做法。用户身份基于 `@username:domain.com` 格式命名空间，底层直接锚定于客户端本地生成的非对称公私钥对：
-- **身份签名密钥 (Identity Key)**：基于 **Ed25519** 算法，用于给所有发出的事件、登录授权与跨设备信任声明签名。
-- **密钥协商密钥 (Device Key)**：基于 **Curve25519 (X25519)** 算法，用于与其他成员建立点对点 Diffie-Hellman 握手。
-
-### 1.2 端对端加密核心算法 (Double Ratchet + Megolm)
-- **前向保密 (PFS)**：每次消息传输自动推进对称棘轮（Symmetric-key ratchet）生成一次性消息密钥（Message Key），即使未来的某个会话密钥意外泄露，历史记录依然无法被逆向破解。
-- **后向安全 (Post-Compromise Security)**：通过周期性的 DH 棘轮（Diffie-Hellman ratchet）步进，一旦受损设备重置握手，通信信道将自动自愈并重新恢复最高安全状态。
-- **Megolm 群组高效广播**：在大型多人频道中，采用基于棘轮共享的群组会话密钥（Megolm Session），将复杂度从 O(N²) 降低到 O(N)，兼顾超强算力保护与瞬时上屏速度。
+> [!NOTE]
+> **EpoCanvas Docs** 严格遵循工业级 **语义化版本规范（Semantic Versioning 2.0.0）** 与 **自动化 CI/CD 持续交付流程**。通过 Git 标签（Git Tag）事件驱动 GitHub Actions 流水线，实现代码类型静态检查、构建制品验证、自动化 GitHub Release 归档与 Cloudflare Pages 生产边缘部署的一键闭环。
 
 ---
 
-## 👥 2. 六大企业级角色矩阵 (RBAC Matrix)
+## 1. 自动化发布流水线全景
 
-在企业与自建社区协作场景中，EpoCanvas 提供了 6 大标准内置角色，对操作特权、存储配额与管理范畴进行严密隔离：
+当维护者推送符合版本规范的 Git 标签时，系统将自动化执行以下生命周期节点：
 
-| 角色标识 (role_code) | 角色名称 | 存储配额 | 频道路由权限 | 媒体/白板直传 | 设备授权与审计 | 核心特权与典型适用场景 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`visitor`** | **访客体验者** | **0 MB** | 仅限指定公开频道 | ❌ 关闭 | ❌ 无权 | 外部受限访客、沙箱体验。仅具备公开频道纯文本浏览权限，禁止任何画板修改与文件上传。 |
-| **`member`** | **标准协作者** | **500 MB** | 允许加入受邀频道 | **✅ 开放 (R2)** | 仅管理本人设备 | 日常研发、设计与产品团队成员。可创建频道、发起 E2EE 会话、使用画板协同与音视频通话。 |
-| **`channel_admin`**| **频道管理员** | **2 GB** | 频道创建与解散 | **✅ 开放 (R2)** | 踢出频道违规成员 | 业务小组长与项目经理。负责频道生命周期、置顶公告维护、邀请链接发放与限时发言控制。 |
-| **`space_owner`** | **空间所有者** | **10 GB** | 空间内所有频道 | **✅ 开放 (R2)** | 空间成员角色分配 | 部门主管与项目核心发起人。负责整个工作空间（Space）的架构划分、RBAC 角色指派与归档。 |
-| **`security_auditor`**| **安全审计员** | **5 GB** | 全局合规审查通道 | **✅ 开放 (R2)** | **查看全站签名审计** | 企业内控与安全合规团队。审查联邦节点信任证书、查看 CRL 吊销日志、追溯高风险行为（无权偷看 E2EE 密文）。 |
-| **`super_admin`** | **集群超级管理员**| **无限制** | **全局通配符 `*`** | **✅ 完全开放** | **全局设备撤销与封禁** | 系统站长与 DevOps 核心负责人。掌控底层 D1 数据库、R2 存储、Wrangler 密钥部署与联邦策略。 |
-
-![系统账号管理与角色控制面板](/images/canvas/account-management.png)
+![自动化 CI/CD 与 Cloudflare 边缘分发流水线](/images/canvas/docs-release-pipeline.svg)
 
 ---
 
-## 🛡️ 3. 多因素认证 (MFA) 与防暴力破解机制
+## 2. GitHub Actions 工作流编排 (`.github/workflows/release.yml`)
 
-为了抵御针对服务端账号的凭据填充攻击与钓鱼仿冒，EpoCanvas 建立了三重联动防护盾：
+专案在 `.github/workflows/release.yml` 中定义了无状态的自动化发布任务：
 
-![系统登录防护与多因素校验](/images/canvas/auth-login.png)
+```yaml
+name: Release & Deployment Pipeline
 
-### 3.1 Argon2id 高强度密码哈希
-所有密码在入库前强制执行 **Argon2id**（内存抗 GPU 碰撞算法，参数配比：Memory=64MB, Iterations=3, Parallelism=2），服务端绝不以明文或不可靠的 MD5/SHA256 存储任何密码指纹。
+on:
+  push:
+    tags:
+      - 'v*' # 仅当推送形如 v1.2.0 的版本标签时触发
 
-### 3.2 TOTP 动态双重验证 (RFC 6238)
-- 支持 Google Authenticator、1Password、Bitwarden 等主流验证器。
-- 采用 30 秒时间滑动窗口与 ±1 周期的时间漂移容错。
-- TOTP 种子密钥在 D1 数据库中使用 `TOTP_MASTER_KEY` 进行 AES-256-GCM 二次封顶加密。
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-### 3.3 WebAuthn / FIDO2 Passkeys 硬件密钥
-支持使用电脑 Touch ID、Windows Hello 或物理 YubiKey 硬件作为强认证凭据。基于硬件安全芯片直接签名认证挑战，从根源上杜绝网络钓鱼攻击。
+      - name: 配置 pnpm 环境
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
 
-### 3.4 登录失败封锁策略与 Turnstile 联动
-- **阶梯式封锁**：同一 IP 或同一用户名连续 5 次密码错误，自动冻结 15 分钟；连续 10 次错误，冻结 24 小时并向管理员分发风控警报。
-- **Cloudflare Turnstile 智能验证码**：无感人机校验，毫秒级甄别自动化爆破脚本，杜绝算力资源耗竭。
+      - name: 安装 Node.js 20 LTS 运行环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: 安装全量工程依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 执行 TypeScript 与 Astro 模式校验
+        run: pnpm exec astro check
+
+      - name: 执行生产环境全量静态构建
+        run: pnpm run build
+
+      - name: 校验 Pagefind 索引产物完整性
+        run: |
+          test -f dist/pagefind/pagefind.wasm || exit 1
+          echo "Pagefind 静态索引校验通过"
+
+      - name: 自动创建 GitHub Release 归档
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ---
 
-## 🚨 4. 设备信任生命周期与 TCR 否决机制 (Trusted Companion Recovery)
+## 3. 语义化版本命名规范 (Semantic Versioning 2.0.0)
 
-在去中心化体系中，当用户丢失旧设备时，传统做法是用“密码重置链接”重新生成密钥，但这往往成为攻击者重置他人账号的漏洞。
+EpoCanvas Docs 版本号严格遵循 `vMAJOR.MINOR.PATCH` 格式：
 
-EpoCanvas 创新引入了 **TCR (Trusted Companion Recovery) 协作设备恢复否决机制**：
-1. **多设备交叉签名**：当用户在第二台设备（如手机端）登录时，需通过首台设备扫描安全二维码，两端通过本地蓝牙或局域网交换公钥并对彼此签名。
-2. **恢复否决锁（Tier 0 阻断）**：若用户发起紧急助记词恢复，已在线的受信任设备将立即弹出 **Tier 0 级别的系统级覆盖警告**。
-3. **48 小时安全冷静期**：合法用户可在这 48 小时内随时在受信任设备上一键点击「否决此恢复并封锁可疑请求」，彻底粉碎黑客盗号意图。
-4. **一键设备吊销 (Device Revocation)**：一旦某台设备遗失或失窃，用户可在安全中心一键将该设备的 Ed25519 签名密钥推入本地与节点 CRL 吊销黑名单，该设备将立即断流并被擦除本地缓存。
+| 版本级别 | 触发场景说明 | 示例版本 | 影响范围 |
+| :--- | :--- | :--- | :--- |
+| **MAJOR (主版本)** | 核心技术底座大重构（如 Astro 4 升级到 Astro 5）、重写核心三栏布局、破坏性路由变更 | `v2.0.0` | 全站组件与配置均需迁移 |
+| **MINOR (次版本)** | 新增大型文档模块（如新增多语言体系）、引入全新组件（如 Pagefind 检索）、设计系统大改版 | `v1.2.0` | 向下兼容，扩展功能体系 |
+| **PATCH (修订版本)** | 修正技术文档中的拼写错漏、样式小微调、修复个别浏览器兼容性细节、常规依赖安全修补 | `v1.2.1` | 完全向下兼容的小修小补 |
+
+---
+
+## 4. 标准发布操作流程指南 (Release Runbook)
+
+为确保线上发布安全可控，发布新版本时请按顺序执行以下标准作业程序：
+
+### 步骤 1：更新版本变更日志
+在专案根目录的 [`RELEASE_NOTES.md`](file:///home/shijian/projects/epocanvas-docs/RELEASE_NOTES.md) 中追加本版本的更新摘要：
+
+```markdown
+## [v1.2.0] - 2026-09-11
+
+### Added
+- 新增 EpoCanvas Docs 官方文档系统架构设计说明。
+- 引入 Pagefind 静态全文检索系统与快捷键 Cmd+K 支持。
+- 引入 10 国语言客户端秒级无刷新动态国际化切换器。
+
+### Changed
+- 彻底移除旧版邮件相关残留文件与主题样式。
+- 采用自适应三栏式文档拓扑结构与全新设计令牌。
+```
+
+### 步骤 2：更新导航配置与版本徽标
+在 `src/config/navigation.ts` 中将 `badge` 与 `defaultLabel` 同步为新版本号（如 `v1.2.0`）。
+
+### 步骤 3：提交代码并打上 Git Tag
+```bash
+# 1. 提交所有变更到 main 分支
+git add .
+git commit -m "chore(release): prepare v1.2.0 release"
+git push origin main
+
+# 2. 创建轻量附注标签
+git tag -a v1.2.0 -m "Release v1.2.0: EpoCanvas Docs official architecture overhaul"
+
+# 3. 推送标签至 GitHub 触发 CI/CD
+git push origin v1.2.0
+```
+
+### 步骤 4：线上验证与监控
+标签推送后，可在 GitHub 仓库的 **Actions** 与 **Releases** 页面查看自动化构建状态。构建完成后，直接访问生产环境 `https://doc.epocanvas.com` 验证新版本生效情况。

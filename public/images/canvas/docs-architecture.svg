@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%" style="background:#0b0f19; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="grad-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="grad-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="card-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="drop-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Header -->
+  <rect x="0" y="0" width="1000" height="620" fill="#090d16" />
+  
+  <text x="50" y="52" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="-0.5">EpoCanvas Docs 四层系统工程架构</text>
+  <text x="50" y="78" fill="#94a3b8" font-size="13">High-Performance Documentation Platform Architecture &amp; Lifecycle Specification</text>
+
+  <!-- Layer 4: Edge Delivery Tier -->
+  <g transform="translate(50, 105)" filter="url(#drop-shadow)">
+    <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-amber)" />
+    <text x="30" y="32" fill="#f59e0b" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">Layer 4 · 边缘分发与全球 CDN 层 (Edge Delivery Tier)</text>
+    
+    <!-- Badges inside Layer 4 -->
+    <rect x="30" y="46" width="195" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="42" y="68" fill="#f8fafc" font-size="12" font-weight="600">Cloudflare Pages 边缘</text>
+    <text x="42" y="80" fill="#94a3b8" font-size="10">Global Anycast CDN</text>
+
+    <rect x="245" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="257" y="68" fill="#f8fafc" font-size="12" font-weight="600">Wrangler CLI CI/CD</text>
+    <text x="257" y="80" fill="#94a3b8" font-size="10">零等待瞬时发布与分支回滚</text>
+
+    <rect x="470" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="482" y="68" fill="#f8fafc" font-size="12" font-weight="600">自定义域名与 SSL</text>
+    <text x="482" y="80" fill="#94a3b8" font-size="10">doc.epocanvas.com / HTTP/2/3</text>
+
+    <rect x="695" y="46" width="185" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="707" y="68" fill="#f8fafc" font-size="12" font-weight="600">Pagefind WASM 索引</text>
+    <text x="707" y="80" fill="#94a3b8" font-size="10">分块压缩静态反向字典</text>
+  </g>
+
+  <!-- Layer 3: Component Ejection Tier -->
+  <g transform="translate(50, 225)" filter="url(#drop-shadow)">
+    <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-accent)" />
+    <text x="30" y="30" fill="#818cf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">Layer 3 · Starlight 覆写组件层 (Ejected Component Tier)</text>
+    
+    <!-- 6 Component Cards -->
+    <rect x="30" y="45" width="130" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="40" y="67" fill="#f8fafc" font-size="12" font-weight="600">Header.astro</text>
+    <text x="40" y="83" fill="#94a3b8" font-size="10">动态路由与 i18n 菜单</text>
+
+    <rect x="175" y="45" width="130" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="185" y="67" fill="#f8fafc" font-size="12" font-weight="600">Sidebar.astro</text>
+    <text x="185" y="83" fill="#94a3b8" font-size="10">滚动持久化导航树</text>
+
+    <rect x="320" y="45" width="130" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="330" y="67" fill="#f8fafc" font-size="12" font-weight="600">PageTitle.astro</text>
+    <text x="330" y="83" fill="#94a3b8" font-size="10">元数据与标题标准</text>
+
+    <rect x="465" y="45" width="130" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="475" y="67" fill="#f8fafc" font-size="12" font-weight="600">TableOfContents</text>
+    <text x="475" y="83" fill="#94a3b8" font-size="10">双向视口联动 TOC</text>
+
+    <rect x="610" y="45" width="130" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="620" y="67" fill="#f8fafc" font-size="12" font-weight="600">TwoColumnContent</text>
+    <text x="620" y="83" fill="#94a3b8" font-size="10">三栏响应式网格</text>
+
+    <rect x="755" y="45" width="125" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="765" y="67" fill="#f8fafc" font-size="12" font-weight="600">Search.astro</text>
+    <text x="765" y="83" fill="#94a3b8" font-size="10">Cmd+K 极速检索模态</text>
+  </g>
+
+  <!-- Layer 2: Content & Asset Engine -->
+  <g transform="translate(50, 355)" filter="url(#drop-shadow)">
+    <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-teal)" />
+    <text x="30" y="30" fill="#38bdf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">Layer 2 · 内容集合与渲染引擎 (Content &amp; Rendering Engine)</text>
+    
+    <rect x="30" y="45" width="200" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 5 Content Layer</text>
+    <text x="42" y="83" fill="#94a3b8" font-size="10">src/content.config.ts 类型校验</text>
+
+    <rect x="250" y="45" width="200" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="262" y="67" fill="#f8fafc" font-size="12" font-weight="600">Markdown / MDX Pipeline</text>
+    <text x="262" y="83" fill="#94a3b8" font-size="10">Shiki 代码高亮 + 5 级警示块</text>
+
+    <rect x="470" y="45" width="200" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="482" y="67" fill="#f8fafc" font-size="12" font-weight="600">Mermaid 动态图表引擎</text>
+    <text x="482" y="83" fill="#94a3b8" font-size="10">时序图 / 流程图原生渲染</text>
+
+    <rect x="690" y="45" width="190" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="702" y="67" fill="#f8fafc" font-size="12" font-weight="600">Sharp 静态图形流水线</text>
+    <text x="702" y="83" fill="#94a3b8" font-size="10">WebP/AVIF 极致图片优化</text>
+  </g>
+
+  <!-- Layer 1: Core Foundation & Tokens -->
+  <g transform="translate(50, 485)" filter="url(#drop-shadow)">
+    <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-emerald)" />
+    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">Layer 1 · 底座内核与设计令牌 (Core Runtime &amp; Design Tokens)</text>
+    
+    <rect x="30" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 5 &amp; Starlight 0.32</text>
+    <text x="42" y="79" fill="#94a3b8" font-size="10">零运行时水合 / 极速静态构建</text>
+
+    <rect x="250" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="262" y="67" fill="#f8fafc" font-size="12" font-weight="600">TypeScript 5.7+ 严格模式</text>
+    <text x="262" y="79" fill="#94a3b8" font-size="10">完整导航与多语言类型推导</text>
+
+    <rect x="470" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="482" y="67" fill="#f8fafc" font-size="12" font-weight="600">Design Tokens &amp; Theme</text>
+    <text x="482" y="79" fill="#94a3b8" font-size="10">CSS 变量 / 浅色与深色自适应</text>
+
+    <rect x="690" y="45" width="190" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="702" y="67" fill="#f8fafc" font-size="12" font-weight="600">i18n 10 国语言字典引擎</text>
+    <text x="702" y="79" fill="#94a3b8" font-size="10">客户端无刷新多语言切换</text>
+  </g>
+</svg>

@@ -1,243 +1,220 @@
 ---
-title: 服务端与客户端全栈部署
-description: 涵盖 Cloudflare Workers 边缘无服务器架构与 Docker 独立容器化双模部署实践
+title: 快速上手与环境初始化指南
+description: EpoCanvas Docs 本地开发环境准备、依赖安装、构建指令与配置文件深度解析。
 ---
 
-EpoCanvas 提供了高度灵活的部署选择：既支持依托 **Cloudflare Workers 边缘 Serverless 架构**（Workers + D1 + KV + R2）实现零基础设施成本、全球多活与免运维托管，也支持通过 **Docker / Docker Compose** 在独立 VPS 或私有云基础设施上一键容器化拉起。
+# 快速上手与环境初始化指南
 
-![EpoCanvas 全栈初始化与配置导引](/images/canvas/welcome-modal.png)
+> [!NOTE]
+> 本章旨在指导开发者与文档协作者从零开始搭建 **EpoCanvas Docs** 的本地工程环境，涵盖依赖环境检查、构建工具链调用、核心配置参数详解以及热重载（HMR）调试流程。
 
 ---
 
-## 📋 部署前准备与环境要求
+## 1. 前置依赖与开发工具链
 
-在开始部署前，请确保具备以下基础研发环境与凭证：
+在开始之前，请确保本地工作站已安装符合以下版本的环境依赖：
 
-### 1. 基础环境
-- **Node.js**：`v22.0.0` 或更高版本（推荐 Node.js 22+ LTS）。
-- **pnpm**：`v9.0.0+` 或 `npm v10+`。
-- **Git**：用于拉取源码与版本追踪。
-- **Docker & Docker Compose**（若采用容器化私有部署）：Docker Engine 24+。
+| 工具链组件 | 最低版本要求 | 推荐版本 | 验证命令 | 作用说明 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Node.js** | `>= 18.14.1` | `>= 20.10.0 LTS` | `node -v` | Astro 5 与 Sharp 原生模块运行时底座 |
+| **pnpm** | `>= 8.6.0` | `>= 9.15.0` | `pnpm -v` | 推荐的高性能、硬链接包管理工具 |
+| **Git** | `>= 2.30.0` | 最新稳定版 | `git --version` | 分支管理与 GitHub Actions 触发依赖 |
+| **Wrangler** | `>= 3.80.0` | `^4.131.0` (内建) | `npx wrangler -v` | Cloudflare Pages 边缘即时发布 CLI |
 
-### 2. 云厂商凭证（针对 Cloudflare 模式）
-- 已激活且绑定根域名（如 `epocanvas.com`）的 Cloudflare 账户。
-- Cloudflare API Token（需具备 Workers、D1、KV、R2 的读写权限）。
-- Cloudflare Account ID。
+> [!IMPORTANT]
+> 推荐使用 `pnpm` 作为主包管理工具。专案已锁定 `pnpm-lock.yaml`。若使用 `npm` 或 `yarn`，请确保依赖解析策略与 lockfile 一致，以防 Sharp 原生 C++ 扩展编译冲突。
+
+---
+
+## 2. 仓库克隆与依赖安装
+
+通过 SSH 或 HTTPS 协议克隆专案源码至本地目录：
 
 ```bash
-# 全局安装 pnpm 与 Wrangler 命令行工具
-npm install -g pnpm wrangler
+# 1. 克隆代码库
+git clone https://github.com/shijianus/epocanvas-docs.git
 
-# 授权登录 Cloudflare 账户（浏览器将弹出授权确认窗口）
-wrangler login
-```
+# 2. 进入专案根目录
+cd epocanvas-docs
 
----
-
-## 🚀 部署方案 A：Cloudflare 边缘 Serverless 架构（推荐）
-
-该方案将后端 API、事件同步、规则过滤全面下沉至 Cloudflare 全球边缘节点，无需维护常驻虚拟机。
-
-### 1. 获取源码仓库
-
-```bash
-git clone https://github.com/shijianus/epocanvas.git
-cd epocanvas
+# 3. 安装项目全部依赖（包括 Sharp 本地原生构建依赖）
 pnpm install
 ```
 
-### 2. 编排并创建 Cloudflare 边缘云资源
+依赖安装完成后，包管理器将在根目录生成 `node_modules/`，并确保 `@astrojs/starlight`、`sharp`、`@pagefind/default-ui` 等核心组件已就绪。
 
-在终端执行 Wrangler CLI 指令，一键在 Cloudflare 全球边缘网络中创建所需资源池：
+---
 
-```bash
-# 1. 创建 D1 边缘分布式数据库（用于持久化账户、会话元数据与事件 DAG）
-wrangler d1 create epocanvas_db
+## 3. 本地开发与工作流指令
 
-# 2. 创建高频 KV 命名空间（用于存储在线状态游标、OAuth 临时票据与限流缓存）
-wrangler kv namespace create epocanvas_kv
+EpoCanvas Docs 在 `package.json` 中预置了完整的开发与发布脚本体系：
 
-# 3. 创建 R2 存储桶（用于托管加密媒体附件与画板素材，享免出站流量费）
-wrangler r2 bucket create epocanvas-media
+```json
+{
+  "name": "epocanvas-docs",
+  "version": "1.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true",
+    "cf:deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true",
+    "preview": "astro preview",
+    "astro": "astro"
+  }
+}
 ```
 
-记录命令行输出中返回的 `database_id` 与 `kv_id`。
+### 3.1 核心指令详解：
 
-### 3. 配置 `wrangler.toml`
-
-在项目根目录下配置 `wrangler.toml`：
-
-```toml
-name = "epocanvas-core"
-main = "src/index.ts"
-compatibility_date = "2026-09-11"
-compatibility_flags = ["nodejs_compat"]
-
-# 绑定 D1 数据库
-[[d1_databases]]
-binding = "DB"
-database_name = "epocanvas_db"
-database_id = "<YOUR_D1_DATABASE_ID>"
-
-# 绑定 KV 缓存
-[[kv_namespaces]]
-binding = "KV"
-id = "<YOUR_KV_NAMESPACE_ID>"
-
-# 绑定 R2 存储桶
-[[r2_buckets]]
-binding = "MEDIA_BUCKET"
-bucket_name = "epocanvas-media"
-
-# 环境变量配置
-[vars]
-ENVIRONMENT = "production"
-FEDERATION_DOMAIN = "chat.example.com"
-MAX_ATTACHMENT_SIZE_MB = "50"
-OAUTH_ISSUER = "https://chat.example.com"
-```
-
-### 4. 写入安全机密密钥 (Secrets)
-
-EpoCanvas 遵循零信任安全标准，所有敏感密钥均通过 Cloudflare Secret 加密保护，禁止明文提交代码仓库：
-
+#### 启动本地极速开发服务器
 ```bash
-# 生成 32 字节高强度随机字符串
-openssl rand -hex 32
-
-# 依次写入核心机密
-wrangler secret put JWT_SECRET
-wrangler secret put TOTP_MASTER_KEY
-wrangler secret put FEDERATION_SIGNING_KEY
-wrangler secret put TURNSTILE_SECRET_KEY
+pnpm run dev
 ```
+- 默认监听：`http://localhost:4321/`
+- 特性：启用 Astro 5 原生极速 HMR，修改 `src/content/docs/**/*.md` 或 `.astro` 组件时无需全量重载，局部毫秒级热更新。
 
-### 5. 初始化数据库表结构 (D1 Migrations)
-
-执行初始迁移脚本，在 D1 中建立用户表、设备密钥表、房间状态表与事件 DAG 索引：
-
+#### 执行全量静态打包
 ```bash
-wrangler d1 execute epocanvas_db --remote --file=./migrations/0001_initial_schema.sql
-```
-
-### 6. 发布上线后端 Worker 与前端 Pages
-
-```bash
-# 1. 编译并部署核心 Worker 引擎
 pnpm run build
-wrangler deploy
-
-# 2. 部署 PrivChat 客户端控制台至 Cloudflare Pages
-pnpm --filter privchat run build
-wrangler pages deploy privchat/dist --project-name epocanvas-client --branch main
 ```
+- 输出目录：`dist/`
+- 构建链路：
+  1. 遍历 `src/content/docs/` 并执行 Zod Schema 内容严格校验；
+  2. 预热 Astro 静态页面渲染器并输出标准 HTML、CSS 与资产文件；
+  3. Sharp 自动化优化与压缩静态图片资源；
+  4. 触发 Pagefind CLI 扫描 `dist/` 生成分块 WebAssembly 倒排索引；
+  5. 生成 Pagefind 分片文件 `dist/pagefind/`。
 
-部署成功后，终端将输出专属访问域名（如 `https://epocanvas-core.<subdomain>.workers.dev`）。
+#### 本地预览打包产物
+```bash
+pnpm run preview
+```
+- 本地启动轻量 HTTP 服务器运行 `dist/` 产物，精准模拟生产环境下的静态托管行为与路由重定向。
+
+#### 一键推送到 Cloudflare Pages
+```bash
+pnpm run deploy
+# 或
+pnpm run cf:deploy
+```
+- 自动化连贯执行 `build` 打包，并通过 Wrangler CLI 校验 Cloudflare 凭证，秒级部署最新制品至 `epocanvas-docs.pages.dev` 边缘服务。
 
 ---
 
-## 🐳 部署方案 B：Docker / Docker Compose 自托管模式
+## 4. 核心配置文件深度解析 (`astro.config.mjs`)
 
-若你拥有独立 Linux 服务器（Ubuntu 22.04 / Debian 12 / AlmaLinux 9），可采用标准容器化方式独立运行。
+`astro.config.mjs` 是 EpoCanvas Docs 的中枢控制文件，其配置严格体现了 Starlight 深度集成与自定义覆写：
 
-### 1. 编写 `docker-compose.yml`
+```javascript
+import { defineConfig } from 'astro/config';
+import starlight from '@astrojs/starlight';
 
-在服务器上创建部署目录并编写编排文件：
+export default defineConfig({
+  // 1. 生产环境官方权威站点根域名
+  site: 'https://doc.epocanvas.com',
 
-```yaml
-version: "3.9"
+  integrations: [
+    starlight({
+      // 2. 站点核心元数据
+      title: 'EpoCanvas Docs',
+      description: 'EpoCanvas 全栈技术、架构与产品运维指南',
+      defaultLocale: 'root',
+      locales: {
+        root: {
+          label: '简体中文',
+          lang: 'zh-CN',
+        },
+      },
+      logo: {
+        src: './public/images/logo.svg',
+        replacesTitle: false,
+      },
+      social: {
+        github: 'https://github.com/shijianus/epocanvas-docs',
+      },
+      // 3. 注入全局样式令牌
+      customCss: ['./src/styles/custom.css'],
 
-services:
-  epocanvas-node:
-    image: ghcr.io/epocanvas-org/eccp-node:latest
-    container_name: epocanvas-node
-    restart: unless-stopped
-    ports:
-      - "8000:8000"   # 内部客户端 HTTP/WSS API
-      - "8448:8448"   # P2P 联邦双向互联端口
-    environment:
-      - ECCP_SERVER_NAME=chat.example.com
-      - ECCP_LOG_LEVEL=info
-      - DATABASE_URL=sqlite:///data/epocanvas.db
-      - JWT_SECRET=your-super-secure-jwt-secret-key-32b
-      - TOTP_MASTER_KEY=your-super-secure-totp-master-key-32b
-      - STORAGE_DRIVER=local
-      - STORAGE_PATH=/data/media
-    volumes:
-      - ./data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/_eccp/client/v1/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+      // 4. Starlight 组件覆写（Eject Overrides）
+      components: {
+        Header: './src/components/starlight/Header.astro',
+        Sidebar: './src/components/starlight/Sidebar.astro',
+        TableOfContents: './src/components/starlight/TableOfContents.astro',
+        PageTitle: './src/components/starlight/PageTitle.astro',
+        TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
+        Search: './src/components/starlight/Search.astro',
+      },
 
-  nginx:
-    image: nginx:alpine
-    container_name: epocanvas-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certs:/etc/nginx/certs:ro
-    depends_on:
-      - epocanvas-node
+      // 5. 声明式文档侧边栏大纲
+      sidebar: [
+        {
+          label: '专案概览与架构',
+          items: [
+            { label: 'EpoCanvas Docs 架构总览', link: '/canvas/' },
+            { label: '快速上手与环境初始化', link: '/canvas/deployment/' },
+          ],
+        },
+        {
+          label: '架构内核与组件覆写',
+          items: [
+            { label: 'Starlight 组件覆写体系', link: '/canvas/workbench/' },
+            { label: 'UI 设计系统与三栏布局', link: '/canvas/dns-setup/' },
+            { label: '内容集合与写作规范', link: '/canvas/system-config/' },
+          ],
+        },
+        // ...更多章节配置
+      ],
+    }),
+  ],
+
+  // 6. 路径重定向规则
+  redirects: {
+    '/mail': '/canvas',
+  },
+});
 ```
 
-### 2. 一键拉起服务
+### 关键配置项工程价值：
+1. **`site`**：指定规范化的 Canonical URL，决定了 OpenGraph 元标签、Sitemap 以及 Pagefind 检索基础路径的准确性。
+2. **`components` 映射字典**：Starlight 官方支持的插槽替换机制。通过指定相对路径，直接接管内置的 Header、Sidebar 等组件，从而彻底摆脱框架原本的强样式约束。
+3. **`sidebar` 声明式分组**：采用树状结构配置各章节层级与 URL 映射，Astro 在构建期据此生成双向导航链接。
+
+---
+
+## 5. TypeScript 严格模式配置 (`tsconfig.json`)
+
+专案启用了最高安全等级的 TypeScript 类型推导，继承 Astro 官方严格规范：
+
+```json
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}
+```
+
+这确保了：
+- 在 `src/config/navigation.ts` 中定义的导航数据模型 `NavItem` 拥有精确类型补全与防拼写错误；
+- 在 `src/utils/i18n.ts` 中的多语言词条索引能在开发阶段完成键值穷尽性校验；
+- 在组件模板中调用 `Astro.locals.starlightRoute` 时享有完整代码提示。
+
+---
+
+## 6. 开发环境自检清单 (Verification Checklist)
+
+在向远程仓库提交代码或发布新版本前，请依次执行以下本地质检命令：
 
 ```bash
-# 启动容器集群并后台运行
-docker compose up -d
+# 1. 检查代码格式与类型安全
+pnpm exec astro check
 
-# 查看运行状态与输出日志
-docker compose ps
-docker compose logs -f epocanvas-node
+# 2. 检查静态全量打包是否零警告、零报错
+pnpm run build
+
+# 3. 验证本地静态索引产物是否存在
+ls -lh dist/pagefind/pagefind.wasm
 ```
 
----
-
-## 🛠️ 系统初次初始化向导
-
-完成服务部署后，需执行一次性安全初始化以创建首位超级管理员：
-
-### 1. 触发系统安全初始化
-
-在终端发起初始化请求，或在浏览器中访问初始引导向导：
-
-```bash
-curl -X POST https://chat.example.com/_eccp/client/v1/init-admin \
-  -H "Content-Type: application/json" \
-  -H "X-Init-Secret: <YOUR_JWT_SECRET>" \
-  -d '{
-    "username": "root_admin",
-    "email": "admin@example.com",
-    "password": "YourStrongPassword#2026",
-    "display_name": "系统超级管理员"
-  }'
-```
-
-接口将返回系统管理员凭据及生成的 TOTP 绑定密钥二维码。
-
-### 2. 绑定管理员 TOTP 动态令牌
-
-1. 使用手机安装的 **Google Authenticator** 或 **1Password** 扫描返回的二维码或填入密钥字符串。
-2. 输入当前动态 6 位校验码，完成双重身份鉴权激活。
-3. 一旦初始化完成，`init-admin` 接口将被永久锁死，防止二次重入攻击。
-
----
-
-## 🩺 服务健康度检验与验证清单
-
-部署完成后，通过以下步骤确认所有子系统均健康运转：
-
-| 校验环节 | 验证指令 / 测试端点 | 预期结果 |
-| :--- | :--- | :--- |
-| **API 服务探针** | `GET https://chat.example.com/_eccp/client/v1/health` | HTTP 200 `{"status":"healthy","version":"7.4.0"}` |
-| **联邦端点暴露** | `GET https://chat.example.com:8448/_eccp/federation/v1/version` | 返回当前节点版本与 Ed25519 公钥指纹 |
-| **Well-Known 解析** | `GET https://chat.example.com/.well-known/eccp/server` | 返回 `{"m.server": "chat.example.com:8448"}` |
-| **对象存储直传** | 在工作台上传一张 5MB 图片附件 | 上传成功并在 R2 / 本地目录生成分片哈希 |
-| **WebRTC 通话握手** | 发起一次双人音视频通话通道 | 成功建立 STUN/TURN P2P 连接 |
-
-至此，你的 EpoCanvas 全栈协作与通信系统已在生产环境完整就绪！接下来请参考 [域名解析与网络配置](/canvas/dns-setup/) 完成规范化联邦域绑定。
+通过上述自检后，即可安全进入文档内容撰写与组件自定义扩展环节。

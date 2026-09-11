@@ -1,283 +1,143 @@
 ---
-title: 开放 RESTful API 开发者参考规范
-description: 涵盖 ECCP 客户端同步、端对端密钥管理、房间与画板操作、多媒体直传及 AI 协处理接口
+title: 二次开发与生态扩展指南
+description: EpoCanvas Docs 自定义 Astro 组件扩展、样式插件定制、Remark/Rehype 插件集成与性能调优指南。
 ---
 
-EpoCanvas 提供了一套遵循 RESTful 规范与事件驱动流式模型的全功能开放 API。开发者可基于此 API 构建自动化测试脚本、自研终端客户端、业务告警机器人，或将加密通信与数字画布能力嵌入现有企业系统。
+# 二次开发与生态扩展指南
+
+> [!NOTE]
+> **EpoCanvas Docs** 具备极高的可扩展性。开发者不仅可以基于本专案快速构建衍生站点的官方技术文档，还能自由注入自定义 Astro 交互组件、扩展 Markdown 编译管线，或集成数学公式与图像灯箱画廊等生态插件。
 
 ---
 
-## 🔑 1. 认证协议与调用约定
+## 1. 架构扩展分层拓扑
 
-### 接口基础路径 (Base URL)
-```text
-https://chat.example.com
-```
+专案提供了清晰的扩展插槽与钩子，允许在不侵入 Starlight 内核的前提下完成功能叠加：
 
-### 身份鉴权标头
-除公开接口（如登录、注册、服务发现）外，所有客户端端点均需在 HTTP 标头中附带有效的 Bearer JWT 访问令牌：
+![EpoCanvas Docs 四层系统工程架构](/images/canvas/docs-architecture.svg)
 
-```http
-Authorization: Bearer <ACCESS_TOKEN>
-Content-Type: application/json
-```
+---
 
-### 标准统一响应封装
-所有客户端 API 统一返回规范的 JSON 数据载荷：
+## 2. 自定义 Astro 交互组件开发
 
-```json
-{
-  "code": 200,
-  "message": "success",
-  "data": { ... }
+在文档中嵌入自定义交互组件是提升读者实践体验的重要方式。
+
+### 2.1 创建通用卡片组件示例 (`src/components/MetricCard.astro`)：
+```astro
+---
+interface Props {
+  title: string;
+  value: string;
+  trend?: string;
 }
-```
 
-- `code === 200`：请求成功处理。
-- `code >= 400`：业务或鉴权异常，`message` 包含明确的错误说明与诊断代码（如 `M_FORBIDDEN`、`M_UNKNOWN_TOKEN`、`M_LIMIT_EXCEEDED`）。
-
+const { title, value, trend } = Astro.props;
 ---
 
-## 👤 2. 身份认证与设备注册 API
+<div class="metric-card">
+  <div class="metric-title">{title}</div>
+  <div class="metric-value">{value}</div>
+  {trend && <div class="metric-trend">{trend}</div>}
+</div>
 
-### 2.1 用户注册 (Register)
-```http
-POST /_eccp/client/v1/register
-```
-
-#### 请求示例：
-```bash
-curl -X POST https://chat.example.com/_eccp/client/v1/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "ada",
-    "password": "SecurePassword#2026",
-    "display_name": "Ada Lovelace",
-    "device_name": "Ada MacBook Pro"
-  }'
-```
-
-#### 成功响应：
-```json
-{
-  "code": 200,
-  "message": "success",
-  "data": {
-    "user_id": "@ada:example.com",
-    "access_token": "epo_tok_a1b2c3d4e5f6...",
-    "device_id": "DEV_MBP_8923",
-    "home_server": "example.com"
+<style>
+  .metric-card {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    background-color: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-hairline);
+    margin: 1rem 0;
   }
-}
+  .metric-title {
+    font-size: 0.875rem;
+    color: var(--sl-color-gray-3);
+  }
+  .metric-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--sl-color-text-accent);
+    margin-top: 0.25rem;
+  }
+  .metric-trend {
+    font-size: 0.75rem;
+    color: var(--sl-color-accent-high);
+    margin-top: 0.25rem;
+  }
+</style>
 ```
 
-### 2.2 用户登录 (Login)
-```http
-POST /_eccp/client/v1/login
-```
+### 2.2 在 MDX 文档中直接引入使用：
+```mdx
+---
+title: 性能基准测试
+---
 
-#### 请求示例：
-```bash
-curl -X POST https://chat.example.com/_eccp/client/v1/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "ada",
-    "password": "SecurePassword#2026",
-    "device_name": "Ada iPhone"
-  }'
+import MetricCard from '../../components/MetricCard.astro';
+
+<MetricCard title="平均 TTFB" value="38ms" trend="同比缩短 42%" />
 ```
 
 ---
 
-## 🔐 3. 端对端密钥协商与管理 API
+## 3. Remark 与 Rehype 编译管线扩展
 
-### 3.1 批量上传设备密钥与一次性预共享密钥 (One-Time Keys)
-```http
-POST /_eccp/client/v1/keys/upload
+Astro 允许在 `astro.config.mjs` 中轻松注入丰富的 Markdown 处理器插件：
+
+### 3.1 引入数学公式支持 (KaTeX)
+若文档需要撰写严谨的算法与加密学公式，可集成 `remark-math` 与 `rehype-katex`：
+
+```bash
+pnpm add remark-math rehype-katex katex
 ```
 
-#### 请求体：
-```json
-{
-  "device_keys": {
-    "user_id": "@ada:example.com",
-    "device_id": "DEV_MBP_8923",
-    "algorithms": ["ed25519", "curve25519"],
-    "keys": {
-      "ed25519:DEV_MBP_8923": "J7fg6R2...",
-      "curve25519:DEV_MBP_8923": "dK91pQ4..."
-    },
-    "signatures": {
-      "@ada:example.com": {
-        "ed25519:DEV_MBP_8923": "sig_base64_blob..."
-      }
-    }
+在 `astro.config.mjs` 中配置：
+```javascript
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+
+export default defineConfig({
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
   },
-  "one_time_keys": {
-    "signed_curve25519:AAAAAA": {
-      "key": "x25519_otk_pubkey...",
-      "signatures": { ... }
-    }
-  }
-}
+  // 在 customCss 中引入 KaTeX 官方样式
+  integrations: [
+    starlight({
+      customCss: ['./src/styles/custom.css', 'katex/dist/katex.min.css'],
+    }),
+  ],
+});
 ```
 
-### 3.2 索取对端设备一次性密钥 (Claim Keys)
-当向其他成员首次发起 E2EE 会话前，调用此接口索取一次性握手公钥：
-
-```http
-POST /_eccp/client/v1/keys/claim
-```
-
----
-
-## 💬 4. 房间、频道与事件分发 API
-
-### 4.1 创建房间 / 协作画布 (Create Room)
-```http
-POST /_eccp/client/v1/rooms/create
-```
-
-#### 请求参数：
-```json
-{
-  "name": "EpoCanvas 核心架构组",
-  "topic": "新一代端对端加密协作讨论",
-  "visibility": "private",
-  "preset": "private_chat",
-  "is_shadow_room": false,
-  "creation_content": {
-    "m.federatable": true,
-    "org.epocanvas.canvas_enabled": true
-  }
-}
-```
-
-#### 返回结果：
-```json
-{
-  "code": 200,
-  "data": {
-    "room_id": "!canvas_core_9876:example.com"
-  }
-}
-```
-
-### 4.2 发送加密消息 / 画布图元事件 (Send Event)
-```http
-PUT /_eccp/client/v1/rooms/{roomId}/send/{eventType}/{txnId}
-```
-
-- `{roomId}`：目标房间 ID。
-- `{eventType}`：事件类型，如 `m.room.encrypted`、`m.room.message` 或 `org.epocanvas.drawing.stroke`。
-- `{txnId}`：客户端生成的幂等事务 ID，防止网络抖动导致的重复发送。
-
-#### 请求体：
-```json
-{
-  "algorithm": "eccp.megolm.v1",
-  "sender_key": "x25519_pubkey...",
-  "session_id": "megolm_session_12345",
-  "ciphertext": "base64_encrypted_payload..."
-}
+配置完成后即可在 Markdown 中直接书写 LaTeX 复杂公式：
+```markdown
+$$
+\mathcal{H}(m) = \text{Argon2id}(m, \text{salt}, t=3, m=65536, p=4)
+$$
 ```
 
 ---
 
-## 🔄 5. 实时长轮询与增量同步 API (Sync Engine)
+## 4. 性能极致调优最佳实践
 
-PrivChat 客户端通过单连接轮询获取全量/增量事件流：
+为保持全站 **Lighthouse 性能得分 > 98 分**，请遵循以下工程准则：
 
-```http
-GET /_eccp/client/v1/sync?since={next_batch}&timeout=30000
-```
+### 4.1 静态图像资产优化
+- 优先采用 `.svg` 矢量格式保存架构拓扑图、交互流程图与系统模型；
+- 位图必须经过 Sharp 预先优化，建议宽度不超过 `1920px`，并转换为现代 `.webp` 格式；
+- 严禁在页面中直接引入未经压缩的几十兆 RAW 原始图。
 
-- `since`：上一批次返回的游标 Token。若不传，则执行全量冷拉取。
-- `timeout`：服务端挂起等待新事件的最长毫秒数（支持边缘 Long-Polling）。
-
-#### 响应结构：
-```json
-{
-  "next_batch": "s89234_981_0_1",
-  "rooms": {
-    "join": {
-      "!canvas_core_9876:example.com": {
-        "timeline": {
-          "events": [
-            {
-              "type": "m.room.encrypted",
-              "sender": "@bob:example.com",
-              "content": { ... },
-              "origin_server_ts": 1773291000000,
-              "event_id": "$evt_9831a..."
-            }
-          ]
-        }
-      }
-    }
-  }
-}
-```
+### 4.2 客户端 JavaScript 体积控制
+- 坚持 **纯静态优先（Static-First）** 原则，避免在正文页面无节制引入大型前端框架（如 React / Vue 全家桶）；
+- 尽量使用原生 Web API（如 `IntersectionObserver`、`localStorage`、`fetch`、CSS 动画）实现轻量交互。
 
 ---
 
-## 📦 6. 媒体与白板素材预签名直传 API
+## 5. 贡献代码与 Pull Request 流程规范
 
-### 6.1 请求上传预签名 URL (Create Upload)
-```http
-POST /_eccp/client/v1/media/create-upload
-```
-
-#### 请求示例：
-```json
-{
-  "filename": "architecture-diagram.png",
-  "content_type": "image/png",
-  "file_size": 2097152
-}
-```
-
-#### 返回参数：
-```json
-{
-  "code": 200,
-  "data": {
-    "upload_url": "https://<account-id>.r2.cloudflarestorage.com/epocanvas-media/media/ada/xyz123.png?X-Amz-Signature=...",
-    "download_url": "https://media.epocanvas.com/media/ada/xyz123.png",
-    "expires_in": 900
-  }
-}
-```
-
----
-
-## 🤖 7. AI Hub 智能协处理 API
-
-### 7.1 会话流长上下文智能摘要
-```http
-POST /_eccp/client/v1/ai/summarize
-```
-
-#### 请求参数：
-```json
-{
-  "room_id": "!canvas_core_9876:example.com",
-  "event_ids": ["$evt_1", "$evt_2", "$evt_3"],
-  "model": "deepseek-reasoner",
-  "language": "zh-CN"
-}
-```
-
-#### 返回数据：
-```json
-{
-  "code": 200,
-  "data": {
-    "summary": "团队确认了 v7.4 协议的发布时间，并分配了关于 WebRTC 穿透优化的待办事项给 @ada。",
-    "action_items": [
-      { "assignee": "@ada:example.com", "task": "部署 Coturn 备用节点" }
-    ],
-    "tokens_used": 342
-  }
-}
-```
+若为本专案贡献新功能或修正，请严格遵循分支工作流：
+1. **Fork 仓库** 到个人 GitHub 空间；
+2. 基于 `main` 分支创建特性分支（如 `feature/dark-mode-polish` 或 `fix/typo-deployment`）；
+3. 本地运行 `pnpm run build` 确保构建通过且 Pagefind 索引正常生成；
+4. 提交清晰规范的 Git Commit 信息（遵循 Conventional Commits 规范）；
+5. 向主仓库的 `main` 分支发起 Pull Request 并附带详细变更描述与效果截图。
