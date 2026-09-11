@@ -54,38 +54,48 @@ export default defineConfig({
 				{
 					label: '核心功能与使用指南',
 					items: [
-						{ label: '页面布局与阅读体验', link: '/canvas/dns-setup/' },
+						{ label: '页面布局与阅读体验', link: '/canvas/layout/' },
 						{ label: '全文搜索与快捷键使用', link: '/canvas/search-engine/' },
-						{ label: '多语言支持与阅读切换', link: '/canvas/ai-hub/' },
-						{ label: '顶部导航与页面路由', link: '/canvas/oauth-provider/' },
+						{ label: '多语言支持与阅读切换', link: '/canvas/i18n/' },
+						{ label: '顶部导航与页面路由', link: '/canvas/navigation/' },
 					],
 				},
 				{
 					label: '文档编写与内容管理',
 					items: [
-						{ label: 'Markdown 编写与排版指南', link: '/canvas/system-config/' },
-						{ label: '提示框、代码块与图表示例', link: '/canvas/workbench/' },
+						{ label: 'Markdown 编写与排版指南', link: '/canvas/markdown/' },
+						{ label: '渲染规则详解', link: '/canvas/rendering/' },
+						{ label: '提示框、代码块与图表示例', link: '/canvas/syntax/' },
 					],
 				},
 				{
 					label: '配置与二次开发',
 					items: [
-						{ label: '站点全局配置与样式定制', link: '/canvas/api-reference/' },
+						{ label: '站点全局配置与样式定制', link: '/canvas/configuration/' },
 					],
 				},
 				{
 					label: '发布与运维部署',
 					items: [
-						{ label: 'Cloudflare Pages 部署上线', link: '/canvas/rule-engine/' },
-						{ label: '版本管理与自动化工作流', link: '/canvas/security-rbac/' },
+						{ label: 'Cloudflare Pages 部署上线', link: '/canvas/cloudflare/' },
+						{ label: '版本管理与自动化工作流', link: '/canvas/releases/' },
 						{ label: '常见问题与故障排查 FAQ', link: '/canvas/troubleshooting/' },
 					],
 				},
 			],
 		}),
 	],
+	// 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。
 	redirects: {
 		'/mail': '/canvas',
+		'/canvas/dns-setup': '/canvas/layout',
+		'/canvas/ai-hub': '/canvas/i18n',
+		'/canvas/oauth-provider': '/canvas/navigation',
+		'/canvas/system-config': '/canvas/markdown',
+		'/canvas/workbench': '/canvas/syntax',
+		'/canvas/api-reference': '/canvas/configuration',
+		'/canvas/rule-engine': '/canvas/cloudflare',
+		'/canvas/security-rbac': '/canvas/releases',
 	},
 });
 

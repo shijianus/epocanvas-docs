@@ -65,8 +65,8 @@ sidebar: [
   {
     label: '用户指南',
     items: [
-      { label: '账号注册与登录', link: '/canvas/login/' },
-      { label: '协同画布基本操作', link: '/canvas/workbench/' },
+      { label: '全文搜索与快捷键使用', link: '/canvas/search-engine/' },
+      { label: '多语言支持与阅读切换', link: '/canvas/i18n/' },
     ],
   },
 ];

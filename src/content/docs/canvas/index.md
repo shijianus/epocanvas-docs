@@ -105,5 +105,5 @@ epocanvas-docs/
 ## 下一步
 
 - 想在本地把专案跑起来？请阅读 **[快速上手 (3分钟运行)](/canvas/deployment/)**。
-- 想了解界面的具体布局与使用方式？请阅读 **[页面布局与阅读体验](/canvas/dns-setup/)**。
-- 想开始撰写新文档？请阅读 **[Markdown 编写与排版指南](/canvas/system-config/)**。
+- 想了解界面的具体布局与使用方式？请阅读 **[页面布局与阅读体验](/canvas/layout/)**。
+- 想开始撰写新文档？请阅读 **[Markdown 编写与排版指南](/canvas/markdown/)**。

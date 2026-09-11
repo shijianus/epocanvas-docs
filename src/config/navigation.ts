@@ -24,10 +24,10 @@ export const navigationConfig: NavItem[] = [
 		match: (pathname: string) =>
 			pathname === '/canvas' ||
 			pathname === '/canvas/' ||
-			pathname.includes('dns-setup') ||
+			pathname.includes('layout') ||
 			pathname.includes('search-engine') ||
-			pathname.includes('ai-hub') ||
-			pathname.includes('oauth-provider'),
+			pathname.includes('i18n') ||
+			pathname.includes('navigation'),
 	},
 	{
 		id: 'quickstart',
@@ -40,20 +40,21 @@ export const navigationConfig: NavItem[] = [
 		id: 'guide',
 		labelKey: 'nav.guide',
 		defaultLabel: '编写规范',
-		href: '/canvas/system-config/',
+		href: '/canvas/markdown/',
 		match: (pathname: string) =>
-			pathname.includes('system-config') ||
-			pathname.includes('workbench') ||
-			pathname.includes('api-reference'),
+			pathname.includes('markdown') ||
+			pathname.includes('rendering') ||
+			pathname.includes('syntax') ||
+			pathname.includes('configuration'),
 	},
 	{
 		id: 'deploy',
 		labelKey: 'nav.deploy',
 		defaultLabel: '部署上线',
-		href: '/canvas/rule-engine/',
+		href: '/canvas/cloudflare/',
 		match: (pathname: string) =>
-			pathname.includes('rule-engine') ||
-			pathname.includes('security-rbac'),
+			pathname.includes('cloudflare') ||
+			pathname.includes('releases'),
 	},
 	{
 		id: 'faq',
