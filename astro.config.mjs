@@ -19,6 +19,17 @@ export default defineConfig({
 				src: './public/images/logo.svg',
 				replacesTitle: false,
 			},
+			favicon: '/favicon.svg',
+			head: [
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'icon',
+						type: 'image/svg+xml',
+						href: '/favicon.svg',
+					},
+				},
+			],
 			social: {
 				github: 'https://github.com/shijianus/epocanvas-docs',
 			},

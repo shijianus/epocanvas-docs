@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 40 320 320" width="100%" height="100%" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+    <defs>
+        <!-- Modern Tech Gradient: Vivid Cyan -> Electric Cobalt -> Deep Violet -->
+        <linearGradient id="epoGradPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00F5D4" />
+            <stop offset="42%" stop-color="#2563EB" />
+            <stop offset="100%" stop-color="#7C3AED" />
+        </linearGradient>
+
+        <linearGradient id="epoGradLayer2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2563EB" />
+            <stop offset="100%" stop-color="#60A5FA" />
+        </linearGradient>
+
+        <linearGradient id="epoGradAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="100%" stop-color="#00F5D4" />
+        </linearGradient>
+
+        <!-- Crisp Depth Shadow -->
+        <filter id="crispShadow" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="2.5" stdDeviation="2.5" flood-color="#0F172A" flood-opacity="0.35" />
+        </filter>
+
+        <filter id="crispLayerShadow" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0F172A" flood-opacity="0.22" />
+        </filter>
+    </defs>
+
+    <!-- Background Tech Glow Points -->
+    <circle cx="80" cy="110" r="3.5" fill="#00F5D4" opacity="0.9" />
+    <circle cx="325" cy="95" r="4" fill="#38BDF8" opacity="0.95" />
+    <circle cx="330" cy="285" r="3.5" fill="#8B5CF6" opacity="0.9" />
+    <circle cx="75" cy="280" r="3" fill="#3B82F6" opacity="0.85" />
+
+    <!-- EpoCanvas Main Glyph: Multi-Tier Layered Isometric Canvas forming E + C Monogram -->
+    <g filter="url(#crispShadow)">
+        <!-- Layer 1 (Base Canvas Plane / Foundation Horizon) -->
+        <path d="
+            M 115 160 
+            L 285 75 
+            C 298 68 314 78 314 93 
+            L 314 215 
+            C 314 225 308 234 299 238 
+            L 142 320 
+            C 126 329 105 318 105 300 
+            L 105 178 
+            C 105 170 109 163 115 160 Z"
+            fill="url(#epoGradPrimary)" 
+            stroke="#38BDF8"
+            stroke-width="1.2"
+            stroke-opacity="0.5" />
+
+        <!-- Layer 2 (Middle Offset Floating Doc Canvas Layer) -->
+        <path d="
+            M 140 135 
+            L 270 70 
+            C 280 65 292 72 292 84 
+            L 292 185 
+            C 292 193 287 200 280 204 
+            L 160 268 
+            C 148 274 133 266 133 252 
+            L 133 150 
+            C 133 144 136 138 140 135 Z"
+            fill="url(#epoGradLayer2)" 
+            filter="url(#crispLayerShadow)"
+            stroke="#93C5FD"
+            stroke-width="1.2"
+            stroke-opacity="0.7" />
+
+        <!-- Layer 3 (Top Focus Canvas Sheet: Crisp White/Luminous Cyan Surface) -->
+        <path d="
+            M 165 115 
+            L 255 70 
+            C 264 65 274 71 274 81 
+            L 274 162 
+            C 274 169 270 175 264 178 
+            L 182 222 
+            C 172 227 160 220 160 209 
+            L 160 128 
+            C 160 122 162 117 165 115 Z"
+            fill="#FFFFFF" 
+            stroke="#BFDBFE"
+            stroke-width="1.5" />
+
+        <!-- Architectural Canvas Layout Lines on Top Sheet -->
+        <path d="M 180 135 L 245 102" stroke="#2563EB" stroke-width="5" stroke-linecap="round" />
+        <path d="M 180 155 L 235 127" stroke="#3B82F6" stroke-width="4.5" stroke-linecap="round" />
+        <path d="M 180 175 L 215 157" stroke="#0284C7" stroke-width="4" stroke-linecap="round" />
+
+        <!-- Modern Geometric Canvas Nodes / Epoch Indicators -->
+        <circle cx="255" cy="97" r="4.5" fill="#00F5D4" stroke="#059669" stroke-width="0.8" />
+        <circle cx="245" cy="122" r="4" fill="#38BDF8" stroke="#0284C7" stroke-width="0.8" />
+        <circle cx="225" cy="152" r="3.5" fill="#7C3AED" stroke="#5B21B6" stroke-width="0.8" />
+
+        <!-- Dynamic Curved Orbit / Horizon Wave -->
+        <path d="
+            M 80 230 
+            C 110 280 180 340 270 310 
+            C 315 295 340 250 330 220" 
+            fill="none" 
+            stroke="url(#epoGradAccent)" 
+            stroke-width="5.5" 
+            stroke-linecap="round" 
+            stroke-dasharray="120 12" />
+        
+        <!-- Leading Sparkle on Orbit -->
+        <polygon points="330,215 334,222 341,222 335,227 338,234 330,230 322,234 325,227 319,222 326,222" fill="#00F5D4" stroke="#059669" stroke-width="0.5" />
+    </g>
+</svg>

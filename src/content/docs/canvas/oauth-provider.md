@@ -39,27 +39,48 @@ export const navigationConfig: NavItem[] = [
   {
     id: 'docs',
     labelKey: 'nav.docs',
-    defaultLabel: '文档',
+    defaultLabel: '产品说明',
     href: '/canvas/',
     match: (pathname: string) =>
-      pathname.startsWith('/canvas') &&
-      !pathname.includes('deployment') &&
-      !pathname.includes('api-reference'),
+      pathname === '/canvas' ||
+      pathname === '/canvas/' ||
+      pathname.includes('dns-setup') ||
+      pathname.includes('search-engine') ||
+      pathname.includes('ai-hub') ||
+      pathname.includes('oauth-provider'),
   },
   {
-    id: 'deployment',
-    labelKey: 'nav.deployment',
-    defaultLabel: '部署',
+    id: 'quickstart',
+    labelKey: 'nav.quickstart',
+    defaultLabel: '快速上手',
     href: '/canvas/deployment/',
     match: (pathname: string) => pathname.includes('deployment'),
   },
   {
-    id: 'releases',
-    labelKey: 'nav.releases',
-    defaultLabel: 'v1.2.0',
-    href: 'https://github.com/shijianus/epocanvas-docs/releases',
-    isExternal: true,
-    badge: 'v1.2.0',
+    id: 'guide',
+    labelKey: 'nav.guide',
+    defaultLabel: '编写规范',
+    href: '/canvas/system-config/',
+    match: (pathname: string) =>
+      pathname.includes('system-config') ||
+      pathname.includes('workbench') ||
+      pathname.includes('api-reference'),
+  },
+  {
+    id: 'deploy',
+    labelKey: 'nav.deploy',
+    defaultLabel: '部署上线',
+    href: '/canvas/rule-engine/',
+    match: (pathname: string) =>
+      pathname.includes('rule-engine') ||
+      pathname.includes('security-rbac'),
+  },
+  {
+    id: 'faq',
+    labelKey: 'nav.faq',
+    defaultLabel: '常见问题',
+    href: '/canvas/troubleshooting/',
+    match: (pathname: string) => pathname.includes('troubleshooting'),
   },
 ];
 ```

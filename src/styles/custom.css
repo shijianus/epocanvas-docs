@@ -104,27 +104,43 @@ html, body {
   background: rgba(148, 163, 184, 0.45);
 }
 
-/* Header Border & Backdrop */
+/* Header Border, Height & Perfect Vertical Centering (Resolves Requirement 1 & 2) */
 header.header {
-  border-bottom: 1px solid var(--sl-color-hairline);
-  background-color: var(--sl-color-bg-nav);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  height: var(--sl-nav-height) !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  border-bottom: 1px solid var(--sl-color-hairline) !important;
+  background-color: var(--sl-color-bg-nav) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-sizing: border-box !important;
 }
 
-/* Site Logo: Crisp, properly enlarged, balanced contrast */
+@media (max-width: 50rem) {
+  header.header {
+    padding-inline-end: calc(var(--sl-nav-gap, 1rem) + var(--sl-nav-pad-x, 1rem) + var(--sl-menu-button-size, 2rem)) !important;
+  }
+}
+
+/* Site Logo: Crisp, vertically centered, aligned with sidebar */
 .site-title {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 0.7rem !important;
+  gap: 0.65rem !important;
+  height: 100% !important;
+  text-decoration: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .site-title img {
-  height: 36px !important;
-  width: 36px !important;
-  max-width: 36px !important;
+  height: 30px !important;
+  width: 30px !important;
+  max-width: 30px !important;
   object-fit: contain !important;
   flex-shrink: 0 !important;
+  vertical-align: middle !important;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.16));
@@ -136,7 +152,17 @@ header.header {
 }
 
 .site-title:hover img {
-  transform: scale(1.04);
+  transform: scale(1.05);
+}
+
+.site-title span {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--sl-color-white) !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
 /* Sidebar Pane & Content: Prevent false scrollbar when content fits without overflow */
