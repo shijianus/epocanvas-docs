@@ -43,6 +43,7 @@ export const navigationConfig: NavItem[] = [
     match: (pathname: string) =>
       pathname === '/canvas' ||
       pathname === '/canvas/' ||
+      pathname.includes('about') ||
       pathname.includes('layout') ||
       pathname.includes('search-engine') ||
       pathname.includes('i18n') ||
@@ -71,7 +72,7 @@ export const navigationConfig: NavItem[] = [
 因此每个导航项都用 `match` 函数声明自己的高亮范围：
 
 - 访问首页 `/` 时，只有"首页"按钮处于激活状态；
-- 访问 `/canvas/layout/`、`/canvas/search-engine/` 等常规文档时，激活"产品说明"按钮；
+- 访问 `/canvas/layout/`、`/canvas/about/` 等常规文档时，激活"产品说明"按钮；
 - 进入 `deployment` 路径的页面时，排他地激活"快速上手"按钮；
 - 激活状态的按钮带主题色胶囊背景，与未激活按钮形成明显对比。
 

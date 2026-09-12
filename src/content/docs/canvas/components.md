@@ -1,6 +1,6 @@
 ---
 title: 界面组件与二次开发
-description: EpoCanvas Docs 界面组件架构：Starlight 组件覆盖机制、六个定制组件的职责与数据流，以及二次开发的注意事项。
+description: EpoCanvas Docs 界面组件架构：Starlight 组件覆盖机制、七个定制组件的职责与数据流，以及二次开发的注意事项。
 ---
 
 **EpoCanvas Docs** 的界面没有从零造轮子，而是在 Starlight 原生组件的基础上做了**定向覆盖**：保留 Starlight 的页面骨架与内容处理能力，替换掉顶栏、侧边栏、目录、搜索等展示组件，以获得想要的三栏布局和交互。本页说明这套组件体系的结构与修改方法。
@@ -9,7 +9,7 @@ description: EpoCanvas Docs 界面组件架构：Starlight 组件覆盖机制、
 
 ## 组件覆盖机制
 
-Starlight 允许在 `astro.config.mjs` 的 `components` 字段中，把任意原生组件替换为自定义实现。本专案覆盖了 6 个组件：
+Starlight 允许在 `astro.config.mjs` 的 `components` 字段中，把任意原生组件替换为自定义实现。本专案覆盖了 7 个组件：
 
 ```javascript
 // astro.config.mjs（节选）
@@ -20,6 +20,7 @@ components: {
   PageTitle: './src/components/starlight/PageTitle.astro',
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
+  Pagination: './src/components/starlight/Pagination.astro',
 },
 ```
 
@@ -27,7 +28,7 @@ components: {
 
 ---
 
-## 六个定制组件的职责
+## 七个定制组件的职责
 
 全部源码位于 `src/components/starlight/`，规模与职责如下：
 
@@ -35,9 +36,10 @@ components: {
 | :--- | :--- | :--- |
 | `Header.astro` | 约 713 行 | 顶栏全部内容：Logo、搜索框、主导航、版本徽标、语言切换、主题切换、GitHub 与 Telegram 入口 |
 | `Search.astro` | 约 840 行 | 双模式搜索：顶栏页内查找（高亮与计数）+ `Ctrl+K` 全站检索弹窗（Pagefind UI） |
+| `Pagination.astro` | 约 123 行 | 底部"上一页 / 下一页"翻页卡片：扁平细边框、主题色标题、↙/↘ 斜向箭头指示翻页方向 |
 | `TwoColumnContent.astro` | 约 77 行 | 正文与右侧目录的双栏骨架，控制右栏固定宽度与滚动 |
 | `TableOfContents.astro` | 约 64 行 | "本页目录"标题、图标与目录列表，过滤掉页面自身标题 |
-| `PageTitle.astro` | 约 60 行 | 页面大标题（取 Frontmatter 的 `title`）与"最后更新于"时间戳 |
+| `PageTitle.astro` | 约 62 行 | 页面大标题（取 Frontmatter 的 `title`）与"最后更新于"时间戳 |
 | `Sidebar.astro` | 约 22 行 | 薄封装：复用 Starlight 原生的 `SidebarPersister`，实现换页时侧边栏滚动位置不变 |
 
 ---
@@ -96,12 +98,16 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 所有带 data-i18n
 1. **页内查找**：顶栏输入框，回车在当前页的匹配文字间跳转，高亮由脚本打标记实现；
 2. **全站检索**：`<dialog>` 弹窗 + Pagefind 默认 UI，索引在 `pnpm run build` 阶段生成。
 
+### Pagination：翻页卡片
+
+上一页 / 下一页数据由 Starlight 根据 `sidebar` 顺序在构建时算好（`Astro.locals.starlightRoute.pagination`），组件只负责渲染：两张等宽卡片、细边框无阴影、标题用主题色，↙ / ↘ 斜向箭头在悬停时沿翻页方向位移。箭头是内联 SVG 路径，站点若用于 RTL 语言会自动镜像方向。
+
 ---
 
 ## 二次开发注意事项
 
 :::caution
-覆盖组件意味着放弃了 Starlight 原生组件的后续更新。升级 Starlight 版本时，组件的 props 与 `Astro.locals.starlightRoute` 结构可能变化，升级后必须对全部 6 个覆盖组件做回归测试。
+覆盖组件意味着放弃了 Starlight 原生组件的后续更新。升级 Starlight 版本时，组件的 props 与 `Astro.locals.starlightRoute` 结构可能变化，升级后必须对全部 7 个覆盖组件做回归测试。
 :::
 
 - **改样式优先用 CSS 变量**：颜色、字体、布局尺寸集中在 `src/styles/custom.css` 的 `:root` 变量里，见[站点全局配置与样式定制](/canvas/configuration/)，多数定制不需要动组件；

@@ -11,14 +11,14 @@
 
   <rect width="960" height="480" fill="#090d16" />
 
-  <text x="40" y="45" fill="#f8fafc" font-size="22" font-weight="700">EpoCanvas Docs 客户端动态多语言架构 (Dynamic i18n Engine)</text>
-  <text x="40" y="70" fill="#94a3b8" font-size="13">10 Supported Languages · Zero Page Reload · Microsecond DOM Replacement</text>
+  <text x="40" y="45" fill="#f8fafc" font-size="22" font-weight="700">EpoCanvas Docs 界面多语言切换原理（客户端字典替换）</text>
+  <text x="40" y="70" fill="#94a3b8" font-size="13">10 Supported Languages · Zero Page Reload · In-Place UI Text Replacement</text>
 
   <!-- Left: Language Selection Event -->
   <g transform="translate(40, 110)" filter="url(#ishadow)">
     <rect width="250" height="310" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
     <rect width="250" height="36" rx="10" fill="#1e293b" />
-    <text x="15" y="24" fill="#38bdf8" font-size="12" font-weight="700">1. 用户交互 / 浏览器探测</text>
+    <text x="15" y="24" fill="#38bdf8" font-size="12" font-weight="700">1. 用户交互</text>
 
     <!-- Language Dropdown Mock -->
     <g transform="translate(20, 50)">
@@ -32,12 +32,13 @@
         <text x="15" y="62" fill="#94a3b8" font-size="11">  English (en)</text>
         <text x="15" y="82" fill="#94a3b8" font-size="11">  日本語 (ja)</text>
         <text x="15" y="102" fill="#94a3b8" font-size="11">  한국어 / Deutsch / Français...</text>
-        <text x="15" y="120" fill="#64748b" font-size="10">  共 10 种全球主流语言</text>
+        <text x="15" y="120" fill="#64748b" font-size="10">  共 10 种界面语言</text>
       </g>
     </g>
 
     <text x="20" y="255" fill="#f8fafc" font-size="11" font-weight="600">持久化存储</text>
-    <text x="20" y="275" fill="#94a3b8" font-size="10">localStorage.setItem('doc_lang', code)</text>
+    <text x="20" y="272" fill="#94a3b8" font-size="10">localStorage.setItem(</text>
+    <text x="20" y="288" fill="#94a3b8" font-size="10">  'epocanvas-lang', lang)</text>
   </g>
 
   <!-- Arrow 1 -->
@@ -48,50 +49,51 @@
   <g transform="translate(365, 110)" filter="url(#ishadow)">
     <rect width="280" height="310" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
     <rect width="280" height="36" rx="10" fill="#1e293b" />
-    <text x="15" y="24" fill="#818cf8" font-size="12" font-weight="700">2. 字典匹配与降级 (src/utils/i18n.ts)</text>
+    <text x="15" y="24" fill="#818cf8" font-size="12" font-weight="700">2. 字典匹配与回退 (src/utils/i18n.ts)</text>
 
-    <!-- Code Block Mock -->
+    <!-- Code Block Mock: 字典按「语言 → 词条键」两级组织 -->
     <rect x="15" y="50" width="250" height="160" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1" />
     <text x="25" y="70" fill="#818cf8" font-size="10" font-family="monospace">const UI_TRANSLATIONS = {</text>
-    <text x="35" y="90" fill="#e2e8f0" font-size="10" font-family="monospace">'nav.docs': {</text>
-    <text x="45" y="108" fill="#34d399" font-size="9" font-family="monospace">'zh-CN': '文档',</text>
-    <text x="45" y="124" fill="#34d399" font-size="9" font-family="monospace">'en': 'Documentation',</text>
-    <text x="45" y="140" fill="#34d399" font-size="9" font-family="monospace">'ja': 'ドキュメント',</text>
-    <text x="45" y="156" fill="#64748b" font-size="9" font-family="monospace">...</text>
-    <text x="35" y="172" fill="#e2e8f0" font-size="10" font-family="monospace">}</text>
-    <text x="25" y="190" fill="#818cf8" font-size="10" font-family="monospace">};</text>
+    <text x="35" y="88" fill="#e2e8f0" font-size="10" font-family="monospace">'zh-CN': {</text>
+    <text x="45" y="106" fill="#34d399" font-size="9" font-family="monospace">'nav.docs': '产品说明',</text>
+    <text x="35" y="124" fill="#e2e8f0" font-size="10" font-family="monospace">},</text>
+    <text x="35" y="142" fill="#e2e8f0" font-size="10" font-family="monospace">'en': {</text>
+    <text x="45" y="160" fill="#34d399" font-size="9" font-family="monospace">'nav.docs': 'Product',</text>
+    <text x="35" y="178" fill="#e2e8f0" font-size="10" font-family="monospace">},</text>
+    <text x="35" y="196" fill="#64748b" font-size="9" font-family="monospace">// ...其余 8 种语言</text>
+    <text x="25" y="206" fill="#818cf8" font-size="10" font-family="monospace">};</text>
 
     <rect x="15" y="225" width="250" height="65" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
-    <text x="25" y="245" fill="#f59e0b" font-size="11" font-weight="600">双层降级容灾机制</text>
-    <text x="25" y="263" fill="#94a3b8" font-size="10">Target Lang → zh-CN 兜底 → 原始键名</text>
-    <text x="25" y="278" fill="#94a3b8" font-size="10">保证页面永远不出现白屏或空标签</text>
+    <text x="25" y="245" fill="#f59e0b" font-size="11" font-weight="600">词条缺失时自动回退</text>
+    <text x="25" y="263" fill="#94a3b8" font-size="10">目标语言 → 默认中文 → 显示键名</text>
+    <text x="25" y="278" fill="#94a3b8" font-size="10">界面不会出现空白或报错</text>
   </g>
 
   <!-- Arrow 2 -->
   <path d="M 660 260 L 700 260" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,4" />
   <polygon points="700,256 708,260 700,264" fill="#818cf8" />
 
-  <!-- Right: DOM Replacement -->
+  <!-- Right: In-Place Text Replacement -->
   <g transform="translate(715, 110)" filter="url(#ishadow)">
     <rect width="210" height="310" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2" />
     <rect width="210" height="36" rx="10" fill="#064e3b" />
-    <text x="15" y="24" fill="#34d399" font-size="12" font-weight="700">3. DOM 动态置换</text>
+    <text x="15" y="24" fill="#34d399" font-size="12" font-weight="700">3. 界面文字就地替换</text>
 
-    <text x="15" y="65" fill="#f8fafc" font-size="12" font-weight="600">属性选择器遍历</text>
+    <text x="15" y="65" fill="#f8fafc" font-size="12" font-weight="600">按属性选择器遍历</text>
     <text x="15" y="85" fill="#94a3b8" font-size="10">[data-i18n]</text>
     <text x="15" y="100" fill="#94a3b8" font-size="10">[data-i18n-title]</text>
     <text x="15" y="115" fill="#94a3b8" font-size="10">[data-i18n-aria]</text>
 
-    <text x="15" y="145" fill="#f8fafc" font-size="12" font-weight="600">极速替换性能</text>
-    <text x="15" y="165" fill="#10b981" font-size="10">&lt; 2 毫秒执行耗时</text>
+    <text x="15" y="145" fill="#f8fafc" font-size="12" font-weight="600">执行开销</text>
+    <text x="15" y="165" fill="#10b981" font-size="10">浏览器本地执行，通常几毫秒</text>
     <text x="15" y="180" fill="#94a3b8" font-size="10">无页面刷新、无布局抖动</text>
 
     <text x="15" y="210" fill="#f8fafc" font-size="12" font-weight="600">全局事件广播</text>
     <text x="15" y="230" fill="#94a3b8" font-size="10">window.dispatchEvent(</text>
-    <text x="15" y="245" fill="#38bdf8" font-size="9">'epocanvas:lang-change'</text>
+    <text x="15" y="245" fill="#38bdf8" font-size="9" font-family="monospace">'epocanvas:langchange'</text>
     <text x="15" y="260" fill="#94a3b8" font-size="10">)</text>
 
     <rect x="12" y="275" width="186" height="24" rx="4" fill="#1e293b" />
-    <text x="20" y="291" fill="#34d399" font-size="10" font-weight="600">✓ 丝滑零等待体验</text>
+    <text x="20" y="291" fill="#34d399" font-size="10" font-weight="600">✓ 不刷新页面，不丢阅读位置</text>
   </g>
 </svg>

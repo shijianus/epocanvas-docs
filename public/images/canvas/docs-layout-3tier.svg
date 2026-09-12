@@ -16,8 +16,8 @@
   <rect width="1000" height="600" fill="#090d16" />
 
   <!-- Title -->
-  <text x="50" y="45" fill="#f8fafc" font-size="22" font-weight="700">EpoCanvas Docs 三栏式响应布局体系 (3-Tier Document Layout)</text>
-  <text x="50" y="68" fill="#94a3b8" font-size="13">Left Nav Tree · Central Immersive Reader · Right IntersectionObserver TOC</text>
+  <text x="50" y="45" fill="#f8fafc" font-size="22" font-weight="700">EpoCanvas Docs 三栏式阅读布局 (Three-Column Layout)</text>
+  <text x="50" y="68" fill="#94a3b8" font-size="13">Left Nav Tree · Central Article Reader · Right Scroll-Spy TOC</text>
 
   <!-- Browser Frame Wrapper -->
   <g transform="translate(50, 90)" filter="url(#shadow)">
@@ -95,7 +95,7 @@
         
         <!-- Callout Banner -->
         <rect x="30" y="85" width="420" height="42" rx="6" fill="#1e3a8a" fill-opacity="0.3" stroke="#3b82f6" stroke-width="1" />
-        <text x="45" y="110" fill="#93c5fd" font-size="11">ℹ️ NOTE: 本专案为 EpoCanvas 生态的官方现代化技术文档构建平台。</text>
+        <text x="45" y="110" fill="#93c5fd" font-size="11">ℹ️ NOTE: 本站是 EpoCanvas 的官方文档站点，由 Markdown 文件构建而成。</text>
 
         <!-- Article Paragraphs Placeholder -->
         <rect x="30" y="145" width="400" height="8" rx="4" fill="#334155" />
@@ -103,10 +103,10 @@
         <rect x="30" y="179" width="320" height="8" rx="4" fill="#334155" />
 
         <!-- Subheading -->
-        <text x="30" y="215" fill="#e2e8f0" font-size="14" font-weight="600">四层分层技术拓扑</text>
+        <text x="30" y="215" fill="#e2e8f0" font-size="14" font-weight="600">站点整体架构</text>
         <rect x="30" y="228" width="420" height="70" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1" />
         <text x="45" y="250" fill="#38bdf8" font-size="11" font-family="monospace">const config = defineConfig({ site: 'docs.epocanvas.com' });</text>
-        <text x="45" y="270" fill="#64748b" font-size="11" font-family="monospace">// Starlight Eject Overrides: Header, Sidebar, TOC, Search</text>
+        <text x="45" y="270" fill="#64748b" font-size="11" font-family="monospace">// Starlight 组件覆盖（共 7 个，见 astro.config.mjs）</text>
 
         <!-- Bottom Pagination -->
         <rect x="30" y="312" width="160" height="26" rx="4" fill="#1e293b" />
@@ -128,14 +128,14 @@
         <text x="36" y="105" fill="#64748b" font-size="10">Astro 5 + Starlight</text>
         <text x="36" y="125" fill="#64748b" font-size="10">Pagefind 离线检索</text>
 
-        <text x="26" y="152" fill="#94a3b8" font-size="11">四层系统工程架构</text>
+        <text x="26" y="152" fill="#94a3b8" font-size="11">站点整体架构</text>
         <text x="26" y="180" fill="#94a3b8" font-size="11">目录结构规范</text>
         <text x="26" y="208" fill="#94a3b8" font-size="11">与传统文档系统对比</text>
 
         <!-- Intersection Observer Spy badge -->
         <rect x="18" y="280" width="174" height="48" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.8" />
         <text x="26" y="300" fill="#38bdf8" font-size="10" font-weight="600">⚡ IntersectionObserver</text>
-        <text x="26" y="316" fill="#94a3b8" font-size="9">微秒级视口动态高亮追踪</text>
+        <text x="26" y="316" fill="#94a3b8" font-size="9">视口滚动联动，实时高亮当前小节</text>
       </g>
     </g>
   </g>
