@@ -1,0 +1,30 @@
+[
+ {"src":"loc-i18n-open.png","out":"../public/images/canvas/ui-i18n-open.png",
+  "markers":[
+   {"x":1237,"y":28,"n":1,"label":"语言切换按钮"},
+   {"x":1250,"y":200,"n":2,"label":"10 种语言下拉列表","box":[1135,55,135,285]},
+   {"x":1165,"y":74,"n":3,"label":"当前语言：简体中文"}
+  ]},
+ {"src":"loc-inpage.png","out":"../public/images/canvas/ui-inpage-search.png",
+  "markers":[
+   {"x":430,"y":28,"n":1,"label":"顶栏输入框：输入关键词"},
+   {"x":497,"y":28,"n":2,"label":"匹配计数"},
+   {"x":540,"y":28,"n":3,"label":"上/下一处"},
+   {"x":558,"y":28,"n":4,"label":"清除"},
+   {"x":700,"y":655,"n":5,"label":"页面内匹配文字自动高亮","box":[290,508,870,60]}
+  ]},
+ {"src":"loc-modal.png","out":"../public/images/canvas/ui-search-modal.png",
+  "markers":[
+   {"x":604,"y":28,"n":1,"label":"Ctrl K 徽标：呼出全站检索"},
+   {"x":718,"y":467,"n":2,"label":"检索输入框"},
+   {"x":718,"y":620,"n":3,"label":"按文档分组的结果列表","box":[445,560,550,240]},
+   {"x":600,"y":818,"n":4,"label":"键盘快捷键"}
+  ]},
+ {"src":"loc-layout.png","out":"../public/images/canvas/ui-layout-annotated.png",
+  "markers":[
+   {"x":660,"y":28,"n":1,"label":"顶部全局导航栏","box":[290,8,870,42]},
+   {"x":130,"y":400,"n":2,"label":"左侧分类目录","box":[16,80,250,780]},
+   {"x":700,"y":450,"n":3,"label":"中央正文阅读区","box":[285,70,830,830]},
+   {"x":1235,"y":300,"n":4,"label":"右侧本页目录","box":[1120,80,310,400]}
+  ]}
+]
