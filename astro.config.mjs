@@ -44,6 +44,7 @@ export default defineConfig({
 				PageTitle: './src/components/starlight/PageTitle.astro',
 				TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
 				Search: './src/components/starlight/Search.astro',
+				Pagination: './src/components/starlight/Pagination.astro',
 			},
 			sidebar: [
 				{

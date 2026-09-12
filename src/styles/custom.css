@@ -673,5 +673,34 @@ mark.epo-doc-highlight.active {
   filter: drop-shadow(0 18px 45px rgba(59, 130, 246, 0.45)) !important;
 }
 
+/* ==========================================================================
+   内容区导航卡片（LinkCard）：扁平化 + ↘ 指示性箭头
+   与参考站 doc.skymail.ink 一致：去掉阴影，悬停只变色不浮起。
+   ========================================================================== */
+.sl-link-card {
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  background-color: transparent;
+  transition: border-color 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sl-link-card:hover {
+  background-color: var(--sl-color-gray-6);
+  border-color: var(--sl-color-accent) !important;
+}
+
+/* 组件内置箭头是水平 →，旋转 45° 变成 ↘，指向继续阅读的方向 */
+.sl-link-card .icon {
+  color: var(--sl-color-gray-4) !important;
+  transform: rotate(45deg);
+  transition: color 0.18s cubic-bezier(0.4, 0, 0.2, 1), transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sl-link-card:hover .icon {
+  color: var(--sl-color-accent) !important;
+  /* 沿旋转后的 X 轴平移，视觉上即朝右下方滑动 */
+  transform: rotate(45deg) translateX(3px);
+}
+
 
 
