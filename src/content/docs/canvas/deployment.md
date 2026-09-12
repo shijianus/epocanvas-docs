@@ -3,13 +3,61 @@ title: 快速上手 (3分钟运行)
 description: EpoCanvas Docs 本地环境准备、安装依赖、启动本地开发服务与常用操作命令速查。
 ---
 
-本章节将带你在本地电脑上把 **EpoCanvas Docs** 跑起来。整个过程只需要几行命令，完成之后你就可以在浏览器中一边修改 Markdown 文件，一边实时查看排版渲染效果。
+把这套文档站跑起来有两条路，按你的目的选一条即可：
+
+- **只想立刻看到一个线上站点**：不用装任何环境，直接跳到下面的[一键部署](#一键部署点一个按钮就上线)小节，点一下按钮，两分钟后就能拿到属于你自己的网址；
+- **想写文档、改内容**：先按 [准备工作](#准备工作) 把项目在本地跑起来，边改边看效果，写完后再用[常用命令](#常用开发命令速查)里的部署命令发布。
+
+---
+
+## 一键部署：点一个按钮就上线
+
+下面的按钮来自 Cloudflare、Vercel、Netlify 三家的官方"部署按钮"。点击后会打开对应平台的部署向导，平台自动把这个仓库克隆到你自己的 GitHub 账号下，然后自动完成云端构建和发布。全程只需要一个 GitHub 账号，不需要在电脑上安装 Node.js、pnpm，也不需要敲任何命令。
+
+### 部署到 Cloudflare（推荐）
+
+[![Deploy to Cloudflare](/images/canvas/deploy/badge-cloudflare.svg)](https://deploy.workers.cloudflare.com/?url=https://github.com/shijianus/epocanvas-docs)
+
+点击按钮后，向导分三步走：
+
+1. **授权登录**：依次登录 GitHub 和 Cloudflare。两者都有免费套餐，没有账号就现场注册一个；
+2. **克隆仓库**：Cloudflare 自动把这个仓库复制一份到你的 GitHub 账号下，之后的所有内容修改都在你自己的仓库里进行；
+3. **确认配置并部署**：向导最后会展示一个配置页，按下表确认无误后点击 Deploy：
+
+| 配置项 | 向导里默认显示什么 | 怎么处理 |
+| :--- | :--- | :--- |
+| 仓库名 / 项目名 | 预填 `epocanvas-docs` | 保持默认 |
+| 构建命令 | 自动识别为本仓库的 `pnpm run build` | 保持默认 |
+| 部署命令 | 预填 `pnpm run deploy` | **改成 `npx wrangler deploy`** |
+
+:::caution
+部署命令务必改成 `npx wrangler deploy`。预填的 `pnpm run deploy` 是本站维护者保留的 Cloudflare Pages 直传命令，它部署到的是写死的项目名，在按钮部署流程里会直接报错。
+:::
+
+首次部署时，Cloudflare 检测到仓库里没有 Workers 配置文件，会自动识别出这是 Astro 静态站点，并向你的仓库发起一个自动生成的配置 Pull Request（PR）——把它合并即可，之后每次推送都会自动构建上线。从点击按钮到看到网址，顺利的话两三分钟。
+
+部署完成后，Cloudflare 会分配一个 `https://epocanvas-docs.<你的子域名>.workers.dev` 形式的公网地址，自带 HTTPS 证书。想换成自己的域名，在控制台进入 Workers & Pages → 你的项目 → **Settings** → **Domains & Routes** 添加即可。
+
+### 部署到 Vercel 和 Netlify
+
+习惯用其他平台的话，下面两个按钮做的是同一件事，两个平台都能自动识别 Astro 项目，不需要手动填任何构建配置：
+
+[![Deploy with Vercel](/images/canvas/deploy/badge-vercel.svg)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fshijianus%2Fepocanvas-docs)
+
+[![Deploy to Netlify](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
+
+- **Vercel**：点击按钮 → 授权 GitHub → 保持默认选项点击 Deploy。完成后得到 `xxx.vercel.app` 域名，个人 Hobby 计划免费；
+- **Netlify**：点击按钮 → 连接 GitHub → 平台自动克隆仓库并完成首次构建。完成后得到 `xxx.netlify.app` 域名，免费档够用。
+
+:::note
+三个按钮的机制相同：把仓库克隆到你的 GitHub 账号，并配好"推送代码就自动重新构建上线"的持续部署。选一个平台用就好，不需要重复部署。本站自身采用 Cloudflare Pages 直传方式托管（见 [Cloudflare Pages 部署上线](/canvas/cloudflare/)），与上述按钮路径互不影响——对静态文档站来说，两种托管方式读者看到的访问体验是一致的。
+:::
 
 ---
 
 ## 准备工作
 
-在开始之前，请确认你的电脑上安装了以下基础开发环境：
+一键部署适合"先把站点发出去"，但撰写和修改文档总归要在本地进行。如果打算动手写内容，请先确认你的电脑上安装了以下基础开发环境：
 
 | 工具 | 推荐版本 | 检查命令 | 说明 |
 | :--- | :--- | :--- | :--- |

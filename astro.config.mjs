@@ -1,9 +1,38 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+// Starlight 默认把 <table> 渲染成 block 滚动盒，内容不足一屏时边框内会留一大块空白。
+// 这里给每张表包一层 .table-wrapper：滚动交给外层，表格本身保持 table 布局铺满宽度。
+function rehypeWrapTables() {
+	const walk = (node) => {
+		if (!node || !Array.isArray(node.children)) return;
+		for (let i = 0; i < node.children.length; i++) {
+			const child = node.children[i];
+			walk(child);
+			if (child.type === 'element' && child.tagName === 'table') {
+				node.children[i] = {
+					type: 'element',
+					tagName: 'div',
+					properties: { className: ['table-wrapper'] },
+					children: [child],
+				};
+				i++;
+			}
+		}
+	};
+	return (tree) => walk(tree);
+}
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.epocanvas.com',
+	// 关闭 Astro 开发工具栏（页面底部 id="dev-toolbar-root" 的悬浮图标），纯文档站点用不到它
+	devToolbar: {
+		enabled: false,
+	},
+	markdown: {
+		rehypePlugins: [rehypeWrapTables],
+	},
 	integrations: [
 		starlight({
 			title: 'EpoCanvas Docs',
@@ -50,6 +79,7 @@ export default defineConfig({
 				{
 					label: '产品概览与入门',
 					items: [
+						{ label: '这是什么', link: '/canvas/about/' },
 						{ label: '产品简介与核心价值', link: '/canvas/' },
 						{ label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
 					],

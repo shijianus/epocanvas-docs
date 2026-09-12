@@ -24,6 +24,7 @@ export const navigationConfig: NavItem[] = [
 		match: (pathname: string) =>
 			pathname === '/canvas' ||
 			pathname === '/canvas/' ||
+			pathname.includes('about') ||
 			pathname.includes('layout') ||
 			pathname.includes('search-engine') ||
 			pathname.includes('i18n') ||

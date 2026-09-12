@@ -30,6 +30,10 @@ description: EpoCanvas Docs 发布上线的完整图示教程：Wrangler 命令�
 两种方式可以并存：日常用 Git 自动构建，紧急修错时用本地 `pnpm run deploy` 直接覆盖上线。
 :::
 
+:::tip[完全不想敲命令？]
+[快速上手](/canvas/deployment/)页提供了 Cloudflare、Vercel、Netlify 三家的一键部署按钮：点一下、授权账号、确认配置，文档站就发布到你自己的云账号了，详见[一键部署](/canvas/deployment/#一键部署点一个按钮就上线)。其中 Cloudflare 按钮走 Workers 静态托管，与本页介绍的 Pages 方式是两条独立路径，对静态文档站来说访问体验一致，选一条走即可。
+:::
+
 ---
 
 ## 方式一：本地命令行直传（首次推荐）

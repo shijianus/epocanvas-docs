@@ -383,15 +383,28 @@ nav.sidebar {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Markdown Tables */
-.sl-markdown-content table {
+/* Markdown Tables：外层负责边框与横向滚动，表格本身恢复 table 布局并铺满整行，
+   避免内容较窄时边框盒右侧留出大片空洞 */
+.sl-markdown-content .table-wrapper {
   width: 100%;
-  border-collapse: collapse;
   margin: 1.5rem 0;
-  font-size: 0.875rem;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 6px;
-  overflow: hidden;
+  overflow-x: auto;
+}
+
+.sl-markdown-content table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.875rem;
+  overflow: visible;
+}
+
+/* 表格已在 .table-wrapper 内，Starlight 对裸表加的 block/overflow 布局不再生效 */
+.sl-markdown-content .table-wrapper table {
+  margin: 0;
 }
 
 .sl-markdown-content th {
