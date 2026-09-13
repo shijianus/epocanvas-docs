@@ -1,12 +1,12 @@
 ---
 title: EpoCanvas Docs
-description: EpoCanvas Docs 官方产品说明书 - 专为现代开源专案打造的静态文档站点，提供三栏阅读、本地全站检索、多语言切换与边缘部署。
+description: EpoCanvas Docs 官方产品说明书 - 专为现代开源专案打造的静态文档站点，提供三栏阅读、本地全站检索、10 语言内容级多语言与边缘部署。
 template: splash
 head:
   - tag: title
     content: EpoCanvas Docs
 hero:
-  tagline: 专为 EpoCanvas 生态打造的官方文档站点系统。基于 Astro 5 与 Starlight 构建，开箱自带三栏清晰排版、页内查找与全站检索、10 种界面语言免刷新切换以及一键部署到 Cloudflare Pages。
+  tagline: 专为 EpoCanvas 生态打造的官方文档站点系统。基于 Astro 5 与 Starlight 构建，开箱自带三栏清晰排版、页内查找与全站检索、10 种语言的完整译文切换以及一键部署到 Cloudflare Pages。
   image:
     file: ../../assets/logo.svg
     alt: EpoCanvas Docs Logo
@@ -46,9 +46,9 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 		顶栏搜索框定位当前页内容，Ctrl+K / Cmd+K 打开全站检索弹窗，全部在浏览器本地完成。
 		<LinkCard title="了解搜索功能" href="/canvas/search-engine/" description="双模式搜索用法与本地索引原理。" />
 	</Card>
-	<Card title="多语言即时切换" icon="translate">
-		界面支持中文、繁体、英语、日语等 10 种语言，在页面右上角点击即可就地切换，无需重新加载网页。
-		<LinkCard title="了解多语言系统" href="/canvas/i18n/" description="支持的语言列表与词条添加方法。" />
+	<Card title="10 语言完整翻译" icon="translate">
+		导航、侧边栏与每篇文档的正文都提供简体中文、繁体中文、英语、日语等 10 种语言，页面右上角点击语言即可跳转到同一篇文章的目标语言版本。
+		<LinkCard title="了解多语言系统" href="/canvas/i18n/" description="支持的语言列表、切换方式与新增译文的步骤。" />
 	</Card>
 	<Card title="Markdown 撰写指南" icon="pencil">
 		文件存放位置、Frontmatter 规范，以及全部支持格式的完整清单——基础 Markdown 与扩展语法，每一条都附"怎么写"和真实渲染效果。

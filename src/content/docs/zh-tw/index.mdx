@@ -1,0 +1,77 @@
+---
+title: EpoCanvas Docs
+description: EpoCanvas Docs 官方產品說明書 - 專為現代開源專案打造的靜態文件網站，提供三欄閱讀、本機全站搜尋、10 語言內容級多語系與邊緣部署。
+template: splash
+head:
+  - tag: title
+    content: EpoCanvas Docs
+hero:
+  tagline: 專為 EpoCanvas 生態打造的官方文件網站系統。基於 Astro 5 與 Starlight 建置，開箱即內建三欄清晰排版、頁內尋找與全站搜尋、10 種語言的完整譯文切換，以及一鍵部署到 Cloudflare Pages。
+  image:
+    file: ../../../assets/logo.svg
+    alt: EpoCanvas Docs Logo
+  actions:
+    - text: 查看產品說明
+      link: /zh-tw/canvas/
+      icon: right-arrow
+      variant: primary
+    - text: 3 分鐘本機執行
+      link: /zh-tw/canvas/deployment/
+      icon: rocket
+      variant: secondary
+    - text: GitHub 儲存庫
+      link: https://github.com/shijianus/epocanvas-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## 快速導覽與功能指引
+
+<CardGrid stagger>
+	<Card title="產品簡介與核心價值" icon="laptop">
+		了解 EpoCanvas Docs 的誕生背景、解決的問題、核心特性，以及與其他主流文件工具的真實差異。
+		<LinkCard title="閱讀產品簡介" href="/zh-tw/canvas/" description="功能清單、適用場景與設計初衷。" />
+	</Card>
+	<Card title="3 分鐘快速上手" icon="rocket">
+		只需幾行指令，就能在本機電腦安裝相依套件並啟動熱更新開發伺服器，一邊寫 Markdown 一邊即時預覽。不想安裝環境？也可以用一鍵部署按鈕直接把範例站發布到自己的雲端帳號。
+		<LinkCard title="查看快速上手指南" href="/zh-tw/canvas/deployment/" description="一鍵部署按鈕、安裝步驟與常用指令。" />
+	</Card>
+	<Card title="閱讀介面與互動體驗" icon="document">
+		清晰的「左側分類導覽 + 中央內文 + 右側本頁目錄」三欄排版，切換頁面時保留捲動位置，並自適應手機與電腦。
+		<LinkCard title="了解介面佈局" href="/zh-tw/canvas/layout/" description="三欄版面結構、主題切換與字體排版。" />
+	</Card>
+	<Card title="頁內尋找與全站搜尋" icon="magnifier">
+		頂欄搜尋框可定位目前頁面內容，Ctrl+K / Cmd+K 開啟全站搜尋彈窗，全部都在瀏覽器本機完成。
+		<LinkCard title="了解搜尋功能" href="/zh-tw/canvas/search-engine/" description="雙模式搜尋用法與本機索引原理。" />
+	</Card>
+	<Card title="10 語言完整翻譯" icon="translate">
+		導覽、側邊欄與每篇文件的內文都提供簡體中文、繁體中文、英語、日語等 10 種語言，在頁面右上角點選語言即可跳轉到同一篇文章的目標語言版本。
+		<LinkCard title="了解多語言系統" href="/zh-tw/canvas/i18n/" description="支援的語言清單、切換方式與新增譯文的步驟。" />
+	</Card>
+	<Card title="Markdown 撰寫指南" icon="pencil">
+		檔案存放位置、Frontmatter 規範，以及全部支援格式的完整清單——基礎 Markdown 與擴充語法，每一條都附「怎麼寫」和實際渲染效果。
+		<LinkCard title="閱讀排版指南" href="/zh-tw/canvas/markdown/" description="基礎格式與擴充語法全覽。" />
+	</Card>
+	<Card title="渲染規則詳解" icon="setting">
+		Markdown 從檔案到頁面的完整渲染管線，提示框、程式碼區塊、圖片與連結的全部約定，以及不支援的語法。
+		<LinkCard title="查看渲染規則" href="/zh-tw/canvas/rendering/" description="渲染管線、語法約定與常見誤區。" />
+	</Card>
+	<Card title="介面元件與二次開發" icon="document">
+		七個客製化元件的職責與資料流，Starlight 覆蓋機制，以及二次開發時的注意事項。
+		<LinkCard title="了解元件體系" href="/zh-tw/canvas/components/" description="元件架構、實作細節與升級回歸。" />
+	</Card>
+	<Card title="常見客製化場景速查" icon="pencil">
+		新增文件、導覽按鈕、介面語言、主題色、Logo 等高頻客製化，按步驟照做即可。
+		<LinkCard title="查看客製化速查" href="/zh-tw/canvas/recipes/" description="八條配方的完整操作步驟。" />
+	</Card>
+	<Card title="部署上線與常見問題" icon="cloudflare">
+		Cloudflare、Vercel、Netlify 一鍵部署按鈕與手動部署教學，綁定獨立網域，附部署結果驗證方法與常見錯誤自查清單。
+		<LinkCard title="查看部署與常見問題" href="/zh-tw/canvas/cloudflare/" description="發布指令、網域綁定與 FAQ。" />
+	</Card>
+	<Card title="SEO 與效能優化" icon="setting">
+		內建的 meta 標籤、Open Graph、sitemap 與 robots.txt，效能機制說明和提交搜尋引擎的步驟。
+		<LinkCard title="查看 SEO 指南" href="/zh-tw/canvas/seo/" description="收錄驗證方法與效能自查。" />
+	</Card>
+</CardGrid>

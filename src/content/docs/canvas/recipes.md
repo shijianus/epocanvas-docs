@@ -111,17 +111,24 @@ match: (pathname: string) =>
 
 ## 配方 7：修改搜索框提示文字
 
-搜索框占位符、按钮提示等文案都走多语言字典。打开 `src/utils/i18n.ts`，修改 `search.placeholder` 等词条：
+搜索框占位符、按钮提示等界面文案都来自 `src/utils/i18n.ts` 的多语言字典。打开该文件，按"语言 → 词条键"的两级结构修改 `search.placeholder` 等词条：
 
 ```typescript
-'search.placeholder': {
-  'zh-CN': '搜索文档与指令...',
-  en: 'Search docs and commands...',
-  // 其余语言同理
-},
+// 文件路径: src/utils/i18n.ts
+export const UI_TRANSLATIONS = {
+  'zh-CN': {
+    'search.placeholder': '搜索文档与指令...',
+    // ...该语言的其他词条
+  },
+  en: {
+    'search.placeholder': 'Search documentation...',
+    // ...该语言的其他词条
+  },
+  // 其余 8 种语言同理
+};
 ```
 
-保存后本地热更新立即可见，无需构建。
+漏改的语言会自动回退显示中文默认值，不会报错。保存后本地热更新立即可见，无需构建。
 
 ---
 

@@ -1,0 +1,77 @@
+---
+title: EpoCanvas Docs
+description: Manual de produto oficial do EpoCanvas Docs — um site de documentação estático criado para projetos modernos de código aberto, com leitura em três colunas, pesquisa em todo o site executada localmente, multilinguagem ao nível do conteúdo em 10 idiomas e implantação na edge.
+template: splash
+head:
+  - tag: title
+    content: EpoCanvas Docs
+hero:
+  tagline: O sistema oficial de sites de documentação criado para o ecossistema EpoCanvas. Construído com Astro 5 e Starlight, inclui de origem uma composição clara em três colunas, pesquisa na página e em todo o site, troca completa de traduções em 10 idiomas e implantação com um clique no Cloudflare Pages.
+  image:
+    file: ../../../assets/logo.svg
+    alt: EpoCanvas Docs Logo
+  actions:
+    - text: Ver a apresentação do produto
+      link: /pt/canvas/
+      icon: right-arrow
+      variant: primary
+    - text: Executar localmente em 3 minutos
+      link: /pt/canvas/deployment/
+      icon: rocket
+      variant: secondary
+    - text: Repositório GitHub
+      link: https://github.com/shijianus/epocanvas-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Navegação rápida e guia de funcionalidades
+
+<CardGrid stagger>
+	<Card title="Introdução ao produto e valor central" icon="laptop">
+		Saiba a origem do EpoCanvas Docs, os problemas que resolve, as funcionalidades principais e as diferenças reais face a outras ferramentas de documentação populares.
+		<LinkCard title="Ler a introdução do produto" href="/pt/canvas/" description="Lista de funcionalidades, cenários de utilização e motivação do design." />
+	</Card>
+	<Card title="Comece em 3 minutos" icon="rocket">
+		Com apenas alguns comandos, instale as dependências no seu computador e inicie o servidor de desenvolvimento com recarregamento automático, escrevendo Markdown com pré-visualização em tempo real. Não quer instalar o ambiente? Também pode usar o botão de implantação com um clique para publicar o site de exemplo diretamente na sua conta cloud.
+		<LinkCard title="Ver o guia de início rápido" href="/pt/canvas/deployment/" description="Botão de implantação com um clique, passos de instalação e comandos habituais." />
+	</Card>
+	<Card title="Leitura e experiência de interação" icon="document">
+		Composição clara em três colunas — navegação de categorias à esquerda, corpo do texto ao centro e índice da página à direita —, que mantém a posição de scroll ao trocar de página e se adapta a telemóvel e computador.
+		<LinkCard title="Conhecer a disposição da interface" href="/pt/canvas/layout/" description="Estrutura das três colunas, alternância de tema e tipografia." />
+	</Card>
+	<Card title="Pesquisa na página e em todo o site" icon="magnifier">
+		A caixa de pesquisa na barra superior localiza conteúdo na página atual e Ctrl+K / Cmd+K abre a janela de pesquisa em todo o site — tudo executado localmente no navegador.
+		<LinkCard title="Conhecer a pesquisa" href="/pt/canvas/search-engine/" description="Utilização dos dois modos de pesquisa e funcionamento do índice local." />
+	</Card>
+	<Card title="Tradução completa em 10 idiomas" icon="translate">
+		A navegação, a barra lateral e o corpo de cada documento estão disponíveis em 10 idiomas, incluindo chinês simplificado, chinês tradicional, inglês e japonês; basta clicar no idioma no canto superior direito da página para saltar para a versão desse idioma do mesmo artigo.
+		<LinkCard title="Conhecer o sistema multilíngue" href="/pt/canvas/i18n/" description="Lista de idiomas suportados, forma de troca e passos para acrescentar traduções." />
+	</Card>
+	<Card title="Guia de escrita em Markdown" icon="pencil">
+		Onde guardar os ficheiros, normas do Frontmatter e a lista completa de todos os formatos suportados — Markdown básico e sintaxe estendida —, cada um acompanhado de instruções de escrita e do resultado real de renderização.
+		<LinkCard title="Ler o guia de formatação" href="/pt/canvas/markdown/" description="Panorama dos formatos básicos e da sintaxe estendida." />
+	</Card>
+	<Card title="Regras de renderização em detalhe" icon="setting">
+		O pipeline completo de renderização do Markdown, do ficheiro à página, com todas as convenções sobre blocos de aviso, blocos de código, imagens e ligações, e as sintaxes não suportadas.
+		<LinkCard title="Ver as regras de renderização" href="/pt/canvas/rendering/" description="Pipeline de renderização, convenções de sintaxe e equívocos comuns." />
+	</Card>
+	<Card title="Componentes da interface e desenvolvimento personalizado" icon="document">
+		Responsabilidades e fluxo de dados dos sete componentes personalizados, o mecanismo de sobreposição do Starlight e os pontos de atenção no desenvolvimento personalizado.
+		<LinkCard title="Conhecer o sistema de componentes" href="/pt/canvas/components/" description="Arquitetura dos componentes, detalhes de implementação e regressão em atualizações." />
+	</Card>
+	<Card title="Consulta rápida de personalizações comuns" icon="pencil">
+		Personalizações frequentes — acrescentar documentos, botões de navegação, idiomas da interface, cor do tema, Logo, etc. —, basta seguir os passos indicados.
+		<LinkCard title="Ver a consulta rápida de personalização" href="/pt/canvas/recipes/" description="Passos completos das oito receitas." />
+	</Card>
+	<Card title="Implantação e perguntas frequentes" icon="cloudflare">
+		Botões de implantação com um clique e tutoriais de implantação manual para Cloudflare, Vercel e Netlify, associação de domínio próprio, com métodos para verificar o resultado da implantação e uma lista de verificação dos erros comuns.
+		<LinkCard title="Ver implantação e FAQ" href="/pt/canvas/cloudflare/" description="Comandos de publicação, associação de domínio e FAQ." />
+	</Card>
+	<Card title="SEO e otimização de desempenho" icon="setting">
+		Meta tags, Open Graph, sitemap e robots.txt incluídos de origem, explicação dos mecanismos de desempenho e passos para submeter o site aos motores de pesquisa.
+		<LinkCard title="Ver o guia de SEO" href="/pt/canvas/seo/" description="Métodos de verificação da indexação e verificação de desempenho." />
+	</Card>
+</CardGrid>

@@ -1,10 +1,13 @@
 ---
 import '@pagefind/default-ui/css/ui.css';
 import project from 'virtual:starlight/project-context';
-import { getTranslation } from '../../utils/i18n';
+import { getLangFromLocale, getTranslation } from '../../utils/i18n';
+
+const lang = getLangFromLocale(Astro.currentLocale);
+const t = (key: string) => getTranslation(key, lang);
 
 const pagefindTranslations = {
-	placeholder: getTranslation('search.placeholder'),
+	placeholder: t('search.placeholder'),
 	...Object.fromEntries(
 		Object.entries(Astro.locals.t.all())
 			.filter(([key]) => key.startsWith('pagefind.'))
@@ -12,7 +15,10 @@ const pagefindTranslations = {
 	),
 };
 
-const dataAttributes: DOMStringMap = { 'data-translations': JSON.stringify(pagefindTranslations) };
+const dataAttributes: DOMStringMap = {
+	'data-translations': JSON.stringify(pagefindTranslations),
+	'data-zero-results': t('search.zeroResults'),
+};
 if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash'] = '';
 ---
 
@@ -33,21 +39,20 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			type="text"
 			autocomplete="off"
 			spellcheck="false"
-			placeholder={getTranslation('search.placeholder')}
-			data-i18n-placeholder="search.placeholder"
-			aria-label={getTranslation('search.label')}
+			placeholder={t('search.placeholder')}
+			aria-label={t('search.label')}
 		/>
 
 		<!-- In-Page Match Navigation Controls (Shown when active query matches) -->
 		<div id="epo-search-nav" class="epo-search-nav" style="display: none;">
 			<span id="epo-search-count" class="epo-search-count">0/0</span>
-			<button type="button" id="epo-search-prev" class="inpage-nav-btn" title="上一个匹配项 (Shift+Enter)">
+			<button type="button" id="epo-search-prev" class="inpage-nav-btn" title={t('search.prevTitle')}>
 				<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
 			</button>
-			<button type="button" id="epo-search-next" class="inpage-nav-btn" title="下一个匹配项 (Enter)">
+			<button type="button" id="epo-search-next" class="inpage-nav-btn" title={t('search.nextTitle')}>
 				<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 			</button>
-			<button type="button" id="epo-search-clear" class="inpage-clear-btn" title="清除高亮与搜索 (Esc)">
+			<button type="button" id="epo-search-clear" class="inpage-clear-btn" title={t('search.clearTitle')}>
 				<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 			</button>
 		</div>
@@ -58,8 +63,8 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			id="epo-modal-trigger"
 			data-open-modal
 			class="search-shortcut-badge"
-			title="呼出全局文档检索弹窗 (Ctrl+K)"
-			aria-label="打开全局全站文档检索"
+			title={t('search.shortcutTitle')}
+			aria-label={t('search.openModalAria')}
 			aria-keyshortcuts="Control+K"
 		>
 			<kbd class="key-mod">Ctrl</kbd>
@@ -68,7 +73,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 	</div>
 
 	<!-- Full-featured Pagefind Global Search Modal Dialog (Triggered by Ctrl+K or Shortcut Badge) -->
-	<dialog class="epo-search-dialog" aria-label={getTranslation('search.label')} data-i18n-aria="search.label" style="padding:0">
+	<dialog class="epo-search-dialog" aria-label={t('search.label')} style="padding:0">
 		<div class="epo-search-modal-frame">
 			<div class="modal-header">
 				<div class="modal-title-row">
@@ -77,9 +82,9 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 							<circle cx="11" cy="11" r="8"></circle>
 							<path d="m21 21-4.3-4.3"></path>
 						</svg>
-						<span data-i18n="search.label">EpoCanvas 全局文档检索</span>
+						<span>{t('search.modalTitle')}</span>
 					</div>
-					<button data-close-modal class="modal-close-btn" type="button" aria-label={getTranslation('search.cancelLabel')}>
+					<button data-close-modal class="modal-close-btn" type="button" aria-label={t('search.cancelLabel')}>
 						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 							<line x1="18" y1="6" x2="6" y2="18"></line>
 							<line x1="6" y1="6" x2="18" y2="18"></line>
@@ -98,15 +103,15 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				<div class="footer-shortcuts">
 					<span class="shortcut-item">
 						<kbd>↑</kbd><kbd>↓</kbd>
-						<span class="shortcut-text" data-i18n="search.hint.navigate">{getTranslation('search.hint.navigate')}</span>
+						<span class="shortcut-text">{t('search.hint.navigate')}</span>
 					</span>
 					<span class="shortcut-item">
 						<kbd>↵</kbd>
-						<span class="shortcut-text" data-i18n="search.hint.select">{getTranslation('search.hint.select')}</span>
+						<span class="shortcut-text">{t('search.hint.select')}</span>
 					</span>
 					<span class="shortcut-item">
 						<kbd>ESC</kbd>
-						<span class="shortcut-text" data-i18n="search.hint.close">{getTranslation('search.hint.close')}</span>
+						<span class="shortcut-text">{t('search.hint.close')}</span>
 					</span>
 				</div>
 				<div class="footer-brand">
@@ -171,7 +176,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			const updateActiveMatch = (newIndex: number) => {
 				if (!matches.length) {
 					currentIndex = -1;
-					if (searchCount) searchCount.textContent = '0 结果';
+					if (searchCount) searchCount.textContent = this.dataset.zeroResults || '0';
 					if (searchNav) searchNav.style.display = 'flex';
 					return;
 				}
@@ -285,7 +290,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				if (matches.length > 0) {
 					updateActiveMatch(0);
 				} else {
-					if (searchCount) searchCount.textContent = '0 结果';
+					if (searchCount) searchCount.textContent = this.dataset.zeroResults || '0';
 					if (searchNav) searchNav.style.display = 'flex';
 				}
 			};
@@ -401,45 +406,33 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			const stripTrailingSlash = (path: string) => path.replace(/(.)\/(#.*)?$/, '$1$2');
 			const formatURL = shouldStrip ? stripTrailingSlash : (path: string) => path;
 
-			window.addEventListener('DOMContentLoaded', () => {
-				if (import.meta.env.DEV) return;
-				const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-				onIdle(async () => {
-					// @ts-expect-error — Missing types for @pagefind/default-ui package.
-					const { PagefindUI } = await import('@pagefind/default-ui');
-					new PagefindUI({
-						...pagefindUserConfig,
-						element: '#starlight__search',
-						baseUrl: import.meta.env.BASE_URL,
-						bundlePath: import.meta.env.BASE_URL.replace(/\/$/, '') + '/pagefind/',
-						showImages: false,
-						translations,
-						showSubResults: true,
-						processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
-							result.url = formatURL(result.url);
-							result.sub_results = result.sub_results.map((sub_result) => {
-								sub_result.url = formatURL(sub_result.url);
-								return sub_result;
-							});
-						},
+				window.addEventListener('DOMContentLoaded', () => {
+					if (import.meta.env.DEV) return;
+					const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+					onIdle(async () => {
+						// @ts-expect-error — Missing types for @pagefind/default-ui package.
+						const { PagefindUI } = await import('@pagefind/default-ui');
+						new PagefindUI({
+							...pagefindUserConfig,
+							element: '#starlight__search',
+							baseUrl: import.meta.env.BASE_URL,
+							bundlePath: import.meta.env.BASE_URL.replace(/\/$/, '') + '/pagefind/',
+							showImages: false,
+							translations,
+							showSubResults: true,
+							processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
+								result.url = formatURL(result.url);
+								result.sub_results = result.sub_results.map((sub_result) => {
+									sub_result.url = formatURL(sub_result.url);
+									return sub_result;
+								});
+							},
+						});
 					});
 				});
-			});
-
-			window.addEventListener('epocanvas:langchange', (e: any) => {
-				const dict = e.detail?.dict;
-				if (!dict) return;
-				if (inpageInput && dict['search.placeholder']) {
-					inpageInput.placeholder = dict['search.placeholder'];
-				}
-				const pagefindInput = this.querySelector<HTMLInputElement>('#starlight__search input');
-				if (pagefindInput && dict['search.placeholder']) {
-					pagefindInput.placeholder = dict['search.placeholder'];
-				}
-			});
+			}
 		}
-	}
-	customElements.define('site-search', SiteSearch);
+		customElements.define('site-search', SiteSearch);
 </script>
 
 <style>

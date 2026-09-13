@@ -1,0 +1,77 @@
+---
+title: EpoCanvas Docs
+description: The official product documentation for EpoCanvas Docs — a static documentation site built for modern open-source projects, with a three-column reading layout, local site-wide search, content-level translation in 10 languages, and edge deployment.
+template: splash
+head:
+  - tag: title
+    content: EpoCanvas Docs
+hero:
+  tagline: The official documentation site system built for the EpoCanvas ecosystem. Based on Astro 5 and Starlight, it ships with a clean three-column layout, in-page find and site-wide search, complete translations in 10 languages, and one-click deployment to Cloudflare Pages.
+  image:
+    file: ../../../assets/logo.svg
+    alt: EpoCanvas Docs Logo
+  actions:
+    - text: View Product Overview
+      link: /en/canvas/
+      icon: right-arrow
+      variant: primary
+    - text: Run Locally in 3 Minutes
+      link: /en/canvas/deployment/
+      icon: rocket
+      variant: secondary
+    - text: GitHub Repository
+      link: https://github.com/shijianus/epocanvas-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Quick Navigation & Feature Guide
+
+<CardGrid stagger>
+	<Card title="Product Overview & Core Value" icon="laptop">
+		Learn why EpoCanvas Docs was created, the problems it solves, its core features, and how it honestly compares with other mainstream documentation tools.
+		<LinkCard title="Read the Product Overview" href="/en/canvas/" description="Feature list, use cases, and design rationale." />
+	</Card>
+	<Card title="Quickstart in 3 Minutes" icon="rocket">
+		A few commands install dependencies and start a hot-reloading dev server on your computer, so you can preview in real time while writing Markdown. Don't want to set up an environment? Use the one-click deploy button to publish the sample site to your own cloud account instead.
+		<LinkCard title="Read the Quickstart Guide" href="/en/canvas/deployment/" description="One-click deploy buttons, installation steps, and common commands." />
+	</Card>
+	<Card title="Reading Interface & Interaction" icon="document">
+		A clear three-column layout — category navigation on the left, main content in the center, and an on-page table of contents on the right. Scroll position is preserved across page changes, and the layout adapts to phones and desktops.
+		<LinkCard title="About the Page Layout" href="/en/canvas/layout/" description="Three-column structure, theme switching, and typography." />
+	</Card>
+	<Card title="In-Page Find & Site-Wide Search" icon="magnifier">
+		The search box in the top bar locates content on the current page; Ctrl+K / Cmd+K opens the site-wide search dialog. Everything runs locally in the browser.
+		<LinkCard title="About Search" href="/en/canvas/search-engine/" description="How the two search modes work and how the local index is built." />
+	</Card>
+	<Card title="Full Translation in 10 Languages" icon="translate">
+		Navigation, sidebar, and the body of every page are available in 10 languages including Simplified Chinese, Traditional Chinese, English, and Japanese. Click a language in the top-right corner to jump to that language's version of the same page.
+		<LinkCard title="About the Multilingual System" href="/en/canvas/i18n/" description="Supported languages, how to switch, and how to add new translations." />
+	</Card>
+	<Card title="Markdown Authoring Guide" icon="pencil">
+		Where to put files, Frontmatter conventions, and a complete list of every supported format — base Markdown and extended syntax, each with a "how to write it" example and its real rendered output.
+		<LinkCard title="Read the Formatting Guide" href="/en/canvas/markdown/" description="A full overview of base formats and extended syntax." />
+	</Card>
+	<Card title="Rendering Rules Explained" icon="setting">
+		The full rendering pipeline from Markdown file to page, plus all conventions for asides, code blocks, images, and links, and the syntax that is not supported.
+		<LinkCard title="View the Rendering Rules" href="/en/canvas/rendering/" description="The rendering pipeline, syntax conventions, and common pitfalls." />
+	</Card>
+	<Card title="UI Components & Customization" icon="document">
+		The responsibilities and data flow of the seven custom components, the Starlight override mechanism, and what to watch out for when customizing.
+		<LinkCard title="About the Component System" href="/en/canvas/components/" description="Component architecture, implementation details, and upgrade regression checks." />
+	</Card>
+	<Card title="Common Customization Recipes" icon="pencil">
+		Step-by-step recipes for frequent changes: adding documents, navigation buttons, interface languages, theme colors, the logo, and more.
+		<LinkCard title="View the Customization Recipes" href="/en/canvas/recipes/" description="Complete steps for all eight recipes." />
+	</Card>
+	<Card title="Deployment & FAQ" icon="cloudflare">
+		One-click deploy buttons and manual deployment tutorials for Cloudflare, Vercel, and Netlify, how to bind a custom domain, plus verification steps and a self-check list for common deployment errors.
+		<LinkCard title="View Deployment & FAQ" href="/en/canvas/cloudflare/" description="Publish commands, domain binding, and FAQ." />
+	</Card>
+	<Card title="SEO & Performance" icon="setting">
+		Built-in meta tags, Open Graph, sitemap, and robots.txt, an explanation of the performance mechanisms, and the steps for submitting to search engines.
+		<LinkCard title="View the SEO Guide" href="/en/canvas/seo/" description="Indexing verification and a performance checklist." />
+	</Card>
+</CardGrid>

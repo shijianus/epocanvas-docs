@@ -1,9 +1,10 @@
 ---
 import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
-import { getTranslation } from '../../utils/i18n';
+import { getLangFromLocale, getTranslation } from '../../utils/i18n';
 
 const { toc } = Astro.locals.starlightRoute;
 const items = toc?.items ? toc.items.filter((item) => item.slug !== '_top') : [];
+const lang = getLangFromLocale(Astro.currentLocale);
 ---
 
 {
@@ -19,8 +20,8 @@ const items = toc?.items ? toc.items.filter((item) => item.slug !== '_top') : []
 						<line x1="3" y1="12" x2="3.01" y2="12" />
 						<line x1="3" y1="18" x2="3.01" y2="18" />
 					</svg>
-					<h2 id="starlight__on-this-page" class="toc-header" data-i18n="toc.title">
-						{getTranslation('toc.title')}
+					<h2 id="starlight__on-this-page" class="toc-header">
+						{getTranslation('toc.title', lang)}
 					</h2>
 				</div>
 				<TableOfContentsList toc={items} />

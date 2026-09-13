@@ -1,0 +1,77 @@
+---
+title: EpoCanvas Docs
+description: EpoCanvas Docs 公式プロダクトガイド - モダンなオープンソースプロジェクトのために作られた静的ドキュメントサイト。3 カラムの閲覧、ローカルでのサイト全体検索、10 言語のコンテンツレベル多言語対応、エッジデプロイを提供します。
+template: splash
+head:
+  - tag: title
+    content: EpoCanvas Docs
+hero:
+  tagline: EpoCanvas エコシステムのために作られた公式ドキュメントサイトシステム。Astro 5 と Starlight をベースに構築されており、見やすい 3 カラムのレイアウト、ページ内検索とサイト全体検索、10 言語の完全翻訳の切り替え、Cloudflare Pages へのワンクリックデプロイを最初から備えています。
+  image:
+    file: ../../../assets/logo.svg
+    alt: EpoCanvas Docs Logo
+  actions:
+    - text: 製品概要を見る
+      link: /ja/canvas/
+      icon: right-arrow
+      variant: primary
+    - text: 3分でローカル実行
+      link: /ja/canvas/deployment/
+      icon: rocket
+      variant: secondary
+    - text: GitHub リポジトリ
+      link: https://github.com/shijianus/epocanvas-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## クイックナビゲーションと機能ガイド
+
+<CardGrid stagger>
+	<Card title="製品概要とコアバリュー" icon="laptop">
+		EpoCanvas Docs が生まれた背景、解決する課題、コア機能、そして他の主要ドキュメントツールとの実際の違いを紹介します。
+		<LinkCard title="製品概要を読む" href="/ja/canvas/" description="機能一覧、適した用途、設計の狙い。" />
+	</Card>
+	<Card title="3分でクイックスタート" icon="rocket">
+		数行のコマンドでローカル PC に依存関係をインストールし、ホットリロード対応の開発サーバーを起動。Markdown を書きながらリアルタイムでプレビューできます。環境をインストールしたくない場合は、ワンクリックデプロイボタンでサンプルサイトを自分のクラウドアカウントに直接公開することもできます。
+		<LinkCard title="クイックスタートガイドを見る" href="/ja/canvas/deployment/" description="ワンクリックデプロイボタン、インストール手順、よく使うコマンド。" />
+	</Card>
+	<Card title="閲覧画面と操作体験" icon="document">
+		「左側のカテゴリナビゲーション + 中央の本文 + 右側のこのページの目次」という見やすい 3 カラム構成。ページを移動してもスクロール位置が保たれ、スマートフォンにも PC にも自動で対応します。
+		<LinkCard title="画面レイアウトを見る" href="/ja/canvas/layout/" description="3 カラムレイアウトの構造、テーマの切り替え、文字組み。" />
+	</Card>
+	<Card title="ページ内検索とサイト全体検索" icon="magnifier">
+		トップバーの検索ボックスで現在のページの内容を探し、Ctrl+K / Cmd+K でサイト全体検索のポップアップを開けます。すべてブラウザ内でローカルに処理されます。
+		<LinkCard title="検索機能を見る" href="/ja/canvas/search-engine/" description="2 つの検索モードの使い方とローカルインデックスの仕組み。" />
+	</Card>
+	<Card title="10 言語の完全翻訳" icon="translate">
+		ナビゲーション、サイドバー、各ドキュメントの本文は、簡体字中国語、繁体字中国語、英語、日本語など 10 言語で提供されます。ページ右上で言語をクリックするだけで、同じ記事の目的言語版に移動できます。
+		<LinkCard title="多言語システムを見る" href="/ja/canvas/i18n/" description="対応言語の一覧、切り替え方法、翻訳追加の手順。" />
+	</Card>
+	<Card title="Markdown 執筆ガイド" icon="pencil">
+		ファイルの置き場所、Frontmatter の決まり、対応フォーマットの完全な一覧。基礎 Markdown と拡張構文のそれぞれに「書き方」と実際のレンダリング結果が付いています。
+		<LinkCard title="整形ガイドを読む" href="/ja/canvas/markdown/" description="基礎フォーマットと拡張構文の全体像。" />
+	</Card>
+	<Card title="レンダリングルールの詳細" icon="setting">
+		Markdown がファイルからページになるまでの完全なレンダリングパイプライン。吹き出し（コールアウト）、コードブロック、画像、リンクのすべての約束事と非対応の構文を解説します。
+		<LinkCard title="レンダリングルールを見る" href="/ja/canvas/rendering/" description="レンダリングパイプライン、構文の約束事、よくある間違い。" />
+	</Card>
+	<Card title="UI コンポーネントとカスタマイズ" icon="document">
+		7 つのカスタムコンポーネントの役割とデータフロー、Starlight のオーバーライドの仕組み、カスタマイズ時の注意点を解説します。
+		<LinkCard title="コンポーネント体系を見る" href="/ja/canvas/components/" description="コンポーネント構成、実装の詳細、アップグレード時の回帰確認。" />
+	</Card>
+	<Card title="よくあるカスタマイズ早見表" icon="pencil">
+		ドキュメントの追加、ナビゲーションボタン、表示言語、テーマカラー、Logo など、頻度の高いカスタマイズを手順どおりに行うだけです。
+		<LinkCard title="カスタマイズ早見表を見る" href="/ja/canvas/recipes/" description="8 つのレシピの完全な操作手順。" />
+	</Card>
+	<Card title="デプロイとよくある質問" icon="cloudflare">
+		Cloudflare、Vercel、Netlify のワンクリックデプロイボタンと手動デプロイの手順、独自ドメインの設定に加え、デプロイ結果の確認方法とよくあるエラーのセルフチェックリストも付いています。
+		<LinkCard title="デプロイとFAQを見る" href="/ja/canvas/cloudflare/" description="公開コマンド、ドメイン設定と FAQ。" />
+	</Card>
+	<Card title="SEO とパフォーマンス最適化" icon="setting">
+		内蔵の meta タグ、Open Graph、sitemap、robots.txt のほか、パフォーマンスの仕組みの説明と検索エンジンへの登録手順を紹介します。
+		<LinkCard title="SEO ガイドを見る" href="/ja/canvas/seo/" description="インデックス登録の確認方法とパフォーマンスのセルフチェック。" />
+	</Card>
+</CardGrid>

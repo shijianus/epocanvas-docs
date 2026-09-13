@@ -3,13 +3,16 @@ import config from 'virtual:starlight/user-config';
 import Search from 'virtual:starlight/components/Search';
 import SiteTitle from 'virtual:starlight/components/SiteTitle';
 import { navigationConfig } from '../../config/navigation';
-import { SUPPORTED_LANGUAGES, UI_TRANSLATIONS, getTranslation } from '../../utils/i18n';
+import { SUPPORTED_LANGUAGES, getLangFromLocale, getTranslation, localizedHref } from '../../utils/i18n';
 
 const shouldRenderSearch =
 	config.pagefind || config.components.Search !== '@astrojs/starlight/components/Search.astro';
 
 const pathname = Astro.url.pathname;
-const initialLang = 'zh-CN';
+const lang = getLangFromLocale(Astro.currentLocale);
+const currentLang = SUPPORTED_LANGUAGES.find((item) => item.code === lang) ?? SUPPORTED_LANGUAGES[0];
+// 导航高亮基于去掉语言前缀的路径判断，保证各语言页面高亮状态一致。
+const matchPath = localizedHref(pathname, 'zh-CN');
 ---
 
 <div class="header sl-flex">
@@ -25,19 +28,19 @@ const initialLang = 'zh-CN';
 
 	<div class="header-right sl-hidden md:sl-flex print:hidden">
 		<!-- Dynamic & Flexible Navigation Buttons -->
-		<nav class="nav-links sl-flex" aria-label="全局导航">
+		<nav class="nav-links sl-flex" aria-label={getTranslation('nav.ariaLabel', lang)}>
 			{
 				navigationConfig.map((item) => {
-					const isActive = item.match ? item.match(pathname) : pathname === item.href;
+					const isActive = item.match ? item.match(matchPath) : matchPath === item.href;
+					const href = item.isExternal ? item.href : localizedHref(item.href, lang);
 					if (item.isExternal) {
 						return (
 							<a
-								href={item.href}
+								href={href}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="nav-btn nav-btn-version"
-								title="查看 GitHub Release 版本记录"
-								data-i18n-title="nav.releases"
+								title={getTranslation('nav.releases', lang)}
 							>
 								<span class="release-version">{item.badge || item.defaultLabel}</span>
 								<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ext-icon" aria-hidden="true">
@@ -47,12 +50,8 @@ const initialLang = 'zh-CN';
 						);
 					}
 					return (
-						<a
-							href={item.href}
-							class:list={['nav-btn', { active: isActive }]}
-							data-i18n={item.labelKey}
-						>
-							{getTranslation(item.labelKey, initialLang)}
+						<a href={href} class:list={['nav-btn', { active: isActive }]}>
+							{getTranslation(item.labelKey, lang)}
 						</a>
 					);
 				})
@@ -67,12 +66,10 @@ const initialLang = 'zh-CN';
 				id="vp-lang-btn"
 				class="vp-lang-btn"
 				type="button"
-				aria-label={getTranslation('lang.select', initialLang)}
+				aria-label={getTranslation('lang.select', lang)}
 				aria-haspopup="true"
 				aria-expanded="false"
-				title={getTranslation('lang.select', initialLang)}
-				data-i18n-title="lang.select"
-				data-i18n-aria="lang.select"
+				title={getTranslation('lang.select', lang)}
 			>
 				<svg class="icon-translate" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
 					<path d="m5 8 6 6" />
@@ -82,7 +79,7 @@ const initialLang = 'zh-CN';
 					<path d="m22 22-5-10-5 10" />
 					<path d="M14 18h6" />
 				</svg>
-				<span id="current-lang-code" class="current-lang-text">ZH</span>
+				<span id="current-lang-code" class="current-lang-text">{currentLang.shortCode}</span>
 				<svg class="icon-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 					<path d="m6 9 6 6 6-6" />
 				</svg>
@@ -90,17 +87,17 @@ const initialLang = 'zh-CN';
 			<div id="vp-lang-menu" class="vp-lang-menu">
 				<div class="lang-menu-scroll">
 					{
-						SUPPORTED_LANGUAGES.map((lang) => (
-							<button
-								type="button"
-								class:list={['lang-item-btn', { active: lang.code === 'zh-CN' }]}
-								data-lang-code={lang.code}
+						SUPPORTED_LANGUAGES.map((langMeta) => (
+							<a
+								class:list={['lang-item-btn', { active: langMeta.code === lang }]}
+								href={localizedHref(pathname, langMeta.code)}
+								hreflang={langMeta.code}
 							>
-								<span class="lang-label">{lang.label}</span>
+								<span class="lang-label">{langMeta.label}</span>
 								<svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 									<path d="M20 6 9 17l-5-5" />
 								</svg>
-							</button>
+							</a>
 						))
 					}
 				</div>
@@ -108,14 +105,13 @@ const initialLang = 'zh-CN';
 		</div>
 
 		<!-- High-Contrast Appearance Switch Toggle -->
-		<div class="theme-switch-wrapper" title="切换色彩模式" data-i18n-title="theme.toggle">
+		<div class="theme-switch-wrapper" title={getTranslation('theme.toggle', lang)}>
 			<button
 				id="vp-theme-toggle"
 				class="vp-theme-toggle"
 				type="button"
 				role="switch"
-				aria-label={getTranslation('theme.toggle', initialLang)}
-				data-i18n-aria="theme.toggle"
+				aria-label={getTranslation('theme.toggle', lang)}
 			>
 				<span class="toggle-track">
 					<span class="toggle-thumb">
@@ -149,10 +145,8 @@ const initialLang = 'zh-CN';
 				target="_blank"
 				rel="noopener noreferrer"
 				class="social-link"
-				title="GitHub 源码仓库"
-				aria-label="GitHub 源码仓库"
-				data-i18n-title="social.github"
-				data-i18n-aria="social.github"
+				title={getTranslation('social.github', lang)}
+				aria-label={getTranslation('social.github', lang)}
 			>
 				<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
 					<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -164,10 +158,8 @@ const initialLang = 'zh-CN';
 				target="_blank"
 				rel="noopener noreferrer"
 				class="social-link"
-				title="Telegram 技术社群"
-				aria-label="Telegram 技术社群"
-				data-i18n-title="social.telegram"
-				data-i18n-aria="social.telegram"
+				title={getTranslation('social.telegram', lang)}
+				aria-label={getTranslation('social.telegram', lang)}
 			>
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="m22 2-7 20-4-9-9-4Z" />
@@ -179,59 +171,9 @@ const initialLang = 'zh-CN';
 
 </div>
 
-<script define:vars={{ UI_TRANSLATIONS }}>
-	window.__EPO_TRANSLATIONS__ = UI_TRANSLATIONS;
-
-	function applyLocale(lang) {
-		const dict = window.__EPO_TRANSLATIONS__[lang] || window.__EPO_TRANSLATIONS__['zh-CN'];
-		if (!dict) return;
-
-		// 不修改 document.documentElement.lang：站点正文始终是简体中文，
-		// html lang 保持 zh-CN 才能让屏幕阅读器和搜索引擎按正确语言处理正文。
-		localStorage.setItem('epocanvas-lang', lang);
-
-		// Update Current Lang Badge
-		const langBadge = document.getElementById('current-lang-code');
-		if (langBadge) {
-			const shortCode = lang.split('-')[0].toUpperCase();
-			langBadge.textContent = shortCode;
-		}
-
-		// Update Active Dropdown Button
-		document.querySelectorAll('.lang-item-btn').forEach((btn) => {
-			const isMatch = btn.getAttribute('data-lang-code') === lang;
-			btn.classList.toggle('active', isMatch);
-		});
-
-		// Update Text Elements
-		document.querySelectorAll('[data-i18n]').forEach((el) => {
-			const key = el.getAttribute('data-i18n');
-			if (key && dict[key]) {
-				el.textContent = dict[key];
-			}
-		});
-
-		// Update Aria Labels
-		document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
-			const key = el.getAttribute('data-i18n-aria');
-			if (key && dict[key]) {
-				el.setAttribute('aria-label', dict[key]);
-			}
-		});
-
-		// Update Titles
-		document.querySelectorAll('[data-i18n-title]').forEach((el) => {
-			const key = el.getAttribute('data-i18n-title');
-			if (key && dict[key]) {
-				el.setAttribute('title', dict[key]);
-			}
-		});
-
-		// Dispatch custom event for dynamic components
-		window.dispatchEvent(new CustomEvent('epocanvas:langchange', { detail: { lang, dict } }));
-	}
-
-	// Language Dropdown Setup
+<script>
+	// 语言切换通过下拉菜单里的 <a> 链接跳转到对应语言的页面完成，
+	// 这里的脚本只负责下拉菜单的展开/收起与主题切换。
 	const langBtn = document.getElementById('vp-lang-btn');
 	const langWrapper = langBtn?.closest('.lang-dropdown-wrapper');
 	if (langBtn && langWrapper) {
@@ -247,24 +189,6 @@ const initialLang = 'zh-CN';
 				langBtn.setAttribute('aria-expanded', 'false');
 			}
 		});
-
-		// Click lang item
-		document.querySelectorAll('.lang-item-btn').forEach((btn) => {
-			btn.addEventListener('click', () => {
-				const code = btn.getAttribute('data-lang-code');
-				if (code) {
-					applyLocale(code);
-					langWrapper.classList.remove('open');
-					langBtn.setAttribute('aria-expanded', 'false');
-				}
-			});
-		});
-	}
-
-	// Initialize language from localStorage or default
-	const savedLang = localStorage.getItem('epocanvas-lang');
-	if (savedLang && window.__EPO_TRANSLATIONS__[savedLang]) {
-		applyLocale(savedLang);
 	}
 
 	// Theme Toggle Setup
@@ -537,6 +461,7 @@ const initialLang = 'zh-CN';
 		background: transparent;
 		cursor: pointer;
 		text-align: left;
+		text-decoration: none;
 		transition: all 0.15s ease;
 	}
 

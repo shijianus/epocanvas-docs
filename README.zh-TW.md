@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | 繁體中文 | [Français](./README.fr.md)
 
-EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 與 Starlight 建置，內建三欄閱讀版面、雙模式搜尋與多語系介面。所有內容以標準 Markdown 撰寫，可發布至 Cloudflare Pages。
+EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 與 Starlight 建置，內建三欄閱讀版面、雙模式搜尋與內容級多語系。所有內容以標準 Markdown 撰寫，可發布至 Cloudflare Pages。
 
 **線上站點**：[https://docs.epocanvas.com](https://docs.epocanvas.com)（備用位址：[https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
 
@@ -21,7 +21,7 @@ EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 
 
 - **三欄閱讀版面**：內文行寬經過限制，適合長篇閱讀；左側導覽列在切換頁面時保留捲動位置，右側目錄會隨捲動高亮目前小節。
 - **雙模式搜尋**：頂欄搜尋框負責在目前頁面內尋找，`Ctrl+K` / `Cmd+K` 呼叫基於 Pagefind 的全站檢索彈窗。索引於建置時產生，檢索完全在瀏覽器內完成，不依賴第三方搜尋服務，託管在無對外網路的內部網路環境同樣可用。
-- **介面多語系**：介面提供 10 種語言——簡體中文（預設）、繁體中文、英文、日文、韓文、西班牙文、法文、德文、俄文、葡萄牙文。切換時文字就地更新，無須重新載入頁面。
+- **內容級多語系**：介面與全部文件內文提供 10 種語言——簡體中文（預設）、繁體中文、英文、日文、韓文、西班牙文、法文、德文、俄文、葡萄牙文。每種語言有獨立的 URL 前綴（如 `/en/`），缺少譯文的頁面自動回退顯示簡體中文，不會出現 404。
 - **Markdown 擴充**：支援 `:::note`、`:::tip`、`:::caution`、`:::danger` 四種提示框；程式碼區塊支援 Shiki 語法高亮、檔名標籤、指定行高亮與 diff 顯示。
 - **一鍵部署**：站點建置為純靜態檔案，透過單一指令發布至 Cloudflare Pages，自訂網域與 HTTPS 憑證自動設定。
 
@@ -60,7 +60,7 @@ epocanvas-docs/
 │   ├── config/navigation.ts    # 頂部導覽列設定
 │   ├── content/docs/           # 文件內文，以 Markdown 撰寫
 │   ├── styles/custom.css       # 主題配色與版面樣式
-│   └── utils/i18n.ts           # 用戶端翻譯詞典
+│   └── utils/i18n.ts           # 介面文字與語言清單
 ├── astro.config.mjs            # 站點設定：標題、側邊欄、重新導向
 ├── AGENTS.md                   # 技術寫作規範
 ├── LICENSE

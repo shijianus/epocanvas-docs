@@ -1,22 +1,67 @@
 export interface LanguageMeta {
+	/** BCP-47 语言代码，与 UI_TRANSLATIONS 的键一致，如 'zh-TW'。 */
 	code: string;
 	label: string;
 	englishName: string;
 	flag: string;
+	/** 顶栏语言按钮上显示的缩写。 */
+	shortCode: string;
+	/** 该语言在 URL 中的目录前缀，root（简体中文）为空字符串。 */
+	dir: string;
 }
 
+/**
+ * 站点支援的全部语言。简体中文是默认语言，放在 URL 根路径（无前缀），
+ * 其余语言的内容存放在 src/content/docs/<dir>/ 下。
+ */
 export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
-	{ code: 'zh-CN', label: '简体中文', englishName: 'Simplified Chinese', flag: '🇨🇳' },
-	{ code: 'zh-TW', label: '繁體中文', englishName: 'Traditional Chinese', flag: '🇭🇰' },
-	{ code: 'en', label: 'English', englishName: 'English', flag: '🇺🇸' },
-	{ code: 'ja', label: '日本語', englishName: 'Japanese', flag: '🇯🇵' },
-	{ code: 'ko', label: '한국어', englishName: 'Korean', flag: '🇰🇷' },
-	{ code: 'es', label: 'Español', englishName: 'Spanish', flag: '🇪🇸' },
-	{ code: 'fr', label: 'Français', englishName: 'French', flag: '🇫🇷' },
-	{ code: 'de', label: 'Deutsch', englishName: 'German', flag: '🇩🇪' },
-	{ code: 'ru', label: 'Русский', englishName: 'Russian', flag: '🇷🇺' },
-	{ code: 'pt', label: 'Português', englishName: 'Portuguese', flag: '🇵🇹' },
+	{ code: 'zh-CN', label: '简体中文', englishName: 'Simplified Chinese', flag: '🇨🇳', shortCode: 'ZH', dir: '' },
+	{ code: 'zh-TW', label: '繁體中文', englishName: 'Traditional Chinese', flag: '🇭🇰', shortCode: 'TW', dir: 'zh-tw' },
+	{ code: 'en', label: 'English', englishName: 'English', flag: '🇺🇸', shortCode: 'EN', dir: 'en' },
+	{ code: 'ja', label: '日本語', englishName: 'Japanese', flag: '🇯🇵', shortCode: 'JA', dir: 'ja' },
+	{ code: 'ko', label: '한국어', englishName: 'Korean', flag: '🇰🇷', shortCode: 'KO', dir: 'ko' },
+	{ code: 'es', label: 'Español', englishName: 'Spanish', flag: '🇪🇸', shortCode: 'ES', dir: 'es' },
+	{ code: 'fr', label: 'Français', englishName: 'French', flag: '🇫🇷', shortCode: 'FR', dir: 'fr' },
+	{ code: 'de', label: 'Deutsch', englishName: 'German', flag: '🇩🇪', shortCode: 'DE', dir: 'de' },
+	{ code: 'ru', label: 'Русский', englishName: 'Russian', flag: '🇷🇺', shortCode: 'RU', dir: 'ru' },
+	{ code: 'pt', label: 'Português', englishName: 'Portuguese', flag: '🇵🇹', shortCode: 'PT', dir: 'pt' },
 ];
+
+/** 语言代码 → URL 目录前缀，用于把当前页面路径换算成另一种语言的地址。 */
+const LANG_TO_DIR: Record<string, string> = Object.fromEntries(
+	SUPPORTED_LANGUAGES.map((lang) => [lang.code, lang.dir])
+);
+
+/** URL 目录前缀 → 语言代码，用于从 Astro.currentLocale 反查语言。 */
+const DIR_TO_LANG: Record<string, string> = Object.fromEntries(
+	SUPPORTED_LANGUAGES.filter((lang) => lang.dir).map((lang) => [lang.dir, lang.code])
+);
+
+/**
+ * 把 Starlight 的 locale 标识换算成语言代码。
+ * 默认语言使用 root locale，此时 Astro.currentLocale 为 undefined。
+ */
+export function getLangFromLocale(locale: string | undefined): string {
+	if (!locale || locale === 'root') return 'zh-CN';
+	return DIR_TO_LANG[locale.toLowerCase()] ?? LANG_TO_DIR[locale] ?? 'zh-CN';
+}
+
+/**
+ * 把当前页面路径换算成目标语言的地址，保持正文路径不变。
+ * 例：('/canvas/i18n/', 'en') → '/en/canvas/i18n/'；('/en/canvas/', 'zh-CN') → '/canvas/'。
+ * 假定站点使用目录式构建（URL 以 / 结尾）。
+ */
+export function localizedHref(path: string, lang: string): string {
+	const dir = LANG_TO_DIR[lang];
+	if (dir === undefined) return path;
+	const segments = path.split('/').filter(Boolean);
+	if (segments.length > 0 && segments[0].toLowerCase() in DIR_TO_LANG) {
+		segments.shift();
+	}
+	const base = segments.join('/');
+	const prefix = dir ? '/' + dir : '';
+	return base ? `${prefix}/${base}/` : prefix ? `${prefix}/` : '/';
+}
 
 export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 	'zh-CN': {
@@ -27,6 +72,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': '部署上线',
 		'nav.faq': '常见问题',
 		'nav.releases': '查看 GitHub Release 版本记录',
+		'nav.ariaLabel': '全局导航',
 		'search.label': '搜索',
 		'search.placeholder': '搜索文档与指令...',
 		'search.cancelLabel': '取消',
@@ -34,6 +80,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': '导航',
 		'search.hint.select': '选择',
 		'search.hint.close': '关闭',
+		'search.prevTitle': '上一个匹配项 (Shift+Enter)',
+		'search.nextTitle': '下一个匹配项 (Enter)',
+		'search.clearTitle': '清除高亮与搜索 (Esc)',
+		'search.shortcutTitle': '呼出全局文档检索弹窗 (Ctrl+K)',
+		'search.openModalAria': '打开全局全站文档检索',
+		'search.modalTitle': 'EpoCanvas 全局文档检索',
+		'search.zeroResults': '0 结果',
 		'toc.title': '本页目录',
 		'theme.toggle': '切换色彩模式',
 		'theme.light': '浅色模式',
@@ -53,6 +106,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': '部署上線',
 		'nav.faq': '常見問題',
 		'nav.releases': '查看 GitHub Release 版本記錄',
+		'nav.ariaLabel': '全域導覽',
 		'search.label': '搜尋',
 		'search.placeholder': '搜尋文件與指令...',
 		'search.cancelLabel': '取消',
@@ -60,6 +114,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': '導航',
 		'search.hint.select': '選擇',
 		'search.hint.close': '關閉',
+		'search.prevTitle': '上一個符合項目 (Shift+Enter)',
+		'search.nextTitle': '下一個符合項目 (Enter)',
+		'search.clearTitle': '清除高亮與搜尋 (Esc)',
+		'search.shortcutTitle': '呼出全域文件檢索彈窗 (Ctrl+K)',
+		'search.openModalAria': '開啟全域全站文件檢索',
+		'search.modalTitle': 'EpoCanvas 全域文件檢索',
+		'search.zeroResults': '0 筆結果',
 		'toc.title': '本頁目錄',
 		'theme.toggle': '切換色彩模式',
 		'theme.light': '淺色模式',
@@ -68,7 +129,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.updated': '最後更新於',
 		'page.specification': 'EpoCanvas 官方工程與架構規範',
 		'skipLink.label': '跳轉到內容',
-		'social.github': 'GitHub 源碼倉庫',
+		'social.github': 'GitHub 原始碼儲存庫',
 		'social.telegram': 'Telegram 技術社群',
 	},
 	'en': {
@@ -79,6 +140,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'Deploy',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'View GitHub release notes',
+		'nav.ariaLabel': 'Site navigation',
 		'search.label': 'Search',
 		'search.placeholder': 'Search documentation...',
 		'search.cancelLabel': 'Cancel',
@@ -86,6 +148,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': 'Navigate',
 		'search.hint.select': 'Select',
 		'search.hint.close': 'Close',
+		'search.prevTitle': 'Previous match (Shift+Enter)',
+		'search.nextTitle': 'Next match (Enter)',
+		'search.clearTitle': 'Clear highlights and search (Esc)',
+		'search.shortcutTitle': 'Open global search dialog (Ctrl+K)',
+		'search.openModalAria': 'Open global documentation search',
+		'search.modalTitle': 'EpoCanvas Global Search',
+		'search.zeroResults': '0 results',
 		'toc.title': 'On this page',
 		'theme.toggle': 'Toggle color theme',
 		'theme.light': 'Light mode',
@@ -105,6 +174,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'デプロイ',
 		'nav.faq': 'よくある質問',
 		'nav.releases': 'GitHub リリース履歴を見る',
+		'nav.ariaLabel': 'サイトナビゲーション',
 		'search.label': '検索',
 		'search.placeholder': 'ドキュメントを検索...',
 		'search.cancelLabel': 'キャンセル',
@@ -112,6 +182,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': '移動',
 		'search.hint.select': '選択',
 		'search.hint.close': '閉じる',
+		'search.prevTitle': '前の一致箇所 (Shift+Enter)',
+		'search.nextTitle': '次の一致箇所 (Enter)',
+		'search.clearTitle': '検索とハイライトを解除 (Esc)',
+		'search.shortcutTitle': '全文検索ダイアログを開く (Ctrl+K)',
+		'search.openModalAria': 'サイト全体のドキュメント検索を開く',
+		'search.modalTitle': 'EpoCanvas 全文検索',
+		'search.zeroResults': '0 件',
 		'toc.title': '目次',
 		'theme.toggle': 'カラーテーマ切替',
 		'theme.light': 'ライトモード',
@@ -131,6 +208,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': '배포',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'GitHub 릴리스 기록 보기',
+		'nav.ariaLabel': '사이트 내비게이션',
 		'search.label': '검색',
 		'search.placeholder': '문서 검색...',
 		'search.cancelLabel': '취소',
@@ -138,6 +216,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': '탐색',
 		'search.hint.select': '선택',
 		'search.hint.close': '닫기',
+		'search.prevTitle': '이전 일치 항목 (Shift+Enter)',
+		'search.nextTitle': '다음 일치 항목 (Enter)',
+		'search.clearTitle': '검색 및 강조 표시 지우기 (Esc)',
+		'search.shortcutTitle': '전체 검색 대화상자 열기 (Ctrl+K)',
+		'search.openModalAria': '사이트 전체 문서 검색 열기',
+		'search.modalTitle': 'EpoCanvas 전체 검색',
+		'search.zeroResults': '0개 결과',
 		'toc.title': '이 페이지의 목차',
 		'theme.toggle': '색상 테마 전환',
 		'theme.light': '라이트 모드',
@@ -157,6 +242,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'Despliegue',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'Ver versiones de GitHub',
+		'nav.ariaLabel': 'Navegación del sitio',
 		'search.label': 'Buscar',
 		'search.placeholder': 'Buscar documentación...',
 		'search.cancelLabel': 'Cancelar',
@@ -164,6 +250,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': 'Navegar',
 		'search.hint.select': 'Seleccionar',
 		'search.hint.close': 'Cerrar',
+		'search.prevTitle': 'Coincidencia anterior (Shift+Enter)',
+		'search.nextTitle': 'Coincidencia siguiente (Enter)',
+		'search.clearTitle': 'Borrar resaltado y búsqueda (Esc)',
+		'search.shortcutTitle': 'Abrir el cuadro de búsqueda global (Ctrl+K)',
+		'search.openModalAria': 'Abrir la búsqueda global de documentación',
+		'search.modalTitle': 'Búsqueda global de EpoCanvas',
+		'search.zeroResults': '0 resultados',
 		'toc.title': 'En esta página',
 		'theme.toggle': 'Cambiar tema de color',
 		'theme.light': 'Modo claro',
@@ -183,6 +276,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'Déploiement',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'Voir les versions GitHub',
+		'nav.ariaLabel': 'Navigation du site',
 		'search.label': 'Rechercher',
 		'search.placeholder': 'Rechercher dans les docs',
 		'search.cancelLabel': 'Annuler',
@@ -190,6 +284,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': 'Naviguer',
 		'search.hint.select': 'Sélectionner',
 		'search.hint.close': 'Fermer',
+		'search.prevTitle': 'Correspondance précédente (Shift+Enter)',
+		'search.nextTitle': 'Correspondance suivante (Enter)',
+		'search.clearTitle': 'Effacer la recherche et le surlignage (Esc)',
+		'search.shortcutTitle': 'Ouvrir la boîte de dialogue de recherche (Ctrl+K)',
+		'search.openModalAria': 'Ouvrir la recherche globale de la documentation',
+		'search.modalTitle': 'Recherche globale EpoCanvas',
+		'search.zeroResults': '0 résultat',
 		'toc.title': 'Sur cette page',
 		'theme.toggle': 'Changer de thème',
 		'theme.light': 'Mode clair',
@@ -209,6 +310,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'Bereitstellung',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'GitHub-Versionen ansehen',
+		'nav.ariaLabel': 'Website-Navigation',
 		'search.label': 'Suchen',
 		'search.placeholder': 'Dokumentation suchen...',
 		'search.cancelLabel': 'Abbrechen',
@@ -216,6 +318,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': 'Navigieren',
 		'search.hint.select': 'Auswählen',
 		'search.hint.close': 'Schließen',
+		'search.prevTitle': 'Vorheriger Treffer (Shift+Enter)',
+		'search.nextTitle': 'Nächster Treffer (Enter)',
+		'search.clearTitle': 'Suche und Hervorhebung löschen (Esc)',
+		'search.shortcutTitle': 'Globale Suche öffnen (Ctrl+K)',
+		'search.openModalAria': 'Globale Dokumentationssuche öffnen',
+		'search.modalTitle': 'EpoCanvas globale Suche',
+		'search.zeroResults': '0 Treffer',
 		'toc.title': 'Inhaltsverzeichnis',
 		'theme.toggle': 'Farbdesign wechseln',
 		'theme.light': 'Heller Modus',
@@ -235,6 +344,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'Развертывание',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'Смотреть релизы GitHub',
+		'nav.ariaLabel': 'Навигация по сайту',
 		'search.label': 'Поиск',
 		'search.placeholder': 'Поиск по документам',
 		'search.cancelLabel': 'Отмена',
@@ -242,6 +352,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': 'Навигация',
 		'search.hint.select': 'Выбрать',
 		'search.hint.close': 'Закрыть',
+		'search.prevTitle': 'Предыдущее совпадение (Shift+Enter)',
+		'search.nextTitle': 'Следующее совпадение (Enter)',
+		'search.clearTitle': 'Очистить поиск и выделение (Esc)',
+		'search.shortcutTitle': 'Открыть глобальный поиск (Ctrl+K)',
+		'search.openModalAria': 'Открыть поиск по всей документации',
+		'search.modalTitle': 'Глобальный поиск EpoCanvas',
+		'search.zeroResults': '0 совпадений',
 		'toc.title': 'На этой странице',
 		'theme.toggle': 'Переключить тему',
 		'theme.light': 'Светлая тема',
@@ -261,6 +378,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'nav.deploy': 'Implantação',
 		'nav.faq': 'FAQ',
 		'nav.releases': 'Ver versões do GitHub',
+		'nav.ariaLabel': 'Navegação do site',
 		'search.label': 'Pesquisar',
 		'search.placeholder': 'Pesquisar documentação',
 		'search.cancelLabel': 'Cancelar',
@@ -268,6 +386,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'search.hint.navigate': 'Navegar',
 		'search.hint.select': 'Selecionar',
 		'search.hint.close': 'Fechar',
+		'search.prevTitle': 'Correspondência anterior (Shift+Enter)',
+		'search.nextTitle': 'Próxima correspondência (Enter)',
+		'search.clearTitle': 'Limpar pesquisa e destaque (Esc)',
+		'search.shortcutTitle': 'Abrir a caixa de pesquisa global (Ctrl+K)',
+		'search.openModalAria': 'Abrir pesquisa global da documentação',
+		'search.modalTitle': 'Pesquisa global EpoCanvas',
+		'search.zeroResults': '0 resultados',
 		'toc.title': 'Nesta página',
 		'theme.toggle': 'Alternar tema de cores',
 		'theme.light': 'Modo claro',

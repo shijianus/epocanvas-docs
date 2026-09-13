@@ -23,6 +23,35 @@ function rehypeWrapTables() {
 	return (tree) => walk(tree);
 }
 
+// 非默认语言页面的 Markdown 正文里会出现 /canvas/xxx 这类站点内链，
+// 直接渲染会跳回中文页。这里按源文件所在的语言目录，把以 / 开头的内链
+// 自动加上语言前缀（如 /en/canvas/xxx）；已是带前缀或外链/锚点的不处理。
+const LOCALE_DIRS = ['zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
+function rehypeLocalizeInternalLinks() {
+	return (tree, file) => {
+		const path = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
+		const match = path.match(/\/content\/docs\/([^/]+)\//);
+		const dir = match && match[1];
+		if (!dir || !LOCALE_DIRS.includes(dir)) return;
+		const walk = (node) => {
+			if (!node || !Array.isArray(node.children)) return;
+			for (const child of node.children) {
+				if (child.type === 'element' && child.tagName === 'a') {
+					const href = child.properties?.href;
+					if (typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')) {
+						const firstSegment = href.slice(1).split('/')[0];
+						if (!LOCALE_DIRS.includes(firstSegment)) {
+							child.properties.href = '/' + dir + href;
+						}
+					}
+				}
+				walk(child);
+			}
+		};
+		walk(tree);
+	};
+}
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.epocanvas.com',
@@ -31,19 +60,57 @@ export default defineConfig({
 		enabled: false,
 	},
 	markdown: {
-		rehypePlugins: [rehypeWrapTables],
+		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks],
 	},
-	integrations: [
-		starlight({
-			title: 'EpoCanvas Docs',
-			description: 'EpoCanvas 全栈技术、架构与产品运维指南',
-			defaultLocale: 'root',
-			locales: {
-				root: {
-					label: '简体中文',
-					lang: 'zh-CN',
+		integrations: [
+			starlight({
+				title: 'EpoCanvas Docs',
+				description: 'EpoCanvas 全栈技术、架构与产品运维指南',
+				// 简体中文是默认语言，占用 URL 根路径；其余语言各有独立目录与译文。
+				// 某篇文档缺少某语言译文时，Starlight 会自动用默认语言内容兜底，不会 404。
+				defaultLocale: 'root',
+				locales: {
+					root: {
+						label: '简体中文',
+						lang: 'zh-CN',
+					},
+					'zh-tw': {
+						label: '繁體中文',
+						lang: 'zh-TW',
+					},
+					en: {
+						label: 'English',
+						lang: 'en',
+					},
+					ja: {
+						label: '日本語',
+						lang: 'ja',
+					},
+					ko: {
+						label: '한국어',
+						lang: 'ko',
+					},
+					es: {
+						label: 'Español',
+						lang: 'es',
+					},
+					fr: {
+						label: 'Français',
+						lang: 'fr',
+					},
+					de: {
+						label: 'Deutsch',
+						lang: 'de',
+					},
+					ru: {
+						label: 'Русский',
+						lang: 'ru',
+					},
+					pt: {
+						label: 'Português',
+						lang: 'pt',
+					},
 				},
-			},
 			logo: {
 				src: './public/images/logo.svg',
 				replacesTitle: false,
@@ -75,50 +142,124 @@ export default defineConfig({
 				Search: './src/components/starlight/Search.astro',
 				Pagination: './src/components/starlight/Pagination.astro',
 			},
-			sidebar: [
+			// 侧边栏分组与条目的多语言文案，键为各语言的 BCP-47 代码；
+			// 中文标签写在 sidebar 的 label 里，其余语言从这里取。
+			sidebar: (() => {
+				const SIDEBAR_I18N = {
+				'产品概览与入门': {
+					'zh-TW': '產品概覽與入門', en: 'Overview & Getting Started', ja: '製品概要とスタートガイド', ko: '제품 개요 및 시작하기', es: 'Presentación y primeros pasos', fr: 'Présentation et premiers pas', de: 'Überblick & Einstieg', ru: 'Обзор и начало работы', pt: 'Visão geral e primeiros passos',
+				},
+				'核心功能与使用指南': {
+					'zh-TW': '核心功能與使用指南', en: 'Core Features & Guides', ja: '主要機能と使い方ガイド', ko: '핵심 기능 및 사용 가이드', es: 'Funciones principales y guías de uso', fr: 'Fonctionnalités principales et guides', de: 'Kernfunktionen & Anleitungen', ru: 'Основные функции и руководства', pt: 'Recursos principais e guias',
+				},
+				'文档编写与内容管理': {
+					'zh-TW': '文件撰寫與內容管理', en: 'Writing & Content', ja: '執筆とコンテンツ管理', ko: '문서 작성 및 콘텐츠 관리', es: 'Redacción y gestión de contenido', fr: 'Rédaction et gestion du contenu', de: 'Schreiben & Content-Verwaltung', ru: 'Написание и управление контентом', pt: 'Redação e gestão de conteúdo',
+				},
+				'配置与二次开发': {
+					'zh-TW': '設定與客製化', en: 'Configuration & Customization', ja: '設定とカスタマイズ', ko: '설정 및 커스터마이징', es: 'Configuración y personalización', fr: 'Configuration et personnalisation', de: 'Konfiguration & Anpassung', ru: 'Конфигурация и кастомизация', pt: 'Configuração e personalização',
+				},
+				'发布与运维部署': {
+					'zh-TW': '發布與維運部署', en: 'Deployment & Maintenance', ja: 'リリースとデプロイ運用', ko: '배포 및 운영', es: 'Publicación y despliegue', fr: 'Publication et mise en production', de: 'Veröffentlichung & Betrieb', ru: 'Публикация и развёртывание', pt: 'Publicação e implantação',
+				},
+				'这是什么': {
+					'zh-TW': '這是什麼', en: 'What Is This', ja: 'これは何？', ko: '이것은 무엇인가', es: 'Qué es esto', fr: 'Qu\'est-ce que c\'est', de: 'Was ist das', ru: 'Что это такое', pt: 'O que é isto',
+				},
+				'产品简介与核心价值': {
+					'zh-TW': '產品簡介與核心價值', en: 'Product Overview & Core Value', ja: '製品概要とコアバリュー', ko: '제품 소개 및 핵심 가치', es: 'Descripción del producto y valor clave', fr: 'Présentation du produit et valeur essentielle', de: 'Produktüberblick & Kernwerte', ru: 'Обзор продукта и ключевые преимущества', pt: 'Visão geral do produto e valor central',
+				},
+				'快速上手 (3分钟运行)': {
+					'zh-TW': '快速上手 (3 分鐘執行)', en: 'Quickstart (Up and Running in 3 Minutes)', ja: 'クイックスタート (3分で起動)', ko: '빠른 시작 (3분 만에 실행)', es: 'Inicio rápido (en marcha en 3 minutos)', fr: 'Démarrage rapide (en 3 minutes)', de: 'Schnellstart (in 3 Minuten starten)', ru: 'Быстрый старт (запуск за 3 минуты)', pt: 'Início rápido (rodando em 3 minutos)',
+				},
+				'页面布局与阅读体验': {
+					'zh-TW': '頁面佈局與閱讀體驗', en: 'Page Layout & Reading Experience', ja: 'ページレイアウトと閲覧体験', ko: '페이지 레이아웃과 읽기 경험', es: 'Diseño de página y experiencia de lectura', fr: 'Mise en page et confort de lecture', de: 'Seitenlayout & Leseerlebnis', ru: 'Разметка страницы и удобство чтения', pt: 'Layout da página e experiência de leitura',
+				},
+				'全文搜索与快捷键使用': {
+					'zh-TW': '全文搜尋與快捷鍵使用', en: 'Full-Text Search & Keyboard Shortcuts', ja: '全文検索とショートカットキー', ko: '전체 텍스트 검색 및 단축키', es: 'Búsqueda de texto completo y atajos de teclado', fr: 'Recherche plein texte et raccourcis clavier', de: 'Volltextsuche & Tastenkürzel', ru: 'Полнотекстовый поиск и горячие клавиши', pt: 'Pesquisa de texto completo e atalhos de teclado',
+				},
+				'多语言支持与阅读切换': {
+					'zh-TW': '多語系支援與閱讀切換', en: 'Multilingual Support & Language Switching', ja: '多言語対応と言語切り替え', ko: '다국어 지원 및 언어 전환', es: 'Soporte multilingüe y cambio de idioma', fr: 'Prise en charge multilingue et changement de langue', de: 'Mehrsprachigkeit & Sprachwechsel', ru: 'Многоязычность и переключение языков', pt: 'Suporte a vários idiomas e troca de idioma',
+				},
+				'顶部导航与页面路由': {
+					'zh-TW': '頂部導覽與頁面路由', en: 'Top Navigation & Page Routing', ja: 'トップナビゲーションとページルーティング', ko: '상단 내비게이션과 페이지 라우팅', es: 'Navegación superior y enrutado de páginas', fr: 'Navigation supérieure et routage des pages', de: 'Obere Navigation & Seitenrouting', ru: 'Верхняя навигация и маршрутизация страниц', pt: 'Navegação superior e roteamento de páginas',
+				},
+				'Markdown 编写与排版指南': {
+					'zh-TW': 'Markdown 撰寫與排版指南', en: 'Markdown Authoring & Formatting Guide', ja: 'Markdown 執筆と整形ガイド', ko: 'Markdown 작성 및 서식 가이드', es: 'Guía de redacción y formato en Markdown', fr: 'Guide de rédaction et de mise en forme Markdown', de: 'Markdown-Leitfaden für Text und Formatierung', ru: 'Руководство по написанию и форматированию Markdown', pt: 'Guia de escrita e formatação em Markdown',
+				},
+				'渲染规则详解': {
+					'zh-TW': '渲染規則詳解', en: 'How Rendering Works', ja: 'レンダリングルールの詳細', ko: '렌더링 규칙 상세', es: 'Reglas de renderizado en detalle', fr: 'Règles de rendu en détail', de: 'Renderregeln im Detail', ru: 'Подробно о правилах рендеринга', pt: 'Regras de renderização em detalhes',
+				},
+				'提示框、代码块与图表示例': {
+					'zh-TW': '提示框、程式碼區塊與圖表範例', en: 'Asides, Code Blocks & Diagrams', ja: '吹き出し・コードブロック・図表の例', ko: '콜아웃, 코드 블록 및 다이어그램 예시', es: 'Avisos, bloques de código y diagramas de ejemplo', fr: 'Exemples d\'encadrés, blocs de code et diagrammes', de: 'Hinweisboxen, Codeblöcke & Diagramme', ru: 'Примеры выносок, блоков кода и диаграмм', pt: 'Avisos, blocos de código e diagramas de exemplo',
+				},
+				'站点全局配置与样式定制': {
+					'zh-TW': '站點全域設定與樣式定製', en: 'Site Configuration & Style Customization', ja: 'サイト全体の設定とスタイルのカスタマイズ', ko: '사이트 전역 설정 및 스타일 커스터마이징', es: 'Configuración del sitio y personalización de estilos', fr: 'Configuration du site et personnalisation des styles', de: 'Site-Konfiguration & Stil-Anpassung', ru: 'Конфигурация сайта и настройка стилей', pt: 'Configuração do site e personalização de estilos',
+				},
+				'界面组件与二次开发': {
+					'zh-TW': '介面元件與二次開發', en: 'UI Components & Custom Development', ja: 'UI コンポーネントとカスタム開発', ko: 'UI 컴포넌트와 커스텀 개발', es: 'Componentes de interfaz y desarrollo a medida', fr: 'Composants d\'interface et développement personnalisé', de: 'UI-Komponenten & eigene Anpassungen', ru: 'Компоненты интерфейса и доработка', pt: 'Componentes de interface e desenvolvimento personalizado',
+				},
+				'常见定制场景速查': {
+					'zh-TW': '常見客製場景速查', en: 'Common Customization Recipes', ja: 'よくあるカスタマイズ早見表', ko: '자주 하는 커스터마이징 모음', es: 'Recetas de personalización habituales', fr: 'Recettes de personnalisation courantes', de: 'Häufige Anpassungsrezepte', ru: 'Шпаргалка по типовым доработкам', pt: 'Receitas de personalização comuns',
+				},
+				'Cloudflare Pages 部署上线': {
+					'zh-TW': 'Cloudflare Pages 部署上線', en: 'Deploying to Cloudflare Pages', ja: 'Cloudflare Pages へのデプロイ', ko: 'Cloudflare Pages 배포', es: 'Despliegue en Cloudflare Pages', fr: 'Déploiement sur Cloudflare Pages', de: 'Veröffentlichung auf Cloudflare Pages', ru: 'Развёртывание на Cloudflare Pages', pt: 'Implantação no Cloudflare Pages',
+				},
+				'SEO 与性能优化': {
+					'zh-TW': 'SEO 與效能最佳化', en: 'SEO & Performance Optimization', ja: 'SEO とパフォーマンス最適化', ko: 'SEO 및 성능 최적화', es: 'SEO y optimización del rendimiento', fr: 'SEO et optimisation des performances', de: 'SEO & Performance-Optimierung', ru: 'SEO и оптимизация производительности', pt: 'SEO e otimização de desempenho',
+				},
+				'版本管理与自动化工作流': {
+					'zh-TW': '版本管理與自動化工作流程', en: 'Versioning & Automation Workflows', ja: 'バージョン管理と自動化ワークフロー', ko: '버전 관리 및 자동화 워크플로', es: 'Gestión de versiones y flujos automatizados', fr: 'Gestion des versions et workflows automatisés', de: 'Versionsverwaltung & automatisierte Workflows', ru: 'Управление версиями и автоматизация', pt: 'Gestão de versões e fluxos de trabalho automatizados',
+				},
+				'常见问题与故障排查 FAQ': {
+					'zh-TW': '常見問題與故障排查 FAQ', en: 'FAQ & Troubleshooting', ja: 'よくある質問とトラブルシューティング', ko: '자주 묻는 질문과 문제 해결 FAQ', es: 'Preguntas frecuentes y solución de problemas', fr: 'FAQ et résolution des problèmes', de: 'FAQ & Fehlerbehebung', ru: 'Частые вопросы и устранение неполадок', pt: 'FAQ e solução de problemas',
+				},
+			};
+			const t = (label) => ({ label, translations: SIDEBAR_I18N[label] ?? {} });
+
+			return [
 				{
-					label: '产品概览与入门',
+					...t('产品概览与入门'),
 					items: [
-						{ label: '这是什么', link: '/canvas/about/' },
-						{ label: '产品简介与核心价值', link: '/canvas/' },
-						{ label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
+						{ ...t('这是什么'), link: '/canvas/about/' },
+						{ ...t('产品简介与核心价值'), link: '/canvas/' },
+						{ ...t('快速上手 (3分钟运行)'), link: '/canvas/deployment/' },
 					],
 				},
 				{
-					label: '核心功能与使用指南',
+					...t('核心功能与使用指南'),
 					items: [
-						{ label: '页面布局与阅读体验', link: '/canvas/layout/' },
-						{ label: '全文搜索与快捷键使用', link: '/canvas/search-engine/' },
-						{ label: '多语言支持与阅读切换', link: '/canvas/i18n/' },
-						{ label: '顶部导航与页面路由', link: '/canvas/navigation/' },
+						{ ...t('页面布局与阅读体验'), link: '/canvas/layout/' },
+						{ ...t('全文搜索与快捷键使用'), link: '/canvas/search-engine/' },
+						{ ...t('多语言支持与阅读切换'), link: '/canvas/i18n/' },
+						{ ...t('顶部导航与页面路由'), link: '/canvas/navigation/' },
 					],
 				},
 				{
-					label: '文档编写与内容管理',
+					...t('文档编写与内容管理'),
 					items: [
-						{ label: 'Markdown 编写与排版指南', link: '/canvas/markdown/' },
-						{ label: '渲染规则详解', link: '/canvas/rendering/' },
-						{ label: '提示框、代码块与图表示例', link: '/canvas/syntax/' },
+						{ ...t('Markdown 编写与排版指南'), link: '/canvas/markdown/' },
+						{ ...t('渲染规则详解'), link: '/canvas/rendering/' },
+						{ ...t('提示框、代码块与图表示例'), link: '/canvas/syntax/' },
 					],
 				},
 				{
-					label: '配置与二次开发',
+					...t('配置与二次开发'),
 					items: [
-						{ label: '站点全局配置与样式定制', link: '/canvas/configuration/' },
-						{ label: '界面组件与二次开发', link: '/canvas/components/' },
-						{ label: '常见定制场景速查', link: '/canvas/recipes/' },
+						{ ...t('站点全局配置与样式定制'), link: '/canvas/configuration/' },
+						{ ...t('界面组件与二次开发'), link: '/canvas/components/' },
+						{ ...t('常见定制场景速查'), link: '/canvas/recipes/' },
 					],
 				},
 				{
-					label: '发布与运维部署',
+					...t('发布与运维部署'),
 					items: [
-						{ label: 'Cloudflare Pages 部署上线', link: '/canvas/cloudflare/' },
-						{ label: 'SEO 与性能优化', link: '/canvas/seo/' },
-						{ label: '版本管理与自动化工作流', link: '/canvas/releases/' },
-						{ label: '常见问题与故障排查 FAQ', link: '/canvas/troubleshooting/' },
+						{ ...t('Cloudflare Pages 部署上线'), link: '/canvas/cloudflare/' },
+						{ ...t('SEO 与性能优化'), link: '/canvas/seo/' },
+						{ ...t('版本管理与自动化工作流'), link: '/canvas/releases/' },
+						{ ...t('常见问题与故障排查 FAQ'), link: '/canvas/troubleshooting/' },
 					],
 				},
-			],
+			];
+			})(),
 		}),
 	],
 	// 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。

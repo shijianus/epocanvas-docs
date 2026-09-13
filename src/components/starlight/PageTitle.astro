@@ -1,10 +1,13 @@
 ---
-import { getTranslation } from '../../utils/i18n';
+import { getLangFromLocale, getTranslation } from '../../utils/i18n';
 
 export const PAGE_TITLE_ID = '_top';
 
-const { entry, lastUpdated } = Astro.locals.starlightRoute;
+const { entry, lastUpdated, lang: pageLang } = Astro.locals.starlightRoute;
+const lang = getLangFromLocale(Astro.currentLocale);
 const title = entry.data.title;
+// 中文用全角冒号，其他语言用半角冒号加空格。
+const updatedColon = lang.startsWith('zh') ? '：' : ': ';
 ---
 
 <div class="page-title-wrapper">
@@ -17,13 +20,13 @@ const title = entry.data.title;
 						<circle cx="12" cy="12" r="10" />
 						<polyline points="12 6 12 12 16 14" />
 					</svg>
-					<span data-i18n="page.updated">{getTranslation('page.updated')}</span>：
-					{lastUpdated.toLocaleDateString('zh-CN', { dateStyle: 'medium', timeZone: 'UTC' })}
+					<span>{getTranslation('page.updated', lang)}{updatedColon}</span>
+					{lastUpdated.toLocaleDateString(pageLang || lang, { dateStyle: 'medium', timeZone: 'UTC' })}
 				</span>
 			)
 		}
 		<span class="meta-separator">/</span>
-		<span class="meta-item" data-i18n="page.specification">{getTranslation('page.specification')}</span>
+		<span class="meta-item">{getTranslation('page.specification', lang)}</span>
 	</div>
 </div>
 

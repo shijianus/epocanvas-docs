@@ -7,7 +7,7 @@
 
 [English](./README.md) | 简体中文 | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md)
 
-EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 Starlight 构建，内置三栏阅读布局、双模式搜索与多语言界面。全部内容以标准 Markdown 编写，可发布至 Cloudflare Pages。
+EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 Starlight 构建，内置三栏阅读布局、双模式搜索与内容级多语言。全部内容以标准 Markdown 编写，可发布至 Cloudflare Pages。
 
 **在线站点**：[https://docs.epocanvas.com](https://docs.epocanvas.com)（备用地址：[https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
 
@@ -21,7 +21,7 @@ EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 St
 
 - **三栏阅读布局**：正文行宽经过限制，适合长文阅读；左侧导航在页面切换时保持滚动位置，右侧目录随滚动高亮当前小节。
 - **双模式搜索**：顶栏搜索框负责在当前页面内查找，`Ctrl+K` / `Cmd+K` 呼出基于 Pagefind 的全站检索弹窗。索引在构建时生成，检索完全在浏览器内完成，不依赖第三方搜索服务，托管在无外网的内网环境同样可用。
-- **界面多语言**：界面提供 10 种语言——简体中文（默认）、繁体中文、英语、日语、韩语、西班牙语、法语、德语、俄语、葡萄牙语。切换时文字就地更新，无需重新加载页面。
+- **内容级多语言**：界面与全部文档正文提供 10 种语言——简体中文（默认）、繁体中文、英语、日语、韩语、西班牙语、法语、德语、俄语、葡萄牙语。每种语言有独立的 URL 前缀（如 `/en/`），缺少译文的页面自动回退显示中文，不会出现 404。
 - **Markdown 扩展**：支持 `:::note`、`:::tip`、`:::caution`、`:::danger` 四种提示框；代码块支持 Shiki 语法高亮、文件名标签、指定行高亮与 diff 渲染。
 - **一键部署**：站点构建为纯静态文件，通过单条命令发布到 Cloudflare Pages，自定义域名与 HTTPS 证书自动配置。
 
@@ -60,7 +60,7 @@ epocanvas-docs/
 │   ├── config/navigation.ts    # 顶部导航栏配置
 │   ├── content/docs/           # 文档正文，以 Markdown 编写
 │   ├── styles/custom.css       # 主题配色与布局样式
-│   └── utils/i18n.ts           # 客户端翻译词典
+│   └── utils/i18n.ts           # 界面词条与语言清单
 ├── astro.config.mjs            # 站点配置：标题、侧边栏、重定向
 ├── AGENTS.md                   # 技术写作规范
 ├── LICENSE

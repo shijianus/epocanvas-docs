@@ -49,14 +49,14 @@ components: {
 定制组件本身不含业务数据，界面内容由三个配置文件驱动：
 
 ```text
-astro.config.mjs ──→ sidebar 数组 ──→ Sidebar.astro 渲染左侧目录
-src/config/navigation.ts ──→ navigationConfig ──→ Header.astro 渲染顶部导航与高亮
-src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 所有带 data-i18n 标记的界面文字
+astro.config.mjs ──→ locales + sidebar 数组 ──→ Sidebar.astro 渲染左侧目录（各语言取对应译文标签）
+src/config/navigation.ts ──→ navigationConfig ──→ Header.astro 渲染顶部导航与高亮（链接自动带语言前缀）
+src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 各组件在构建期按当前语言取词条
 ```
 
-- **左侧目录**只认 `astro.config.mjs` 的 `sidebar` 声明，新建文档必须在这里登记；
-- **顶部导航**每项的显示文字通过 `labelKey` 到 `i18n.ts` 字典取翻译，`match` 函数决定当前页面高亮哪个按钮；
-- **界面文案**（搜索框占位符、"本页目录"标题、主题切换提示等）全部带 `data-i18n` 属性，切换语言时脚本按字典就地替换。
+- **左侧目录**只认 `astro.config.mjs` 的 `sidebar` 声明，新建文档必须在这里登记；每个条目的 `translations` 字段提供 10 种语言的菜单文字；
+- **顶部导航**每项的显示文字通过 `labelKey` 到 `i18n.ts` 字典取翻译，`match` 函数决定当前页面高亮哪个按钮（匹配前会先去掉语言前缀）；
+- **界面文案**（搜索框占位符、"本页目录"标题、主题切换提示等）由各组件调用 `getTranslation(key, lang)` 在构建期直接输出对应语言，页面里没有运行时替换脚本。
 
 也就是说：想改界面内容，先找对应的配置文件；只有改外观（间距、颜色、图标）才需要动组件源码。
 
@@ -86,9 +86,9 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 所有带 data-i18n
 
 ### Header：导航、主题与语言
 
-- 导航按钮遍历 `navigationConfig` 渲染，激活态样式由 `match` 函数的返回值决定；
+- 导航按钮遍历 `navigationConfig` 渲染，激活态样式由 `match` 函数的返回值决定，链接通过 `localizedHref()` 自动加上当前语言前缀；
 - 主题切换写入 LocalStorage 的 `starlight-theme` 键，页面加载时按"本地选择 → 系统偏好"的顺序决定初始主题；
-- 语言切换写入 `epocanvas-lang` 键，并对全页 `data-i18n` 元素做字典替换；
+- 语言下拉菜单里每一项都是指向当前页面对应语言版本的真实链接，点击即跳转，没有额外的状态存储；
 - 顶栏右侧的 GitHub 链接来自 `astro.config.mjs` 的 `social.github`，Telegram 链接（`https://t.me/epocanvas`）目前硬编码在组件内，如需修改请直接编辑 `Header.astro`。
 
 ### Search：双模式搜索
@@ -111,7 +111,7 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 所有带 data-i18n
 :::
 
 - **改样式优先用 CSS 变量**：颜色、字体、布局尺寸集中在 `src/styles/custom.css` 的 `:root` 变量里，见[站点全局配置与样式定制](/canvas/configuration/)，多数定制不需要动组件；
-- **改交互才动组件**：新增按钮、调整结构时，保持现有的 `data-i18n` 标记习惯，否则多语言切换会漏掉新元素；
+- **改交互才动组件**：新增按钮、调整结构时，界面文字用 `getTranslation(key, lang)` 取词并在 `i18n.ts` 里补齐 10 种语言词条，漏补的语言会回退显示中文；
 - **改完务必本地验证**：`pnpm run dev` 检查交互，`pnpm run build` 确认类型与构建通过（本地命令见[常见问题 FAQ](/canvas/troubleshooting/)）。
 
 常见的具体定制操作，直接查阅[常见定制场景速查](/canvas/recipes/)。

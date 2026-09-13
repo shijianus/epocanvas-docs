@@ -16,16 +16,18 @@ description: EpoCanvas Docs 文档文件存放规范、Frontmatter 头部元数�
 ```text
 src/content/docs/
 ├── index.mdx          # 网站的落地首页
-└── canvas/            # 核心文档章节
-    ├── index.md       # 产品简介
-    ├── deployment.md  # 快速上手
-    ├── layout.md      # 页面布局
-    ├── ...            # 其他文档
+├── canvas/            # 核心文档章节（简体中文，默认语言）
+│   ├── index.md       # 产品简介
+│   ├── deployment.md  # 快速上手
+│   ├── layout.md      # 页面布局
+│   ├── ...            # 其他文档
+└── en/ ja/ ...        # 其他 9 种语言的译文，目录结构与中文完全对应
 ```
 
 - **文件名要求**：使用小写英文字母和中划线（例如 `quickstart-guide.md`），不要包含中文或空格。文件名决定访问路径：`canvas/deployment.md` 对应 `/canvas/deployment/`。
 - **扩展名**：通常使用纯文本的 `.md` 文件即可；如果需要在文章中引入交互组件（如首页的卡片网格），使用 `.mdx` 格式。
 - **登记侧边栏**：新建文件后，需要在 `astro.config.mjs` 的 `sidebar` 数组中登记，否则不会出现在左侧目录里。
+- **多语言译文**：其他语言的译文放在 `src/content/docs/<语言>/` 目录下，子目录结构与中文版一致（如 `en/canvas/deployment.md` 对应英文版快速上手）；尚未提供译文的页面会自动回退显示中文。
 
 ---
 

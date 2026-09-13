@@ -1,0 +1,77 @@
+---
+title: EpoCanvas Docs
+description: EpoCanvas Docs 공식 제품 설명서 - 현대적인 오픈소스 프로젝트를 위해 만들어진 정적 문서 사이트로, 3열 읽기 환경, 로컬 사이트 전체 검색, 10개 언어의 콘텐츠 수준 다국어 지원과 엣지 배포를 제공합니다.
+template: splash
+head:
+  - tag: title
+    content: EpoCanvas Docs
+hero:
+  tagline: EpoCanvas 생태계를 위해 만들어진 공식 문서 사이트 시스템입니다. Astro 5와 Starlight를 기반으로 구축되었으며, 기본으로 3열의 깔끔한 레이아웃, 페이지 내 찾기와 사이트 전체 검색, 10개 언어의 완전한 번역 전환, Cloudflare Pages 원클릭 배포를 제공합니다.
+  image:
+    file: ../../../assets/logo.svg
+    alt: EpoCanvas Docs Logo
+  actions:
+    - text: 제품 소개 보기
+      link: /ko/canvas/
+      icon: right-arrow
+      variant: primary
+    - text: 3분 만에 로컬 실행
+      link: /ko/canvas/deployment/
+      icon: rocket
+      variant: secondary
+    - text: GitHub 저장소
+      link: https://github.com/shijianus/epocanvas-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## 빠른 탐색과 기능 안내
+
+<CardGrid stagger>
+	<Card title="제품 소개와 핵심 가치" icon="laptop">
+		EpoCanvas Docs가 만들어진 배경, 해결하는 문제, 핵심 기능, 그리고 다른 주요 문서 도구와의 실제 차이를 알아봅니다.
+		<LinkCard title="제품 소개 읽기" href="/ko/canvas/" description="기능 목록, 활용 시나리오, 설계 의도." />
+	</Card>
+	<Card title="3분 만에 빠르게 시작하기" icon="rocket">
+		몇 줄의 명령어만으로 로컬 컴퓨터에 의존성을 설치하고 핫 리로드 개발 서버를 시작해, Markdown을 작성하면서 실시간으로 미리 볼 수 있습니다. 환경을 설치하고 싶지 않다면 원클릭 배포 버튼으로 예제 사이트를 자신의 클라우드 계정에 바로 게시할 수도 있습니다.
+		<LinkCard title="빠른 시작 가이드 보기" href="/ko/canvas/deployment/" description="원클릭 배포 버튼, 설치 단계와 자주 쓰는 명령어." />
+	</Card>
+	<Card title="읽기 화면과 사용자 경험" icon="document">
+		“왼쪽 카테고리 내비게이션 + 가운데 본문 + 오른쪽 현재 페이지 목차”로 이루어진 3열 레이아웃으로, 페이지를 전환해도 스크롤 위치가 유지되며 모바일과 PC에 모두 대응합니다.
+		<LinkCard title="화면 레이아웃 알아보기" href="/ko/canvas/layout/" description="3열 레이아웃 구조, 테마 전환과 타이포그래피." />
+	</Card>
+	<Card title="페이지 내 찾기와 사이트 전체 검색" icon="magnifier">
+		상단 검색창으로 현재 페이지 내용을 찾고, Ctrl+K / Cmd+K로 사이트 전체 검색 팝업을 열 수 있습니다. 모든 과정은 브라우저 로컬에서 처리됩니다.
+		<LinkCard title="검색 기능 알아보기" href="/ko/canvas/search-engine/" description="두 가지 모드의 검색 사용법과 로컬 인덱스 원리." />
+	</Card>
+	<Card title="10개 언어 완전 번역" icon="translate">
+		내비게이션, 사이드바, 각 문서의 본문까지 간체 중국어, 번체 중국어, 영어, 일본어 등 10개 언어로 제공되며, 페이지 오른쪽 위에서 언어를 클릭하면 같은 글의 해당 언어 버전으로 이동합니다.
+		<LinkCard title="다국어 시스템 알아보기" href="/ko/canvas/i18n/" description="지원 언어 목록, 전환 방법과 새 번역 추가 절차." />
+	</Card>
+	<Card title="Markdown 작성 가이드" icon="pencil">
+		파일을 두는 위치, Frontmatter 규칙, 지원하는 모든 형식의 전체 목록까지 — 기본 Markdown과 확장 문법의 각 항목마다 "어떻게 쓰는지"와 실제 렌더링 결과를 함께 담았습니다.
+		<LinkCard title="서식 가이드 읽기" href="/ko/canvas/markdown/" description="기본 형식과 확장 문법 전체 보기." />
+	</Card>
+	<Card title="렌더링 규칙 상세" icon="setting">
+		파일에서 페이지까지 이어지는 Markdown의 전체 렌더링 파이프라인, 콜아웃, 코드 블록, 이미지와 링크의 모든 규칙, 지원하지 않는 문법을 설명합니다.
+		<LinkCard title="렌더링 규칙 보기" href="/ko/canvas/rendering/" description="렌더링 파이프라인, 문법 규칙과 자주 겪는 실수." />
+	</Card>
+	<Card title="UI 컴포넌트와 2차 개발" icon="document">
+		7개의 커스텀 컴포넌트의 역할과 데이터 흐름, Starlight 오버라이드 방식, 2차 개발 시 주의할 점을 다룹니다.
+		<LinkCard title="컴포넌트 체계 알아보기" href="/ko/canvas/components/" description="컴포넌트 아키텍처, 구현 세부 사항과 업그레이드 회귀 테스트." />
+	</Card>
+	<Card title="자주 하는 커스터마이징 빠른 참조" icon="pencil">
+		문서 추가, 내비게이션 버튼, UI 언어, 테마 색상, Logo 등 자주 하는 커스터마이징을 단계별로 따라 하면 됩니다.
+		<LinkCard title="커스터마이징 빠른 참조 보기" href="/ko/canvas/recipes/" description="8가지 레시피의 전체 절차." />
+	</Card>
+	<Card title="배포와 자주 묻는 질문" icon="cloudflare">
+		Cloudflare, Vercel, Netlify 원클릭 배포 버튼과 수동 배포 튜토리얼, 독립 도메인 연결 방법, 배포 결과 확인 방법과 자주 발생하는 오류 점검 목록을 담았습니다.
+		<LinkCard title="배포와 FAQ 보기" href="/ko/canvas/cloudflare/" description="게시 명령어, 도메인 연결과 FAQ." />
+	</Card>
+	<Card title="SEO와 성능 최적화" icon="setting">
+		내장된 meta 태그, Open Graph, sitemap, robots.txt 소개, 성능 메커니즘 설명과 검색 엔진 등록 절차를 다룹니다.
+		<LinkCard title="SEO 가이드 보기" href="/ko/canvas/seo/" description="색인 확인 방법과 성능 자체 점검." />
+	</Card>
+</CardGrid>

@@ -1,0 +1,77 @@
+---
+title: EpoCanvas Docs
+description: Offizielles Produkthandbuch von EpoCanvas Docs – eine statische Dokumentations-Site für moderne Open-Source-Projekte, mit Dreispalten-Leseansicht, lokaler Site-weiter Suche, Mehrsprachigkeit auf Inhaltsebene in 10 Sprachen und Edge-Bereitstellung.
+template: splash
+head:
+  - tag: title
+    content: EpoCanvas Docs
+hero:
+  tagline: Das offizielle Dokumentationssystem für das EpoCanvas-Ökosystem. Basiert auf Astro 5 und Starlight und bringt von Haus aus eine klare Dreispalten-Anordnung, Suche innerhalb der Seite und der gesamten Site, vollständige Übersetzungen in 10 Sprachen sowie Ein-Klick-Bereitstellung auf Cloudflare Pages mit.
+  image:
+    file: ../../../assets/logo.svg
+    alt: EpoCanvas Docs Logo
+  actions:
+    - text: Produktbeschreibung ansehen
+      link: /de/canvas/
+      icon: right-arrow
+      variant: primary
+    - text: In 3 Minuten lokal starten
+      link: /de/canvas/deployment/
+      icon: rocket
+      variant: secondary
+    - text: GitHub-Repository
+      link: https://github.com/shijianus/epocanvas-docs
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Schnellnavigation und Funktionsübersicht
+
+<CardGrid stagger>
+	<Card title="Produkteinführung und Kernwerte" icon="laptop">
+		Erfahren Sie, warum EpoCanvas Docs entstanden ist, welche Probleme es löst, welche Kernfunktionen es bietet und worin es sich im direkten Vergleich von anderen gängigen Dokumentationswerkzeugen wirklich unterscheidet.
+		<LinkCard title="Produkteinführung lesen" href="/de/canvas/" description="Funktionsliste, Einsatzszenarien und die Beweggründe für den Entwurf." />
+	</Card>
+	<Card title="Schnellstart in 3 Minuten" icon="rocket">
+		Mit wenigen Befehlen installieren Sie die Abhängigkeiten auf Ihrem lokalen Rechner und starten den Entwicklungsserver mit Hot Reload – Sie schreiben Markdown und sehen die Vorschau in Echtzeit. Keine Lust auf eine lokale Umgebung? Veröffentlichen Sie die Beispielseite mit dem Ein-Klick-Bereitstellungs-Button direkt in Ihr eigenes Cloud-Konto.
+		<LinkCard title="Schnellstart-Anleitung ansehen" href="/de/canvas/deployment/" description="Ein-Klick-Bereitstellung, Installationsschritte und gängige Befehle." />
+	</Card>
+	<Card title="Leseoberfläche und Interaktion" icon="document">
+		Klares Dreispalten-Layout aus linker Kategorienavigation, zentralem Haupttext und rechtem Inhaltsverzeichnis der aktuellen Seite; beim Seitenwechsel bleibt die Scrollposition erhalten, und die Darstellung passt sich an Handy und Desktop an.
+		<LinkCard title="Layout kennenlernen" href="/de/canvas/layout/" description="Aufbau des Dreispalten-Layouts, Designwechsel und Typografie." />
+	</Card>
+	<Card title="Suche innerhalb der Seite und der gesamten Site" icon="magnifier">
+		Das Suchfeld in der Kopfzeile findet Inhalte auf der aktuellen Seite, mit Strg+K / Cmd+K öffnen Sie das Suchfenster für die gesamte Site – alles wird lokal im Browser ausgeführt.
+		<LinkCard title="Suchfunktion kennenlernen" href="/de/canvas/search-engine/" description="Nutzung der beiden Suchmodi und Funktionsweise des lokalen Index." />
+	</Card>
+	<Card title="Vollständige Übersetzung in 10 Sprachen" icon="translate">
+		Navigation, Seitenleiste und Haupttext jedes Dokuments sind in 10 Sprachen verfügbar, darunter vereinfachtes Chinesisch, traditionelles Chinesisch, Englisch und Japanisch. Über den Sprachumschalter oben rechts gelangen Sie zur gewünschten Sprachversion desselben Artikels.
+		<LinkCard title="Mehrsprachigkeit kennenlernen" href="/de/canvas/i18n/" description="Liste der unterstützten Sprachen, Art der Umschaltung und Schritte zum Hinzufügen neuer Übersetzungen." />
+	</Card>
+	<Card title="Leitfaden zum Schreiben mit Markdown" icon="pencil">
+		Speicherorte der Dateien, Frontmatter-Konventionen sowie eine vollständige Liste aller unterstützten Formate – von grundlegendem Markdown bis zu erweiterter Syntax, jeweils mit Anleitung zum Schreiben und echtem Renderergebnis.
+		<LinkCard title="Formatierungsleitfaden lesen" href="/de/canvas/markdown/" description="Überblick über Grundformatierung und erweiterte Syntax." />
+	</Card>
+	<Card title="Renderregeln im Detail" icon="setting">
+		Die vollständige Render-Pipeline von Markdown von der Datei bis zur Seite, alle Konventionen für Hinweisboxen, Codeblöcke, Bilder und Links sowie die nicht unterstützte Syntax.
+		<LinkCard title="Renderregeln ansehen" href="/de/canvas/rendering/" description="Render-Pipeline, Syntaxkonventionen und häufige Missverständnisse." />
+	</Card>
+	<Card title="Oberflächenkomponenten und Weiterentwicklung" icon="document">
+		Aufgaben und Datenfluss der sieben angepassten Komponenten, der Starlight-Überschreibungsmechanismus sowie Hinweise für eigene Anpassungen und Weiterentwicklung.
+		<LinkCard title="Komponentensystem kennenlernen" href="/de/canvas/components/" description="Komponentenarchitektur, Implementierungsdetails und Upgrade-Tests." />
+	</Card>
+	<Card title="Häufige Anpassungen auf einen Blick" icon="pencil">
+		Häufige Anpassungen wie neue Dokumente, Navigationsschaltflächen, Oberflächensprache, Designfarben und Logo – einfach Schritt für Schritt nachvollziehen.
+		<LinkCard title="Anpassungs-Kurzanleitung ansehen" href="/de/canvas/recipes/" description="Vollständige Schritte für die acht Rezepte." />
+	</Card>
+	<Card title="Bereitstellung und häufige Fragen" icon="cloudflare">
+		Ein-Klick-Bereitstellungs-Buttons für Cloudflare, Vercel und Netlify sowie Anleitungen zur manuellen Bereitstellung, Anbindung einer eigenen Domain, Verifikation des Bereitstellungsergebnisses und eine Checkliste zur Fehlersuche bei häufigen Meldungen.
+		<LinkCard title="Bereitstellung und FAQ ansehen" href="/de/canvas/cloudflare/" description="Veröffentlichungsbefehle, Domain-Anbindung und FAQ." />
+	</Card>
+	<Card title="SEO und Performance-Optimierung" icon="setting">
+		Integrierte Meta-Tags, Open Graph, sitemap und robots.txt, Erläuterungen zum Performance-Mechanismus sowie die Schritte zur Anmeldung bei Suchmaschinen.
+		<LinkCard title="SEO-Leitfaden ansehen" href="/de/canvas/seo/" description="Verifikation der Indexierung und Performance-Check." />
+	</Card>
+</CardGrid>

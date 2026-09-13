@@ -7,7 +7,7 @@
 
 English | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md)
 
-EpoCanvas Docs is the official documentation site of the EpoCanvas project. It is built with Astro 5 and Starlight and provides a three-column reading layout, dual-mode search, and a localized interface out of the box. All content is written in plain Markdown and published to Cloudflare Pages.
+EpoCanvas Docs is the official documentation site of the EpoCanvas project. It is built with Astro 5 and Starlight and provides a three-column reading layout, dual-mode search, and full multilingual content out of the box. All content is written in plain Markdown and published to Cloudflare Pages.
 
 **Live site**: [https://docs.epocanvas.com](https://docs.epocanvas.com) · Mirror: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)
 
@@ -21,7 +21,7 @@ The site uses a three-column layout: category navigation on the left, article co
 
 - **Three-column reading layout** — the content width is capped for long-form reading; the sidebar keeps its scroll position across page transitions, and the right-hand outline highlights the current section while scrolling.
 - **Dual-mode search** — the search box in the header finds matches within the current page, while `Ctrl+K` / `Cmd+K` opens a site-wide search dialog powered by Pagefind. The index is generated at build time and all queries run in the browser, with no third-party search service involved, so the site also works on intranets without outbound internet access.
-- **Interface localization** — the UI is translated into 10 languages: Simplified Chinese (default), Traditional Chinese, English, Japanese, Korean, Spanish, French, German, Russian, and Portuguese. Switching updates the text in place without reloading the page.
+- **Full multilingual content** — the UI and the body text of every article are available in 10 languages: Simplified Chinese (default), Traditional Chinese, English, Japanese, Korean, Spanish, French, German, Russian, and Portuguese. Each language lives under its own URL prefix (e.g. `/en/`), and pages that are missing a translation fall back to Chinese instead of returning 404.
 - **Markdown extensions** — four admonition types (`:::note`, `:::tip`, `:::caution`, `:::danger`), Shiki code highlighting with file-name labels, line highlighting, and diff rendering.
 - **One-command deployment** — the site builds to static files and publishes to Cloudflare Pages with a single command; custom domains and HTTPS certificates are provisioned automatically.
 
@@ -58,9 +58,9 @@ epocanvas-docs/
 ├── src/
 │   ├── components/starlight/   # Overridden Starlight components (Header, Sidebar, …)
 │   ├── config/navigation.ts    # Top navigation bar configuration
-│   ├── content/docs/           # Documentation content, written in Markdown
+│   ├── content/docs/           # Documentation content per language (canvas/ = Chinese, en/ ja/ … = translations)
 │   ├── styles/custom.css       # Theme colors and layout styles
-│   └── utils/i18n.ts           # Client-side translation dictionary
+│   └── utils/i18n.ts           # UI strings and language registry
 ├── astro.config.mjs            # Site configuration: title, sidebar, redirects
 ├── AGENTS.md                   # Technical writing guidelines
 ├── LICENSE
