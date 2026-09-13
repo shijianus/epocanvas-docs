@@ -126,7 +126,7 @@
 
         <text x="26" y="85" fill="#94a3b8" font-size="11">核心技术栈与内核</text>
         <text x="36" y="105" fill="#64748b" font-size="10">Astro 5 + Starlight</text>
-        <text x="36" y="125" fill="#64748b" font-size="10">Pagefind 离线检索</text>
+        <text x="36" y="125" fill="#64748b" font-size="10">Pagefind 本地检索</text>
 
         <text x="26" y="152" fill="#94a3b8" font-size="11">站点整体架构</text>
         <text x="26" y="180" fill="#94a3b8" font-size="11">目录结构规范</text>

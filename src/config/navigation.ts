@@ -73,7 +73,7 @@ export const navigationConfig: NavItem[] = [
 	},
 	{
 		id: 'release',
-		labelKey: 'nav.release',
+		labelKey: 'nav.releases',
 		defaultLabel: CURRENT_DOCS_VERSION,
 		href: 'https://github.com/shijianus/epocanvas-docs/releases',
 		isExternal: true,
