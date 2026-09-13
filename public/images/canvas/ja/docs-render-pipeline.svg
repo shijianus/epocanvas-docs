@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 520" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="rp-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-violet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <filter id="rp-shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1020" height="520" fill="#090d16" />
+
+  <!-- Title & Description Header -->
+  <g transform="translate(40, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="19" font-weight="700" letter-spacing="-0.4">EpoCanvas Docs レンダリングパイプライン (Build &amp; Rendering Pipeline)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="10.3">Markdown ソースから静的 HTML と Pagefind インデックスまでの 5 ステップのライフサイクル</text>
+  </g>
+
+  <!-- Stage 1: Content Collection & Validation -->
+  <g transform="translate(30, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-sky)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#0284c7" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">1</text>
+    <text x="50" y="34" fill="#38bdf8" font-size="9.1" font-weight="700">コンテンツ収集と検証</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">Content Scan</text>
+
+    <!-- Content Items -->
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="8.2" font-weight="600">ソース走査の入口</text>
+    <text x="22" y="100" fill="#94a3b8" font-size="10">src/content/docs/</text>
+    <text x="22" y="112" fill="#64748b" font-size="7.4">*.md と *.mdx を索引化</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="11" font-weight="600">Frontmatter 検証</text>
+    <text x="22" y="160" fill="#38bdf8" font-size="7.8">title 必須チェック</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="8.2">description 概要の取得</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#0284c7" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#38bdf8" font-size="8.2" font-weight="600">異常時はブロック</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="8.6">title 欠落でビルド中断</text>
+    <text x="22" y="244" fill="#ef4444" font-size="7.6">InvalidInputError を送出</text>
+    <text x="22" y="268" fill="#64748b" font-size="6.4">タイトル無し記事の公開を防止</text>
+  </g>
+
+  <!-- Flow Arrow 1 -> 2 -->
+  <path d="M 212 265 L 230 265" stroke="#38bdf8" stroke-width="2" />
+  <polygon points="230,261 238,265 230,269" fill="#38bdf8" />
+
+  <!-- Stage 2: Markdown & GFM Compilation -->
+  <g transform="translate(236, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-blue)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#2563eb" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">2</text>
+    <text x="50" y="34" fill="#60a5fa" font-size="9" font-weight="700">Markdown コンパイル</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">GFM AST Parse</text>
+
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="9.8" font-weight="600">GFM 拡張構文の変換</text>
+    <text x="22" y="100" fill="#94a3b8" font-size="7.3">テーブル / タスクリスト / 脚注</text>
+    <text x="22" y="112" fill="#64748b" font-size="5.7">標準セマンティック HTML へ変換</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="7.9" font-weight="600">Rehype テーブル最適化</text>
+    <text x="22" y="160" fill="#60a5fa" font-size="10">rehypeWrapTables</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="8.3">.table-wrapper を自動包装</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#2563eb" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#60a5fa" font-size="9.7" font-weight="600">アサイド (Asides)</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="9">:::note / tip / caution</text>
+    <text x="22" y="244" fill="#94a3b8" font-size="8.2">:::danger カラー注意枠</text>
+    <text x="22" y="268" fill="#64748b" font-size="6.9">対応アイコンと状態色を注入</text>
+  </g>
+
+  <!-- Flow Arrow 2 -> 3 -->
+  <path d="M 418 265 L 436 265" stroke="#60a5fa" stroke-width="2" />
+  <polygon points="436,261 444,265 436,269" fill="#60a5fa" />
+
+  <!-- Stage 3: Code Highlighting -->
+  <g transform="translate(442, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-violet)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#7c3aed" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">3</text>
+    <text x="50" y="34" fill="#a78bfa" font-size="8.06" font-weight="700">コードブロック ハイライト</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">Expressive Code</text>
+
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="9" font-weight="600">Shiki エンジンで色付け</text>
+    <text x="22" y="100" fill="#94a3b8" font-size="8.3">多言語の高精細な字句解析</text>
+    <text x="22" y="112" fill="#64748b" font-size="5.58">ライト/ダーク両テーマに対応</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="6.82" font-weight="600">高度な注釈レンダリング</text>
+    <text x="22" y="160" fill="#a78bfa" font-size="7.9">title="..." ファイル名ラベル</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="8.2">{2-4} 行の背景フォーカス</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#a78bfa" font-size="6.82" font-weight="600">インタラクションと差分強調</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="9">```diff 差分マーク</text>
+    <text x="22" y="244" fill="#94a3b8" font-size="6.7">右上のワンクリックコピー</text>
+    <text x="22" y="268" fill="#64748b" font-size="6">サードパーティ製ハイライタ不要</text>
+  </g>
+
+  <!-- Flow Arrow 3 -> 4 -->
+  <path d="M 624 265 L 642 265" stroke="#a78bfa" stroke-width="2" />
+  <polygon points="642,261 650,265 642,269" fill="#a78bfa" />
+
+  <!-- Stage 4: Layout & Component Overrides -->
+  <g transform="translate(648, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-amber)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#d97706" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">4</text>
+    <text x="50" y="34" fill="#fbbf24" font-size="8.06" font-weight="700">カスタムレイアウト組立</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">Starlight Overrides</text>
+
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="6.82" font-weight="600">7 つのカスタムコンポーネント注入</text>
+    <text x="22" y="100" fill="#fbbf24" font-size="10">Header / Sidebar / TOC</text>
+    <text x="22" y="112" fill="#64748b" font-size="8.2">TwoColumn / Search など</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="6.82" font-weight="600">メタデータとタイムスタンプ</text>
+    <text x="22" y="160" fill="#94a3b8" font-size="7">PageTitle がタイトルを描画</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="6.5">実際の Git 最終コミットを読取</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#d97706" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#fbbf24" font-size="7" font-weight="600">目次とページ送りカード</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="7.6">##/### から自動で TOC 生成</text>
+    <text x="22" y="244" fill="#94a3b8" font-size="8.3">Pagination 斜め矢印カード</text>
+    <text x="22" y="268" fill="#64748b" font-size="5.6">サイドバーはスクロール位置を記憶</text>
+  </g>
+
+  <!-- Flow Arrow 4 -> 5 -->
+  <path d="M 830 265 L 848 265" stroke="#fbbf24" stroke-width="2" />
+  <polygon points="848,261 856,265 848,269" fill="#fbbf24" />
+
+  <!-- Stage 5: Static Output & Pagefind -->
+  <g transform="translate(854, 115)" filter="url(#rp-shadow)">
+    <rect width="136" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="136" height="6" rx="3" fill="url(#grad-emerald)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#059669" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">5</text>
+    <text x="48" y="34" fill="#34d399" font-size="7.4399999999999995" font-weight="700">静的成果物とインデックス</text>
+    <text x="48" y="48" fill="#64748b" font-size="10">Pagefind &amp; Dist</text>
+
+    <rect x="12" y="66" width="112" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="18" y="84" fill="#e2e8f0" font-size="9.1" font-weight="600">純静的成果物</text>
+    <text x="18" y="100" fill="#34d399" font-size="6.2">dist/ ディレクトリ</text>
+    <text x="18" y="112" fill="#64748b" font-size="9">純 HTML + CSS</text>
+
+    <rect x="12" y="126" width="112" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="18" y="144" fill="#e2e8f0" font-size="6.9" font-weight="600">Pagefind インデックス</text>
+    <text x="18" y="160" fill="#34d399" font-size="10">pagefind.wasm</text>
+    <text x="18" y="174" fill="#94a3b8" font-size="6.7">チャンク圧縮辞書</text>
+
+    <rect x="12" y="196" width="112" height="88" rx="6" fill="#0b0f19" stroke="#059669" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="18" y="214" fill="#34d399" font-size="6.82" font-weight="600">エッジ配信対応</text>
+    <text x="18" y="230" fill="#94a3b8" font-size="9">sitemap 生成</text>
+    <text x="18" y="244" fill="#94a3b8" font-size="6.2">Wrangler 直接アップ</text>
+    <text x="18" y="268" fill="#64748b" font-size="6.2">任意の静的ホストに配備可能</text>
+  </g>
+
+  <!-- Bottom Summary Info Pill -->
+  <g transform="translate(30, 435)">
+    <rect width="960" height="52" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <circle cx="26" cy="26" r="8" fill="#38bdf8" fill-opacity="0.2" />
+    <text x="26" y="30" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">i</text>
+    <text x="46" y="23" fill="#f8fafc" font-size="7" font-weight="600">パイプライン特徴まとめ</text>
+    <text x="46" y="39" fill="#94a3b8" font-size="7.2">コンパイル・ハイライト・インデックス構築はすべてビルド時に完結。オンラインでサーバー処理はなく、クライアント FW 負荷ゼロ、初回表示が速く、社内ネットワークでも利用可。</text>
+  </g>
+</svg>

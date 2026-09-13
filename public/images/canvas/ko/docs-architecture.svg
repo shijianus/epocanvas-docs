@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%" style="background:#0b0f19; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="grad-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="grad-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="card-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="drop-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Header -->
+  <rect x="0" y="0" width="1000" height="620" fill="#090d16" />
+
+  <text x="50" y="52" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="-0.5">EpoCanvas Docs 사이트 전체 아키텍처</text>
+  <text x="50" y="78" fill="#94a3b8" font-size="13">위에서 아래로: 배포 및 전송 → UI 컴포넌트 → 콘텐츠 렌더링 → 기반, 모듈은 실제 파일과 1:1 대응</text>
+
+  <!-- Band 1: Deploy & Delivery -->
+  <g transform="translate(50, 105)" filter="url(#drop-shadow)">
+    <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-amber)" />
+    <text x="30" y="32" fill="#f59e0b" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">① 배포 및 배포 · Cloudflare Pages CDN</text>
+
+    <!-- Badges inside Band 1 -->
+    <rect x="30" y="46" width="195" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="42" y="68" fill="#f8fafc" font-size="12" font-weight="600">Cloudflare Pages 엣지</text>
+    <text x="42" y="80" fill="#94a3b8" font-size="10">Global Anycast CDN</text>
+
+    <rect x="245" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="257" y="68" fill="#f8fafc" font-size="11" font-weight="600">Wrangler CLI 직접 업로드 배포</text>
+    <text x="257" y="80" fill="#94a3b8" font-size="10">pnpm run deploy, 몇 초 완료</text>
+
+    <rect x="470" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="482" y="68" fill="#f8fafc" font-size="12" font-weight="600">사용자 지정 도메인과 SSL</text>
+    <text x="482" y="80" fill="#94a3b8" font-size="10">docs.epocanvas.com / HTTP/2/3</text>
+
+    <rect x="695" y="46" width="185" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="707" y="68" fill="#f8fafc" font-size="12" font-weight="600">Pagefind 정적 인덱스</text>
+    <text x="707" y="80" fill="#94a3b8" font-size="10">빌드 시 생성, 청크 단위 로드</text>
+  </g>
+
+  <!-- Band 2: Overridden UI Components -->
+  <g transform="translate(50, 225)" filter="url(#drop-shadow)">
+    <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-accent)" />
+    <text x="30" y="30" fill="#818cf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">② UI 컴포넌트 · Starlight 기본 7개 컴포넌트 대체</text>
+
+    <!-- 7 Component Cards -->
+    <rect x="30" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="39" y="67" fill="#f8fafc" font-size="11" font-weight="600">Header.astro</text>
+    <text x="39" y="83" fill="#94a3b8" font-size="9">내비 · 언어 · 테마 전환</text>
+
+    <rect x="150" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="159" y="67" fill="#f8fafc" font-size="11" font-weight="600">Sidebar.astro</text>
+    <text x="159" y="83" fill="#94a3b8" font-size="7.2">페이지 이동에도 스크롤 위치 유지</text>
+
+    <rect x="270" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="279" y="67" fill="#f8fafc" font-size="11" font-weight="600">PageTitle.astro</text>
+    <text x="279" y="83" fill="#94a3b8" font-size="9">제목과 업데이트 시각</text>
+
+    <rect x="390" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="399" y="67" fill="#f8fafc" font-size="11" font-weight="600">TableOfContents</text>
+    <text x="399" y="83" fill="#94a3b8" font-size="9">뷰포트 연동 목차</text>
+
+    <rect x="510" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="519" y="67" fill="#f8fafc" font-size="11" font-weight="600">TwoColumnContent</text>
+    <text x="519" y="83" fill="#94a3b8" font-size="9">본문 + 우측 열 2단 구조</text>
+
+    <rect x="630" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="639" y="67" fill="#f8fafc" font-size="11" font-weight="600">Search.astro</text>
+    <text x="639" y="83" fill="#94a3b8" font-size="9">듀얼 모드 검색</text>
+
+    <rect x="750" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="759" y="67" fill="#f8fafc" font-size="11" font-weight="600">Pagination.astro</text>
+    <text x="759" y="83" fill="#94a3b8" font-size="9">대각선 화살표 페이지 카드</text>
+  </g>
+
+  <!-- Band 3: Content & Rendering Pipeline -->
+  <g transform="translate(50, 355)" filter="url(#drop-shadow)">
+    <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-teal)" />
+    <text x="30" y="30" fill="#38bdf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">③ 콘텐츠 렌더링 · Markdown → 정적 HTML</text>
+
+    <rect x="30" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro Content Layer</text>
+    <text x="42" y="83" fill="#94a3b8" font-size="10">content.config.ts 검증</text>
+
+    <rect x="200" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="212" y="67" fill="#f8fafc" font-size="11.1" font-weight="600">Markdown / GFM 파이프라인</text>
+    <text x="212" y="83" fill="#94a3b8" font-size="10">4종 콜아웃과 사용자 지정 제목</text>
+
+    <rect x="370" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="382" y="67" fill="#f8fafc" font-size="11.6" font-weight="600">Rehype 플러그인</text>
+    <text x="382" y="83" fill="#94a3b8" font-size="10">표 반응형 래핑 등 변환</text>
+
+    <rect x="540" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="552" y="67" fill="#f8fafc" font-size="12" font-weight="600">Expressive Code</text>
+    <text x="552" y="83" fill="#94a3b8" font-size="10">Shiki 하이라이트와 원클릭 복사</text>
+
+    <rect x="710" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="722" y="67" fill="#f8fafc" font-size="12" font-weight="600">Sharp 이미지 처리</text>
+    <text x="722" y="83" fill="#94a3b8" font-size="10">astro:assets 이미지 압축</text>
+  </g>
+
+  <!-- Band 4: Foundation -->
+  <g transform="translate(50, 485)" filter="url(#drop-shadow)">
+    <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-emerald)" />
+    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">④ 기반 · Astro 5 + Starlight 0.32</text>
+
+    <rect x="30" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 5 정적 출력</text>
+    <text x="42" y="79" fill="#94a3b8" font-size="8.7">기본적으로 클라이언트 프레임워크 런타임 불필요</text>
+
+    <rect x="250" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="262" y="67" fill="#f8fafc" font-size="12" font-weight="600">TypeScript 타입 정의</text>
+    <text x="262" y="79" fill="#94a3b8" font-size="10">내비 설정과 번역 사전의 타입 제약</text>
+
+    <rect x="470" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="482" y="67" fill="#f8fafc" font-size="12" font-weight="600">Design Tokens와 테마</text>
+    <text x="482" y="79" fill="#94a3b8" font-size="10">custom.css 변수, 라이트/다크 대응</text>
+
+    <rect x="690" y="45" width="190" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="702" y="67" fill="#f8fafc" font-size="12" font-weight="600">i18n UI 사전(10개 언어)</text>
+    <text x="702" y="79" fill="#94a3b8" font-size="10">UI 텍스트만 대체, 본문은 번역하지 않음</text>
+  </g>
+</svg>

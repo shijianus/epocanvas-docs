@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%" style="background:#0b0f19; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="i18n-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <filter id="ishadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="480" fill="#090d16" />
+
+  <text x="40" y="45" fill="#f8fafc" font-size="22" font-weight="700">EpoCanvas Docs 多語言實現原理（建置期產生 10 份語言靜態頁）</text>
+  <text x="40" y="70" fill="#94a3b8" font-size="13">10 Supported Languages · URL-Prefixed Routes · Chinese Fallback for Missing Translations</text>
+
+  <!-- Left: Language Selection Event -->
+  <g transform="translate(40, 110)" filter="url(#ishadow)">
+    <rect width="250" height="310" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
+    <rect width="250" height="36" rx="10" fill="#1e293b" />
+    <text x="15" y="24" fill="#38bdf8" font-size="10.1" font-weight="700">1. 使用者互動</text>
+
+    <!-- Language Dropdown Mock -->
+    <g transform="translate(20, 50)">
+      <rect width="210" height="32" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="15" y="21" fill="#f8fafc" font-size="12">🌐 EN ▾</text>
+
+      <g transform="translate(0, 38)">
+        <rect width="210" height="130" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="1" />
+        <text x="15" y="22" fill="#94a3b8" font-size="11">简体中文 (zh-CN)</text>
+        <text x="15" y="42" fill="#94a3b8" font-size="11">繁體中文 (zh-TW)</text>
+        <text x="15" y="62" fill="#60a5fa" font-size="11" font-weight="600">✓ English (en)</text>
+        <text x="15" y="82" fill="#94a3b8" font-size="11">日本語 (ja)</text>
+        <text x="15" y="102" fill="#94a3b8" font-size="11">  한국어 / Deutsch / Français...</text>
+        <text x="15" y="120" fill="#64748b" font-size="10">共 10 種語言，每項都是真實連結</text>
+      </g>
+    </g>
+
+    <text x="20" y="255" fill="#f8fafc" font-size="11" font-weight="600">點擊即跳轉</text>
+    <text x="20" y="272" fill="#94a3b8" font-size="10">/canvas/i18n/  →  /en/canvas/i18n/</text>
+    <text x="20" y="288" fill="#94a3b8" font-size="10">同一篇文章的目標語言版本</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <path d="M 305 260 L 345 260" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" />
+  <polygon points="345,256 353,260 345,264" fill="#38bdf8" />
+
+  <!-- Middle: Build-time multilingual content -->
+  <g transform="translate(365, 110)" filter="url(#ishadow)">
+    <rect width="280" height="310" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
+    <rect width="280" height="36" rx="10" fill="#1e293b" />
+    <text x="15" y="24" fill="#818cf8" font-size="12" font-weight="700">2. 建置期：每種語言一套內容</text>
+
+    <!-- Code Block Mock: content directory tree -->
+    <rect x="15" y="50" width="250" height="160" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1" />
+    <text x="25" y="70" fill="#818cf8" font-size="10" font-family="monospace">src/content/docs/</text>
+    <text x="35" y="88" fill="#34d399" font-size="9" font-family="monospace">canvas/i18n.md      →  /canvas/i18n/</text>
+    <text x="35" y="106" fill="#e2e8f0" font-size="9" font-family="monospace">en/canvas/i18n.md   →  /en/canvas/i18n/</text>
+    <text x="35" y="124" fill="#e2e8f0" font-size="9" font-family="monospace">ja/canvas/i18n.md   →  /ja/canvas/i18n/</text>
+    <text x="35" y="142" fill="#e2e8f0" font-size="9" font-family="monospace">ko/ es/ fr/ de/ ru/ pt/...</text>
+    <text x="25" y="166" fill="#64748b" font-size="9" font-family="monospace">// 每個語言目錄一套完整 Markdown 譯文</text>
+    <text x="25" y="184" fill="#64748b" font-size="9" font-family="monospace">// astro build 一次產出全部語言頁面</text>
+    <text x="25" y="202" fill="#64748b" font-size="9" font-family="monospace">// 正文內鏈自動帶上語言前綴</text>
+
+    <rect x="15" y="225" width="250" height="65" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
+    <text x="25" y="245" fill="#f59e0b" font-size="11" font-weight="600">介面與正文一起切換</text>
+    <text x="25" y="263" fill="#94a3b8" font-size="10">導覽、側邊欄、目錄、搜尋提示、正文</text>
+    <text x="25" y="278" fill="#94a3b8" font-size="10">每頁 &lt;html lang&gt; 與目標語言一致</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <path d="M 660 260 L 700 260" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,4" />
+  <polygon points="700,256 708,260 700,264" fill="#818cf8" />
+
+  <!-- Right: Static serving & fallback -->
+  <g transform="translate(715, 110)" filter="url(#ishadow)">
+    <rect width="210" height="310" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2" />
+    <rect width="210" height="36" rx="10" fill="#064e3b" />
+    <text x="15" y="24" fill="#34d399" font-size="12" font-weight="700">3. 存取與兜底</text>
+
+    <text x="15" y="65" fill="#f8fafc" font-size="12" font-weight="600">純靜態頁面</text>
+    <text x="15" y="85" fill="#94a3b8" font-size="10">CDN 直接回傳對應語言 HTML</text>
+    <text x="15" y="100" fill="#94a3b8" font-size="10">URL 即語言，可收藏可分享</text>
+
+    <text x="15" y="130" fill="#f8fafc" font-size="12" font-weight="600">全文搜尋按語言隔離</text>
+    <text x="15" y="150" fill="#94a3b8" font-size="10">Pagefind 為每種語言建獨立索引</text>
+    <text x="15" y="165" fill="#94a3b8" font-size="10">/en/ 頁面搜尋時回傳英文結果</text>
+
+    <text x="15" y="195" fill="#f8fafc" font-size="12" font-weight="600">缺少譯文時自動兜底</text>
+    <text x="15" y="215" fill="#94a3b8" font-size="10">缺失語言顯示預設中文內容</text>
+    <text x="15" y="230" fill="#94a3b8" font-size="10">頁面照常渲染，不會 404</text>
+
+    <rect x="12" y="255" width="186" height="40" rx="4" fill="#1e293b" />
+    <text x="20" y="272" fill="#34d399" font-size="10" font-weight="600">✓ 切換後正文、導覽、搜尋</text>
+    <text x="20" y="288" fill="#34d399" font-size="10" font-weight="600">全部是目標語言</text>
+  </g>
+</svg>

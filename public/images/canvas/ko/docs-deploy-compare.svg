@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="dc-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-amber-orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="grad-blue-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="dc-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="560" fill="#090d16" />
+
+  <!-- Header -->
+  <g transform="translate(45, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">Cloudflare Pages 두 가지 배포 방식 비교 (Deployment Architecture)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="13">로컬 CLI 직접 업로드(본 사이트 채택) vs Git 자동 빌드(팀 협업 권장)</text>
+  </g>
+
+  <!-- Left Column: CLI Direct Deploy -->
+  <g transform="translate(45, 110)" filter="url(#dc-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#dc-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-amber-orange)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="90" height="22" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="0.8" />
+      <text x="45" y="15" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">방법 1 · 권장</text>
+      <text x="102" y="17" fill="#f8fafc" font-size="16" font-weight="700">로컬 CLI 직접 업로드 (Wrangler CLI)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="11">본 사이트의 실제 배포 방식, 로컬 빌드 후 엣지로 직접 업로드</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">로컬 명령 한 줄: pnpm run deploy</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">터미널에서 준비된 스크립트 실행, 로컬 빌드와 업로드를 연결</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">로컬 Astro 5가 dist/ 산출물 생성</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">HTML/CSS 압축과 Pagefind WASM 검색 인덱스 생성도 로컬에서 완료</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="10" font-weight="600">Wrangler가 자격 증명을 읽어 Cloudflare Pages로 직접 업로드</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">로컬 API Token으로 변경 파일만 업로드</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">몇 초 만에 활성화, 즉시 미리보기 URL 출력</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">업로드 즉시 적용, 클라우드 대기나 컨테이너 스케줄링 불필요</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">메인 도메인 docs.epocanvas.com 동기 업데이트</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">프로덕션 별칭 자동 바인딩, 전 세계 CDN 캐시 몇 초 내 준비</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#fbbf24" font-size="11">적합한 경우: 첫 배포 · 1인 운영 · 긴급 수정 · 빌드 할당량 0</text>
+  </g>
+
+  <!-- Right Column: Git Webhook Deploy -->
+  <g transform="translate(520, 110)" filter="url(#dc-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#dc-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-blue-cyan)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="90" height="22" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="0.8" />
+      <text x="45" y="15" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle">방법 2 · 협업</text>
+      <text x="102" y="17" fill="#f8fafc" font-size="16" font-weight="700">Git 자동 빌드 (Connect to Git)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="11">GitHub 저장소 연결, push 시 클라우드 컨테이너가 자동 빌드</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">개발자 push: git push origin main</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">push가 GitHub Webhook 알림을 트리거</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Cloudflare가 빌드 컨테이너 자동 할당</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Pages가 유휴 빌드 노드에 브랜치를 클린 환경으로 가져옴</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">클라우드 실행: pnpm run build</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">컨테이너가 의존성 설치, Astro 빌드, Pagefind 인덱스 생성</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">PR 브랜치별 독립 미리보기 링크</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Pull Request마다 전용 미리보기 URL 자동 생성</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">빌드 로그와 배포 이력 전체 기록</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Cloudflare 콘솔에서 전체 로그 확인, 원클릭 롤백</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#60a5fa" font-size="11">적합한 경우: 팀 협업 · push 즉시 배포 · 키 설정 불필요 · PR 미리보기</text>
+  </g>
+
+  <!-- Bottom Common Info Banner -->
+  <g transform="translate(45, 492)">
+    <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ 두 방식 공존</text>
+    <text x="145" y="28" fill="#94a3b8" font-size="11">두 방식은 공존 가능: 평소엔 Git 자동화, 긴급 수정 시 pnpm run deploy로 즉시 덮어쓰기.</text>
+  </g>
+</svg>

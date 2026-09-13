@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="sf-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-teal-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-purple-indigo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <filter id="sf-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="560" fill="#090d16" />
+
+  <!-- Header -->
+  <g transform="translate(45, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">EpoCanvas Docs 듀얼 모드 검색 (Dual-Mode Search Architecture)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="13">상단 페이지 내 실시간 하이라이트 검색 vs Ctrl+K 사이트 전체 Pagefind WASM 검색</text>
+  </g>
+
+  <!-- Left Column: In-Page Search -->
+  <g transform="translate(45, 110)" filter="url(#sf-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#sf-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-teal-blue)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="80" height="22" rx="4" fill="#0284c7" fill-opacity="0.25" stroke="#0284c7" stroke-width="0.8" />
+      <text x="40" y="15" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">모드 1</text>
+      <text x="92" y="17" fill="#f8fafc" font-size="16" font-weight="700">상단 페이지 내 검색 (In-Page Search)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="11">현재 글의 단락·코드 줄·파라미터를 찾기</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">상단 입력창에 바로 키워드 입력</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">검색창 클릭 후 입력, 단축키 불필요</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">DOM 텍스트 노드 실시간 순회·래핑</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">스크립트가 본문 DOM을 순회하며 일치 텍스트에 &lt;mark&gt; 주입</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">일치 수 실시간 표시(예: 3 / 9)</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">검색창 오른쪽에 현재 위치와 총 횟수 표시</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">키보드 점프와 부드러운 스크롤</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Enter 다음, Shift+Enter 이전, 본문 부드럽게 중앙 정렬</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Esc 한 번으로 깨끗하게 복원</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Esc 또는 지우기 버튼으로 모든 &lt;mark&gt; 즉시 제거</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#0284c7" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#38bdf8" font-size="11">특징: 순수 프런트엔드 DOM · 요청 0 · 즉시 표시 · 밀리초 응답</text>
+  </g>
+
+  <!-- Right Column: Global Search -->
+  <g transform="translate(520, 110)" filter="url(#sf-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#sf-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-purple-indigo)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="80" height="22" rx="4" fill="#7c3aed" fill-opacity="0.25" stroke="#7c3aed" stroke-width="0.8" />
+      <text x="40" y="15" fill="#a78bfa" font-size="11" font-weight="700" text-anchor="middle">모드 2</text>
+      <text x="92" y="17" fill="#f8fafc" font-size="16" font-weight="700">사이트 전체 검색 창 (Global Pagefind)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="11">모든 글·소제목·코드·설정을 전역 검색</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Ctrl+K / Cmd+K로 호출</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">화면 중앙 대화상자, 입력창 자동 포커스, 반투명 배경</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="10.4" font-weight="600">가벼운 정적 인덱스 조각을 필요할 때만 가져옴</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">pagefind.wasm과 해당 문자의 인덱스 조각만 로드(수 KB~수십 KB)</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">브라우저 메모리에서 역색인 가중치 계산</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">관련도 점수와 정렬도 로컬 완결, 제목 일치 우선, 지연 없음</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">문서별 그룹화와 문맥 미리보기</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">글 제목·소제목 경로·요약을 표시하고 키워드 강조</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">키보드만으로 대상 단락까지</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">방향키로 포커스 이동, Enter로 글을 열고 앵커로 정확히 이동</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#7c3aed" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#a78bfa" font-size="11">특징: 정적 역색인 · 필요 시 다운로드 · 전문 검색 · 내부망 가능</text>
+  </g>
+
+  <!-- Bottom Common Info Banner -->
+  <g transform="translate(45, 492)">
+    <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ 로컬 실행</text>
+    <text x="160" y="28" fill="#94a3b8" font-size="11">두 검색 모두 읽는 사람의 브라우저에서 완결. 외부 서비스나 크롤러 키(Algolia 등) 불필요, 외부망이 차단된 사내망에서도 원활한 검색.</text>
+  </g>
+</svg>

@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%" style="background:#0b0f19; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="header-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="accent-bar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="600" fill="#090d16" />
+
+  <!-- Title -->
+  <text x="50" y="45" fill="#f8fafc" font-size="16" font-weight="700">Трёхколоночный макет для чтения EpoCanvas Docs (Three-Column Layout)</text>
+  <text x="50" y="68" fill="#94a3b8" font-size="13">Left Nav Tree · Central Article Reader · Right Scroll-Spy TOC</text>
+
+  <!-- Browser Frame Wrapper -->
+  <g transform="translate(50, 90)" filter="url(#shadow)">
+    <!-- Outer Window -->
+    <rect width="900" height="470" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.5" />
+    
+    <!-- Window Bar -->
+    <rect width="900" height="34" rx="10" fill="#1e293b" />
+    <circle cx="20" cy="17" r="5" fill="#ef4444" />
+    <circle cx="36" cy="17" r="5" fill="#f59e0b" />
+    <circle cx="52" cy="17" r="5" fill="#10b981" />
+    <text x="450" y="22" fill="#94a3b8" font-size="11" text-anchor="middle" font-weight="500">https://docs.epocanvas.com/canvas/</text>
+
+    <!-- Header Tier -->
+    <g transform="translate(0, 34)">
+      <rect width="900" height="52" fill="url(#header-grad)" stroke="#334155" stroke-width="0.8" />
+      
+      <!-- Logo & Brand -->
+      <circle cx="35" cy="26" r="12" fill="#3b82f6" />
+      <text x="55" y="30" fill="#f8fafc" font-size="14" font-weight="700">EpoCanvas</text>
+      <rect x="135" y="18" width="40" height="16" rx="4" fill="#3b82f6" fill-opacity="0.2" />
+      <text x="142" y="30" fill="#60a5fa" font-size="10" font-weight="600">DOCS</text>
+
+      <!-- Center Search Bar -->
+      <rect x="230" y="11" width="320" height="30" rx="6" fill="#0b0f19" stroke="#475569" stroke-width="1" />
+      <text x="245" y="30" fill="#64748b" font-size="7.4399999999999995">🔍 Быстрый поиск по документам и коду (Cmd + K)</text>
+      <rect x="510" y="16" width="30" height="20" rx="4" fill="#1e293b" />
+      <text x="515" y="30" fill="#94a3b8" font-size="10">⌘K</text>
+
+      <!-- Right Nav Buttons -->
+      <text x="585" y="30" fill="#f8fafc" font-size="8.7" font-weight="600">Обзор</text>
+      <text x="630" y="30" fill="#94a3b8" font-size="7.4399999999999995">Компоненты</text>
+      <text x="675" y="30" fill="#94a3b8" font-size="7.4399999999999995">Развёртывание</text>
+      <rect x="715" y="17" width="55" height="20" rx="10" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="0.8" />
+      <text x="725" y="31" fill="#34d399" font-size="10" font-weight="600">v1.2.0 ↗</text>
+
+      <!-- Language Selector -->
+      <rect x="785" y="14" width="55" height="24" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
+      <text x="793" y="30" fill="#f8fafc" font-size="11">🌐 ZH ▾</text>
+      <circle cx="865" cy="26" r="10" fill="#334155" />
+    </g>
+
+    <!-- 3-Tier Body Layout -->
+    <g transform="translate(0, 86)">
+      <!-- Tier 1: Left Navigation Sidebar (200px) -->
+      <rect width="210" height="350" fill="#0c1222" stroke="#1e293b" stroke-width="1" />
+      
+      <!-- Sidebar Items -->
+      <text x="20" y="30" fill="#64748b" font-size="6.2" font-weight="700" text-transform="uppercase" letter-spacing="0.5">Обзор продукта и архитектура</text>
+      
+      <rect x="15" y="42" width="180" height="28" rx="6" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="1" />
+      <text x="28" y="60" fill="#60a5fa" font-size="7.4399999999999995" font-weight="600">● Архитектура системы одним взглядом</text>
+
+      <text x="28" y="94" fill="#94a3b8" font-size="7.4399999999999995">Быстрый старт и окружение</text>
+      <text x="28" y="124" fill="#94a3b8" font-size="7.4399999999999995">Система трёхколоночного макета</text>
+
+      <text x="20" y="160" fill="#64748b" font-size="6.2" font-weight="700" text-transform="uppercase" letter-spacing="0.5">Ключевые компоненты Starlight</text>
+      <text x="28" y="184" fill="#94a3b8" font-size="8.6">Расширение Header.astro</text>
+      <text x="28" y="214" fill="#94a3b8" font-size="7.4399999999999995">Полнотекстовый поиск (Search)</text>
+      <text x="28" y="244" fill="#94a3b8" font-size="12">SidebarPersister</text>
+
+      <text x="20" y="280" fill="#64748b" font-size="6.2" font-weight="700" text-transform="uppercase" letter-spacing="0.5">Развёртывание и автопубликация</text>
+      <text x="28" y="304" fill="#94a3b8" font-size="8.4">Доставка с edge Cloudflare</text>
+      <text x="28" y="334" fill="#94a3b8" font-size="12">GitHub Actions CI/CD</text>
+
+      <!-- Tier 2: Central Main Article Pane (490px) -->
+      <g transform="translate(210, 0)">
+        <rect width="480" height="350" fill="#0f172a" />
+        
+        <!-- Breadcrumbs -->
+        <text x="30" y="30" fill="#64748b" font-size="7.6">Документы / обзор продукта / архитектура</text>
+        
+        <!-- Page Title & Tag -->
+        <text x="30" y="65" fill="#f8fafc" font-size="17.1" font-weight="700">Архитектура EpoCanvas Docs</text>
+        
+        <!-- Callout Banner -->
+        <rect x="30" y="85" width="420" height="42" rx="6" fill="#1e3a8a" fill-opacity="0.3" stroke="#3b82f6" stroke-width="1" />
+        <text x="45" y="110" fill="#93c5fd" font-size="8.5">ℹ️ NOTE: это официальный сайт документации EpoCanvas, собранный из файлов Markdown.</text>
+
+        <!-- Article Paragraphs Placeholder -->
+        <rect x="30" y="145" width="400" height="8" rx="4" fill="#334155" />
+        <rect x="30" y="162" width="370" height="8" rx="4" fill="#334155" />
+        <rect x="30" y="179" width="320" height="8" rx="4" fill="#334155" />
+
+        <!-- Subheading -->
+        <text x="30" y="215" fill="#e2e8f0" font-size="8.68" font-weight="600">Общая архитектура сайта</text>
+        <rect x="30" y="228" width="420" height="70" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1" />
+        <text x="45" y="250" fill="#38bdf8" font-size="11" font-family="monospace">const config = defineConfig({ site: 'docs.epocanvas.com' });</text>
+        <text x="45" y="270" fill="#64748b" font-size="8.7" font-family="monospace">// Заменённые компоненты Starlight (7 шт., см. astro.config.mjs)</text>
+
+        <!-- Bottom Pagination -->
+        <rect x="30" y="312" width="160" height="26" rx="4" fill="#1e293b" />
+        <text x="42" y="328" fill="#94a3b8" font-size="8.1">← Назад: Главная</text>
+        <rect x="290" y="312" width="160" height="26" rx="4" fill="#1e293b" />
+        <text x="300" y="328" fill="#94a3b8" font-size="7.6">Далее: Быстрый старт →</text>
+      </g>
+
+      <!-- Tier 3: Right TOC Sidebar (210px) -->
+      <g transform="translate(690, 0)">
+        <rect width="210" height="350" fill="#0c1222" stroke="#1e293b" stroke-width="1" />
+        
+        <text x="20" y="30" fill="#64748b" font-size="6.82" font-weight="700" text-transform="uppercase">На этой странице (TOC)</text>
+        
+        <rect x="15" y="45" width="3" height="18" fill="#3b82f6" />
+        <text x="26" y="58" fill="#60a5fa" font-size="6.82" font-weight="600">Позиционирование продукта и замысел дизайна</text>
+
+        <text x="26" y="85" fill="#94a3b8" font-size="6.82">Ключевой стек и внутреннее устройство</text>
+        <text x="36" y="105" fill="#64748b" font-size="10">Astro 5 + Starlight</text>
+        <text x="36" y="125" fill="#64748b" font-size="6.7">Локальный поиск Pagefind</text>
+
+        <text x="26" y="152" fill="#94a3b8" font-size="6.82">Общая архитектура сайта</text>
+        <text x="26" y="180" fill="#94a3b8" font-size="6.82">Правила структуры каталогов</text>
+        <text x="26" y="208" fill="#94a3b8" font-size="6.82">Сравнение с классическими системами документации</text>
+
+        <!-- Intersection Observer Spy badge -->
+        <rect x="18" y="280" width="174" height="48" rx="6" fill="#1e293b" stroke="#334155" stroke-width="0.8" />
+        <text x="26" y="300" fill="#38bdf8" font-size="10" font-weight="600">⚡ IntersectionObserver</text>
+        <text x="26" y="316" fill="#94a3b8" font-size="5.58">Синхронизация с прокруткой, текущий раздел подсвечивается в реальном времени</text>
+      </g>
+    </g>
+  </g>
+</svg>

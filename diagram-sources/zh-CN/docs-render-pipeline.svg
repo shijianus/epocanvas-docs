@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 520" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="rp-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-violet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <filter id="rp-shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1020" height="520" fill="#090d16" />
+
+  <!-- Title & Description Header -->
+  <g transform="translate(40, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">EpoCanvas Docs 渲染流水线 (Build &amp; Rendering Pipeline)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="13">从 Markdown 源文件到静态 HTML 产物与 Pagefind 索引的五步构建生命周期</text>
+  </g>
+
+  <!-- Stage 1: Content Collection & Validation -->
+  <g transform="translate(30, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-sky)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#0284c7" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">1</text>
+    <text x="50" y="34" fill="#38bdf8" font-size="13" font-weight="700">内容收集与校验</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">Content Scan</text>
+
+    <!-- Content Items -->
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="11" font-weight="600">源码扫描入口</text>
+    <text x="22" y="100" fill="#94a3b8" font-size="10">src/content/docs/</text>
+    <text x="22" y="112" fill="#64748b" font-size="9">*.md 与 *.mdx 索引</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="11" font-weight="600">Frontmatter 校验</text>
+    <text x="22" y="160" fill="#38bdf8" font-size="10">title 必填校验</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="9">description 摘要抓取</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#0284c7" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#38bdf8" font-size="11" font-weight="600">异常阻断防护</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="9">缺失 title 时构建中断</text>
+    <text x="22" y="244" fill="#ef4444" font-size="9">报 InvalidInputError</text>
+    <text x="22" y="268" fill="#64748b" font-size="9">保证无标题文档不上线</text>
+  </g>
+
+  <!-- Flow Arrow 1 -> 2 -->
+  <path d="M 212 265 L 230 265" stroke="#38bdf8" stroke-width="2" />
+  <polygon points="230,261 238,265 230,269" fill="#38bdf8" />
+
+  <!-- Stage 2: Markdown & GFM Compilation -->
+  <g transform="translate(236, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-blue)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#2563eb" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">2</text>
+    <text x="50" y="34" fill="#60a5fa" font-size="13" font-weight="700">Markdown 编译</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">GFM AST Parse</text>
+
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="11" font-weight="600">GFM 扩展语法转换</text>
+    <text x="22" y="100" fill="#94a3b8" font-size="10">表格 / 任务清单 / 脚注</text>
+    <text x="22" y="112" fill="#64748b" font-size="9">转换为标准语义 HTML</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="11" font-weight="600">Rehype 表格优化</text>
+    <text x="22" y="160" fill="#60a5fa" font-size="10">rehypeWrapTables</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="9">自动包装 .table-wrapper</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#2563eb" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#60a5fa" font-size="11" font-weight="600">提示框 (Asides)</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="9">:::note / tip / caution</text>
+    <text x="22" y="244" fill="#94a3b8" font-size="9">:::danger 彩色提示框</text>
+    <text x="22" y="268" fill="#64748b" font-size="9">注入对应图标与状态色</text>
+  </g>
+
+  <!-- Flow Arrow 2 -> 3 -->
+  <path d="M 418 265 L 436 265" stroke="#60a5fa" stroke-width="2" />
+  <polygon points="436,261 444,265 436,269" fill="#60a5fa" />
+
+  <!-- Stage 3: Code Highlighting -->
+  <g transform="translate(442, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-violet)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#7c3aed" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">3</text>
+    <text x="50" y="34" fill="#a78bfa" font-size="13" font-weight="700">代码块语法高亮</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">Expressive Code</text>
+
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="11" font-weight="600">Shiki 引擎语法着色</text>
+    <text x="22" y="100" fill="#94a3b8" font-size="10">多语言高保真词法解析</text>
+    <text x="22" y="112" fill="#64748b" font-size="9">双色主题变量适配</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="11" font-weight="600">高级标注渲染</text>
+    <text x="22" y="160" fill="#a78bfa" font-size="10">title="..." 文件名标签</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="9">{2-4} 行号背景聚焦高亮</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#a78bfa" font-size="11" font-weight="600">交互与对比增强</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="9">```diff 增量对比标识</text>
+    <text x="22" y="244" fill="#94a3b8" font-size="9">右上角一键复制代码</text>
+    <text x="22" y="268" fill="#64748b" font-size="9">免安装第三方高亮插件</text>
+  </g>
+
+  <!-- Flow Arrow 3 -> 4 -->
+  <path d="M 624 265 L 642 265" stroke="#a78bfa" stroke-width="2" />
+  <polygon points="642,261 650,265 642,269" fill="#a78bfa" />
+
+  <!-- Stage 4: Layout & Component Overrides -->
+  <g transform="translate(648, 115)" filter="url(#rp-shadow)">
+    <rect width="176" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="176" height="6" rx="3" fill="url(#grad-amber)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#d97706" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">4</text>
+    <text x="50" y="34" fill="#fbbf24" font-size="13" font-weight="700">定制布局装配</text>
+    <text x="50" y="48" fill="#64748b" font-size="10">Starlight Overrides</text>
+
+    <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="84" fill="#e2e8f0" font-size="11" font-weight="600">7 个定制组件注入</text>
+    <text x="22" y="100" fill="#fbbf24" font-size="10">Header / Sidebar / TOC</text>
+    <text x="22" y="112" fill="#64748b" font-size="9">TwoColumn / Search 等</text>
+
+    <rect x="14" y="126" width="148" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="22" y="144" fill="#e2e8f0" font-size="11" font-weight="600">元数据与时间戳</text>
+    <text x="22" y="160" fill="#94a3b8" font-size="10">PageTitle 读取标题</text>
+    <text x="22" y="174" fill="#94a3b8" font-size="9">读取真实 Git 最后提交</text>
+
+    <rect x="14" y="196" width="148" height="88" rx="6" fill="#0b0f19" stroke="#d97706" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="22" y="214" fill="#fbbf24" font-size="11" font-weight="600">目录与翻页卡片</text>
+    <text x="22" y="230" fill="#94a3b8" font-size="9">自动提取 ##/### 为 TOC</text>
+    <text x="22" y="244" fill="#94a3b8" font-size="9">Pagination 对角箭头卡片</text>
+    <text x="22" y="268" fill="#64748b" font-size="9">侧边栏记忆滚动条位置</text>
+  </g>
+
+  <!-- Flow Arrow 4 -> 5 -->
+  <path d="M 830 265 L 848 265" stroke="#fbbf24" stroke-width="2" />
+  <polygon points="848,261 856,265 848,269" fill="#fbbf24" />
+
+  <!-- Stage 5: Static Output & Pagefind -->
+  <g transform="translate(854, 115)" filter="url(#rp-shadow)">
+    <rect width="136" height="300" rx="10" fill="url(#rp-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="136" height="6" rx="3" fill="url(#grad-emerald)" />
+    
+    <!-- Step Badge -->
+    <circle cx="28" cy="36" r="14" fill="#059669" />
+    <text x="28" y="41" fill="#f8fafc" font-size="12" font-weight="700" text-anchor="middle">5</text>
+    <text x="48" y="34" fill="#34d399" font-size="12" font-weight="700">静态产出与索引</text>
+    <text x="48" y="48" fill="#64748b" font-size="10">Pagefind &amp; Dist</text>
+
+    <rect x="12" y="66" width="112" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="18" y="84" fill="#e2e8f0" font-size="11" font-weight="600">纯静态产物</text>
+    <text x="18" y="100" fill="#34d399" font-size="10">dist/ 目录</text>
+    <text x="18" y="112" fill="#64748b" font-size="9">纯 HTML + CSS</text>
+
+    <rect x="12" y="126" width="112" height="62" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
+    <text x="18" y="144" fill="#e2e8f0" font-size="11" font-weight="600">Pagefind 索引</text>
+    <text x="18" y="160" fill="#34d399" font-size="10">pagefind.wasm</text>
+    <text x="18" y="174" fill="#94a3b8" font-size="9">分块压缩字典</text>
+
+    <rect x="12" y="196" width="112" height="88" rx="6" fill="#0b0f19" stroke="#059669" stroke-opacity="0.4" stroke-width="0.8" />
+    <text x="18" y="214" fill="#34d399" font-size="11" font-weight="600">边缘就绪</text>
+    <text x="18" y="230" fill="#94a3b8" font-size="9">sitemap 生成</text>
+    <text x="18" y="244" fill="#94a3b8" font-size="9">Wrangler 直传</text>
+    <text x="18" y="268" fill="#64748b" font-size="9">可部署任意静态托管</text>
+  </g>
+
+  <!-- Bottom Summary Info Pill -->
+  <g transform="translate(30, 435)">
+    <rect width="960" height="52" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <circle cx="26" cy="26" r="8" fill="#38bdf8" fill-opacity="0.2" />
+    <text x="26" y="30" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">i</text>
+    <text x="46" y="23" fill="#f8fafc" font-size="11" font-weight="600">流水线特性总结</text>
+    <text x="46" y="39" fill="#94a3b8" font-size="10">所有编译、高亮与索引构建全部在构建期完成。线上运行时无服务端计算，客户端零前端框架负载，首屏加载快速，内网部署同样可用。</text>
+  </g>
+</svg>

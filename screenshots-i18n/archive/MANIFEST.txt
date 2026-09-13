@@ -1,0 +1,15 @@
+i18n 全站整页截图原片存档
+====================================
+截取对象 : docs 站构建产物（commit 5dd9336, main 已推送版本）
+截取范围 : 10 语言 × 18 页 = 180 张
+           语言目录: zh(简体,根路径) zh-tw en ja ko es fr de ru pt
+           每语言: index.png(首页) + canvas/index.png(产品简介) + canvas/ 下 16 篇文档
+规格     : 1280×16000 整页视口, 浅色缩放 1x, 无滚动条
+主题     : 深色（无头浏览器默认 prefers-color-scheme: dark，与站点主题逻辑一致）
+用途     : 留档原片。后续发现排版/翻译/图片问题时，可对照此存档定位问题页与问题区域，
+           修复后重新截取同名文件即可 diff 对比。
+已知说明 : 页面内容不足 16000px 时下方为纯色填充（正常现象，非缺陷）；
+           长页（如 canvas/cloudflare、canvas/markdown）内容最长约 10900~14500px，均完整收录。
+生成方式 : scripts/crop.ps1（区域裁剪工具）+ 无头 Edge 命令见会话记录；
+           重新生成单页示例：
+           msedge --headless=new --window-size=1280,16000 --screenshot=<输出.png> <URL>

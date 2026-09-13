@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%" style="background:#0b0f19; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="i18n-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <filter id="ishadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="480" fill="#090d16" />
+
+  <text x="40" y="45" fill="#f8fafc" font-size="16.9" font-weight="700">Mehrsprachigkeit in EpoCanvas Docs: 10 statische Sprachseiten beim Build</text>
+  <text x="40" y="70" fill="#94a3b8" font-size="13">10 Supported Languages · URL-Prefixed Routes · Chinese Fallback for Missing Translations</text>
+
+  <!-- Left: Language Selection Event -->
+  <g transform="translate(40, 110)" filter="url(#ishadow)">
+    <rect width="250" height="310" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
+    <rect width="250" height="36" rx="10" fill="#1e293b" />
+    <text x="15" y="24" fill="#38bdf8" font-size="7.4399999999999995" font-weight="700">1. Nutzerinteraktion</text>
+
+    <!-- Language Dropdown Mock -->
+    <g transform="translate(20, 50)">
+      <rect width="210" height="32" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="15" y="21" fill="#f8fafc" font-size="12">🌐 EN ▾</text>
+
+      <g transform="translate(0, 38)">
+        <rect width="210" height="130" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="1" />
+        <text x="15" y="22" fill="#94a3b8" font-size="11">简体中文 (zh-CN)</text>
+        <text x="15" y="42" fill="#94a3b8" font-size="11">繁體中文 (zh-TW)</text>
+        <text x="15" y="62" fill="#60a5fa" font-size="11" font-weight="600">✓ English (en)</text>
+        <text x="15" y="82" fill="#94a3b8" font-size="11">日本語 (ja)</text>
+        <text x="15" y="102" fill="#94a3b8" font-size="11">  한국어 / Deutsch / Français...</text>
+        <text x="15" y="120" fill="#64748b" font-size="6.5">10 Sprachen, jeder Eintrag ein echter Link</text>
+      </g>
+    </g>
+
+    <text x="20" y="255" fill="#f8fafc" font-size="8.3" font-weight="600">Klick genügt</text>
+    <text x="20" y="272" fill="#94a3b8" font-size="10">/canvas/i18n/  →  /en/canvas/i18n/</text>
+    <text x="20" y="288" fill="#94a3b8" font-size="6.2">Die Zielsprachenversion desselben Artikels</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <path d="M 305 260 L 345 260" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" />
+  <polygon points="345,256 353,260 345,264" fill="#38bdf8" />
+
+  <!-- Middle: Build-time multilingual content -->
+  <g transform="translate(365, 110)" filter="url(#ishadow)">
+    <rect width="280" height="310" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
+    <rect width="280" height="36" rx="10" fill="#1e293b" />
+    <text x="15" y="24" fill="#818cf8" font-size="8" font-weight="700">2. Build: ein Inhaltssatz pro Sprache</text>
+
+    <!-- Code Block Mock: content directory tree -->
+    <rect x="15" y="50" width="250" height="160" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1" />
+    <text x="25" y="70" fill="#818cf8" font-size="10" font-family="monospace">src/content/docs/</text>
+    <text x="35" y="88" fill="#34d399" font-size="9" font-family="monospace">canvas/i18n.md      →  /canvas/i18n/</text>
+    <text x="35" y="106" fill="#e2e8f0" font-size="9" font-family="monospace">en/canvas/i18n.md   →  /en/canvas/i18n/</text>
+    <text x="35" y="124" fill="#e2e8f0" font-size="9" font-family="monospace">ja/canvas/i18n.md   →  /ja/canvas/i18n/</text>
+    <text x="35" y="142" fill="#e2e8f0" font-size="9" font-family="monospace">ko/ es/ fr/ de/ ru/ pt/...</text>
+    <text x="25" y="166" fill="#64748b" font-size="5.58" font-family="monospace">// Eine vollständige Markdown-Übersetzung pro Sprachordner</text>
+    <text x="25" y="184" fill="#64748b" font-size="6.1" font-family="monospace">// astro build erzeugt alle Sprachseiten auf einmal</text>
+    <text x="25" y="202" fill="#64748b" font-size="5.58" font-family="monospace">// Interne Links bekommen das Sprachpräfix automatisch</text>
+
+    <rect x="15" y="225" width="250" height="65" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
+    <text x="25" y="245" fill="#f59e0b" font-size="6.82" font-weight="600">Oberfläche und Inhalt wechseln zusammen</text>
+    <text x="25" y="263" fill="#94a3b8" font-size="6.2">Navigation, Seitenleiste, Verzeichnis, Suchhinweise, Inhalt</text>
+    <text x="25" y="278" fill="#94a3b8" font-size="6.5">Das &lt;html lang&gt; jeder Seite entspricht der Zielsprache</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <path d="M 660 260 L 700 260" stroke="#818cf8" stroke-width="2" stroke-dasharray="4,4" />
+  <polygon points="700,256 708,260 700,264" fill="#818cf8" />
+
+  <!-- Right: Static serving & fallback -->
+  <g transform="translate(715, 110)" filter="url(#ishadow)">
+    <rect width="210" height="310" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.2" />
+    <rect width="210" height="36" rx="10" fill="#064e3b" />
+    <text x="15" y="24" fill="#34d399" font-size="7.4399999999999995" font-weight="700">3. Zugriff und Fallback</text>
+
+    <text x="15" y="65" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Rein statische Seiten</text>
+    <text x="15" y="85" fill="#94a3b8" font-size="6.2">Das CDN liefert direkt das HTML der Sprache</text>
+    <text x="15" y="100" fill="#94a3b8" font-size="6.2">Die URL trägt die Sprache; leicht zu merken und teilen</text>
+
+    <text x="15" y="130" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Volltextsuche getrennt je Sprache</text>
+    <text x="15" y="150" fill="#94a3b8" font-size="6.2">Pagefind baut je Sprache einen eigenen Index</text>
+    <text x="15" y="165" fill="#94a3b8" font-size="6.2">Suche auf /en/-Seiten liefert englische Treffer</text>
+
+    <text x="15" y="195" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Automatischer Fallback bei fehlender Übersetzung</text>
+    <text x="15" y="215" fill="#94a3b8" font-size="6.2">Fehlende Sprachen zeigen den chinesischen Standardinhalt</text>
+    <text x="15" y="230" fill="#94a3b8" font-size="6.2">Die Seite rendert normal, nie 404</text>
+
+    <rect x="12" y="255" width="186" height="40" rx="4" fill="#1e293b" />
+    <text x="20" y="272" fill="#34d399" font-size="6.2" font-weight="600">✓ Nach dem Wechsel sind Inhalt, Navigation und Suche</text>
+    <text x="20" y="288" fill="#34d399" font-size="6.2" font-weight="600">vollständig in der Zielsprache</text>
+  </g>
+</svg>

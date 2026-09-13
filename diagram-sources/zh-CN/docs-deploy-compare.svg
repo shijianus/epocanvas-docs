@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="dc-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-amber-orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="grad-blue-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="dc-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="560" fill="#090d16" />
+
+  <!-- Header -->
+  <g transform="translate(45, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">Cloudflare Pages 双轨部署方式对比 (Deployment Architecture)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="13">命令行本地直传（本站采用） vs Git 仓库自动构建（团队协作推荐）</text>
+  </g>
+
+  <!-- Left Column: CLI Direct Deploy -->
+  <g transform="translate(45, 110)" filter="url(#dc-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#dc-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-amber-orange)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="90" height="22" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="0.8" />
+      <text x="45" y="15" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">方式一 · 推荐</text>
+      <text x="102" y="17" fill="#f8fafc" font-size="16" font-weight="700">本地命令行直传 (Wrangler CLI)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="11">本站实际采用的上线方式，本地构建后直传边缘</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">本地一条命令触发: pnpm run deploy</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">在终端执行预置脚本，串联本地静态编译与上传命令</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">本机 Astro 5 编译生成 dist/ 产物</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">本地完成 HTML/CSS 压缩与 Pagefind WASM 搜索索引生成</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Wrangler 读取凭据直传 Cloudflare Pages</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">读取本地 API Token，差量上传增量文件至 Cloudflare 存储桶</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">秒级激活上线，输出即时预览地址</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">上传完成即刻生效，无需等待任何云端排队或容器构建调度</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">主域名 docs.epocanvas.com 同步更新</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">自动绑定生产环境别名，全球 CDN 节点几秒内完成缓存就绪</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#fbbf24" font-size="11">适合场景：首次部署 · 单人维护 · 紧急修复 · 不耗费云端构建配额</text>
+  </g>
+
+  <!-- Right Column: Git Webhook Deploy -->
+  <g transform="translate(520, 110)" filter="url(#dc-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#dc-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-blue-cyan)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="90" height="22" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="0.8" />
+      <text x="45" y="15" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle">方式二 · 协作</text>
+      <text x="102" y="17" fill="#f8fafc" font-size="16" font-weight="700">Git 自动构建 (Connect to Git)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="11">连接 GitHub 仓库，代码推送后在云端容器自动编译</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">开发者提交代码: git push origin main</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">提交代码到 GitHub 仓库，触发 GitHub 发送 Webhook 通知</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Cloudflare 自动分配云端构建容器</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Pages 调度空闲构建节点，拉取仓库分支代码到干净环境</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">云端执行: pnpm run build</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">容器自动安装依赖、编译 Astro 站点并生成 Pagefind 索引</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">PR 预览分支独立链接生成</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">对 Pull Request 自动生成专属预览 URL，方便团队多人检视</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">构建日志与部署历史全透明留档</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">在 Cloudflare 控制台可查看完整打包控制台日志，支持一键回滚</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#60a5fa" font-size="11">适合场景：多人协作 · 提交即上线 · 成员免配云密钥 · PR 独立预览</text>
+  </g>
+
+  <!-- Bottom Common Info Banner -->
+  <g transform="translate(45, 492)">
+    <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ 双轨无缝共存</text>
+    <text x="145" y="28" fill="#94a3b8" font-size="11">两种部署方式可以平滑并存：日常开发可通过 Git 自动化集成，紧急修正或离线调试可随时在本地运行 pnpm run deploy 直接覆盖最新版本。</text>
+  </g>
+</svg>

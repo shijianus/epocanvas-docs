@@ -29,6 +29,41 @@ function rehypeWrapTables() {
 // 直接渲染会跳回中文页。这里按源文件所在的语言目录，把以 / 开头的内链
 // 自动加上语言前缀（如 /en/canvas/xxx）；已是带前缀或外链/锚点的不处理。
 const LOCALE_DIRS = ['zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
+// 翻译页里的架构图引用 /images/canvas/docs-*.svg（中文原图）。
+// 若 public/images/canvas/<语言>/ 下存在同名本地化图，则把 src 改写为该语言版本；
+// 不存在就保留原图（自动回退），新增图无需同步维护所有语言。
+const localizedImageCache = new Map();
+function hasLocalizedImage(dir, base) {
+	const key = dir + '/' + base;
+	if (!localizedImageCache.has(key)) {
+		localizedImageCache.set(key, fs.existsSync(path.join(process.cwd(), 'public', 'images', 'canvas', dir, base)));
+	}
+	return localizedImageCache.get(key);
+}
+function rehypeLocalizeDiagramImages() {
+	return (tree, file) => {
+		const filePath = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
+		const match = filePath.match(/\/content\/docs\/([^/]+)\//);
+		const dir = match && match[1];
+		if (!dir || !LOCALE_DIRS.includes(dir)) return;
+		const walk = (node) => {
+			if (!node || !Array.isArray(node.children)) return;
+			for (const child of node.children) {
+				if (child.type === 'element' && child.tagName === 'img') {
+					const src = child.properties?.src;
+					if (typeof src === 'string' && src.startsWith('/images/canvas/')) {
+						const base = src.slice('/images/canvas/'.length);
+						if (base && !base.startsWith('/') && hasLocalizedImage(dir, base)) {
+							child.properties.src = '/images/canvas/' + dir + '/' + base;
+						}
+					}
+				}
+				walk(child);
+			}
+		};
+		walk(tree);
+	};
+}
 function rehypeLocalizeInternalLinks() {
 	return (tree, file) => {
 		const path = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
@@ -141,7 +176,7 @@ export default defineConfig({
 		enabled: false,
 	},
 	markdown: {
-		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeAsides],
+		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides],
 	},
 		integrations: [
 			starlight({

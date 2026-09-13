@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="sf-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-teal-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-purple-indigo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <filter id="sf-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="560" fill="#090d16" />
+
+  <!-- Header -->
+  <g transform="translate(45, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">EpoCanvas Docs 雙模式搜尋機制對比 (Dual-Mode Search Architecture)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="13">頂欄頁內即時文字高亮查找 vs Ctrl+K 全站 Pagefind WASM 靜態檢索</text>
+  </g>
+
+  <!-- Left Column: In-Page Search -->
+  <g transform="translate(45, 110)" filter="url(#sf-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#sf-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-teal-blue)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="80" height="22" rx="4" fill="#0284c7" fill-opacity="0.25" stroke="#0284c7" stroke-width="0.8" />
+      <text x="40" y="15" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">模式一</text>
+      <text x="92" y="17" fill="#f8fafc" font-size="16" font-weight="700">頂欄頁內查找 (In-Page Search)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="10.4">定位目前文章內部的段落、程式碼行與參數</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">直接在頂欄輸入框鍵入關鍵詞</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">點擊頂欄搜尋框即可輸入，無需按下任何組合快捷鍵</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">DOM 文字節點即時遍歷與包裹</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">腳本深度遍歷目前文章 DOM，為匹配文字注入 &lt;mark&gt; 高亮底色</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">匹配計數即時回饋 (如 3 / 9 處)</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">搜尋框右側即時顯示目前序號與總匹配數，隨時掌握瀏覽進度</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">鍵盤快捷跳轉與順滑捲動</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">按 Enter 跳至下一處，Shift+Enter 回到上一處，正文平滑居中</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#0284c7" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Esc 一鍵清除恢復整潔原狀</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">按 Esc 或點擊清除按鈕，瞬間移除全部 &lt;mark&gt; 標記，無任何殘留</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#0284c7" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#38bdf8" font-size="11">特點：純前端 DOM 操作 · 零網路請求 · 隨輸隨顯 · 毫秒級回應</text>
+  </g>
+
+  <!-- Right Column: Global Search -->
+  <g transform="translate(520, 110)" filter="url(#sf-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#sf-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-purple-indigo)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="80" height="22" rx="4" fill="#7c3aed" fill-opacity="0.25" stroke="#7c3aed" stroke-width="0.8" />
+      <text x="40" y="15" fill="#a78bfa" font-size="11" font-weight="700" text-anchor="middle">模式二</text>
+      <text x="92" y="17" fill="#f8fafc" font-size="16" font-weight="700">全站檢索彈窗 (Global Pagefind)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="10.1">跨全站所有文章、小節、程式碼區塊與設定進行全域檢索</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">按下快捷鍵 Ctrl+K / Cmd+K 喚起</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">螢幕中央彈出全域對話框，自動聚焦輸入框並掛載半透明遮罩</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">按需拉取輕量靜態索引分片</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">僅載入 pagefind.wasm 執行環境與對應字元的索引分片（幾 KB 到幾十 KB）</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="11.1" font-weight="600">瀏覽器記憶體倒排索引權重計算</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">本機完成相關度評分與排序，標題命中優先顯示，避免網路延遲</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">按文件分組與上下文片段預覽</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">清晰呈現所屬文章標題、小節路徑與上下文摘要，關鍵字高亮</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#7c3aed" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">純鍵盤導覽直達目標段落</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">方向鍵上下移動焦點，Enter 直達目標文章並精準平滑跳轉到錨點</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#7c3aed" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#a78bfa" font-size="11">特點：靜態反向索引 · 按需下載 · 跨文件全文覆蓋 · 內網部署可用</text>
+  </g>
+
+  <!-- Bottom Common Info Banner -->
+  <g transform="translate(45, 492)">
+    <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ 本地化與隱私保障</text>
+    <text x="160" y="28" fill="#94a3b8" font-size="11">兩種搜尋均完全在讀者瀏覽器本機執行，不需要設定任何外部雲端服務或爬蟲金鑰（如 Algolia），即使部署在無法存取外網的公司內網中也能順暢檢索。</text>
+  </g>
+</svg>

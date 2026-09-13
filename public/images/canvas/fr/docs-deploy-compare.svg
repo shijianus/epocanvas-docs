@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="100%" height="100%" style="background:#090d16; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="dc-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="grad-amber-orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="grad-blue-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="dc-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="560" fill="#090d16" />
+
+  <!-- Header -->
+  <g transform="translate(45, 36)">
+    <text x="0" y="24" fill="#f8fafc" font-size="18" font-weight="700" letter-spacing="-0.4">Cloudflare Pages : deux voies de déploiement (Deployment Architecture)</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="8.4">Transfert direct en CLI locale (ce site) vs build Git automatique (recommandé en équipe)</text>
+  </g>
+
+  <!-- Left Column: CLI Direct Deploy -->
+  <g transform="translate(45, 110)" filter="url(#dc-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#dc-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-amber-orange)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="90" height="22" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="0.8" />
+      <text x="45" y="15" fill="#fbbf24" font-size="6.82" font-weight="700" text-anchor="middle">Méthode 1 · recommandée</text>
+      <text x="102" y="17" fill="#f8fafc" font-size="9.92" font-weight="700">Transfert direct en CLI locale (Wrangler CLI)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="6.82">La voie réelle de ce site : build local, puis transfert direct vers l'edge</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="8.8" font-weight="600">Une seule commande locale : pnpm run deploy</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.7">Le script fourni enchaîne build local et téléversement</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="8.9" font-weight="600">Astro 5 génère le résultat dist/ en local</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.9">Minification HTML/CSS et index Pagefind WASM générés en local</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Wrangler lit les identifiants et téléverse vers Cloudflare Pages</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="8.2">Lit le token API local et ne téléverse que les fichiers modifiés</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">En ligne en quelques secondes, URL d'aperçu immédiate</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Effectif dès la fin du transfert ; ni file d'attente ni orchestration de conteneurs</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#d97706" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Le domaine principal docs.epocanvas.com est mis à jour en même temps</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Alias de production lié automatiquement ; cache CDN mondial prêt en quelques secondes</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#fbbf24" font-size="6.82">Idéal pour : premier déploiement · travail solo · correctifs urgents · zéro quota de build</text>
+  </g>
+
+  <!-- Right Column: Git Webhook Deploy -->
+  <g transform="translate(520, 110)" filter="url(#dc-shadow)">
+    <rect width="435" height="365" rx="10" fill="url(#dc-card)" stroke="#334155" stroke-width="1.2" />
+    <rect width="435" height="6" rx="3" fill="url(#grad-blue-cyan)" />
+
+    <!-- Mode Badge -->
+    <g transform="translate(24, 22)">
+      <rect width="90" height="22" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="0.8" />
+      <text x="45" y="15" fill="#60a5fa" font-size="6.82" font-weight="700" text-anchor="middle">Méthode 2 · collaboration</text>
+      <text x="102" y="17" fill="#f8fafc" font-size="11.9" font-weight="700">Build Git automatique (Connect to Git)</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="6.9">Relie un dépôt GitHub ; chaque push déclenche un build en conteneur</text>
+    </g>
+
+    <!-- Steps -->
+    <g transform="translate(24, 80)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="9.9" font-weight="600">Push du développeur : git push origin main</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">Le push déclenche une notification webhook GitHub</text>
+      </g>
+
+      <!-- Step 2 -->
+      <g transform="translate(0, 48)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="8.5" font-weight="600">Cloudflare attribue un conteneur de build</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Pages réserve un nœud libre et clone la branche dans un environnement propre</text>
+      </g>
+
+      <!-- Step 3 -->
+      <g transform="translate(0, 96)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="9.3" font-weight="600">Dans le cloud : pnpm run build</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Le conteneur installe les dépendances, compile le site et génère l'index Pagefind</text>
+      </g>
+
+      <!-- Step 4 -->
+      <g transform="translate(0, 144)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">URL d'aperçu indépendante par branche de PR</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.9">Chaque pull request reçoit son URL d'aperçu dédiée pour la revue</text>
+      </g>
+
+      <!-- Step 5 -->
+      <g transform="translate(0, 192)">
+        <circle cx="12" cy="14" r="10" fill="#2563eb" />
+        <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Logs de build et historique de déploiement intégralement conservés</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.7">Logs complets dans le tableau de bord Cloudflare, rollback en un clic</text>
+      </g>
+    </g>
+
+    <!-- Bottom Feature Tag -->
+    <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8" />
+    <text x="36" y="340" fill="#60a5fa" font-size="7.9">Idéal pour : équipes · push = en ligne · sans clés individuelles · aperçus de PR</text>
+  </g>
+
+  <!-- Bottom Common Info Banner -->
+  <g transform="translate(45, 492)">
+    <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ Coexistence</text>
+    <text x="145" y="28" fill="#94a3b8" font-size="8.5">Les deux voies coexistent : automatissez avec Git au quotidien et, en cas d'urgence, lancez pnpm run deploy en local pour écraser la version en ligne.</text>
+  </g>
+</svg>

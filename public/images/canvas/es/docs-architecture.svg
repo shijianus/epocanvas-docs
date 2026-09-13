@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%" style="background:#0b0f19; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <defs>
+    <linearGradient id="grad-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="grad-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="card-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="drop-shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Header -->
+  <rect x="0" y="0" width="1000" height="620" fill="#090d16" />
+
+  <text x="50" y="52" fill="#f8fafc" font-size="14.879999999999999" font-weight="700" letter-spacing="-0.5">Arquitectura general del sitio EpoCanvas Docs</text>
+  <text x="50" y="78" fill="#94a3b8" font-size="8.06">De arriba abajo: despliegue → componentes de interfaz → renderizado de contenido → base; cada módulo se corresponde con un archivo real del repositorio</text>
+
+  <!-- Band 1: Deploy & Delivery -->
+  <g transform="translate(50, 105)" filter="url(#drop-shadow)">
+    <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-amber)" />
+    <text x="30" y="32" fill="#f59e0b" font-size="7.7" font-weight="700" text-transform="uppercase" letter-spacing="1">① Despliegue y distribución · CDN de Cloudflare Pages</text>
+
+    <!-- Badges inside Band 1 -->
+    <rect x="30" y="46" width="195" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="42" y="68" fill="#f8fafc" font-size="10.3" font-weight="600">Edge de Cloudflare Pages</text>
+    <text x="42" y="80" fill="#94a3b8" font-size="10">Global Anycast CDN</text>
+
+    <rect x="245" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="257" y="68" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Publicación por subida directa con Wrangler CLI</text>
+    <text x="257" y="80" fill="#94a3b8" font-size="7">pnpm run deploy, listo en segundos</text>
+
+    <rect x="470" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="482" y="68" fill="#f8fafc" font-size="8.9" font-weight="600">Dominio propio y SSL</text>
+    <text x="482" y="80" fill="#94a3b8" font-size="10">docs.epocanvas.com / HTTP/2/3</text>
+
+    <rect x="695" y="46" width="185" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
+    <text x="707" y="68" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Índice estático de Pagefind</text>
+    <text x="707" y="80" fill="#94a3b8" font-size="6.2">Generado al compilar, se carga por bloques</text>
+  </g>
+
+  <!-- Band 2: Overridden UI Components -->
+  <g transform="translate(50, 225)" filter="url(#drop-shadow)">
+    <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-accent)" />
+    <text x="30" y="30" fill="#818cf8" font-size="7.4399999999999995" font-weight="700" text-transform="uppercase" letter-spacing="1">② Componentes de interfaz · 7 componentes de Starlight sustituidos</text>
+
+    <!-- 7 Component Cards -->
+    <rect x="30" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="39" y="67" fill="#f8fafc" font-size="11" font-weight="600">Header.astro</text>
+    <text x="39" y="83" fill="#94a3b8" font-size="5.58">Navegación · idioma · cambio de tema</text>
+
+    <rect x="150" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="159" y="67" fill="#f8fafc" font-size="11" font-weight="600">Sidebar.astro</text>
+    <text x="159" y="83" fill="#94a3b8" font-size="5.58">La posición de scroll se conserva entre páginas</text>
+
+    <rect x="270" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="279" y="67" fill="#f8fafc" font-size="11" font-weight="600">PageTitle.astro</text>
+    <text x="279" y="83" fill="#94a3b8" font-size="5.58">Título y fecha de actualización</text>
+
+    <rect x="390" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="399" y="67" fill="#f8fafc" font-size="11" font-weight="600">TableOfContents</text>
+    <text x="399" y="83" fill="#94a3b8" font-size="5.58">Índice sincronizado con el viewport</text>
+
+    <rect x="510" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="519" y="67" fill="#f8fafc" font-size="11" font-weight="600">TwoColumnContent</text>
+    <text x="519" y="83" fill="#94a3b8" font-size="6.1">Cuerpo + columna derecha</text>
+
+    <rect x="630" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="639" y="67" fill="#f8fafc" font-size="11" font-weight="600">Search.astro</text>
+    <text x="639" y="83" fill="#94a3b8" font-size="5.58">Búsqueda de doble modo</text>
+
+    <rect x="750" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
+    <text x="759" y="67" fill="#f8fafc" font-size="11" font-weight="600">Pagination.astro</text>
+    <text x="759" y="83" fill="#94a3b8" font-size="5.58">Tarjetas de paginación con flechas diagonales</text>
+  </g>
+
+  <!-- Band 3: Content & Rendering Pipeline -->
+  <g transform="translate(50, 355)" filter="url(#drop-shadow)">
+    <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-teal)" />
+    <text x="30" y="30" fill="#38bdf8" font-size="7.4399999999999995" font-weight="700" text-transform="uppercase" letter-spacing="1">③ Renderizado de contenido · de Markdown a HTML estático</text>
+
+    <rect x="30" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro Content Layer</text>
+    <text x="42" y="83" fill="#94a3b8" font-size="6.9">Validación en content.config.ts</text>
+
+    <rect x="200" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="212" y="67" fill="#f8fafc" font-size="8.6" font-weight="600">Pipeline de Markdown / GFM</text>
+    <text x="212" y="83" fill="#94a3b8" font-size="6.2">4 tipos de avisos con título propio</text>
+
+    <rect x="370" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="382" y="67" fill="#f8fafc" font-size="7.5" font-weight="600">Plugins de Rehype</text>
+    <text x="382" y="83" fill="#94a3b8" font-size="6.2">Envoltorio responsivo de tablas y más</text>
+
+    <rect x="540" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="552" y="67" fill="#f8fafc" font-size="12" font-weight="600">Expressive Code</text>
+    <text x="552" y="83" fill="#94a3b8" font-size="6.2">Resaltado Shiki + copia con un clic</text>
+
+    <rect x="710" y="45" width="160" height="50" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="722" y="67" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Procesado de imágenes con Sharp</text>
+    <text x="722" y="83" fill="#94a3b8" font-size="6.2">Compresión de imágenes con astro:assets</text>
+  </g>
+
+  <!-- Band 4: Foundation -->
+  <g transform="translate(50, 485)" filter="url(#drop-shadow)">
+    <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
+    <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-emerald)" />
+    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">④ Base · Astro 5 + Starlight 0.32</text>
+
+    <rect x="30" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="42" y="67" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Salida estática de Astro 5</text>
+    <text x="42" y="79" fill="#94a3b8" font-size="6.2">Sin runtime de framework en el cliente por defecto</text>
+
+    <rect x="250" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="262" y="67" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Definiciones de tipos TypeScript</text>
+    <text x="262" y="79" fill="#94a3b8" font-size="6.2">Tipado de la configuración de navegación y los diccionarios</text>
+
+    <rect x="470" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="482" y="67" fill="#f8fafc" font-size="11.1" font-weight="600">Design tokens y temas</text>
+    <text x="482" y="79" fill="#94a3b8" font-size="6.2">Variables en custom.css, modo claro y oscuro</text>
+
+    <rect x="690" y="45" width="190" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+    <text x="702" y="67" fill="#f8fafc" font-size="7.4399999999999995" font-weight="600">Diccionario de interfaz i18n (10 idiomas)</text>
+    <text x="702" y="79" fill="#94a3b8" font-size="6.2">Sustituye solo textos de interfaz, nunca el cuerpo</text>
+  </g>
+</svg>
