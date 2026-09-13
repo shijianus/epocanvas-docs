@@ -14,15 +14,15 @@ description: EpoCanvas Docs の頻出カスタマイズ操作早見表。新規�
 
    ```yaml
    ---
-   title: 用户使用指南
-   description: 一句话说明本篇讲什么，会展示在搜索结果与分享卡片里。
+   title: ユーザーガイド
+   description: このページの内容を一言で説明します。検索結果やシェアカードに表示されます。
    ---
    ```
 
 3. `astro.config.mjs` を開き、`sidebar` 配列の対象グループに登録します:
 
    ```javascript
-   { label: '用户使用指南', link: '/canvas/user-guide/' }
+   { label: 'ユーザーガイド', link: '/canvas/user-guide/' }
    ```
 
 4. 保存してローカルプレビューで左側カタログに表示されることを確認し、`pnpm run deploy` を実行して公開します。
@@ -41,7 +41,7 @@ description: EpoCanvas Docs の頻出カスタマイズ操作早見表。新規�
    {
      id: 'blog',
      labelKey: 'nav.blog',
-     defaultLabel: '博客',
+     defaultLabel: 'ブログ',
      href: 'https://blog.epocanvas.com',
      isExternal: true,          // 外部リンクは新しいウィンドウで開きます
    },
@@ -143,7 +143,7 @@ head: [
     tag: 'meta',
     attrs: {
       name: 'google-site-verification',
-      content: '验证字符串',
+      content: '検証用文字列',
     },
   },
 ],

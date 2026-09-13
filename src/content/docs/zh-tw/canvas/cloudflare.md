@@ -14,33 +14,33 @@ description: EpoCanvas Docs 發布上線的完整圖示教學：Wrangler 命令�
 | 事項 | 說明 |
 | :--- | :--- |
 | **Cloudflare 帳號** | 在 [dash.cloudflare.com](https://dash.cloudflare.com/) 免費註冊，Pages 服務無需付費方案 |
-| **本地能完整建置** | 先跑通 `pnpm run build`，確認 `dist/` 目錄正常產生，參見[快速上手](/canvas/deployment/) |
-| **Node.js + pnpm** | 部署指令依賴本地開發環境，版本要求同快速上手章節 |
+| **本機能完整建置** | 先確認能順利跑完 `pnpm run build`，確認 `dist/` 目錄正常產生，參見[快速上手](/canvas/deployment/) |
+| **Node.js + pnpm** | 部署指令依賴本機開發環境，版本要求同快速上手章節 |
 
 ### 兩種部署方式怎麼選
 
-![Cloudflare Pages 部署雙軌對比圖：左側命令列本地直傳（本站採用），右側 Git 儲存庫自動建置（團隊協作推薦）](/images/canvas/docs-deploy-compare.svg)
+![Cloudflare Pages 部署雙軌對比圖：左側命令列本機直傳（本站採用），右側 Git 儲存庫自動建置（團隊協作推薦）](/images/canvas/docs-deploy-compare.svg)
 
 *圖：Cloudflare Pages 兩種部署路徑對比。左側透過本機建置後用 Wrangler 直傳邊緣（本站實際採用），右側透過 GitHub Webhook 觸發雲端自動建置。*
 
 | 對比項 | 方式一：命令列直傳 | 方式二：Git 自動建置 |
 | :--- | :--- | :--- |
-| 操作方式 | 本地執行 `pnpm run deploy` | 推送程式碼到 GitHub 自動觸發 |
+| 操作方式 | 本機執行 `pnpm run deploy` | 推送程式碼到 GitHub 自動觸發 |
 | 上手難度 | 低，兩條指令 | 中，需要在主控台完成一次設定 |
 | 適合場景 | 首次上線、單人維護、快速更新 | 多人協作、希望「提交即上線」 |
 | 本站採用 | ✅ 是（可在主控台驗證） | 未啟用，可隨時補充 |
 
 :::tip
-兩種方式可以並存：日常用 Git 自動建置，緊急修錯時用本地 `pnpm run deploy` 直接覆蓋上線。
+兩種方式可以並存：日常用 Git 自動建置，緊急修錯時用本機 `pnpm run deploy` 直接覆蓋上線。
 :::
 
 :::tip[完全不想敲指令？]
-[快速上手](/canvas/deployment/)頁提供了 Cloudflare、Vercel、Netlify 三家的一鍵部署按鈕：點一下、授權帳號、確認設定，文件站就發布到你自己的雲帳號了，詳見[一鍵部署](/canvas/deployment/#一键部署点一个按钮就上线)。其中 Cloudflare 按鈕走 Workers 靜態託管，與本頁介紹的 Pages 方式是兩條獨立路徑，對靜態文件站來說存取體驗一致，選一條走即可。
+[快速上手](/canvas/deployment/)頁提供了 Cloudflare、Vercel、Netlify 三家的一鍵部署按鈕：點一下、授權帳號、確認設定，文件站就發布到你自己的雲帳號了，詳見[一鍵部署](/canvas/deployment/#一鍵部署點一個按鈕就上線)。其中 Cloudflare 按鈕走 Workers 靜態託管，與本頁介紹的 Pages 方式是兩條獨立路徑，對靜態文件站來說存取體驗一致，選一條走即可。
 :::
 
 ---
 
-## 方式一：本地命令列直傳（首次推薦）
+## 方式一：本機命令列直傳（首次推薦）
 
 這種方式由本機建置後直接上傳到 Cloudflare，是**本站實際採用**的部署方式。
 
@@ -105,10 +105,10 @@ pnpm run deploy
 
 ![epocanvas-docs 專案的 Settings 建置設定頁，Git repository 一欄顯示未連接](/images/canvas/deploy/cf-03-settings.png)
 
-*圖：Settings 標籤頁。① Settings 入口；② Git repository 一欄顯示 Connect（未連接）——直傳專案不需要 Git 建置設定，建置完全在你本地完成。*
+*圖：Settings 標籤頁。① Settings 入口；② Git repository 一欄顯示 Connect（未連接）——直傳專案不需要 Git 建置設定，建置完全在你本機完成。*
 
 :::tip
-這也解釋了直傳方式的優勢：建置環境就是你的本地電腦，不受 Cloudflare 建置佇列影響；代價是每次更新都必須在部署那台電腦上執行指令。
+這也解釋了直傳方式的優勢：建置環境就是你的本機電腦，不受 Cloudflare 建置佇列影響；代價是每次更新都必須在部署那台電腦上執行指令。
 :::
 
 ---

@@ -26,7 +26,7 @@ Clique no campo de pesquisa no centro superior da página (ícone de lupa) e esc
 
 ### Escrever palavras-chave
 
-Suporta expressões em chinês (como "部署", "组件"), palavras em inglês e fragmentos de código (como `pnpm`, `astro.config.mjs`). Durante a escrita, todo o texto correspondente na página atual recebe imediatamente um fundo de destaque e a página desloca-se automaticamente para a primeira correspondência.
+Suporta expressões em português (como "implantação", "componente"), palavras em inglês e fragmentos de código (como `pnpm`, `astro.config.mjs`). Durante a escrita, todo o texto correspondente na página atual recebe imediatamente um fundo de destaque e a página desloca-se automaticamente para a primeira correspondência.
 
 ### Saltar entre resultados
 
@@ -50,7 +50,7 @@ Esteja na página que estiver, prima o atalho <kbd>Ctrl</kbd> + <kbd>K</kbd> (<k
 
 ### Escrever palavras-chave
 
-Suporta expressões em chinês (como "部署", "组件"), palavras em inglês e fragmentos de código (como `pnpm`, `astro.config.mjs`). Os resultados cujo título contém a palavra pesquisada aparecem primeiro.
+Suporta expressões em português (como "implantação", "componente"), palavras em inglês e fragmentos de código (como `pnpm`, `astro.config.mjs`). Os resultados cujo título contém a palavra pesquisada aparecem primeiro.
 
 ### Percorrer a lista de resultados
 

@@ -58,15 +58,15 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 
   ```yaml
   ---
-  title: 这是文章标题
-  description: 这是文章描述
+  title: Título do artigo
+  description: Descrição do artigo
   ---
   ```
 
 ### Q6: A página mostra dois títulos grandes exatamente iguais
 
 - **Causa**: foi escrito um título de nível `#` no corpo do texto. O `title` do Frontmatter já é renderizado como título grande; escrever outro `#` no corpo cria necessariamente uma duplicação.
-- **Solução**: remova o título `#` do corpo do texto e comece as secções em `##`. As regras completas estão em [regras de renderização detalhadas](/canvas/rendering/#标题规则).
+- **Solução**: remova o título `#` do corpo do texto e comece as secções em `##`. As regras completas estão em [regras de renderização detalhadas](/canvas/rendering/#regras-dos-títulos).
 
 ### Q7: Escrevi `> [!TIP]` mas o bloco de aviso não muda de cor e o texto aparece tal e qual
 
@@ -75,7 +75,7 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 
   ```markdown
   :::tip
-  这是正确的写法。
+  Esta é a forma correta de escrever.
   :::
   ```
 

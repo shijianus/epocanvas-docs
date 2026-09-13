@@ -58,7 +58,7 @@ Situado à direita do corpo do texto:
 
 - **Extração automática dos títulos**: ao renderizar a página, o sistema analisa automaticamente os títulos de segundo nível (`##`) e de terceiro nível (`###`) do documento atual e gera o "índice da página".
 - **Destaque dinâmico com o scroll**: durante a leitura, à medida que a página é deslocada para baixo, o índice destaca automaticamente a secção que está a ser lida.
-- **Salto suave ao clicar**: clicar em qualquer subtítulo do índice faz a página deslizar suavemente até ao parágrafo correspondente e atualiza a âncora na barra de endereço (por exemplo, `#整体界面分区说明`), facilitando a partilha do link.
+- **Salto suave ao clicar**: clicar em qualquer subtítulo do índice faz a página deslizar suavemente até ao parágrafo correspondente e atualiza a âncora na barra de endereço (por exemplo, `#descrição-das-zonas-da-interface`), facilitando a partilha do link.
 
 ---
 

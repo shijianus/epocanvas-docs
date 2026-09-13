@@ -20,7 +20,7 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
 
 ### Q2: Bei der Installation der Abhängigkeiten erscheint ein Kompilierungsfehler des Sharp-Moduls
 
-- **Ursache**: Sharp ist das zugrunde liegende C++-Modul für die Bildkompression zur Build-Zeit; nach einer Node.js-Versionsänderung kann der alte Cache nicht mehr dazu passen.
+- **Ursache**: Sharp ist das zugrunde liegende C++-Modul für die Bildkompression zur Build-Zeit; nach einer Node.js-Versionsänderung kann der alte Cache nicht mehr kompatibel sein.
 - **Lösung**: Abhängigkeiten bereinigen und neu installieren:
 
   ```bash
@@ -66,7 +66,7 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
 ### Q6: Auf der Seite erscheinen zwei identische große Überschriften
 
 - **Ursache**: Im Haupttext wurde zusätzlich eine `#`-Überschrift erster Ordnung geschrieben. Der `title` aus dem Frontmatter wird bereits als große Überschrift gerendert; ein weiteres `#` im Haupttext führt zwangsläufig zur Verdopplung.
-- **Lösung**: Entfernen Sie die `#`-Überschrift im Haupttext; Abschnitte beginnen mit `##`. Die vollständigen Regeln finden Sie unter [Details zu den Rendering-Regeln](/canvas/rendering/#标题规则).
+- **Lösung**: Entfernen Sie die `#`-Überschrift im Haupttext; Abschnitte beginnen mit `##`. Die vollständigen Regeln finden Sie unter [Details zu den Rendering-Regeln](/canvas/rendering/#überschriften-regeln).
 
 ### Q7: `> [!TIP]` wurde geschrieben, aber die Hinweisbox färbt sich nicht und der Text erscheint unverändert
 
@@ -114,7 +114,7 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
 ### Q11: Die frisch angebundene eigene Domain meldet einen SSL-Handshake-Fehler (Error 525)
 
 - **Ursache**: Damit Cloudflare ein Universal-SSL-Zertifikat für die neue Domain ausstellt, vergehen 2–5 Minuten, bis es weltweit wirksam ist.
-- **Lösung**: Ein paar Minuten warten und dann zwischenspeicherumgehend neu laden (`Ctrl+F5` / `Cmd+Shift+R`); in der Zwischenzeit erreichen Sie die Site über die Standarddomain `<Projektname>.pages.dev`, die jederzeit funktioniert.
+- **Lösung**: Ein paar Minuten warten und dann den Browser-Cache umgehend neu laden (`Ctrl+F5` / `Cmd+Shift+R`); in der Zwischenzeit erreichen Sie die Site über die Standarddomain `<Projektname>.pages.dev`, die jederzeit funktioniert.
 
 ### Q12: `pnpm run deploy` bricht mit `Project not found` ab
 

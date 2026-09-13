@@ -35,7 +35,7 @@ Os dois métodos podem coexistir: use o build automático via Git no dia a dia e
 :::
 
 :::tip[Não quer escrever comandos?]
-A página [Início rápido](/canvas/deployment/) disponibiliza botões de implantação com um clique para Cloudflare, Vercel e Netlify: clique, autorize a conta, confirme a configuração e o site de documentação fica publicado na sua própria conta de nuvem; ver [implantação com um clique](/canvas/deployment/#一键部署点一个按钮就上线). O botão do Cloudflare usa a hospedagem estática dos Workers, um caminho independente do método Pages apresentado nesta página; para um site de documentação estático a experiência de acesso é idêntica, basta escolher um dos caminhos.
+A página [Início rápido](/canvas/deployment/) disponibiliza botões de implantação com um clique para Cloudflare, Vercel e Netlify: clique, autorize a conta, confirme a configuração e o site de documentação fica publicado na sua própria conta de nuvem; ver [implantação com um clique](/canvas/deployment/#implantação-com-um-clique-basta-clicar-num-botão-para-ficar-online). O botão do Cloudflare usa a hospedagem estática dos Workers, um caminho independente do método Pages apresentado nesta página; para um site de documentação estático a experiência de acesso é idêntica, basta escolher um dos caminhos.
 :::
 
 ---
@@ -186,7 +186,7 @@ date: Fri, 11 Sep 2026 15:32:39 GMT
 content-type: text/html; charset=utf-8
 ```
 
-Ver `200` significa que o site está saudável. Depois de associar o domínio personalizado, repita o teste com o URL do seu domínio.
+Ver `200` significa que o site está a funcionar corretamente. Depois de associar o domínio personalizado, repita o teste com o URL do seu domínio.
 
 ### Confirmação item a item no navegador
 

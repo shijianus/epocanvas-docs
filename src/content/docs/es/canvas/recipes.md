@@ -14,15 +14,15 @@ Esta página organiza las necesidades de personalización más habituales en un 
 
    ```yaml
    ---
-   title: 用户使用指南
-   description: 一句话说明本篇讲什么，会展示在搜索结果与分享卡片里。
+   title: Guía del usuario
+   description: Una frase que resuma el contenido de la página; se muestra en los resultados de búsqueda y en las tarjetas para compartir.
    ---
    ```
 
 3. Abre `astro.config.mjs` y registra el documento en el grupo correspondiente del array `sidebar`:
 
    ```javascript
-   { label: '用户使用指南', link: '/canvas/user-guide/' }
+   { label: 'Guía del usuario', link: '/canvas/user-guide/' }
    ```
 
 4. Guarda, comprueba en la vista previa local que aparece en el directorio de la izquierda, y después ejecuta `pnpm run deploy` para publicar.
@@ -41,7 +41,7 @@ Si creas el archivo sin registrarlo en la `sidebar`, la página es accesible per
    {
      id: 'blog',
      labelKey: 'nav.blog',
-     defaultLabel: '博客',
+     defaultLabel: 'Blog',
      href: 'https://blog.epocanvas.com',
      isExternal: true,          // los enlaces externos se abren en una ventana nueva
    },
@@ -76,7 +76,7 @@ La regla es que la coincidencia exacta tiene prioridad y `includes` actúa como 
    --sl-color-accent-high: #047857; /* enlaces y texto resaltado */
    ```
 
-3. Tras guardar, los botones, los resaltados y los enlaces de todo el sitio cambian de color automáticamente. Si solo cambias uno de los bloques, los colores quedarán descoordinados en el otro theme.
+3. Tras guardar, los botones, los resaltados y los enlaces de todo el sitio cambian de color automáticamente. Si solo cambia uno de los bloques, los colores quedarán descoordinados en el otro theme.
 
 ---
 
@@ -143,7 +143,7 @@ head: [
     tag: 'meta',
     attrs: {
       name: 'google-site-verification',
-      content: '验证字符串',
+      content: 'cadena de verificación',
     },
   },
 ],

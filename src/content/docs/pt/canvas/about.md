@@ -12,7 +12,7 @@ description: "Comece por ler este artigo: EpoCanvas Docs é o projeto de documen
 Este termo tem dois sentidos, ambos válidos ao mesmo tempo:
 
 1. **É um manual.** O conteúdo gira em torno de "o que é, como se usa, como se altera, como se publica": como operar a interface de leitura, como escrever novos documentos, onde alterar a configuração e qual é o comando de implantação. Só tem um objetivo — permitir a quem receber o EpoCanvas fazer as coisas seguindo a documentação, sem ter de perguntar a toda a gente.
-2. **É também um sistema de site que corre directamente.** Clone o repositório para o seu computador, execute os dois comandos `pnpm install` e `pnpm run dev`, e obterá um site exatamente igual ao que tem diante de si. Todo o código é baseado em Astro 5 e Starlight, sob licença MIT, e pode ser levado inteiro e transformado no site de documentação do seu próprio projeto.
+2. **É também um sistema de site que corre diretamente.** Clone o repositório para o seu computador, execute os dois comandos `pnpm install` e `pnpm run dev`, e obterá um site exatamente igual ao que tem diante de si. Todo o código é baseado em Astro 5 e Starlight, sob licença MIT, e pode ser levado inteiro e transformado no site de documentação do seu próprio projeto.
 
 Há ainda uma característica fácil de ignorar: **cada funcionalidade descrita nesta documentação está a ser usada por si neste momento**. A disposição de leitura em três colunas, a pesquisa em todo o site com `Ctrl + K`, a troca imediata entre 10 idiomas no canto superior direito — o que a documentação descreve são as capacidades que este próprio site implementa; basta ler e experimentar para confirmar.
 
@@ -24,7 +24,7 @@ Consoante o perfil do leitor, este projeto de documentação cumpre três funç�
 
 | Quem é você | O que pode fazer por si | Onde começar |
 | :--- | :--- | :--- |
-| **Leitor que só quer consultar** | Ver como se usa uma funcionalidade ou como se resolve um erro | Caixa de pesquisa na barra superior ou pesquisa em todo o site com `Ctrl + K`, saltando directamente para o capítulo correspondente |
+| **Leitor que só quer consultar** | Ver como se usa uma funcionalidade ou como se resolve um erro | Caixa de pesquisa na barra superior ou pesquisa em todo o site com `Ctrl + K`, saltando diretamente para o capítulo correspondente |
 | **Programador que quer montar o seu próprio site de documentação** | Fornece um conjunto completo e funcional de código-fonte de um site de documentação e o respetivo processo de implantação | Introdução ao produto → Início rápido → Implantação |
 | **Autor que participa na escrita da documentação** | Define onde ficam os ficheiros, como escrever o formato, onde colocar as imagens e como publicar | Os três capítulos do grupo "Escrita de documentação e gestão de conteúdo" |
 
@@ -59,5 +59,5 @@ Pelo contrário: o código-fonte está totalmente aberto no GitHub e corre local
 ## Passos seguintes
 
 - Para ver a apresentação completa do posicionamento do produto, das funcionalidades principais e das escolhas tecnológicas, leia **[Visão geral do produto e valor central](/canvas/)**.
-- Para pôr o site a correr localmente de imediato, leia **[Início rápido (rodando em 3 minutos)](/canvas/deployment/)**.
-- Se só quer consultar um problema concreto, use directamente a caixa de pesquisa da barra superior ou a pesquisa com `Ctrl + K`.
+- Para pôr o site a correr localmente de imediato, leia **[Início rápido (a funcionar em 3 minutos)](/canvas/deployment/)**.
+- Se só quer consultar um problema concreto, use diretamente a caixa de pesquisa da barra superior ou a pesquisa com `Ctrl + K`.

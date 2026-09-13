@@ -112,6 +112,6 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 各元件在建置�
 
 - **改樣式優先用 CSS 變數**：顏色、字型、版面尺寸集中在 `src/styles/custom.css` 的 `:root` 變數裡，見[站點全域設定與樣式定製](/canvas/configuration/)，多數定製不需要動元件；
 - **改互動才動元件**：新增按鈕、調整結構時，介面文字用 `getTranslation(key, lang)` 取詞並在 `i18n.ts` 裡補齊 10 種語言詞條，漏補的語言會回退顯示中文；
-- **改完務必本地驗證**：`pnpm run dev` 檢查互動，`pnpm run build` 確認型別與建置通過（本地指令見[常見問題與故障排查 FAQ](/canvas/troubleshooting/)）。
+- **改完務必本機驗證**：`pnpm run dev` 檢查互動，`pnpm run build` 確認型別與建置通過（本機指令見[常見問題與故障排查 FAQ](/canvas/troubleshooting/)）。
 
 常見的具體定製操作，直接查閱[常見客製場景速查](/canvas/recipes/)。

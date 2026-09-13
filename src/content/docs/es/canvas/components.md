@@ -58,7 +58,7 @@ src/utils/i18n.ts ──→ diccionario UI_TRANSLATIONS ──→ cada component
 - La **navegación superior** obtiene el texto de cada elemento del diccionario de `i18n.ts` mediante `labelKey`, y la función `match` decide qué botón se resalta en la página actual (antes de comparar, se elimina el prefijo de idioma);
 - Los **textos de la interfaz** (el placeholder del cuadro de búsqueda, el título "En esta página", el aviso del conmutador de theme, etc.) los generan los componentes llamando a `getTranslation(key, lang)` directamente en tiempo de compilación; no hay scripts de sustitución en tiempo de ejecución en la página.
 
-En otras palabras: para cambiar el contenido de la interfaz, busca primero el archivo de configuración correspondiente; solo si cambias la apariencia (espaciados, colores, iconos) necesitarás tocar el código fuente de los componentes.
+En otras palabras: para cambiar el contenido de la interfaz, busque primero el archivo de configuración correspondiente; solo si cambia la apariencia (espaciados, colores, iconos) necesitará tocar el código fuente de los componentes.
 
 ---
 
@@ -66,7 +66,7 @@ En otras palabras: para cambiar el contenido de la interfaz, busca primero el ar
 
 ### PageTitle: título de la página y fecha real de actualización
 
-El título grande de la página se lee directamente del `title` del Frontmatter, por lo que **no debes volver a escribir un encabezado de nivel 1 con `#` en el cuerpo del texto**. La marca de tiempo de "última actualización" proviene del historial de commits de Git en el momento de la compilación (`lastUpdated: true` está activado en `astro.config.mjs`); se actualiza automáticamente con cada commit y no requiere mantenimiento manual.
+El título grande de la página se lee directamente del `title` del Frontmatter, por lo que **no debe volver a escribir un encabezado de nivel 1 con `#` en el cuerpo del texto**. La marca de tiempo de "última actualización" proviene del historial de commits de Git en el momento de la compilación (`lastUpdated: true` está activado en `astro.config.mjs`); se actualiza automáticamente con cada commit y no requiere mantenimiento manual.
 
 :::caution
 La fecha de actualización se lee del historial de Git en tiempo de compilación, por lo tanto: **los documentos nuevos aún sin confirmar no muestran fecha** (bajo el título solo queda la firma estándar); tras hacer commit y recompilar aparecerá. Si el entorno de compilación es un clon superficial (como en CI con `fetch-depth: 1`), el historial de Git está incompleto y la marca de tiempo también faltará. En ninguno de los dos casos se ve afectada la compilación.
@@ -107,7 +107,7 @@ Los datos de página anterior / siguiente los calcula Starlight en tiempo de com
 ## Puntos a tener en cuenta en el desarrollo a medida
 
 :::caution
-Sobrescribir componentes implica renunciar a las actualizaciones futuras de los componentes nativos de Starlight. Al actualizar la versión de Starlight, los props de los componentes y la estructura de `Astro.locals.starlightRoute` pueden cambiar; después de actualizar debes hacer pruebas de regresión de los 7 componentes sobrescritos.
+Sobrescribir componentes implica renunciar a las actualizaciones futuras de los componentes nativos de Starlight. Al actualizar la versión de Starlight, los props de los componentes y la estructura de `Astro.locals.starlightRoute` pueden cambiar; después de actualizar debe hacer pruebas de regresión de los 7 componentes sobrescritos.
 :::
 
 - **Para cambiar estilos, usa primero variables CSS**: los colores, las fuentes y las dimensiones del layout están centralizados en las variables `:root` de `src/styles/custom.css`; ver [Configuración del sitio y personalización de estilos](/canvas/configuration/); la mayoría de las personalizaciones no requieren tocar los componentes;

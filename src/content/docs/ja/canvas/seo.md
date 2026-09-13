@@ -13,7 +13,7 @@ description: EpoCanvas Docs に組み込みの SEO 機能（meta タグ、Open G
 
 | 機能 | 実装方法 | 検証方法 |
 | :--- | :--- | :--- |
-| ページタイトル | `<title>文章标题 \| EpoCanvas Docs</title>`。Frontmatter から取得 | ページのソースまたはブラウザのタブで確認 |
+| ページタイトル | `<title>記事タイトル \| EpoCanvas Docs</title>`。Frontmatter から取得 | ページのソースまたはブラウザのタブで確認 |
 | ページの説明 | `<meta name="description">`。Frontmatter の `description` から取得 | ソースを確認 |
 | Open Graph タグ | `og:title`、`og:type`、`og:url`、`og:locale`、`og:description`。SNS にシェアしたときにカードを表示 | リンクをチャットツールに貼り付けてプレビューを確認 |
 | Canonical リンク | 各ページに `<link rel="canonical">` を自動生成し、メインドメインを指す | ソースを確認 |
@@ -38,7 +38,7 @@ Frontmatter の `title` と `description` は、検索エンジンの表示に�
 
 ### 画像のビルド時圧縮
 
-`public/` で参照される静的リソースは、デプロイ時に CDN から配信されます。ビルドツールチェーンには sharp 画像処理モジュールが組み込まれており、今後ビルド時の画像最適化を導入するための基盤を確保しています。現行の規範では、screenshot の幅を約 1440 ピクセルに抑え、図は SVG を優先することで、ソースの時点で画像のサイズを制御しています。
+`public/` で参照される静的リソースは、デプロイ時に CDN から配信されます。ビルドツールチェーンには sharp 画像処理モジュールが組み込まれており、今後ビルド時の画像最適化を導入するための基盤を確保しています。現行の規範では、スクリーンショットの幅を約 1440 ピクセルに抑え、図は SVG を優先することで、ソースの時点で画像のサイズを制御しています。
 
 ### 検索 index の必要時ロード
 

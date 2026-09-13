@@ -113,7 +113,7 @@ Alle Codeblöcke erhalten automatisch einen Kopieren-Button; der Codetext wird v
 ## Link-Regeln
 
 - **Interne Links**: Vollständige Pfade verwenden, beginnend und endend mit `/`, z. B. `/canvas/deployment/`. Wird ein Dokumentpfad geändert, ist der alte Pfad in der `redirects`-Tabelle in `astro.config.mjs` als Weiterleitung einzutragen;
-- **Anker-Links**: `/canvas/rendering/#代码块规则` springt direkt zu einem Abschnitt dieser Seite;
+- **Anker-Links**: `/canvas/rendering/#codeblock-regeln` springt direkt zu einem Abschnitt dieser Seite;
 - **Externe Links**: einfach die vollständige URL angeben; im Haupttext erscheinen sie in Themenfarbe.
 
 ---

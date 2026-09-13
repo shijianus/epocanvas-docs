@@ -26,7 +26,7 @@ Klicken Sie auf das Suchfeld in der Mitte der Kopfzeile (Lupen-Symbol) und geben
 
 ### Stichwort eingeben
 
-Unterstützt werden chinesische Begriffe (z. B. „Bereitstellung", „Komponente"), englische Wörter sowie Codeschnipsel (z. B. `pnpm`, `astro.config.mjs`). Während der Eingabe werden alle passenden Textstellen auf der aktuellen Seite sofort mit hervorgehobenem Hintergrund markiert, und die Seite scrollt automatisch zum ersten Treffer.
+Unterstützt werden deutsche Begriffe (z. B. „Bereitstellung", „Komponente"), englische Wörter sowie Codeschnipsel (z. B. `pnpm`, `astro.config.mjs`). Während der Eingabe werden alle passenden Textstellen auf der aktuellen Seite sofort mit hervorgehobenem Hintergrund markiert, und die Seite scrollt automatisch zum ersten Treffer.
 
 ### Zwischen Treffern navigieren
 
@@ -50,7 +50,7 @@ Unabhängig davon, auf welcher Seite Sie sich gerade befinden: Drücken Sie das 
 
 ### Stichwort eingeben
 
-Unterstützt werden chinesische Begriffe (z. B. „Bereitstellung", „Komponente"), englische Wörter sowie Codeschnipsel (z. B. `pnpm`, `astro.config.mjs`). Treffer im Titel werden ganz oben einsortiert.
+Unterstützt werden deutsche Begriffe (z. B. „Bereitstellung", „Komponente"), englische Wörter sowie Codeschnipsel (z. B. `pnpm`, `astro.config.mjs`). Treffer im Titel werden ganz oben einsortiert.
 
 ### Ergebnisliste durchsehen
 

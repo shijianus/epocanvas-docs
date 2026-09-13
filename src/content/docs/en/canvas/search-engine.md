@@ -26,7 +26,7 @@ Click the search box in the middle of the page header (magnifier icon) and type 
 
 ### Enter Keywords
 
-Supports Chinese phrases (such as "部署", "组件"), English words, and code snippets (such as `pnpm`, `astro.config.mjs`). While you type, all matching text on the current page is immediately highlighted and the page scrolls to the first match.
+Supports English phrases (such as "deployment", "components"), Chinese words, and code snippets (such as `pnpm`, `astro.config.mjs`). While you type, all matching text on the current page is immediately highlighted and the page scrolls to the first match.
 
 ### Jump Between Matches
 
@@ -50,7 +50,7 @@ No matter which page you are on, press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd<
 
 ### Enter Keywords
 
-Supports Chinese phrases (such as "部署", "组件"), English words, and code snippets (such as `pnpm`, `astro.config.mjs`). Results whose titles match are listed first.
+Supports English phrases (such as "deployment", "components"), Chinese words, and code snippets (such as `pnpm`, `astro.config.mjs`). Results whose titles match are listed first.
 
 ### Browse the Results List
 

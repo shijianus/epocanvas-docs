@@ -13,7 +13,7 @@ description: EpoCanvas Docs에 내장된 SEO 기능(meta 태그, Open Graph, sit
 
 | 기능 | 구현 방식 | 검증 방법 |
 | :--- | :--- | :--- |
-| 페이지 제목 | `<title>文章标题 \| EpoCanvas Docs</title>`, Frontmatter에서 가져옴 | 웹페이지 소스 보기 또는 브라우저 탭 |
+| 페이지 제목 | `<title>아티클 제목 \| EpoCanvas Docs</title>`, Frontmatter에서 가져옴 | 웹페이지 소스 보기 또는 브라우저 탭 |
 | 페이지 설명 | `<meta name="description">`, Frontmatter의 `description`에서 가져옴 | 소스 보기 |
 | Open Graph 태그 | `og:title`, `og:type`, `og:url`, `og:locale`, `og:description`, 소셜 플랫폼에 공유할 때 카드 표시 | 링크를 채팅 도구에 붙여넣어 미리보기 |
 | Canonical 링크 | 각 페이지에 자동으로 `<link rel="canonical">` 생성, 주 도메인을 가리킴 | 소스 보기 |

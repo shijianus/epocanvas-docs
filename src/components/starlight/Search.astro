@@ -448,7 +448,10 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		height: 36px;
 		width: 380px;
 		max-width: 420px;
-		min-width: 300px;
+		/* 顶栏拥挤时（德/俄等长文案语言）允许搜索框收缩，占位文字自带省略号；
+		   原先 min-width: 300px 会把收缩下限顶进右侧导航区，盖住前两个导航项 */
+		min-width: 0;
+		flex-shrink: 1;
 		padding: 0 0.5rem 0 0.75rem;
 		border: 1px solid var(--sl-color-hairline, #e2e8f0);
 		border-radius: 9px;
@@ -813,7 +816,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 	@media (max-width: 64rem) {
 		.epo-search-box {
 			width: 280px;
-			min-width: 240px;
+			min-width: 0;
 		}
 	}
 

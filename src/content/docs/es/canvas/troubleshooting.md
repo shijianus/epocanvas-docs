@@ -3,7 +3,7 @@ title: Preguntas frecuentes y solución de problemas
 description: Lista de comprobación de EpoCanvas Docs para errores al ejecutar en local, documentos que no se muestran, renderizado anómalo de los bloques de aviso, fallos de búsqueda y despliegue en Cloudflare Pages.
 ---
 
-Si encuentras alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, busca primero aquí tu caso. Los problemas están ordenados según la secuencia "arranque local → redacción de documentación → búsqueda → despliegue", y cada uno incluye su causa y una solución verificada.
+Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, busque primero aquí su caso. Los problemas están ordenados según la secuencia "arranque local → redacción de documentación → búsqueda → despliegue", y cada uno incluye su causa y una solución verificada.
 
 ---
 
@@ -58,15 +58,15 @@ Si encuentras alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**,
 
   ```yaml
   ---
-  title: 这是文章标题
-  description: 这是文章描述
+  title: Título del artículo
+  description: Descripción del artículo
   ---
   ```
 
 ### Q6: La página muestra dos títulos grandes idénticos
 
 - **Causa**: en el cuerpo del texto se volvió a escribir un encabezado de nivel 1 con `#`. El `title` del Frontmatter ya se renderiza como título grande, así que un `#` en el cuerpo lo duplica inevitablemente.
-- **Solución**: elimina el encabezado `#` del cuerpo y empieza las secciones en `##`. Las reglas completas están en [Reglas de renderizado en detalle](/canvas/rendering/#标题规则).
+- **Solución**: elimina el encabezado `#` del cuerpo y empieza las secciones en `##`. Las reglas completas están en [Reglas de renderizado en detalle](/canvas/rendering/#reglas-de-los-encabezados).
 
 ### Q7: Escribí `> [!TIP]` pero el bloque de aviso no cambia de color y el texto se muestra tal cual
 
@@ -75,7 +75,7 @@ Si encuentras alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**,
 
   ```markdown
   :::tip
-  这是正确的写法。
+  Esta es la forma correcta de escribirlo.
   :::
   ```
 
@@ -84,7 +84,7 @@ Si encuentras alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**,
 - **Causa**: la ruta de la imagen está mal escrita, o la imagen no se colocó en el directorio estático `public/`.
 - **Solución**:
   1. Confirma que la imagen está guardada en `public/images/canvas/your-pic.png`;
-  2. Al referenciarla, usa una ruta absoluta que empiece por `/`: `![描述](/images/canvas/your-pic.png)`; no escribas rutas relativas como `../public/...`.
+  2. Al referenciarla, usa una ruta absoluta que empiece por `/`: `![descripción](/images/canvas/your-pic.png)`; no escribas rutas relativas como `../public/...`.
 
 ---
 
@@ -100,12 +100,12 @@ Si encuentras alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**,
   pnpm run preview
   ```
 
-  La búsqueda dentro de la página de la barra superior no tiene esta limitación; al desarrollar puedes usarla directamente para localizar contenido de la página actual.
+  La búsqueda dentro de la página de la barra superior no tiene esta limitación; al desarrollar puede usarla directamente para localizar contenido de la página actual.
 
 ### Q10: Al pulsar `Ctrl+K` no se abre la ventana de búsqueda
 
 - **Causa**: algunos métodos de entrada, utilidades de portapapeles o programas de captura de pantalla ocupan el atajo de teclado `Ctrl+K` / `Cmd+K`.
-- **Solución**: haz clic directamente en la pequeña insignia `Ctrl K` a la derecha del cuadro de búsqueda; también abre la ventana de búsqueda en todo el sitio.
+- **Solución**: haga clic directamente en la pequeña insignia `Ctrl K` a la derecha del cuadro de búsqueda; también abre la ventana de búsqueda en todo el sitio.
 
 ---
 
@@ -114,7 +114,7 @@ Si encuentras alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**,
 ### Q11: El dominio propio recién vinculado muestra un error de handshake SSL (Error 525)
 
 - **Causa**: la emisión del certificado Universal SSL de Cloudflare para un dominio nuevo necesita entre 2 y 5 minutos para hacerse efectiva globalmente.
-- **Solución**: espera unos minutos y haz una recarga forzada (`Ctrl+F5` / `Cmd+Shift+R`); mientras tanto, accede primero al dominio predeterminado `<nombre-del-proyecto>.pages.dev`, que está siempre disponible.
+- **Solución**: espere unos minutos y haga una recarga forzada (`Ctrl+F5` / `Cmd+Shift+R`); mientras tanto, acceda primero al dominio predeterminado `<nombre-del-proyecto>.pages.dev`, que está siempre disponible.
 
 ### Q12: Al ejecutar `pnpm run deploy` se produce el error `Project not found`
 
@@ -133,4 +133,4 @@ Antes de hacer push a GitHub, ejecuta el siguiente comando para una autoverifica
 pnpm exec astro check && pnpm run build
 ```
 
-Cuando `astro check` muestra `0 errors` y la compilación termina con `Complete!`, la documentación no tiene errores de sintaxis y puedes confirmar con tranquilidad. El CI del repositorio (`build.yml`) ejecuta la misma compilación tras cada push; pasarla primero en local evita fallos del CI.
+Cuando `astro check` muestra `0 errors` y la compilación termina con `Complete!`, la documentación no tiene errores de sintaxis y puede confirmar con tranquilidad. El CI del repositorio (`build.yml`) ejecuta la misma compilación tras cada push; pasarla primero en local evita fallos del CI.

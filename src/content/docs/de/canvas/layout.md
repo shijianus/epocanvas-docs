@@ -58,7 +58,7 @@ Sie befindet sich rechts vom Haupttext:
 
 - **Automatisch erfasste Überschriften**: Beim Rendern der Seite parst das System automatisch die Überschriften zweiter (`##`) und dritter Ebene (`###`) des aktuellen Dokuments und erzeugt daraus das Inhaltsverzeichnis „Auf dieser Seite".
 - **Mitlaufende Hervorhebung**: Während des Lesens hebt die Gliederung beim Herunterscrollen automatisch den aktuell gelesenen Abschnitt hervor.
-- **Weiches Springen per Klick**: Ein Klick auf einen beliebigen Unterpunkt der Gliederung scrollt weich zum entsprechenden Absatz und aktualisiert den Anker in der Adressleiste (z. B. `#整体界面分区说明`), was das Kopieren und Teilen erleichtert.
+- **Weiches Springen per Klick**: Ein Klick auf einen beliebigen Unterpunkt der Gliederung scrollt weich zum entsprechenden Absatz und aktualisiert den Anker in der Adressleiste (z. B. `#aufteilung-der-oberfläche-im-überblick`), was das Kopieren und Teilen erleichtert.
 
 ---
 

@@ -68,7 +68,7 @@ Una semana después de publicar, busca en Google con `site:docs.epocanvas.com` p
 
 ### 3. Revisar periódicamente los enlaces rotos
 
-Tras reestructurar la documentación o renombrar rutas, los enlaces antiguos citados desde fuera del sitio pueden dejar de funcionar. En el informe "Páginas" de Search Console puedes revisar las entradas "No encontrada (404)" y añadir redirecciones en la tabla `redirects` de `astro.config.mjs` para las rutas caídas con más tráfico.
+Tras reestructurar la documentación o renombrar rutas, los enlaces antiguos citados desde fuera del sitio pueden dejar de funcionar. En el informe "Páginas" de Search Console puede revisar las entradas "No encontrada (404)" y añadir redirecciones en la tabla `redirects` de `astro.config.mjs` para las rutas caídas con más tráfico.
 
 :::caution
 El dominio espejo `epocanvas-docs.pages.dev` es solo una vía de acceso de respaldo; el canonical garantiza que los motores de búsqueda solo indexen el dominio principal. No difundas activamente la dirección del espejo fuera del sitio, para evitar que los lectores guarden en favoritos un dominio que no controlas.

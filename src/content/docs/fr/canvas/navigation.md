@@ -12,15 +12,15 @@ La barre de navigation supérieure est le passage principal par lequel l'utilisa
 Tous les boutons de navigation de la barre supérieure sont maintenus sous forme de tableau déclaratif dans `src/config/navigation.ts`. Les champs de chaque entrée sont définis comme suit :
 
 ```typescript
-// 导航条目属性定义
+// Définition des propriétés d'un élément de navigation
 export interface NavItem {
-  id: string; // 唯一标识符
-  labelKey: string; // 多语言翻译字典中的键名
-  defaultLabel: string; // 默认显示的文本（如"首页"、"产品说明"）
-  href: string; // 跳转链接或相对路径
-  match?: (pathname: string) => boolean; // 判断当前页面是否应高亮该按钮的规则
-  badge?: string; // 额外显示的小胶囊徽标（如版本号 "v1.2.0"）
-  isExternal?: boolean; // 是否为外部网页跳转（是则在新窗口打开）
+  id: string; // identifiant unique
+  labelKey: string; // nom de la clé dans le dictionnaire de traductions multilingues
+  defaultLabel: string; // texte affiché par défaut (ex. « Accueil », « Produit »)
+  href: string; // lien de destination ou chemin relatif
+  match?: (pathname: string) => boolean; // règle déterminant si le bouton doit être mis en évidence sur la page courante
+  badge?: string; // petite capsule supplémentaire (ex. numéro de version « v1.2.0 »)
+  isExternal?: boolean; // lien externe ou non (ouvert dans une nouvelle fenêtre le cas échéant)
 }
 ```
 
@@ -56,8 +56,8 @@ export const navigationConfig: NavItem[] = [
     href: '/canvas/deployment/',
     match: (pathname: string) => pathname.includes('deployment'),
   },
-  // 后续还有 guide（编写规范）、deploy（部署上线）、faq（常见问题）
-  // 以及指向 GitHub Releases 的 release 外部条目
+  // suivent guide (guide de rédaction), deploy (déploiement), faq (questions fréquentes)
+  // ainsi que l'entrée externe release vers les GitHub Releases
 ];
 ```
 
@@ -99,7 +99,7 @@ Il est inévitable d'ajuster les chemins de la documentation au fil des itérati
 ```javascript
 export default defineConfig({
   redirects: {
-    // 本站章节路径语义化重命名后，旧链接全部保留跳转
+    // après le renommage sémantique des chemins de sections, les anciens liens redirigent vers les nouvelles adresses
     '/canvas/rule-engine': '/canvas/cloudflare',
     '/canvas/dns-setup': '/canvas/layout',
   },

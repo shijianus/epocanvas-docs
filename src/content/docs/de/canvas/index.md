@@ -26,13 +26,13 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 
 ![Tatsächliches Rendering der Produkteinführungsseite von EpoCanvas Docs im Browser: Kategorienverzeichnis links, Haupttext in der Mitte, Inhaltsverzeichnis der Seite rechts](/images/canvas/ui-docs-reading.png)
 
-*Abbildung: Tatsächliches Rendering der Produkteinführungsseite. Links das Dokumentations-Kategorienverzeichnis, in der Mitte der Haupttext, rechts die automatisch generierte Gliederung „Auf dieser Seite", die beim Scrollen den aktuellen Abschnitt hervorhebt.*
+*Abbildung: Tatsächliches Rendering der Produkteinführungsseite. Links das Dokumentations-Kategorienverzeichnis, in der Mitte der Haupttext, rechts die automatisch generierte Gliederung „Auf dieser Seite“, die beim Scrollen den aktuellen Abschnitt hervorhebt.*
 
 ### 1. Klare dreispaltige Leseoberfläche
 
 - **Navigationsleiste links**: Ordnet alle Dokumentkategorien nach Modulen, mit einklappbaren Ebenen; beim Seitenwechsel springt nichts.
 - **Haupttext in der Mitte**: Maximale Breite des Haupttexts 60 rem, Zeilenabstand 1,68; Codeblöcke passen ihre Breite an – so ermüdet längeres Lesen weniger.
-- **Gliederungsleiste rechts**: Erfasst automatisch die `h2`- und `h3`-Überschriften des Artikels und erzeugt daraus das Inhaltsverzeichnis „Auf dieser Seite"; die aktuelle Leseposition wird beim Scrollen hervorgehoben, ein Klick auf eine Überschrift springt sanft dorthin.
+- **Gliederungsleiste rechts**: Erfasst automatisch die `h2`- und `h3`-Überschriften des Artikels und erzeugt daraus das Inhaltsverzeichnis „Auf dieser Seite“; die aktuelle Leseposition wird beim Scrollen hervorgehoben, ein Klick auf eine Überschrift springt sanft dorthin.
 
 ### 2. Zwei Suchmodi: Seite durchsuchen + Site-weite Suche
 
@@ -43,7 +43,7 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 ### 3. Vollständige Übersetzungen in 10 Sprachen
 
 - Unterstützt werden 10 Sprachen: vereinfachtes Chinesisch, traditionelles Chinesisch, Englisch, Japanisch, Koreanisch, Spanisch, Französisch, Deutsch, Russisch und Portugiesisch. Navigation, Seitenleiste und der gesamte Dokumenttext liegen in jeder Sprache vollständig übersetzt vor.
-- Über den Sprachknopf oben rechts gelangen Sie zur Sprachversion desselben Artikels; die URL trägt ein Sprachpräfix (z. B. `/en/canvas/`) und lässt sich direkt als Lesezeichen speichern oder an Kolleginnen und Kollegen in anderen Sprachen weitergeben.
+- Über den Sprach-Button oben rechts gelangen Sie zur Sprachversion desselben Artikels; die URL trägt ein Sprachpräfix (z. B. `/en/canvas/`) und lässt sich direkt als Lesezeichen speichern oder an Kolleginnen und Kollegen in anderen Sprachen weitergeben.
 - Fehlt für eine einzelne Seite die Übersetzung in einer Sprache, zeigt diese Seite automatisch den Standardinhalt auf Chinesisch an – es tritt kein 404-Fehler auf.
 
 ### 4. Professionelle Markdown- und Code-Formatierung
@@ -107,11 +107,11 @@ Der tatsächlich verwendete Technologie-Stack der aktuellen Version (maßgeblich
 | **Astro** | v5.18.2 | Statischer Site-Kern, zuständig für Build und Routing |
 | **Starlight** | v0.32.6 | Dokumentations-Framework, liefert Layoutgerüst und Inhaltsverarbeitung |
 | **Expressive Code** | mit Starlight integriert | Code-Highlighting, Titelleisten, Zeilenhervorhebung |
-| **Pagefind** | integriert über `@pagefind/default-ui` 1.5.2 | Erzeugt bei der Erstellung den statischen Suchindex |
+| **Pagefind** | integriert über `@pagefind/default-ui` 1.5.2 | Erzeugt beim Build den statischen Suchindex |
 | **Wrangler** | v4.131.0 | Offizielle Cloudflare-CLI für die Bereitstellung |
 | **Laufzeitumgebung** | Node.js >= 18.14.1 + pnpm >= 9 | Umgebung für lokale Entwicklung und Build |
 
-Lesen Sie beim Aktualisieren von Abhängigkeiten bitte auch die Hinweise zu Regressionstests unter [Oberflächenkomponenten und Weiterentwicklung](/canvas/components/).
+Lesen Sie beim Aktualisieren von Abhängigkeiten bitte auch die Hinweise zu Regressionstests unter [UI-Komponenten & eigene Anpassungen](/canvas/components/).
 
 ---
 

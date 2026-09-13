@@ -58,7 +58,7 @@ Situé à droite du corps du texte :
 
 - **Extraction automatique des titres** : lors du rendu de la page, le système analyse automatiquement les titres de niveau 2 (`##`) et de niveau 3 (`###`) du document courant pour générer le plan « Sur cette page ».
 - **Suivi avec surbrillance dynamique** : pendant la lecture, à mesure que la page défile vers le bas, le plan met automatiquement en surbrillance la section en cours de lecture.
-- **Accès direct fluide au clic** : un clic sur n'importe quel sous-titre du plan fait défiler la page en douceur jusqu'au paragraphe correspondant et met à jour l'ancre dans la barre d'adresse (par exemple `#整体界面分区说明`), ce qui facilite le partage.
+- **Accès direct fluide au clic** : un clic sur n'importe quel sous-titre du plan fait défiler la page en douceur jusqu'au paragraphe correspondant et met à jour l'ancre dans la barre d'adresse (par exemple `#présentation-des-zones-de-linterface`), ce qui facilite le partage.
 
 ---
 

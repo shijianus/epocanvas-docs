@@ -14,7 +14,7 @@ Une fois la documentation rédigée, il faut la publier sur Internet pour la ren
 | Élément | Détail |
 | :--- | :--- |
 | **Compte Cloudflare** | Inscription gratuite sur [dash.cloudflare.com](https://dash.cloudflare.com/) ; le service Pages ne nécessite aucun forfait payant |
-| **Build complet possible en local** | Vérifiez d'abord que `pnpm run build` fonctionne et que le répertoire `dist/` est bien généré, voir [prise en main](/canvas/deployment/) |
+| **Build complet possible en local** | Vérifiez d'abord que `pnpm run build` fonctionne et que le répertoire `dist/` est bien généré, voir [Démarrage rapide](/canvas/deployment/) |
 | **Node.js + pnpm** | Les commandes de déploiement dépendent de l'environnement de développement local ; les versions requises sont celles du chapitre de prise en main |
 
 ### Comment choisir entre les deux méthodes de déploiement
@@ -35,7 +35,7 @@ Les deux méthodes peuvent coexister : au quotidien, build automatique via Git ;
 :::
 
 :::tip[Vraiment pas envie de taper des commandes ?]
-La page [prise en main](/canvas/deployment/) propose des boutons de déploiement en un clic pour Cloudflare, Vercel et Netlify : un clic, l'autorisation du compte, la confirmation de la configuration, et le site de documentation est publié sur votre propre compte cloud, voir [déploiement en un clic](/canvas/deployment/#一键部署点一个按钮就上线). Le bouton Cloudflare passe par l'hébergement statique Workers, une voie indépendante de la méthode Pages présentée sur cette page ; pour un site de documentation statique, l'expérience d'accès est identique, choisissez simplement l'une des deux.
+La page [prise en main](/canvas/deployment/) propose des boutons de déploiement en un clic pour Cloudflare, Vercel et Netlify : un clic, l'autorisation du compte, la confirmation de la configuration, et le site de documentation est publié sur votre propre compte cloud, voir [déploiement en un clic](/canvas/deployment/#déploiement-en-un-clic-la-mise-en-ligne-en-un-seul-clic). Le bouton Cloudflare passe par l'hébergement statique Workers, une voie indépendante de la méthode Pages présentée sur cette page ; pour un site de documentation statique, l'expérience d'accès est identique, choisissez simplement l'une des deux.
 :::
 
 ---
@@ -119,7 +119,7 @@ Si vous souhaitez que « chaque commit déclenche automatiquement la mise en lig
 
 ### Étape 1 : lancer le processus de création
 
-Sur la page de liste des projets Workers & Pages, cliquez sur le bouton **Create application** en haut à droite (voir le repère ② de l'illustration de l'[étape 3 de la méthode 1](#第-3-步在控制台找到你的项目)), puis choisissez l'onglet **Pages**.
+Sur la page de liste des projets Workers & Pages, cliquez sur le bouton **Create application** en haut à droite (voir le repère ② de l'illustration de l'[étape 3 de la méthode 1](#étape-3-retrouver-votre-projet-dans-la-console)), puis choisissez l'onglet **Pages**.
 
 ### Étape 2 : connecter le dépôt Git
 
@@ -143,7 +143,7 @@ Dans « Set up builds and deployments », renseignez la configuration suivante :
 Cliquez sur **Enregistrer et déployer** ; Cloudflare effectue automatiquement le premier build. Ensuite, chaque push vers la branche `main` déclenche automatiquement la récupération, la construction et la mise en ligne. Les journaux de build de chaque déploiement sont consultables dans l'onglet **Deployments** du projet, en cliquant sur le déploiement correspondant.
 
 :::caution
-La page Settings d'un projet intégré à Git comporte une section supplémentaire de configuration de build (preset de framework, commande de build, etc.), différente de l'interface d'un [projet à transfert direct](#认识直传项目的构建配置) — si vous ne trouvez pas la configuration de build dans Settings, c'est que le projet courant est un projet à transfert direct ; c'est un comportement normal.
+La page Settings d'un projet intégré à Git comporte une section supplémentaire de configuration de build (preset de framework, commande de build, etc.), différente de l'interface d'un [projet à transfert direct](#comprendre-la-configuration-de-build-dun-projet-à-transfert-direct) — si vous ne trouvez pas la configuration de build dans Settings, c'est que le projet courant est un projet à transfert direct ; c'est un comportement normal.
 :::
 
 ---
@@ -194,7 +194,7 @@ Un `200` signifie que le site est en bonne santé. Après avoir lié votre domai
 | :--- | :--- |
 | La page d'accueil et n'importe quelle page de documentation s'ouvrent | Rendu complet de la page, aucun écran blanc |
 | Les dernières modifications sont effectives | Le contenu de la section venant d'être éditée est visible en ligne |
-| Recherche site-wide via `Ctrl+K` | Les articles les plus récents sont trouvés (l'index est généré lors du build) |
+| Recherche sur l'ensemble du site via `Ctrl+K` | Les articles les plus récents sont trouvés (l'index est généré lors du build) |
 | Bascule du thème clair/sombre | La bascule fonctionne et persiste après actualisation |
 
 ---

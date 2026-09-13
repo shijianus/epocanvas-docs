@@ -35,7 +35,7 @@ Beide Varianten können nebeneinander bestehen: im Alltag der automatische Build
 :::
 
 :::tip[Gar keine Befehle eintippen?]
-Auf der Seite [Schnellstart](/canvas/deployment/) gibt es Ein-Klick-Deployment-Schaltflächen für Cloudflare, Vercel und Netlify: einmal klicken, Konto autorisieren, Konfiguration bestätigen – und die Dokumentationsseite ist in Ihrem eigenen Cloud-Konto veröffentlicht; Details unter [One-Click-Deployment](/canvas/deployment/#一键部署点一个按钮就上线). Die Cloudflare-Schaltfläche nutzt dabei das Workers Static Hosting und ist ein eigenständiger Weg neben der auf dieser Seite beschriebenen Pages-Variante; für eine statische Dokumentationsseite ist das Zugriffsverhalten identisch, wählen Sie einfach einen der beiden Wege.
+Auf der Seite [Schnellstart](/canvas/deployment/) gibt es Ein-Klick-Deployment-Schaltflächen für Cloudflare, Vercel und Netlify: einmal klicken, Konto autorisieren, Konfiguration bestätigen – und die Dokumentationsseite ist in Ihrem eigenen Cloud-Konto veröffentlicht; Details unter [One-Click-Deployment](/canvas/deployment/#ein-klick-bereitstellung-mit-einem-klick-online). Die Cloudflare-Schaltfläche nutzt dabei das Workers Static Hosting und ist ein eigenständiger Weg neben der auf dieser Seite beschriebenen Pages-Variante; für eine statische Dokumentationsseite ist das Zugriffsverhalten identisch, wählen Sie einfach einen der beiden Wege.
 :::
 
 ---
@@ -140,7 +140,7 @@ Tragen Sie unter „Set up builds and deployments“ die folgende Konfiguration 
 
 ### Schritt 4: Den automatischen Build prüfen
 
-Klicken Sie auf **Save and Deploy**; Cloudflare erledigt den ersten Build automatisch. Danach holt, baut und veröffentlicht Cloudflare bei jedem Push auf den Zweig `main` von selbst. Das Build-Protokoll jedes Deployments sehen Sie, indem Sie im Tab **Deployments** des Projekts den entsprechenden Eintrag anklicken.
+Klicken Sie auf **Save and Deploy**; Cloudflare erledigt den ersten Build automatisch. Danach holt, baut und veröffentlicht Cloudflare bei jedem Push auf den Branch `main` von selbst. Das Build-Protokoll jedes Deployments sehen Sie, indem Sie im Tab **Deployments** des Projekts den entsprechenden Eintrag anklicken.
 
 :::caution
 Auf der Settings-Seite eines Git-Projekts erscheint zusätzlich ein Block mit der Build-Konfiguration (Framework-Preset, Build-Befehl usw.); das unterscheidet sich von der Ansicht eines [Direktupload-Projekts](#die-build-konfiguration-von-direktupload-projekten-verstehen) – wenn Sie unter Settings keine Build-Konfiguration finden, handelt es sich um ein Direktupload-Projekt, was völlig normal ist.

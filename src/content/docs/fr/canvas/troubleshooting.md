@@ -66,7 +66,7 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 ### Q6 : deux grands titres identiques apparaissent sur la page
 
 - **Cause** : un titre de niveau 1 `#` a été écrit dans le corps du texte. Le `title` du Frontmatter est déjà rendu comme grand titre ; ajouter un `#` dans le corps crée forcément un doublon.
-- **Solution** : supprimez le titre `#` du corps du texte ; les sections commencent à `##`. Règles complètes voir [règles de rendu en détail](/canvas/rendering/#标题规则).
+- **Solution** : supprimez le titre `#` du corps du texte ; les sections commencent à `##`. Règles complètes voir [règles de rendu en détail](/canvas/rendering/#règles-des-titres).
 
 ### Q7 : `> [!TIP]` a été écrit mais l'encadré ne change pas de couleur et le texte s'affiche tel quel
 
@@ -92,7 +92,7 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 
 ### Q9 : en débogage local avec `pnpm dev`, la recherche globale ne trouve pas l'article venant d'être rédigé
 
-- **Cause** : la fenêtre de recherche site-wide s'appuie sur l'index Pagefind, qui n'est généré que lors de `pnpm run build` ; pour préserver la vitesse du rechargement à chaud, le serveur de développement ne reconstruit pas l'index en temps réel.
+- **Cause** : la fenêtre de recherche sur l'ensemble du site s'appuie sur l'index Pagefind, qui n'est généré que lors de `pnpm run build` ; pour préserver la vitesse du rechargement à chaud, le serveur de développement ne reconstruit pas l'index en temps réel.
 - **Solution** : après un build complet, vérifiez avec le serveur d'aperçu :
 
   ```bash
@@ -105,7 +105,7 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 ### Q10 : la fenêtre de recherche ne s'ouvre pas avec `Ctrl+K`
 
 - **Cause** : certains outils de saisie, gestionnaires de presse-papiers ou logiciels de capture d'écran occupent le raccourci clavier `Ctrl+K` / `Cmd+K`.
-- **Solution** : cliquez directement sur le petit badge `Ctrl K` à droite du champ de recherche ; cela ouvre également la fenêtre de recherche site-wide.
+- **Solution** : cliquez directement sur le petit badge `Ctrl K` à droite du champ de recherche ; cela ouvre également la fenêtre de recherche sur l'ensemble du site.
 
 ---
 

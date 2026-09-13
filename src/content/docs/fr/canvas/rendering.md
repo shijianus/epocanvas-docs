@@ -52,7 +52,7 @@ Les encadrés utilisent la syntaxe à trois deux-points de Starlight, avec 4 typ
 
 ```markdown
 :::note
-提示 de complément d'information.
+Note de complément d'information.
 :::
 
 :::tip
@@ -68,7 +68,7 @@ Avertissement critique impliquant une perte de données ou une opération irrév
 :::
 ```
 
-Il est également possible d'ajouter un titre personnalisé après le type : `:::tip[安装提速]`。
+Il est également possible d'ajouter un titre personnalisé après le type : `:::tip[Installation accélérée]`.
 
 :::caution
 Deux erreurs fréquentes à éviter :
@@ -103,7 +103,7 @@ Tous les blocs de code sont accompagnés d'un bouton de copie en un clic ; le te
 
 ## Règles des images
 
-- Les images sont regroupées dans `public/images/canvas/` et référencées par un chemin absolu : `![说明](/images/canvas/xxx.png)` ;
+- Les images sont regroupées dans `public/images/canvas/` et référencées par un chemin absolu : `![Description](/images/canvas/xxx.png)` ;
 - Les schémas d'architecture et de flux utilisent le format vectoriel `.svg`, les captures d'écran d'interface un `.png` compressé ;
 - Le texte alternatif est obligatoire : c'est le texte de substitution en cas d'échec de chargement de l'image, et la base de l'accessibilité ;
 - **La version actuelle n'intègre pas le rendu des diagrammes Mermaid** : une barrière ` ```mermaid ` s'affiche uniquement comme un bloc de code ordinaire montrant le code source. Pour obtenir un diagramme de flux, exportez d'abord le SVG depuis un outil comme mermaid.live, puis insérez-le comme image.
@@ -113,7 +113,7 @@ Tous les blocs de code sont accompagnés d'un bouton de copie en un clic ; le te
 ## Règles des liens
 
 - **Liens internes au site** : utilisez le chemin complet, commençant et finissant par `/`, par exemple `/canvas/deployment/`. Lorsqu'un chemin de document change, l'ancien chemin doit être enregistré dans la table `redirects` de `astro.config.mjs` ;
-- **Liens d'ancrage** : `/canvas/rendering/#代码块规则` permet d'accéder directement à une section de cette page ;
+- **Liens d'ancrage** : `/canvas/rendering/#règles-des-blocs-de-code` permet d'accéder directement à une section de cette page ;
 - **Liens externes** : il suffit d'écrire l'URL complète ; dans le corps du texte, elle est présentée à la couleur du thème.
 
 ---

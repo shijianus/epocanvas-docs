@@ -13,7 +13,7 @@ Todas as capacidades seguintes ficam ativas automaticamente no momento do build,
 
 | Capacidade | Implementação | Método de verificação |
 | :--- | :--- | :--- |
-| Título da página | `<title>文章标题 \| EpoCanvas Docs</title>`, obtido do Frontmatter | Ver o código-fonte da página ou o separador do navegador |
+| Título da página | `<title>Título do artigo \| EpoCanvas Docs</title>`, obtido do Frontmatter | Ver o código-fonte da página ou o separador do navegador |
 | Descrição da página | `<meta name="description">`, obtida da `description` do Frontmatter | Ver o código-fonte |
 | Etiquetas Open Graph | `og:title`, `og:type`, `og:url`, `og:locale`, `og:description`; mostram um cartão ao partilhar em plataformas sociais | Colar o link numa aplicação de conversa para pré-visualizar |
 | Link canónico | Cada página gera automaticamente `<link rel="canonical">` a apontar para o domínio principal | Ver o código-fonte |

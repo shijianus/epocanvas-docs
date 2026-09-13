@@ -113,7 +113,7 @@ Todos os blocos de código incluem automaticamente um botão de copiar num só c
 ## Regras dos links
 
 - **Links internos do site**: utilizar o caminho completo, começando e terminando em `/`, como `/canvas/deployment/`. Quando um caminho da documentação mudar, o caminho antigo deve ser registado na tabela `redirects` de `astro.config.mjs`;
-- **Links de âncora**: `/canvas/rendering/#代码块规则` permite saltar diretamente para uma secção desta página;
+- **Links de âncora**: `/canvas/rendering/#regras-dos-blocos-de-código` permite saltar diretamente para uma secção desta página;
 - **Links externos**: basta escrever o URL completo; no corpo do texto são apresentados na cor do tema.
 
 ---

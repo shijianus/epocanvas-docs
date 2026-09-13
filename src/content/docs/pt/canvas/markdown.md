@@ -37,7 +37,7 @@ No topo de cada documento Markdown tem de constar um bloco de metadados YAML env
 
 ```yaml
 ---
-title: Início rápido (rodando em 3 minutos)
+title: Início rápido (a funcionar em 3 minutos)
 description: Guia de preparação do ambiente local, instalação de dependências e arranque do servidor do EpoCanvas Docs.
 ---
 ```
@@ -302,7 +302,7 @@ Guarde todos os recursos de imagem da documentação no diretório `public/image
 **Normas para as imagens**:
 
 - **Diagramas de arquitetura e fluxogramas**: guarde como vetoriais `.svg`, que não ficam desfocados ao ampliar em telemóveis nem em ecrãs de alta definição. Os diagramas de arquitetura deste site estão todos em `public/images/canvas/docs-*.svg`.
-- **Capturas de ecrã da interface**: guarde como `.png` comprimidas, com largura de cerca de 1440 píxeis; não envie directamente os originais com dezenas de MB.
+- **Capturas de ecrã da interface**: guarde como `.png` comprimidas, com largura de cerca de 1440 píxeis; não envie diretamente os originais com dezenas de MB.
 - **Descrição obrigatória**: o texto dentro de `![ ]` é renderizado como texto alternativo da imagem; descreva com cuidado o conteúdo da imagem e não deixe em branco.
 
 Depois de inserir uma imagem, **confirme sempre o resultado renderizado no navegador** — só submeta depois de verificar que o caminho está certo e que a imagem aparece corretamente.
@@ -443,7 +443,7 @@ O índice de pesquisa em todo o site é gerado pelo Pagefind durante o build[^pf
 
 ### 4.5 Consulta rápida do que não é suportado e dos erros frequentes
 
-As formas de escrever abaixo são comuns noutras plataformas, mas neste site **não produzem efeito** ou comportam-se de forma diferente do esperado; evite-as directamente ao escrever documentação:
+As formas de escrever abaixo são comuns noutras plataformas, mas neste site **não produzem efeito** ou comportam-se de forma diferente do esperado; evite-as diretamente ao escrever documentação:
 
 | Escrita propensa a erros | Comportamento real | Alternativa correta |
 | :--- | :--- | :--- |

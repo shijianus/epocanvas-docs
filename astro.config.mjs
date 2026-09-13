@@ -1,4 +1,6 @@
 import { defineConfig } from 'astro/config';
+import fs from 'node:fs';
+import path from 'node:path';
 import starlight from '@astrojs/starlight';
 
 // Starlight 默认把 <table> 渲染成 block 滚动盒，内容不足一屏时边框内会留一大块空白。
@@ -52,6 +54,85 @@ function rehypeLocalizeInternalLinks() {
 	};
 }
 
+// Starlight 的 ::: 提示框标签（Note/Tip…）在 remark 阶段按「绝对路径」推断语言，
+// 而本机构建传给 remark 的文件路径是相对路径，导致所有语言都回落到默认语言的中文标签。
+// 这里在 rehype 阶段按文件路径重新判断语言，把「提示/注意/警告/危险」四个默认标签
+// 替换为 Starlight 自带翻译文件里对应语言的文案；带自定义标题的提示框不受影响。
+const ASIDE_FALLBACK_LABELS = { note: 'Note', tip: 'Tip', caution: 'Caution', danger: 'Danger' };
+const DEFAULT_ASIDE_LABELS = ['提示', '注意', '警告', '危险'];
+const STARLIGHT_TRANSLATIONS_DIR = path.join(process.cwd(), 'node_modules', '@astrojs', 'starlight', 'translations');
+const LOCALE_TRANSLATION_FILES = {
+	'zh-CN': 'zh-CN.json',
+	'zh-tw': 'zh-TW.json',
+	ja: 'ja.json',
+	ko: 'ko.json',
+	es: 'es.json',
+	fr: 'fr.json',
+	de: 'de.json',
+	ru: 'ru.json',
+	pt: 'pt.json',
+};
+const asideLabelsCache = new Map();
+function asideLabelsFor(dir) {
+	if (asideLabelsCache.has(dir)) return asideLabelsCache.get(dir);
+	let labels = ASIDE_FALLBACK_LABELS;
+	const translationFile = LOCALE_TRANSLATION_FILES[dir];
+	if (translationFile) {
+		try {
+			const dict = JSON.parse(fs.readFileSync(path.join(STARLIGHT_TRANSLATIONS_DIR, translationFile), 'utf8'));
+			labels = {
+				note: dict['aside.note'] ?? ASIDE_FALLBACK_LABELS.note,
+				tip: dict['aside.tip'] ?? ASIDE_FALLBACK_LABELS.tip,
+				caution: dict['aside.caution'] ?? ASIDE_FALLBACK_LABELS.caution,
+				danger: dict['aside.danger'] ?? ASIDE_FALLBACK_LABELS.danger,
+			};
+		} catch {
+			// 翻译文件缺失时使用英文兜底
+		}
+	}
+	asideLabelsCache.set(dir, labels);
+	return labels;
+}
+function rehypeLocalizeAsides() {
+	return (tree, file) => {
+		const filePath = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
+		const match = filePath.match(/\/content\/docs\/([^/]+)\//);
+		// 根目录文件（src/content/docs/canvas/…）捕获到的是 'canvas'，不属于任何语言目录，按默认语言处理
+		const dir = match && LOCALE_DIRS.includes(match[1]) ? match[1] : 'zh-CN';
+		const labels = asideLabelsFor(dir);
+		const walk = (node) => {
+			if (!node || !Array.isArray(node.children)) return;
+			for (const child of node.children) {
+				if (child.type === 'element' && child.tagName === 'aside') {
+					const classNames = child.properties?.className;
+					const classList = Array.isArray(classNames) ? classNames : String(classNames ?? '').split(/\s+/);
+					const variant = classList.find((c) => c.startsWith('starlight-aside--'))?.slice('starlight-aside--'.length);
+					if (variant && labels[variant]) {
+						const title = child.children.find(
+							(el) => el.type === 'element' && el.tagName === 'p' && String(el.properties?.className ?? '').includes('starlight-aside__title')
+						);
+						if (title) {
+							const currentText = title.children
+								.filter((el) => el.type === 'text')
+								.map((el) => el.value)
+								.join('');
+							// 仅当标题仍是默认语言注入的四个标签之一时才替换，保留作者自定义标题
+							if (DEFAULT_ASIDE_LABELS.includes(currentText.trim())) {
+								child.properties['aria-label'] = labels[variant];
+								title.children = title.children.map((el) =>
+									el.type === 'text' ? { type: 'text', value: labels[variant] } : el
+								);
+							}
+						}
+					}
+				}
+				walk(child);
+			}
+		};
+		walk(tree);
+	};
+}
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.epocanvas.com',
@@ -60,7 +141,7 @@ export default defineConfig({
 		enabled: false,
 	},
 	markdown: {
-		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks],
+		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeAsides],
 	},
 		integrations: [
 			starlight({
@@ -168,7 +249,7 @@ export default defineConfig({
 					'zh-TW': '產品簡介與核心價值', en: 'Product Overview & Core Value', ja: '製品概要とコアバリュー', ko: '제품 소개 및 핵심 가치', es: 'Descripción del producto y valor clave', fr: 'Présentation du produit et valeur essentielle', de: 'Produktüberblick & Kernwerte', ru: 'Обзор продукта и ключевые преимущества', pt: 'Visão geral do produto e valor central',
 				},
 				'快速上手 (3分钟运行)': {
-					'zh-TW': '快速上手 (3 分鐘執行)', en: 'Quickstart (Up and Running in 3 Minutes)', ja: 'クイックスタート (3分で起動)', ko: '빠른 시작 (3분 만에 실행)', es: 'Inicio rápido (en marcha en 3 minutos)', fr: 'Démarrage rapide (en 3 minutes)', de: 'Schnellstart (in 3 Minuten starten)', ru: 'Быстрый старт (запуск за 3 минуты)', pt: 'Início rápido (rodando em 3 minutos)',
+					'zh-TW': '快速上手 (3 分鐘執行)', en: 'Quickstart (Up and Running in 3 Minutes)', ja: 'クイックスタート (3分で起動)', ko: '빠른 시작 (3분 만에 실행)', es: 'Inicio rápido (en marcha en 3 minutos)', fr: 'Démarrage rapide (en 3 minutes)', de: 'Schnellstart (in 3 Minuten starten)', ru: 'Быстрый старт (запуск за 3 минуты)', pt: 'Início rápido (a funcionar em 3 minutos)',
 				},
 				'页面布局与阅读体验': {
 					'zh-TW': '頁面佈局與閱讀體驗', en: 'Page Layout & Reading Experience', ja: 'ページレイアウトと閲覧体験', ko: '페이지 레이아웃과 읽기 경험', es: 'Diseño de página y experiencia de lectura', fr: 'Mise en page et confort de lecture', de: 'Seitenlayout & Leseerlebnis', ru: 'Разметка страницы и удобство чтения', pt: 'Layout da página e experiência de leitura',

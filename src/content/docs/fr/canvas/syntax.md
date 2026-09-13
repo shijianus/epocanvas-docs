@@ -9,7 +9,7 @@ Rédiger une documentation technique de qualité exige non seulement un texte cl
 
 ## 1. Les quatre encadrés colorés
 
-Les encadrés utilisent la syntaxe à trois deux-points : ouverture par `:::类型`, fermeture par `:::`, avec le contenu entre les deux. Le site repose sur Starlight et prend en charge les quatre types **note, tip, caution, danger**.
+Les encadrés utilisent la syntaxe à trois deux-points : ouverture par `:::type`, fermeture par `:::`, avec le contenu entre les deux. Le site repose sur Starlight et prend en charge les quatre types **note, tip, caution, danger**.
 
 ### Syntaxe et rendu réel côte à côte
 

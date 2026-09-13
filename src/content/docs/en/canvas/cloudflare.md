@@ -35,7 +35,7 @@ The two methods can coexist: use Git automatic builds for day-to-day work, and u
 :::
 
 :::tip[Prefer Not to Type Commands?]
-The [Quick Start](/canvas/deployment/) page provides one-click deploy buttons for Cloudflare, Vercel, and Netlify: click, authorize your account, confirm the configuration, and the documentation site is published to your own cloud account. See [One-Click Deploy](/canvas/deployment/#一键部署点一个按钮就上线) for details. The Cloudflare button uses Workers static asset hosting, which is a separate path from the Pages method described on this page; for a static documentation site the access experience is identical, so just pick one.
+The [Quick Start](/canvas/deployment/) page provides one-click deploy buttons for Cloudflare, Vercel, and Netlify: click, authorize your account, confirm the configuration, and the documentation site is published to your own cloud account. See [One-Click Deploy](/canvas/deployment/#one-click-deploy-go-live-with-one-button) for details. The Cloudflare button uses Workers static asset hosting, which is a separate path from the Pages method described on this page; for a static documentation site the access experience is identical, so just pick one.
 :::
 
 ---

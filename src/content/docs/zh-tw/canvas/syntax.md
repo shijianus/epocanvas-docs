@@ -9,7 +9,7 @@ description: EpoCanvas Docs 4 種彩色提示框、程式碼區塊標題與行�
 
 ## 1. 四種彩色提示框
 
-提示框使用三冒號語法：`:::类型` 開頭、`:::` 結尾，中間寫內容。本站基於 Starlight，支援 **note、tip、caution、danger** 四種類型。
+提示框使用三冒號語法：`:::類型` 開頭、`:::` 結尾，中間寫內容。本站基於 Starlight，支援 **note、tip、caution、danger** 四種類型。
 
 ### 語法與實際效果對照
 
@@ -56,7 +56,7 @@ npm install -g pnpm
 
 ### 2.1 檔案名標題與指定行高亮
 
-在程式碼圍欄首行標註 `title="文件路径"`，並用 `{行号}` 高亮重點行：
+在程式碼圍欄首行標註 `title="檔案路徑"`，並用 `{行號}` 高亮重點行：
 
 ````markdown
 ```typescript title="src/config/site.ts" {2}
@@ -143,7 +143,7 @@ pnpm run build
 ````markdown
 靜態索引由 Pagefind 在建置時產生[^pagefind]。
 
-[^pagefind]: [Pagefind 官方文件](https://pagefind.app/) — 面向靜態網站的本地搜尋函式庫。
+[^pagefind]: [Pagefind 官方文件](https://pagefind.app/) — 面向靜態網站的本機搜尋函式庫。
 ````
 
 **渲染效果：** 內文結尾會出現帶序號的上標跳轉標記[^pagefind-demo]，點擊平滑跳轉到頁面底部的腳註列表。

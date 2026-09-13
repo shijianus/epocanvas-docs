@@ -3,7 +3,7 @@ title: Configuración del sitio y personalización de estilos
 description: Guía para modificar los archivos de configuración principales de EpoCanvas Docs, ajustar el menú de la barra lateral, reemplazar el logo de marca y personalizar los colores del theme.
 ---
 
-Si quieres usar **EpoCanvas Docs** como sitio de documentación de tu propio equipo, o ajustar el título del sitio, el logo, la estructura de directorios y el color del theme, esta sección presenta los puntos de personalización más habituales. Después de guardar cualquier cambio de configuración, el servidor de desarrollo local se actualiza automáticamente en caliente y el resultado es visible de inmediato en el navegador.
+Si quiere usar **EpoCanvas Docs** como sitio de documentación de su propio equipo, o ajustar el título del sitio, el logo, la estructura de directorios y el color del theme, esta sección presenta los puntos de personalización más habituales. Después de guardar cualquier cambio de configuración, el servidor de desarrollo local se actualiza automáticamente en caliente y el resultado es visible de inmediato en el navegador.
 
 ---
 
@@ -63,7 +63,7 @@ sidebar: [
       { label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
     ],
   },
-  // Grupo 2: aquí puedes añadir tus propios grupos de negocio
+  // Grupo 2: aquí puede añadir sus propios grupos de negocio
   {
     label: '用户指南',
     items: [
@@ -109,7 +109,7 @@ Todos los colores del sitio están controlados por variables CSS, definidas en `
 }
 ```
 
-Por ejemplo, si quieres cambiar el color principal de todo el sitio a un verde vivaz, basta con cambiar `--sl-color-accent` en los bloques de modo claro y oscuro a los valores de la serie `#10b981`; los botones, los estados seleccionados y los enlaces cambiarán de color automáticamente.
+Por ejemplo, si quiere cambiar el color principal de todo el sitio a un verde vivaz, basta con cambiar `--sl-color-accent` en los bloques de modo claro y oscuro a los valores de la serie `#10b981`; los botones, los estados seleccionados y los enlaces cambiarán de color automáticamente.
 
 Las dimensiones del layout también se definen de forma centralizada al inicio de este archivo:
 

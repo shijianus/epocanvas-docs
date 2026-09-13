@@ -92,7 +92,7 @@ EpoCanvas Docs es adecuado para los siguientes escenarios:
 | :--- | :--- | :--- | :--- | :--- |
 | **Tecnología base** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Plataforma SaaS de código cerrado |
 | **Mecanismo de búsqueda** | Índice estático local de Pagefind | Depende del servicio en la nube Algolia | Búsqueda en memoria con Minisearch | Motor de búsqueda de backend propio |
-| **Diseño del layout** | Tres columnas (menú izquierda + cuerpo centro + índice derecha) | Requiere configurar plugins para modificarlo | Dos/tres columnas predeterminadas | Dos columnas fijas |
+| **Diseño del layout** | Tres columnas (menú a la izquierda + cuerpo en el centro + índice a la derecha) | Requiere configurar plugins para modificarlo | Dos/tres columnas predeterminadas | Dos columnas fijas |
 | **Método de despliegue** | Subida directa a Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Alojamiento privado de la plataforma |
 | **Grado de autonomía** | 100 % de código abierto, control total del código fuente | 100 % de código abierto | 100 % de código abierto | Código cerrado, muchas funciones de pago |
 
@@ -141,5 +141,5 @@ epocanvas-docs/
 ## Siguientes pasos
 
 - ¿Quiere ejecutar el proyecto en local? Lea **[Inicio rápido (en marcha en 3 minutos)](/canvas/deployment/)**.
-- ¿Quiere conocer la distribución concreta de la interfaz y su uso? Lea **[Layout de la página y experiencia de lectura](/canvas/layout/)**.
+- ¿Quiere conocer la distribución concreta de la interfaz y su uso? Lea **[Diseño de página y experiencia de lectura](/canvas/layout/)**.
 - ¿Quiere empezar a redactar nuevos documentos? Lea la **[Guía de redacción y formato en Markdown](/canvas/markdown/)** y las **[Reglas de renderizado en detalle](/canvas/rendering/)**.

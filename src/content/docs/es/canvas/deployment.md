@@ -3,7 +3,7 @@ title: Inicio rápido (en marcha en 3 minutos)
 description: "EpoCanvas Docs: preparación del entorno local, instalación de dependencias, arranque del servicio de desarrollo local y consulta rápida de los comandos de uso habitual."
 ---
 
-Poner en marcha este sitio de documentación tiene dos caminos; elija uno según su objetivo:
+Hay dos caminos para poner en marcha este sitio de documentación; elija uno según su objetivo:
 
 - **Solo quiere ver un sitio en línea cuanto antes**: no necesita instalar nada; salte directamente a la sección de [despliegue con un clic](#despliegue-con-un-clic-publica-con-un-solo-botón) más abajo, pulse el botón y en dos minutos tendrá su propia dirección web;
 - **Quiere escribir documentación o modificar el contenido**: primero ponga el proyecto en marcha en local siguiendo [Preparativos](#preparativos), edite y compruebe el resultado a la vez, y cuando termine publíquelo con el comando de despliegue de la sección de [comandos habituales](#comandos-de-desarrollo-habituales).
@@ -157,6 +157,6 @@ Si necesita cambiar la información básica del sitio, fíjese sobre todo en est
 
 Con el servicio local funcionando correctamente, puede seguir profundizando:
 
-- **[Layout de la página y experiencia de lectura](/canvas/layout/)**: conocer los detalles del layout de la barra superior, la barra lateral y la interfaz del cuerpo del texto.
+- **[Diseño de página y experiencia de lectura](/canvas/layout/)**: conocer los detalles del layout de la barra superior, la barra lateral y la interfaz del cuerpo del texto.
 - **[Reglas de renderizado en detalle](/canvas/rendering/)**: entender cómo se convierte Markdown en la página final y evitar tropiezos con la sintaxis de formato.
 - **[Despliegue en Cloudflare Pages](/canvas/cloudflare/)**: publicar la documentación en Internet y vincular un dominio propio.

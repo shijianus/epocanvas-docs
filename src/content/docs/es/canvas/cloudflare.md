@@ -9,11 +9,11 @@ Una vez redactada la documentación, hay que publicarla en Internet para que el 
 
 ## Preparación
 
-### Qué necesitas
+### Qué necesita
 
 | Aspecto | Detalle |
 | :--- | :--- |
-| **Cuenta de Cloudflare** | Regístrate gratis en [dash.cloudflare.com](https://dash.cloudflare.com/); el servicio Pages no requiere un plan de pago |
+| **Cuenta de Cloudflare** | Regístrese gratis en [dash.cloudflare.com](https://dash.cloudflare.com/); el servicio Pages no requiere un plan de pago |
 | **Compilación local completa** | Primero asegúrate de que `pnpm run build` funciona y de que el directorio `dist/` se genera correctamente; ver [Inicio rápido](/canvas/deployment/) |
 | **Node.js + pnpm** | Los comandos de despliegue dependen del entorno de desarrollo local; los requisitos de versión son los mismos que en el capítulo de inicio rápido |
 
@@ -34,8 +34,8 @@ Una vez redactada la documentación, hay que publicarla en Internet para que el 
 Ambos métodos pueden coexistir: usar la compilación automática desde Git en el día a día y, para corregir errores con urgencia, usar `pnpm run deploy` en local para sobrescribir y publicar directamente.
 :::
 
-:::tip[¿No quieres escribir comandos en absoluto?]
-La página de [Inicio rápido](/canvas/deployment/) ofrece botones de despliegue con un clic de Cloudflare, Vercel y Netlify: un clic, autorizar la cuenta, confirmar la configuración, y el sitio de documentación se publica en tu propia cuenta en la nube; detalles en [Despliegue con un clic](/canvas/deployment/#一键部署点一个按钮就上线). El botón de Cloudflare usa el alojamiento estático de Workers, una vía independiente del método Pages descrito en esta página; para un sitio de documentación estático la experiencia de acceso es la misma, basta con elegir una de las dos.
+:::tip[¿No quiere escribir comandos en absoluto?]
+La página de [Inicio rápido](/canvas/deployment/) ofrece botones de despliegue con un clic de Cloudflare, Vercel y Netlify: un clic, autorizar la cuenta, confirmar la configuración, y el sitio de documentación se publica en tu propia cuenta en la nube; detalles en [Despliegue con un clic](/canvas/deployment/#despliegue-con-un-clic-publica-con-un-solo-botón). El botón de Cloudflare usa el alojamiento estático de Workers, una vía independiente del método Pages descrito en esta página; para un sitio de documentación estático la experiencia de acceso es la misma, basta con elegir una de las dos.
 :::
 
 ---
@@ -59,7 +59,7 @@ npx wrangler whoami
 ```
 
 :::caution
-Si ejecutas el despliegue sin iniciar sesión, la terminal mostrará `You are not authenticated. Please run 'wrangler login'.` y no se realizará ningún despliegue.
+Si ejecuta el despliegue sin iniciar sesión, la terminal mostrará `You are not authenticated. Please run 'wrangler login'.` y no se realizará ningún despliegue.
 :::
 
 ### Paso 2: compilar y subir con un solo comando
@@ -79,9 +79,9 @@ Equivale a ejecutar dos pasos en secuencia: primero `astro build` compila todo e
 
 Al terminar la subida, Wrangler muestra la dirección de vista previa de ese despliegue. En el primer despliegue, Wrangler pregunta interactivamente el nombre del proyecto; basta con pulsar Enter para usar el `epocanvas-docs` ya predefinido en `package.json`.
 
-### Paso 3: localizar tu proyecto en la consola
+### Paso 3: localizar su proyecto en la consola
 
-Abre [dash.cloudflare.com](https://dash.cloudflare.com/) y, en el menú de la izquierda, haz clic en **Compute (Workers & Pages)** para ver la lista de proyectos. La siguiente imagen señala tres posiciones clave:
+Abra [dash.cloudflare.com](https://dash.cloudflare.com/) y, en el menú de la izquierda, haga clic en **Compute (Workers & Pages)** para ver la lista de proyectos. La siguiente imagen señala tres posiciones clave:
 
 ![Lista de proyectos de Workers & Pages en la consola de Cloudflare, con el acceso del menú lateral, el botón Create application y el proyecto epocanvas-docs señalados](/images/canvas/deploy/cf-01-projects-list.png)
 
@@ -94,7 +94,7 @@ Haz clic en el nombre del proyecto para entrar en sus detalles; la pestaña **De
 *Figura: página de historial de despliegues. ① Nombre del proyecto; ② pestaña Deployments; ③ el dominio de producción tiene vinculados a la vez `docs.epocanvas.com` (dominio propio) y `epocanvas-docs.pages.dev` (dominio predeterminado); ④ cada registro de despliegue indica la rama y la información del commit; ⑤ estado y hora del despliegue.*
 
 :::note
-Cada vez que ejecutas `pnpm run deploy` se añade un registro al inicio de la lista, que se convierte automáticamente en la versión de producción actual. El historial se conserva en la lista, de modo que ante cualquier problema se puede volver atrás en cualquier momento.
+Cada vez que ejecuta `pnpm run deploy` se añade un registro al inicio de la lista, que se convierte automáticamente en la versión de producción actual. El historial se conserva en la lista, de modo que ante cualquier problema se puede volver atrás en cualquier momento.
 :::
 
 ---
@@ -108,24 +108,24 @@ Entra en la pestaña **Settings** para ver la diferencia entre un proyecto de su
 *Figura: pestaña Settings. ① Acceso a Settings; ② la sección Git repository muestra Connect (sin conectar); los proyectos de subida directa no necesitan configuración de compilación desde Git, la compilación se realiza íntegramente en tu máquina local.*
 
 :::tip
-Esto explica también la ventaja de la subida directa: el entorno de compilación es tu propio ordenador y no depende de la cola de compilación de Cloudflare; la contrapartida es que cada actualización debe ejecutarse desde el ordenador donde se hace el despliegue.
+Esto explica también la ventaja de la subida directa: el entorno de compilación es su propio ordenador y no depende de la cola de compilación de Cloudflare; la contrapartida es que cada actualización debe ejecutarse desde el ordenador donde se hace el despliegue.
 :::
 
 ---
 
 ## Método 2: conectar un repositorio Git para compilación automática (opcional)
 
-Si quieres que "hacer commit equivalga a publicar automáticamente", puedes conectar el proyecto a un repositorio de GitHub para que Cloudflare lo compile automáticamente en la nube.
+Si quiere que "hacer commit equivalga a publicar automáticamente", puede conectar el proyecto a un repositorio de GitHub para que Cloudflare lo compile automáticamente en la nube.
 
 ### Paso 1: entrar en el flujo de creación
 
-En la página de lista de proyectos de Workers & Pages, haz clic en el botón **Create application** de la esquina superior derecha (ver la marca ② en la imagen del [paso 3 del método 1](#第-3-步在控制台找到你的项目)) y elige la pestaña **Pages**.
+En la página de lista de proyectos de Workers & Pages, haga clic en el botón **Create application** de la esquina superior derecha (ver la marca ② en la imagen del [paso 3 del método 1](#paso-3-localizar-su-proyecto-en-la-consola)) y elija la pestaña **Pages**.
 
 ### Paso 2: conectar el repositorio Git
 
-1. En la pantalla de creación, elige **Connect to Git**;
-2. Autoriza a Cloudflare a acceder a tu cuenta de GitHub;
-3. En la lista de repositorios, selecciona el repositorio de documentación `epocanvas-docs`;
+1. En la pantalla de creación, elija **Connect to Git**;
+2. Autorice a Cloudflare a acceder a su cuenta de GitHub;
+3. En la lista de repositorios, seleccione el repositorio de documentación `epocanvas-docs`;
 4. Haz clic en **开始设置** (Comenzar configuración).
 
 ### Paso 3: rellenar la configuración de compilación
@@ -143,18 +143,18 @@ En "Configurar compilación y despliegue", rellena la siguiente configuración:
 Haz clic en **Guardar y desplegar** y Cloudflare completará automáticamente la primera compilación. A partir de entonces, cada push de código a la rama `main` hará que Cloudflare descargue, compile y publique automáticamente. El registro de compilación de cada despliegue se puede consultar haciendo clic en el despliegue correspondiente en la pestaña **Deployments** del proyecto.
 
 :::caution
-La página Settings de un proyecto con integración Git muestra además un bloque de configuración de compilación (preset de framework, comando de compilación, etc.), distinto de la interfaz de los [proyectos de subida directa](#认识直传项目的构建配置); si no encuentras la configuración de compilación en Settings, significa que el proyecto actual es de subida directa, lo cual es normal.
+La página Settings de un proyecto con integración Git muestra además un bloque de configuración de compilación (preset de framework, comando de compilación, etc.), distinto de la interfaz de los [proyectos de subida directa](#conocer-la-configuración-de-compilación-de-los-proyectos-de-subida-directa); si no encuentra la configuración de compilación en Settings, significa que el proyecto actual es de subida directa, lo cual es normal.
 :::
 
 ---
 
 ## Vincular un dominio propio
 
-El dominio `xxx.pages.dev` que Cloudflare asigna por defecto se puede usar directamente; vincular tu propio dominio (por ejemplo `docs.epocanvas.com`) solo lleva unos minutos.
+El dominio `xxx.pages.dev` que Cloudflare asigna por defecto se puede usar directamente; vincular su propio dominio (por ejemplo `docs.epocanvas.com`) solo lleva unos minutos.
 
 ### Paso 1: abrir la configuración de dominio propio
 
-En la página de detalles del proyecto, haz clic en la pestaña **Custom domains** y después en **Set up a custom domain**:
+En la página de detalles del proyecto, haga clic en la pestaña **Custom domains** y después en **Set up a custom domain**:
 
 ![Página de dominios propios del proyecto epocanvas-docs, con docs.epocanvas.com ya vinculado y el SSL activo](/images/canvas/deploy/cf-04-domains.png)
 
@@ -186,7 +186,7 @@ date: Fri, 11 Sep 2026 15:32:39 GMT
 content-type: text/html; charset=utf-8
 ```
 
-Ver `200` significa que el sitio está en buen estado. Tras vincular el dominio propio, repite la prueba con la URL de tu propio dominio.
+Ver `200` significa que el sitio está en buen estado. Tras vincular el dominio propio, repita la prueba con la URL de su propio dominio.
 
 ### Comprobación punto por punto en el navegador
 
@@ -195,7 +195,7 @@ Ver `200` significa que el sitio está en buen estado. Tras vincular el dominio 
 | La portada y cualquier página de documentación abren | La página se renderiza completa, sin pantallas en blanco |
 | Los cambios recientes ya surtieron efecto | El contenido de las secciones recién editadas se ve en línea |
 | Búsqueda en todo el sitio con `Ctrl+K` | Encuentra los artículos más recientes (el índice se genera con la compilación) |
-| Conmutación entre theme claro y oscuro | La conmutación funciona y se mantiene tras recargar |
+| Cambio entre tema claro y oscuro | El cambio funciona y se mantiene tras recargar |
 
 ---
 

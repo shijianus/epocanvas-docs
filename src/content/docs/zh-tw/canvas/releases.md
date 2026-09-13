@@ -103,7 +103,7 @@ jobs:
 3. 讀者點擊頂欄的版本徽標即可查看所有歷史版本歸檔。
 
 :::note
-這條流水線只負責建立 GitHub Release，**不執行網站部署**。線上更新由 Cloudflare Pages 的 Git 自動建置（或本地 `pnpm run deploy`）完成，兩者互不依賴，詳見 [Cloudflare Pages 部署上線](/canvas/cloudflare/)。
+這條流水線只負責建立 GitHub Release，**不執行網站部署**。線上更新由 Cloudflare Pages 的 Git 自動建置（或本機 `pnpm run deploy`）完成，兩者互不依賴，詳見 [Cloudflare Pages 部署上線](/canvas/cloudflare/)。
 :::
 
 ---
@@ -117,7 +117,7 @@ main 分支（始終可發布，對應線上網站）
   │
   ├─ 1. 從 main 拉出功能分支        git checkout -b docs/new-guide
   ├─ 2. 編寫/修改 Markdown
-  ├─ 3. 本地自檢                    pnpm exec astro check && pnpm run build
+  ├─ 3. 本機自檢                    pnpm exec astro check && pnpm run build
   ├─ 4. 推送分支並開 Pull Request   觸發 CI 建置
   ├─ 5. 審查通過後合併到 main       觸發線上自動部署
   └─ 6. 需要發版時打 v* 標籤        觸發 GitHub Release 流水線
@@ -136,7 +136,7 @@ CI（`build.yml`）只保證「能建置通過」，以下問題需要人工審�
 
 | 角色 | 職責 |
 | :--- | :--- |
-| 文件作者 | 編寫內容、本地自檢、發起 PR |
+| 文件作者 | 編寫內容、本機自檢、發起 PR |
 | 審查者 | 核對渲染效果與連結，合併程式碼 |
 | 發布管理員 | 打版本標籤、維護 `RELEASE_NOTES.md`、同步導覽列版本徽標 |
 
@@ -144,7 +144,7 @@ CI（`build.yml`）只保證「能建置通過」，以下問題需要人工審�
 
 ## 5. CI 建置檢查
 
-儲存庫設定了 `.github/workflows/build.yml`，在每次推送到 `main` 分支和每個 Pull Request 上自動執行依賴安裝與全量建置，提前暴露斷鏈、Frontmatter 錯誤等建置期問題。提交前在本地跑一遍同樣的檢查，可以避免推送後 CI 失敗：
+儲存庫設定了 `.github/workflows/build.yml`，在每次推送到 `main` 分支和每個 Pull Request 上自動執行依賴安裝與全量建置，提前暴露斷鏈、Frontmatter 錯誤等建置期問題。提交前在本機跑一遍同樣的檢查，可以避免推送後 CI 失敗：
 
 ```bash
 pnpm exec astro check && pnpm run build

@@ -113,7 +113,7 @@ Todos los bloques de código incluyen automáticamente un botón de copiar con u
 ## Reglas de los enlaces
 
 - **Enlaces internos**: se usan rutas completas que empiezan y terminan en `/`, como `/canvas/deployment/`. Si cambia la ruta de un documento, la ruta antigua debe registrarse en la tabla `redirects` de `astro.config.mjs`;
-- **Enlaces con ancla**: `/canvas/rendering/#代码块规则` lleva directamente a una sección de esta página;
+- **Enlaces con ancla**: `/canvas/rendering/#reglas-de-los-bloques-de-código` lleva directamente a una sección de esta página;
 - **Enlaces externos**: basta con escribir la URL completa; en el cuerpo se muestran en el color del theme.
 
 ---

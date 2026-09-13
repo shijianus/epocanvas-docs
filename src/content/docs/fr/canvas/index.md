@@ -13,7 +13,7 @@ Qu'il s'agisse de rédiger le manuel utilisateur d'un produit, les spécificatio
 
 Dans le développement quotidien et la rédaction technique, de nombreuses équipes rencontrent fréquemment les difficultés suivantes dans la maintenance de leur documentation :
 
-1. **Pages lentes à ouvrir et gourmandes en mémoire** : les pages générées par de nombreux outils de documentation embarquent une grande quantité de JavaScript à l'exécution ; l'ouverture est lente sur mobile ou avec une connexion faible, et le défilement des longs articles saccade facilement.
+1. **Pages lentes à ouvrir et gourmandes en mémoire** : les pages générées par de nombreux outils de documentation embarquent une grande quantité de JavaScript à l'exécution ; l'ouverture est lente sur mobile ou avec une connexion faible, et le défilement des longs articles est souvent saccadé.
 2. **Navigation pénible dans les longs articles** : les sites de documentation courants n'ont souvent qu'un menu à gauche ; lors de la lecture d'une documentation technique de plusieurs milliers de mots, il est difficile de saisir rapidement la hiérarchie des sous-titres de l'article en cours.
 3. **Recherche dépendante de services externes** : les services de recherche cloud courants comme Algolia exigent la création d'un compte supplémentaire et la configuration de clés de crawler ; ils deviennent totalement inopérants dans un environnement intranet sans accès aux services externes.
 4. **Multilinguisme à moitié fait** : nombre de sites de documentation prétendent prendre en charge plusieurs langues, alors que seuls les boutons de navigation sont traduits — le corps des articles reste dans la langue d'origine ; d'autres renvoient directement une erreur 404 lorsqu'une traduction manque, obligeant le lecteur à modifier lui-même l'URL pour trouver le contenu.
@@ -111,7 +111,7 @@ La pile technique réellement utilisée par la version actuelle (sur la base des
 | **Wrangler** | v4.131.0 | CLI officielle de Cloudflare, exécute le déploiement |
 | **Environnement d'exécution** | Node.js >= 18.14.1 + pnpm >= 9 | Environnement de développement et de build local |
 
-Lors de la mise à jour des dépendances, veuillez également lire les points d'attention relatifs aux tests de régression dans [Composants d'interface et personnalisation](/canvas/components/).
+Lors de la mise à jour des dépendances, veuillez également lire les points d'attention relatifs aux tests de régression dans [Composants d'interface et développement personnalisé](/canvas/components/).
 
 ---
 
@@ -140,6 +140,6 @@ epocanvas-docs/
 
 ## Prochaines étapes
 
-- Vous voulez faire tourner le projet en local ? Lisez **[Démarrage rapide (exécution en 3 minutes)](/canvas/deployment/)**.
-- Vous voulez connaître la disposition précise de l'interface et son mode d'emploi ? Lisez **[Disposition des pages et expérience de lecture](/canvas/layout/)**.
+- Vous voulez faire tourner le projet en local ? Lisez **[Démarrage rapide (en 3 minutes)](/canvas/deployment/)**.
+- Vous voulez connaître la disposition précise de l'interface et son mode d'emploi ? Lisez **[Mise en page et confort de lecture](/canvas/layout/)**.
 - Vous voulez commencer à rédiger de nouveaux documents ? Lisez le **[Guide de rédaction et de mise en forme Markdown](/canvas/markdown/)** et les **[Règles de rendu en détail](/canvas/rendering/)**.

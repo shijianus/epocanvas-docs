@@ -26,7 +26,7 @@ Haga clic en el cuadro de búsqueda situado en el centro superior de la página 
 
 ### Introducir la palabra clave
 
-Se admiten frases en chino (como "despliegue", "componente"), palabras en inglés y fragmentos de código (como `pnpm`, `astro.config.mjs`). Mientras se escribe, todos los textos coincidentes de la página actual se resaltan de inmediato con un color de fondo y la página se desplaza automáticamente a la primera coincidencia.
+Se admiten frases en español (como "despliegue", "componente"), palabras en inglés y fragmentos de código (como `pnpm`, `astro.config.mjs`). Mientras se escribe, todos los textos coincidentes de la página actual se resaltan de inmediato con un color de fondo y la página se desplaza automáticamente a la primera coincidencia.
 
 ### Saltar entre los resultados
 
@@ -50,7 +50,7 @@ Esté donde esté, pulse el atajo de teclado <kbd>Ctrl</kbd> + <kbd>K</kbd> (en 
 
 ### Introducir la palabra clave
 
-Se admiten frases en chino (como "despliegue", "componente"), palabras en inglés y fragmentos de código (como `pnpm`, `astro.config.mjs`). Los resultados cuyos títulos contienen la palabra clave se muestran primero.
+Se admiten frases en español (como "despliegue", "componente"), palabras en inglés y fragmentos de código (como `pnpm`, `astro.config.mjs`). Los resultados cuyos títulos contienen la palabra clave se muestran primero.
 
 ### Recorrer la lista de resultados
 
@@ -84,6 +84,6 @@ EpoCanvas Docs usa la solución de búsqueda estática local **Pagefind**:
 
 ## Consejos de uso de la búsqueda
 
-- **Dividir en términos**: para encontrar contenido con más precisión, introduzca varias palabras separadas por espacios (por ejemplo, `Cloudflare 域名`).
+- **Dividir en términos**: para encontrar contenido con más precisión, introduzca varias palabras separadas por espacios (por ejemplo, `Cloudflare dominio`).
 - **Priorizar los títulos**: los títulos de los documentos y de las secciones tienen el mayor peso en la ordenación; los resultados con coincidencias en el título aparecen primero.
 - **Limitación en modo de desarrollo**: el servidor de desarrollo iniciado con `pnpm run dev` no reconstruye en tiempo real el índice de todo el sitio; para que un artículo recién escrito aparezca en la búsqueda global hay que ejecutar antes una vez `pnpm run build`. La búsqueda en la página no está sujeta a esta limitación.

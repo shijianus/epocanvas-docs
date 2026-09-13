@@ -1,11 +1,11 @@
 ---
-title: Início rápido (rodando em 3 minutos)
+title: Início rápido (a funcionar em 3 minutos)
 description: Preparação do ambiente local do EpoCanvas Docs, instalação de dependências, arranque do servidor de desenvolvimento local e consulta rápida dos comandos de uso corrente.
 ---
 
 Para pôr este site de documentação a funcionar há dois caminhos; escolha um consoante o seu objetivo:
 
-- **Só quer ver um site online de imediato**: não precisa de instalar nada; salte directamente para a secção [Implantação com um clique](#implantação-com-um-clique-basta-clicar-num-botão-para-ficar-online) abaixo, clique num botão e passados dois minutos terá um endereço seu;
+- **Só quer ver um site online de imediato**: não precisa de instalar nada; salte diretamente para a secção [Implantação com um clique](#implantação-com-um-clique-basta-clicar-num-botão-para-ficar-online) abaixo, clique num botão e passados dois minutos terá um endereço seu;
 - **Quer escrever e alterar documentação**: comece por pôr o projeto a correr localmente conforme a secção [Preparação](#preparação), veja o efeito enquanto edita e, quando terminar, publique com os comandos de implantação da [consulta rápida dos comandos](#consulta-rápida-dos-comandos-de-desenvolvimento-habituais).
 
 ---
@@ -31,7 +31,7 @@ Depois de clicar no botão, o assistente tem três passos:
 | Comando de implantação | Pré-preenchido com `pnpm run deploy` | **Alterar para `npx wrangler deploy`** |
 
 :::caution
-Altere obrigatoriamente o comando de implantação para `npx wrangler deploy`. O `pnpm run deploy` pré-preenchido é o comando de envio directo para o Cloudflare Pages reservado aos responsáveis por este site; ele implanta para um nome de projeto fixo no código e dá directamente um erro no fluxo de implantação por botão.
+Altere obrigatoriamente o comando de implantação para `npx wrangler deploy`. O `pnpm run deploy` pré-preenchido é o comando de envio direto para o Cloudflare Pages reservado aos responsáveis por este site; ele implanta para um nome de projeto fixo no código e dá diretamente um erro no fluxo de implantação por botão.
 :::
 
 Na primeira implantação, como a Cloudflare deteta que o repositório não tem ficheiro de configuração de Workers, identifica automaticamente que se trata de um site estático Astro e cria no seu repositório um Pull Request (PR) com a configuração gerada automaticamente — basta aceitá-lo (merge); a partir daí, cada push é automaticamente construído e publicado. Do clique no botão à visualização do endereço, em condições normais, levam dois a três minutos.
@@ -50,7 +50,7 @@ Se está habituado a outras plataformas, os dois botões seguintes fazem o mesmo
 - **Netlify**: clique no botão → ligue o GitHub → a plataforma clona o repositório e faz o primeiro build automaticamente. No fim obtém o domínio `xxx.netlify.app`; o plano gratuito chega.
 
 :::note
-O mecanismo dos três botões é o mesmo: clonar o repositório para a sua conta GitHub e configurar a implantação contínua "novo push, novo build e publicação automáticos". Escolha uma plataforma e utilize-a; não precisa de implantar em duplicado. Este site próprio está alojado por envio directo para o Cloudflare Pages (ver [Implantação no Cloudflare Pages](/canvas/cloudflare/)), caminho que não interfere com os botões acima — num site de documentação estático, a experiência de acesso vista pelo leitor é a mesma nas duas formas de alojamento.
+O mecanismo dos três botões é o mesmo: clonar o repositório para a sua conta GitHub e configurar a implantação contínua "novo push, novo build e publicação automáticos". Escolha uma plataforma e utilize-a; não precisa de implantar em duplicado. Este site próprio está alojado por envio direto para o Cloudflare Pages (ver [Implantação no Cloudflare Pages](/canvas/cloudflare/)), caminho que não interfere com os botões acima — num site de documentação estático, a experiência de acesso vista pelo leitor é a mesma nas duas formas de alojamento.
 :::
 
 ---
@@ -134,7 +134,7 @@ No dia a dia de escrita de documentação ou de manutenção do projeto, usam-se
 | Comando | Quando utilizar | Explicação detalhada |
 | :--- | :--- | :--- |
 | `pnpm run dev` | **Escrita de documentação no dia a dia** | Inicia o servidor de depuração local, com suporte para atualização em quente (HMR). Após alterar e gravar qualquer ficheiro `.md`, o navegador atualiza-se automaticamente. |
-| `pnpm run build` | **Teste de empacotamento** | Compila localmente todas as páginas estáticas do site e gera no diretório `dist/` o HTML, o CSS e o índice de pesquisa do Pagefind. |
+| `pnpm run build` | **Teste de compilação** | Compila localmente todas as páginas estáticas do site e gera no diretório `dist/` o HTML, o CSS e o índice de pesquisa do Pagefind. |
 | `pnpm run preview` | **Pré-visualizar o resultado do build** | Inicia localmente um servidor Web leve para correr o resultado em `dist/`, para verificar se links e estilos estão corretos antes da publicação oficial. |
 | `pnpm run deploy` | **Publicação online com um clique** | Executa primeiro automaticamente o build e depois chama a ferramenta Wrangler para enviar o `dist/` para o ambiente de produção online do Cloudflare Pages. |
 
@@ -157,6 +157,6 @@ Se precisar de alterar as informações básicas do site, atenção sobretudo ao
 
 Com o servidor local a funcionar corretamente, pode continuar a explorar:
 
-- **[Disposição da página e experiência de leitura](/canvas/layout/)**: conhecer os detalhes da disposição da barra superior, da barra lateral e da área de texto.
+- **[Layout da página e experiência de leitura](/canvas/layout/)**: conhecer os detalhes da disposição da barra superior, da barra lateral e da área de texto.
 - **[Regras de renderização em detalhe](/canvas/rendering/)**: perceber como o Markdown é transformado na página final, para evitar tropeçar na sintaxe de formatação.
 - **[Implantação no Cloudflare Pages](/canvas/cloudflare/)**: publicar a documentação na internet e associar um domínio próprio.

@@ -58,7 +58,7 @@ Se sitúa a la derecha del cuerpo del texto:
 
 - **Extracción automática de encabezados**: al renderizar la página, el sistema analiza automáticamente los encabezados de nivel 2 (`##`) y de nivel 3 (`###`) del documento actual y genera el "índice de esta página".
 - **Resaltado que sigue la lectura**: durante la lectura, a medida que la página se desplaza hacia abajo, el esquema resalta automáticamente la sección que se está leyendo.
-- **Salto suave al hacer clic**: al hacer clic en cualquier subtítulo del esquema, la página se desplaza suavemente hasta el párrafo correspondiente y actualiza el ancla en la barra de direcciones (por ejemplo, `#整体界面分区说明`), lo que facilita copiar y compartir.
+- **Salto suave al hacer clic**: al hacer clic en cualquier subtítulo del esquema, la página se desplaza suavemente hasta el párrafo correspondiente y actualiza el ancla en la barra de direcciones (por ejemplo, `#descripción-de-las-zonas-de-la-interfaz`), lo que facilita copiar y compartir.
 
 ---
 

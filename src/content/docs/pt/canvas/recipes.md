@@ -14,15 +14,15 @@ Esta página organiza as necessidades de personalização mais comuns num manual
 
    ```yaml
    ---
-   title: 用户使用指南
-   description: 一句话说明本篇讲什么，会展示在搜索结果与分享卡片里。
+   title: Guia do utilizador
+   description: Uma frase que resuma o conteúdo da página; aparece nos resultados de pesquisa e nos cartões de partilha.
    ---
    ```
 
 3. Abra o `astro.config.mjs` e registe-o no grupo pretendido do array `sidebar`:
 
    ```javascript
-   { label: '用户使用指南', link: '/canvas/user-guide/' }
+   { label: 'Guia do utilizador', link: '/canvas/user-guide/' }
    ```
 
 4. Guarde, confirme na pré-visualização local que aparece no diretório à esquerda e só então execute `pnpm run deploy` para publicar.
@@ -41,7 +41,7 @@ Se criar apenas o ficheiro sem o registar na `sidebar`, a página é acessível 
    {
      id: 'blog',
      labelKey: 'nav.blog',
-     defaultLabel: '博客',
+     defaultLabel: 'Blogue',
      href: 'https://blog.epocanvas.com',
      isExternal: true,          // links externos abrem numa nova janela
    },
@@ -143,7 +143,7 @@ head: [
     tag: 'meta',
     attrs: {
       name: 'google-site-verification',
-      content: '验证字符串',
+      content: 'cadeia de verificação',
     },
   },
 ],
