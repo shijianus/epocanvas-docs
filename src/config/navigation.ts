@@ -1,3 +1,7 @@
+import pkg from '../../package.json';
+
+export const CURRENT_DOCS_VERSION = `v${pkg.version}`;
+
 export interface NavItem {
 	id: string;
 	labelKey: string;
@@ -70,9 +74,9 @@ export const navigationConfig: NavItem[] = [
 	{
 		id: 'release',
 		labelKey: 'nav.release',
-		defaultLabel: 'v1.2.0',
+		defaultLabel: CURRENT_DOCS_VERSION,
 		href: 'https://github.com/shijianus/epocanvas-docs/releases',
 		isExternal: true,
-		badge: 'v1.2.0',
+		badge: CURRENT_DOCS_VERSION,
 	},
 ];

@@ -68,6 +68,10 @@ description: EpoCanvas Docs 双模式搜索的使用说明：顶栏页内查找�
 
 ## 为什么搜索这么快？
 
+![EpoCanvas Docs 双模式搜索机制对比图：左侧顶栏页内查找（DOM 遍历高亮、实时计数与平滑滚动），右侧全站检索弹窗（Ctrl+K 唤起、Pagefind WASM 内存倒排索引秒级匹配）](/images/canvas/docs-search-flow.svg)
+
+*图：双模式搜索工作机制对比。左为顶栏页内关键词快速定位，右为基于 Pagefind WASM 的全站静态索引检索，两者均完全在浏览器本地运行。*
+
 很多网站的文档搜索需要把请求发送到远端服务器的数据库查询，网络不好时只能一直转圈。
 
 EpoCanvas Docs 使用 **Pagefind** 本地静态搜索方案：

@@ -33,18 +33,14 @@ description: EpoCanvas Docs 版本号命名规范、版本更新的标准发布�
 - 更新界面截图至最新版本。
 ```
 
-### 第二步：同步导航栏版本徽标
+### 第二步：更新 package.json 版本号
 
-打开 `src/config/navigation.ts`，把 release 条目的文案同步为最新版本号：
+导航栏版本徽标已与 `package.json` 的 `version` 字段自动联动，作为全站版本单一数据源（Single Source of Truth）。在 `package.json` 中更新版本号（或执行 `pnpm version patch`），顶栏徽标会自动同步为最新版本号，无需在多处手动修改：
 
-```typescript
+```json
 {
-  id: 'release',
-  labelKey: 'nav.release',
-  defaultLabel: 'v1.2.1',
-  href: 'https://github.com/shijianus/epocanvas-docs/releases',
-  isExternal: true,
-  badge: 'v1.2.1', // 保持与当前发布版本一致
+  "name": "epocanvas-docs",
+  "version": "1.2.1"
 }
 ```
 

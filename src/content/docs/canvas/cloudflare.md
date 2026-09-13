@@ -19,6 +19,10 @@ description: EpoCanvas Docs 发布上线的完整图示教程：Wrangler 命令�
 
 ### 两种部署方式怎么选
 
+![Cloudflare Pages 部署双轨对比图：左侧命令行本地直传（本站采用），右侧 Git 仓库自动构建（团队协作推荐）](/images/canvas/docs-deploy-compare.svg)
+
+*图：Cloudflare Pages 两种部署路径对比。左侧通过本机构建后用 Wrangler 直传边缘（本站实际采用），右侧通过 GitHub Webhook 触发云端自动构建。*
+
 | 对比项 | 方式一：命令行直传 | 方式二：Git 自动构建 |
 | :--- | :--- | :--- |
 | 操作方式 | 本地执行 `pnpm run deploy` | 推送代码到 GitHub 自动触发 |
