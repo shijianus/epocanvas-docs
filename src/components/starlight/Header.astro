@@ -186,7 +186,8 @@ const initialLang = 'zh-CN';
 		const dict = window.__EPO_TRANSLATIONS__[lang] || window.__EPO_TRANSLATIONS__['zh-CN'];
 		if (!dict) return;
 
-		document.documentElement.lang = lang;
+		// 不修改 document.documentElement.lang：站点正文始终是简体中文，
+		// html lang 保持 zh-CN 才能让屏幕阅读器和搜索引擎按正确语言处理正文。
 		localStorage.setItem('epocanvas-lang', lang);
 
 		// Update Current Lang Badge

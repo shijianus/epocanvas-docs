@@ -20,7 +20,7 @@ The site uses a three-column layout: category navigation on the left, article co
 ## Features
 
 - **Three-column reading layout** — the content width is capped for long-form reading; the sidebar keeps its scroll position across page transitions, and the right-hand outline highlights the current section while scrolling.
-- **Dual-mode search** — the search box in the header finds matches within the current page, while `Ctrl+K` / `Cmd+K` opens a site-wide search dialog powered by Pagefind. The index is generated at build time and all queries run in the browser, with no third-party search service involved, so the site also works on intranets and offline.
+- **Dual-mode search** — the search box in the header finds matches within the current page, while `Ctrl+K` / `Cmd+K` opens a site-wide search dialog powered by Pagefind. The index is generated at build time and all queries run in the browser, with no third-party search service involved, so the site also works on intranets without outbound internet access.
 - **Interface localization** — the UI is translated into 10 languages: Simplified Chinese (default), Traditional Chinese, English, Japanese, Korean, Spanish, French, German, Russian, and Portuguese. Switching updates the text in place without reloading the page.
 - **Markdown extensions** — four admonition types (`:::note`, `:::tip`, `:::caution`, `:::danger`), Shiki code highlighting with file-name labels, line highlighting, and diff rendering.
 - **One-command deployment** — the site builds to static files and publishes to Cloudflare Pages with a single command; custom domains and HTTPS certificates are provisioned automatically.
