@@ -117,7 +117,7 @@ The search box placeholder, button hints, and other UI copy come from the multil
 // File path: src/utils/i18n.ts
 export const UI_TRANSLATIONS = {
   'zh-CN': {
-    'search.placeholder': 'Search documentation and commands...',
+    'search.placeholder': '搜索文档与指令...',
     // ...other entries for this language
   },
   en: {

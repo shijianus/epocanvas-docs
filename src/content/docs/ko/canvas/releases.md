@@ -103,7 +103,7 @@ jobs:
 3. 독자는 상단 바의 버전 배지를 클릭해 모든 히스토리 버전 아카이브를 볼 수 있습니다.
 
 :::note
-이 파이프라인은 GitHub Release 생성만 담당하며 **사이트 배포는 실행하지 않습니다**. 온라인 업데이트는 Cloudflare Pages의 Git 자동 빌드(또는 로컬의 `pnpm run deploy`)로 완료되며, 둘은 서로 의존하지 않습니다. 자세한 내용은 [Cloudflare Pages 배포 및 출시](/canvas/cloudflare/)를 참조하세요.
+이 파이프라인은 GitHub Release 생성만 담당하며 **사이트 배포는 실행하지 않습니다**. 온라인 업데이트는 Cloudflare Pages의 Git 자동 빌드(또는 로컬의 `pnpm run deploy`)로 완료되며, 둘은 서로 의존하지 않습니다. 자세한 내용은 [Cloudflare Pages 배포](/canvas/cloudflare/)를 참조하세요.
 :::
 
 ---

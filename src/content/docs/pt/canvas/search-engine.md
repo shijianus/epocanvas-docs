@@ -22,7 +22,7 @@ Clique no campo de pesquisa no centro superior da página (ícone de lupa) e esc
 
 ![Imagem anotada da pesquisa na página pela barra superior: ① campo de entrada ② contador de correspondências ③ saltos para cima/baixo ④ limpar ⑤ destaque na página](/images/canvas/ui-inpage-search.png)
 
-*Figura: efeito real anotado após escrever "implantação" no campo de pesquisa da barra superior. ① campo de entrada na barra superior; ② contador de correspondências (atualmente na N-ésima de M); ③ botões de salto para a correspondência anterior / seguinte; ④ botão de limpar; ⑤ todo o texto correspondente na página atual fica automaticamente destacado.*
+*Figura: efeito real anotado após escrever "部署" ("implantação") no campo de pesquisa da barra superior. ① campo de entrada na barra superior; ② contador de correspondências (por exemplo `3/9`); ③ botões de salto para a correspondência anterior / seguinte; ④ botão de limpar; ⑤ todo o texto correspondente na página atual fica automaticamente destacado.*
 
 ### Escrever palavras-chave
 
@@ -32,7 +32,7 @@ Suporta expressões em português (como "implantação", "componente"), palavras
 
 - Premir <kbd>Enter</kbd> ou clicar na seta para baixo: salta para a correspondência seguinte;
 - Premir <kbd>Shift + Enter</kbd> ou clicar na seta para cima: volta à correspondência anterior;
-- O campo de pesquisa mostra em tempo real o contador de progresso `atualmente na N-ésima de M`, permitindo acompanhar o avanço da leitura.
+- O campo de pesquisa mostra em tempo real o contador de progresso no formato `N/M` (por exemplo `3/9`), permitindo acompanhar o avanço da leitura.
 
 ### Limpar a pesquisa e restaurar a página
 
@@ -46,7 +46,7 @@ Esteja na página que estiver, prima o atalho <kbd>Ctrl</kbd> + <kbd>K</kbd> (<k
 
 ![Imagem anotada da janela de pesquisa em todo o site: ① emblema de acionamento ② campo de pesquisa ③ lista de resultados ④ barra de atalhos de teclado](/images/canvas/ui-search-modal.png)
 
-*Figura: efeito real anotado após escrever "implantação" na janela. ① emblema `Ctrl K` à direita do campo de pesquisa (clicar nele também abre a janela); ② campo de entrada da pesquisa; ③ lista de resultados agrupada por documento, com as palavras encontradas destacadas; ④ barra inferior com sugestões de atalhos de teclado.*
+*Figura: efeito real anotado após escrever "部署" ("implantação") na janela. ① emblema `Ctrl K` à direita do campo de pesquisa (clicar nele também abre a janela); ② campo de entrada da pesquisa; ③ lista de resultados agrupada por documento, com as palavras encontradas destacadas; ④ barra inferior com sugestões de atalhos de teclado.*
 
 ### Escrever palavras-chave
 

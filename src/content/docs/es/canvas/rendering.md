@@ -124,7 +124,7 @@ Todos los bloques de código incluyen automáticamente un botón de copiar con u
 | :--- | :--- |
 | `**negrita**`, `*cursiva*`, `~~tachado~~` | Los estilos de texto correspondientes |
 | `código en línea` | Cápsula de monoespaciada en el color del theme |
-| Escritura <kbd>Ctrl</kbd>+<kbd>K</kbd> | Tecla representada con estilo de capucha de teclado |
+| Escritura <kbd>Ctrl</kbd>+<kbd>K</kbd> | Tecla representada con estilo de tecla física |
 | Tablas GFM | Tablas de datos con bordes y resaltado al pasar el cursor |
 | Listas de tareas `- [x]` | Casillas de verificación visuales (en estado deshabilitado) |
 | Notas al pie `[^nombre]` | Superíndice numerado en el cuerpo + lista de notas al pie al final de la página, con salto de ida y vuelta al hacer clic |

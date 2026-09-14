@@ -1,9 +1,9 @@
 ---
 title: Despliegue en Cloudflare Pages
-description: "Tutorial ilustrado completo para publicar EpoCanvas Docs: subida directa con la línea de comandos de Wrangler, compilación automática desde Git y vinculación de dominio propio, con screenshots reales de la consola en cada paso."
+description: "Tutorial ilustrado completo para publicar EpoCanvas Docs: subida directa con la línea de comandos de Wrangler, compilación automática desde Git y vinculación de dominio propio, con capturas de pantalla reales de la consola en cada paso."
 ---
 
-Una vez redactada la documentación, hay que publicarla en Internet para que el equipo y los usuarios puedan acceder a ella. **EpoCanvas Docs** recomienda alojarlo en **Cloudflare Pages**: no hace falta comprar un servidor ni configurar Nginx; basta con subir los archivos estáticos y se obtiene automáticamente el certificado HTTPS. Este propio sitio (`docs.epocanvas.com`) se publicó con el método de este artículo, y todos los screenshots de la consola siguientes provienen de un despliegue real.
+Una vez redactada la documentación, hay que publicarla en Internet para que el equipo y los usuarios puedan acceder a ella. **EpoCanvas Docs** recomienda alojarlo en **Cloudflare Pages**: no hace falta comprar un servidor ni configurar Nginx; basta con subir los archivos estáticos y se obtiene automáticamente el certificado HTTPS. Este propio sitio (`docs.epocanvas.com`) se publicó con el método de este artículo, y todas las capturas de pantalla de la consola siguientes provienen de un despliegue real.
 
 ---
 
@@ -14,7 +14,7 @@ Una vez redactada la documentación, hay que publicarla en Internet para que el 
 | Aspecto | Detalle |
 | :--- | :--- |
 | **Cuenta de Cloudflare** | Regístrese gratis en [dash.cloudflare.com](https://dash.cloudflare.com/); el servicio Pages no requiere un plan de pago |
-| **Compilación local completa** | Primero asegúrate de que `pnpm run build` funciona y de que el directorio `dist/` se genera correctamente; ver [Inicio rápido](/canvas/deployment/) |
+| **Compilación local completa** | Primero asegúrese de que `pnpm run build` funciona y de que el directorio `dist/` se genera correctamente; ver [Inicio rápido](/canvas/deployment/) |
 | **Node.js + pnpm** | Los comandos de despliegue dependen del entorno de desarrollo local; los requisitos de versión son los mismos que en el capítulo de inicio rápido |
 
 ### Cómo elegir entre los dos métodos de despliegue
@@ -87,7 +87,7 @@ Abra [dash.cloudflare.com](https://dash.cloudflare.com/) y, en el menú de la iz
 
 *Figura: lista de proyectos de Workers & Pages. ① Acceso a Workers & Pages desde el menú de la izquierda; ② botón Create application para crear un proyecto nuevo; ③ nuestro proyecto `epocanvas-docs`, que muestra el dominio de acceso `epocanvas-docs.pages.dev` y la fecha del último despliegue.*
 
-Haz clic en el nombre del proyecto para entrar en sus detalles; la pestaña **Deployments** muestra el historial completo de despliegues:
+Haga clic en el nombre del proyecto para entrar en sus detalles; la pestaña **Deployments** muestra el historial completo de despliegues:
 
 ![Página de historial de despliegues del proyecto epocanvas-docs, con el dominio de producción, los registros de despliegue y su estado señalados](/images/canvas/deploy/cf-02-deployments.png)
 
@@ -126,11 +126,11 @@ En la página de lista de proyectos de Workers & Pages, haga clic en el botón *
 1. En la pantalla de creación, elija **Connect to Git**;
 2. Autorice a Cloudflare a acceder a su cuenta de GitHub;
 3. En la lista de repositorios, seleccione el repositorio de documentación `epocanvas-docs`;
-4. Haz clic en **开始设置** (Comenzar configuración).
+4. Haga clic en **Comenzar la configuración**.
 
 ### Paso 3: rellenar la configuración de compilación
 
-En "Configurar compilación y despliegue", rellena la siguiente configuración:
+En "Configurar compilación y despliegue", rellene la siguiente configuración:
 
 | Parámetro | Valor |
 | :--- | :--- |
@@ -140,7 +140,7 @@ En "Configurar compilación y despliegue", rellena la siguiente configuración:
 
 ### Paso 4: verificar la compilación automática
 
-Haz clic en **Guardar y desplegar** y Cloudflare completará automáticamente la primera compilación. A partir de entonces, cada push de código a la rama `main` hará que Cloudflare descargue, compile y publique automáticamente. El registro de compilación de cada despliegue se puede consultar haciendo clic en el despliegue correspondiente en la pestaña **Deployments** del proyecto.
+Haga clic en **Guardar y desplegar** y Cloudflare completará automáticamente la primera compilación. A partir de entonces, cada push de código a la rama `main` hará que Cloudflare descargue, compile y publique automáticamente. El registro de compilación de cada despliegue se puede consultar haciendo clic en el despliegue correspondiente en la pestaña **Deployments** del proyecto.
 
 :::caution
 La página Settings de un proyecto con integración Git muestra además un bloque de configuración de compilación (preset de framework, comando de compilación, etc.), distinto de la interfaz de los [proyectos de subida directa](#conocer-la-configuración-de-compilación-de-los-proyectos-de-subida-directa); si no encuentra la configuración de compilación en Settings, significa que el proyecto actual es de subida directa, lo cual es normal.
@@ -162,9 +162,9 @@ En la página de detalles del proyecto, haga clic en la pestaña **Custom domain
 
 ### Paso 2: añadir el dominio y esperar a que surta efecto
 
-1. Haz clic en **Set up a custom domain** e introduce tu subdominio (por ejemplo `docs.epocanvas.com`);
+1. Haga clic en **Set up a custom domain** e introduzca su subdominio (por ejemplo `docs.epocanvas.com`);
 2. Si el DNS del dominio ya está gestionado en Cloudflare, el sistema añade automáticamente el registro CNAME; si el dominio está gestionado en otro proveedor, hay que añadir manualmente un registro CNAME que apunte a `<nombre-del-proyecto>.pages.dev`;
-3. Espera a que se emita el certificado (normalmente entre 2 y 5 minutos); cuando el estado cambie a **Active** (como en el punto ③ de la imagen anterior), el sitio ya será accesible con el nuevo dominio.
+3. Espere a que se emita el certificado (normalmente entre 2 y 5 minutos); cuando el estado cambie a **Active** (como en el punto ③ de la imagen anterior), el sitio ya será accesible con el nuevo dominio.
 
 El certificado HTTPS lo emite y renueva Cloudflare automáticamente; no requiere solicitud ni configuración manual.
 

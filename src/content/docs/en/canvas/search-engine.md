@@ -22,7 +22,7 @@ Click the search box in the middle of the page header (magnifier icon) and type 
 
 ![Annotated view of in-page search in the header: (1) input box, (2) match counter, (3) previous/next navigation, (4) clear button, (5) highlights on the page](/images/canvas/ui-inpage-search.png)
 
-*Figure: what the header search box looks like after typing "部署" ("deploy"). (1) Header input box; (2) match counter (currently at match N of M); (3) previous / next navigation buttons; (4) clear button; (5) all matching text on the current page is highlighted automatically.*
+*Figure: what the header search box looks like after typing "部署" ("deploy"). (1) Header input box; (2) match counter (e.g. `3/9`); (3) previous / next navigation buttons; (4) clear button; (5) all matching text on the current page is highlighted automatically.*
 
 ### Enter Keywords
 
@@ -32,7 +32,7 @@ Supports English phrases (such as "deployment", "components"), Chinese words, an
 
 - Press <kbd>Enter</kbd> or click the down arrow: jump to the next match;
 - Press <kbd>Shift + Enter</kbd> or click the up arrow: return to the previous match;
-- The search box shows a live `Match N of M` progress counter, so you always know where you are.
+- The search box shows a live `N/M` progress counter (e.g. `3/9`), so you always know where you are.
 
 ### Clear the Search and Restore the Page
 

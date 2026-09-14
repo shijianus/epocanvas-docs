@@ -16,7 +16,7 @@ Alle Buttons der oberen Navigation werden in `src/config/navigation.ts` als dekl
 export interface NavItem {
   id: string; // eindeutige Kennung
   labelKey: string; // Schlüsselname im mehrsprachigen Übersetzungswörterbuch
-  defaultLabel: string; // standardmäßig angezeigter Text (z. B. „Startseite", „Produktbeschreibung")
+  defaultLabel: string; // standardmäßig angezeigter Text (z. B. „Startseite", „Produkt")
   href: string; // Sprunglink oder relativer Pfad
   match?: (pathname: string) => boolean; // Regel, die entscheidet, ob der Button auf der aktuellen Seite hervorgehoben werden soll
   badge?: string; // zusätzlich angezeigtes kleines Pillen-Abzeichen (z. B. Versionsnummer "v1.2.0")
@@ -67,13 +67,13 @@ Navigationseinträge hinzuzufügen oder zu entfernen erfordert nur das Anlegen b
 
 ## Dynamische Aktivierung und Hervorhebungsregeln
 
-Würde man nur `pathname.startsWith('/canvas')` prüfen, leuchteten beim Aufruf der Schnelleinstieg-Seite `/canvas/deployment/` sowohl der Button „Produktbeschreibung" als auch der Button „Schnelleinstieg" zugleich – eine verwirrende Situation.
+Würde man nur `pathname.startsWith('/canvas')` prüfen, leuchteten beim Aufruf der Schnelleinstieg-Seite `/canvas/deployment/` sowohl der Button „Produkt" als auch der Button „Schnellstart" zugleich – eine verwirrende Situation.
 
 Deshalb deklariert jeder Navigationseintrag mit einer `match`-Funktion seinen eigenen Hervorhebungsbereich:
 
 - Beim Aufruf der Startseite `/` ist nur der Button „Startseite" aktiv;
-- beim Aufruf regulärer Dokumente wie `/canvas/layout/` oder `/canvas/about/` wird der Button „Produktbeschreibung" aktiviert;
-- bei Seiten unter dem Pfad `deployment` wird ausschließlich der Button „Schnelleinstieg" aktiviert;
+- beim Aufruf regulärer Dokumente wie `/canvas/layout/` oder `/canvas/about/` wird der Button „Produkt" aktiviert;
+- bei Seiten unter dem Pfad `deployment` wird ausschließlich der Button „Schnellstart" aktiviert;
 - aktivierte Buttons erhalten einen pillenförmigen Hintergrund in Themenfarbe und heben sich so klar von inaktiven Buttons ab.
 
 Wenn Sie neue Dokumentseiten anlegen, denken Sie daran, das Pfad-Schlüsselwort in die `match`-Regel des zuständigen Navigationseintrags aufzunehmen – sonst hebt die Kopfzeile die Seite nicht korrekt hervor.

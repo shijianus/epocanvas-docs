@@ -67,13 +67,13 @@ To add or remove a navigation item, just add or delete an entry in this array; t
 
 ## Dynamic Activation and Highlighting Rules
 
-If you simply checked `pathname.startsWith('/canvas')`, then visiting the "Getting Started" page at `/canvas/deployment/` could light up both the "Product Overview" and "Getting Started" buttons at once, which is confusing.
+If you simply checked `pathname.startsWith('/canvas')`, then visiting the "Quickstart" page at `/canvas/deployment/` could light up both the "Product" and "Quickstart" buttons at once, which is confusing.
 
 That is why each navigation item declares its own highlight scope with a `match` function:
 
 - On the home page `/`, only the "Home" button is active;
-- On regular documentation pages such as `/canvas/layout/` and `/canvas/about/`, the "Product Overview" button is active;
-- On pages under the `deployment` path, the "Getting Started" button is activated exclusively;
+- On regular documentation pages such as `/canvas/layout/` and `/canvas/about/`, the "Product" button is active;
+- On pages under the `deployment` path, the "Quickstart" button is activated exclusively;
 - The active button gets a pill-shaped background in the theme color, clearly contrasting with inactive buttons.
 
 When you add a new documentation page, remember to add its path keyword to the `match` rule of the corresponding navigation item, otherwise the header will not highlight correctly.

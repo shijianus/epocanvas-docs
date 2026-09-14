@@ -57,17 +57,17 @@ export default defineConfig({
 sidebar: [
   // グループ 1: 製品概要
   {
-    label: '製品概要と入門',       // グループ名
+    label: '产品概览与入门',       // グループ名
     items: [
-      { label: '製品紹介とコアバリュー', link: '/canvas/' },
-      { label: 'クイックスタート (3分で起動)', link: '/canvas/deployment/' },
+      { label: '产品简介与核心价值', link: '/canvas/' },
+      { label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
     ],
   },
   // グループ 2: 自分の業務用グループを追加できます
   {
-    label: 'ユーザーガイド',
+    label: '用户指南',
     items: [
-      { label: 'アカウント登録とログイン', link: '/canvas/login/' },
+      { label: '账号注册与登录', link: '/canvas/login/' },
     ],
   },
 ];

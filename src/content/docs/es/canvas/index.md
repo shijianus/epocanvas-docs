@@ -26,13 +26,13 @@ EpoCanvas Docs se diseñó precisamente para resolver estos problemas reales.
 
 ![Efecto real de renderizado en el navegador de la página de descripción del producto de EpoCanvas Docs: catálogo por categorías a la izquierda, cuerpo del texto al centro e índice de la página a la derecha](/images/canvas/ui-docs-reading.png)
 
-*Figura: aspecto real de la página de descripción del producto. A la izquierda, el catálogo de categorías de la documentación; al centro, el cuerpo del texto; a la derecha, el esquema de "índice de la página" generado automáticamente, que resalta la sección actual según se desplaza.*
+*Figura: aspecto real de la página de descripción del producto. A la izquierda, el catálogo de categorías de la documentación; al centro, el cuerpo del texto; a la derecha, el esquema de "En esta página" generado automáticamente, que resalta la sección actual según se desplaza.*
 
 ### 1. Interfaz de lectura clara en tres columnas
 
 - **Barra lateral de navegación izquierda**: organiza todas las categorías de documentación por módulos, con plegado jerárquico y sin saltos al cambiar de página.
 - **Zona central del cuerpo del texto**: ancho máximo de 60rem, interlineado de 1,68, bloques de código de ancho adaptable; cansa menos en lecturas prolongadas.
-- **Columna derecha del esquema**: captura automáticamente los títulos `h2` y `h3` del artículo para generar el "índice de la página", resalta la posición de lectura según se desplaza y salta suavemente a cualquier subtítulo al hacer clic.
+- **Columna derecha del esquema**: captura automáticamente los títulos `h2` y `h3` del artículo para generar el "En esta página", resalta la posición de lectura según se desplaza y salta suavemente a cualquier subtítulo al hacer clic.
 
 ### 2. Búsqueda de doble modo: búsqueda en la página + búsqueda en todo el sitio
 
@@ -111,7 +111,7 @@ Stack tecnológico realmente usado en la versión actual (según el resultado de
 | **Wrangler** | v4.131.0 | CLI oficial de Cloudflare, ejecuta el despliegue |
 | **Entorno de ejecución** | Node.js >= 18.14.1 + pnpm >= 9 | Entorno de desarrollo y compilación local |
 
-Al actualizar las dependencias, lea también las precauciones sobre pruebas de regresión de [Componentes de interfaz y personalización](/canvas/components/).
+Al actualizar las dependencias, lea también las precauciones sobre pruebas de regresión de [Componentes de interfaz y desarrollo a medida](/canvas/components/).
 
 ---
 

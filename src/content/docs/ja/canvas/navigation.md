@@ -16,7 +16,7 @@ description: EpoCanvas Docs のトップナビゲーションバーの設定、�
 export interface NavItem {
   id: string; // 一意の識別子
   labelKey: string; // 多言語翻訳辞書内のキー名
-  defaultLabel: string; // デフォルトで表示するテキスト（例：「ホーム」「製品紹介」）
+  defaultLabel: string; // デフォルトで表示するテキスト（例：「ホーム」「製品概要」）
   href: string; // ジャンプ先のリンクまたは相対パス
   match?: (pathname: string) => boolean; // 現在のページでこのボタンをハイライトすべきかを判定するルール
   badge?: string; // 追加で表示する小さなカプセル型バッジ（例：バージョン番号 "v1.2.0"）
@@ -67,12 +67,12 @@ export const navigationConfig: NavItem[] = [
 
 ## 動的なアクティブ化とハイライトのルール
 
-単純に `pathname.startsWith('/canvas')` だけを判定していると、「クイックスタート」ページの `/canvas/deployment/` にアクセスしたときに「製品紹介」と「クイックスタート」の 2 つのボタンが同時に点灯してしまい、混乱を招きます。
+単純に `pathname.startsWith('/canvas')` だけを判定していると、「クイックスタート」ページの `/canvas/deployment/` にアクセスしたときに「製品概要」と「クイックスタート」の 2 つのボタンが同時に点灯してしまい、混乱を招きます。
 
 そこで各ナビゲーション項目は、`match` 関数で自分のハイライト範囲を宣言しています。
 
 - ホーム `/` にアクセスしたときは「ホーム」ボタンだけがアクティブになります。
-- `/canvas/layout/`、`/canvas/about/` などの通常のドキュメントにアクセスしたときは「製品紹介」ボタンがアクティブになります。
+- `/canvas/layout/`、`/canvas/about/` などの通常のドキュメントにアクセスしたときは「製品概要」ボタンがアクティブになります。
 - `deployment` パスのページに入ったときは「クイックスタート」ボタンだけが排他的にアクティブになります。
 - アクティブなボタンにはテーマカラーのカプセル状の背景が付き、非アクティブなボタンと明確に区別できます。
 

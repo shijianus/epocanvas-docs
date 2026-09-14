@@ -125,7 +125,7 @@ Las dimensiones del layout también se definen de forma centralizada al inicio d
 
 ## 4. Reemplazar el logo del sitio
 
-1. Prepara una imagen vectorial del logo de marca (se recomienda `.svg`, aunque también puede usarse un `.png` nítido);
+1. Prepare una imagen vectorial del logo de marca (se recomienda `.svg`, aunque también puede usarse un `.png` nítido);
 2. Sobrescríbelo guardándolo como `public/images/logo.svg` (la imagen grande de la portada está en `src/assets/logo.svg`);
 3. Actualiza el navegador y el icono de la barra superior y de la portada se reemplaza automáticamente.
 

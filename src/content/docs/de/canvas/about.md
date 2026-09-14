@@ -14,7 +14,7 @@ Der Begriff hat zwei Bedeutungen, die gleichzeitig gelten:
 1. **Es ist ein Handbuch.** Die Inhalte drehen sich um „Was ist es, wie benutzt man es, wie passt man es an, wie bringt man es online": Wie bedient man die Leseoberfläche, wie schreibt man neue Dokumente, wo wird die Konfiguration geändert, wie lautet der Bereitstellungsbefehl. Es gibt nur ein Ziel – wer EpoCanvas in der Hand hat, soll nicht überall herumfragen müssen, sondern allein anhand der Dokumentation zum Ziel kommen.
 2. **Es ist zugleich ein direkt lauffähiges Website-System.** Klonen Sie das Repository lokal und führen Sie die beiden Befehle `pnpm install` und `pnpm run dev` aus – schon erhalten Sie genau die Site, die Sie vor sich sehen. Der gesamte Code basiert auf Astro 5 und Starlight, steht unter der MIT-Lizenz und lässt sich komplett übernehmen und zur Dokumentations-Site Ihres eigenen Projekts umbauen.
 
-Ein leicht übersehbares Merkmal: **Jede Funktion, die diese Dokumentation beschreibt, nutzen Sie in diesem Moment selbst.** Das dreispaltige Leselayout, die Site-weite Suche mit `Strg + K`, der Sprachwechsel in 10 Sprachen oben rechts – die Dokumentation beschreibt die Fähigkeiten, die diese Site selbst umsetzt; beim Lesen können Sie alles direkt ausprobieren und verifizieren.
+Ein leicht übersehbares Merkmal: **Jede Funktion, die diese Dokumentation beschreibt, nutzen Sie in diesem Moment selbst.** Das dreispaltige Leselayout, die Site-weite Suche mit `Ctrl + K`, der Sprachwechsel in 10 Sprachen oben rechts – die Dokumentation beschreibt die Fähigkeiten, die diese Site selbst umsetzt; beim Lesen können Sie alles direkt ausprobieren und verifizieren.
 
 ---
 
@@ -24,7 +24,7 @@ Nach Leserrollen gegliedert übernimmt dieses Dokumentationsprojekt drei Aufgabe
 
 | Wer Sie sind | Was es für Sie tun kann | Wo Sie am besten beginnen |
 | :--- | :--- | :--- |
-| **Leserin oder Leser, die nur etwas nachschlagen wollen** | Nachschlagen, wie eine Funktion benutzt wird oder wie sich ein Fehler beheben lässt | Suchfeld in der Kopfzeile oder Site-weite Suche mit `Strg + K`, direkt zum passenden Kapitel springen |
+| **Leserin oder Leser, die nur etwas nachschlagen wollen** | Nachschlagen, wie eine Funktion benutzt wird oder wie sich ein Fehler beheben lässt | Suchfeld in der Kopfzeile oder Site-weite Suche mit `Ctrl + K`, direkt zum passenden Kapitel springen |
 | **Entwicklerin oder Entwickler, die eine eigene Dokumentations-Site aufbauen wollen** | Liefert einen vollständig lauffähigen Quellcode einer Dokumentations-Site samt Bereitstellungsprozess | Produktüberblick → Schnellstart → Bereitstellung |
 | **Autorinnen und Autoren, die Dokumentation mitgestalten** | Legt fest, wo Dateien abgelegt werden, wie Formate geschrieben werden, wie Bilder platziert und Inhalte veröffentlicht werden | Die drei Kapitel in der Gruppe „Dokumentation schreiben und Inhalte verwalten" |
 
@@ -60,4 +60,4 @@ Ganz im Gegenteil: Der Quellcode ist auf GitHub vollständig offen, lokal genüg
 
 - Möchten Sie eine vollständige Einführung in Produktpositionierung, Kernfunktionen und Technologie-Entscheidungen? Lesen Sie **[Produktüberblick & Kernwerte](/canvas/)**.
 - Möchten Sie die Site sofort lokal zum Laufen bringen? Lesen Sie **[Schnellstart (in 3 Minuten starten)](/canvas/deployment/)**.
-- Suchen Sie nur eine konkrete Frage? Nutzen Sie direkt das Suchfeld in der Kopfzeile oder die Suche mit `Strg + K`.
+- Suchen Sie nur eine konkrete Frage? Nutzen Sie direkt das Suchfeld in der Kopfzeile oder die Suche mit `Ctrl + K`.

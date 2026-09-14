@@ -21,7 +21,7 @@ export default defineConfig({
       // 웹사이트 제목. 브라우저 탭과 상단 바에 표시됩니다
       title: 'EpoCanvas Docs',
       // 사이트 설명. 검색 엔진 결과 요약에 사용됩니다
-      description: 'EpoCanvas 풀스택 기술, 아키텍처 및 제품 운영 가이드',
+      description: 'EpoCanvas 全栈技术、架构与产品运维指南',
 
       // 상단 바 왼쪽에 표시되는 로고 이미지 경로
       logo: {
@@ -57,17 +57,17 @@ export default defineConfig({
 sidebar: [
   // 그룹 1: 제품 개요
   {
-    label: '제품 개요와 시작하기',   // 그룹 이름
+    label: '产品概览与入门',   // 그룹 이름
     items: [
-      { label: '제품 소개와 핵심 가치', link: '/canvas/' },
-      { label: '빠른 시작 (3분 만에 실행)', link: '/canvas/deployment/' },
+      { label: '产品简介与核心价值', link: '/canvas/' },
+      { label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
     ],
   },
   // 그룹 2: 자신만의 업무 그룹을 새로 추가할 수 있습니다
   {
-    label: '사용자 가이드',
+    label: '用户指南',
     items: [
-      { label: '계정 등록 및 로그인', link: '/canvas/login/' },
+      { label: '账号注册与登录', link: '/canvas/login/' },
     ],
   },
 ];

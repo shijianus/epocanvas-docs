@@ -52,7 +52,7 @@ Ao migrar documentação do GitHub, reescreva `> [!NOTE]` como `:::note`, `> [!W
 
 ---
 
-## 2. Paginação avançada de blocos de código
+## 2. Formatação avançada de blocos de código
 
 ### 2.1 Barra de título com nome de ficheiro e realce de linhas indicadas
 
@@ -122,7 +122,7 @@ Se for mesmo necessário que o código-fonte Mermaid seja renderizado diretament
 
 ---
 
-## 4. Outras formas úteis de paginação
+## 4. Outras formas úteis de formatação
 
 - Código em linha: `pnpm run dev`, renderizado em letra mono na cor do tema;
 - Teclas do teclado: <kbd>Ctrl</kbd> + <kbd>K</kbd>, renderizadas em estilo de tecla de teclado;

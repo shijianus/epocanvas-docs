@@ -66,7 +66,7 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 ### Q6: The page shows two identical large headings
 
 - **Cause**: A level-one heading `#` was written in the body. The Frontmatter `title` is already rendered as the main heading, so a `#` in the body always duplicates it.
-- **Fix**: Remove the `#` heading from the body and start sections at `##`. For the full rules, see [Rendering Rules in Detail](/canvas/rendering/#heading-rules).
+- **Fix**: Remove the `#` heading from the body and start sections at `##`. For the full rules, see [How Rendering Works](/canvas/rendering/#heading-rules).
 
 ### Q7: Wrote `> [!TIP]` but the aside does not change color and the text shows as-is
 

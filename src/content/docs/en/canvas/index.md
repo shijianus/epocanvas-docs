@@ -50,7 +50,7 @@ EpoCanvas Docs was designed specifically to solve these real pain points.
 
 - Syntax highlighting powered by Expressive Code, with filename titles on code blocks, highlighted line ranges, and diff views.
 - Native support for four colored aside types (Note, Tip, Caution, Danger), with custom titles.
-- Supports common Markdown extensions such as GFM tables, task lists, and strikethrough; see [Rendering Rules Explained](/canvas/rendering/) for the full rules.
+- Supports common Markdown extensions such as GFM tables, task lists, and strikethrough; see [How Rendering Works](/canvas/rendering/) for the full rules.
 
 ### 5. Fast Builds, Free Hosting
 
@@ -111,7 +111,7 @@ The tech stack actually used by the current version (as reflected in the build o
 | **Wrangler** | v4.131.0 | Official Cloudflare CLI; runs the deployment |
 | **Runtime** | Node.js >= 18.14.1 + pnpm >= 9 | Local development and build environment |
 
-When upgrading dependencies, also read the regression testing notes in [UI Components & Customization](/canvas/components/).
+When upgrading dependencies, also read the regression testing notes in [UI Components & Custom Development](/canvas/components/).
 
 ---
 
@@ -142,4 +142,4 @@ epocanvas-docs/
 
 - Want to run the project locally? Read **[Quickstart (Up and Running in 3 Minutes)](/canvas/deployment/)**.
 - Want to understand the page layout and how to use it? Read **[Page Layout & Reading Experience](/canvas/layout/)**.
-- Ready to write new documentation? Read the **[Markdown Authoring & Formatting Guide](/canvas/markdown/)** and **[Rendering Rules Explained](/canvas/rendering/)**.
+- Ready to write new documentation? Read the **[Markdown Authoring & Formatting Guide](/canvas/markdown/)** and **[How Rendering Works](/canvas/rendering/)**.

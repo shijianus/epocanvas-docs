@@ -104,7 +104,7 @@ match: (pathname: string) =>
 ```
 
 :::caution
-오른쪽 목차 열의 너비는 이 변수들에 포함되어 있지 않으며, `src/components/starlight/TwoColumnContent.astro`의 `20rem`이 제어합니다(초와이드 스크린은 `21rem`). 오른쪽 열 너비를 조정할 때는 같은 파일에서 본문 영역의 `max-width: calc(100% - 20rem)`도 함께 수정해야 합니다.
+오른쪽 목차 열의 너비는 이 변수들에 포함되어 있지 않으며, `src/components/starlight/TwoColumnContent.astro`의 `20rem`이 제어합니다(초광폭 스크린은 `21rem`). 오른쪽 열 너비를 조정할 때는 같은 파일에서 본문 영역의 `max-width: calc(100% - 20rem)`도 함께 수정해야 합니다.
 :::
 
 ---

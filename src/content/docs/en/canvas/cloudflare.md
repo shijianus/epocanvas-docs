@@ -14,8 +14,8 @@ Once your documentation is written, you need to publish it to the public interne
 | Item | Details |
 | :--- | :--- |
 | **A Cloudflare account** | Register for free at [dash.cloudflare.com](https://dash.cloudflare.com/); Pages does not require a paid plan |
-| **A complete local build** | Run `pnpm run build` first and confirm the `dist/` directory is generated correctly, see [Quick Start](/canvas/deployment/) |
-| **Node.js + pnpm** | The deploy commands depend on your local development environment; version requirements are the same as in the Quick Start chapter |
+| **A complete local build** | Run `pnpm run build` first and confirm the `dist/` directory is generated correctly, see [Quickstart](/canvas/deployment/) |
+| **Node.js + pnpm** | The deploy commands depend on your local development environment; version requirements are the same as in the Quickstart chapter |
 
 ### Choosing Between the Two Deployment Methods
 
@@ -35,7 +35,7 @@ The two methods can coexist: use Git automatic builds for day-to-day work, and u
 :::
 
 :::tip[Prefer Not to Type Commands?]
-The [Quick Start](/canvas/deployment/) page provides one-click deploy buttons for Cloudflare, Vercel, and Netlify: click, authorize your account, confirm the configuration, and the documentation site is published to your own cloud account. See [One-Click Deploy](/canvas/deployment/#one-click-deploy-go-live-with-one-button) for details. The Cloudflare button uses Workers static asset hosting, which is a separate path from the Pages method described on this page; for a static documentation site the access experience is identical, so just pick one.
+The [Quickstart](/canvas/deployment/) page provides one-click deploy buttons for Cloudflare, Vercel, and Netlify: click, authorize your account, confirm the configuration, and the documentation site is published to your own cloud account. See [One-Click Deploy](/canvas/deployment/#one-click-deploy-go-live-with-one-button) for details. The Cloudflare button uses Workers static asset hosting, which is a separate path from the Pages method described on this page; for a static documentation site the access experience is identical, so just pick one.
 :::
 
 ---
@@ -115,7 +115,7 @@ This also explains the advantage of direct upload: the build environment is your
 
 ## Method 2: Connect a Git Repository for Automatic Builds (Optional)
 
-If you want "push to commit means automatically live", you can connect the project to a GitHub repository and let Cloudflare build it in the cloud.
+If you want every push to go live automatically, you can connect the project to a GitHub repository and let Cloudflare build it in the cloud.
 
 ### Step 1: Start the Creation Flow
 

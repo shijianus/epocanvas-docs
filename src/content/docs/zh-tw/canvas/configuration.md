@@ -21,7 +21,7 @@ export default defineConfig({
       // 網站標題，顯示在瀏覽器分頁與頂欄
       title: 'EpoCanvas Docs',
       // 站點描述，用於搜尋引擎結果摘要
-      description: 'EpoCanvas 全端技術、架構與產品維運指南',
+      description: 'EpoCanvas 全栈技术、架构与产品运维指南',
 
       // 頂欄左側的 Logo 圖片路徑
       logo: {
@@ -57,17 +57,17 @@ export default defineConfig({
 sidebar: [
   // 分組一：產品概覽
   {
-    label: '產品概覽與入門',       // 分組名稱
+    label: '产品概览与入门',       // 分組名稱
     items: [
-      { label: '產品簡介與核心價值', link: '/canvas/' },
-      { label: '快速上手 (3分鐘執行)', link: '/canvas/deployment/' },
+      { label: '产品简介与核心价值', link: '/canvas/' },
+      { label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
     ],
   },
   // 分組二：你可以新增自己的業務分組
   {
-    label: '使用者指南',
+    label: '用户指南',
     items: [
-      { label: '帳號註冊與登入', link: '/canvas/login/' },
+      { label: '账号注册与登录', link: '/canvas/login/' },
     ],
   },
 ];

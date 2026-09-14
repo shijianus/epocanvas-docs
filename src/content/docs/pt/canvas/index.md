@@ -142,4 +142,4 @@ epocanvas-docs/
 
 - Quer executar o projeto localmente? Leia **[Início rápido (a funcionar em 3 minutos)](/canvas/deployment/)**.
 - Quer conhecer a disposição concreta da interface e a forma de a usar? Leia **[Layout da página e experiência de leitura](/canvas/layout/)**.
-- Quer começar a escrever novos documentos? Leia o **[Guia de escrita e formatação em Markdown](/canvas/markdown/)** e as **[Regras de renderização em detalhe](/canvas/rendering/)**.
+- Quer começar a escrever novos documentos? Leia o **[Guia de escrita e formatação em Markdown](/canvas/markdown/)** e as **[Regras de renderização em detalhes](/canvas/rendering/)**.

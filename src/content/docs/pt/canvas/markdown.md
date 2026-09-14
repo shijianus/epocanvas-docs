@@ -379,7 +379,7 @@ npm install -g pnpm
 ```
 :::
 
-Dentro de um bloco de aviso pode continuar a usar listas, blocos de código, tabelas ou qualquer outra formatação; para mais exemplos, veja [Exemplos de blocos de aviso, blocos de código e tabelas](/canvas/syntax/).
+Dentro de um bloco de aviso pode continuar a usar listas, blocos de código, tabelas ou qualquer outra formatação; para mais exemplos, veja [Avisos, blocos de código e diagramas de exemplo](/canvas/syntax/).
 
 ### 4.2 Título com nome de ficheiro nos blocos de código e destaque de linhas
 
@@ -457,5 +457,5 @@ As formas de escrever abaixo são comuns noutras plataformas, mas neste site **n
 
 ## 5. Para ir mais longe
 
-- Quer conhecer o pipeline completo de renderização do Markdown, do ficheiro à página, e todas as convenções? Leia **[Regras de renderização em detalhe](/canvas/rendering/)**.
-- Quer ver os blocos de aviso, blocos de código, notas de rodapé e outras sintaxes reunidas numa "página de exemplos viva"? Leia **[Exemplos de blocos de aviso, blocos de código e tabelas](/canvas/syntax/)**.
+- Quer conhecer o pipeline completo de renderização do Markdown, do ficheiro à página, e todas as convenções? Leia **[Regras de renderização em detalhes](/canvas/rendering/)**.
+- Quer ver os blocos de aviso, blocos de código, notas de rodapé e outras sintaxes reunidas numa "página de exemplos viva"? Leia **[Avisos, blocos de código e diagramas de exemplo](/canvas/syntax/)**.

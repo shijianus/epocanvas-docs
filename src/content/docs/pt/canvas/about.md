@@ -25,7 +25,7 @@ Consoante o perfil do leitor, este projeto de documentação cumpre três funç�
 | Quem é você | O que pode fazer por si | Onde começar |
 | :--- | :--- | :--- |
 | **Leitor que só quer consultar** | Ver como se usa uma funcionalidade ou como se resolve um erro | Caixa de pesquisa na barra superior ou pesquisa em todo o site com `Ctrl + K`, saltando diretamente para o capítulo correspondente |
-| **Programador que quer montar o seu próprio site de documentação** | Fornece um conjunto completo e funcional de código-fonte de um site de documentação e o respetivo processo de implantação | Introdução ao produto → Início rápido → Implantação |
+| **Programador que quer montar o seu próprio site de documentação** | Fornece um conjunto completo e funcional de código-fonte de um site de documentação e o respetivo processo de implantação | Visão geral do produto → Início rápido → Implantação |
 | **Autor que participa na escrita da documentação** | Define onde ficam os ficheiros, como escrever o formato, onde colocar as imagens e como publicar | Os três capítulos do grupo "Escrita de documentação e gestão de conteúdo" |
 
 Em resumo: **permitir que o utilizador perceba, que o programador leve o código consigo e que o autor tenha regras a seguir.**

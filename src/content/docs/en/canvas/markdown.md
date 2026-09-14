@@ -383,7 +383,7 @@ npm install -g pnpm
 ```
 :::
 
-Inside an aside you can keep using lists, code blocks, tables, and any other formatting; for more examples see [Asides, Code Blocks, and Diagram Examples](/canvas/syntax/).
+Inside an aside you can keep using lists, code blocks, tables, and any other formatting; for more examples see [Asides, Code Blocks & Diagrams](/canvas/syntax/).
 
 ### 4.2 Code Block Filename Titles and Line Highlighting
 
@@ -461,5 +461,5 @@ The syntax below is common on other platforms but **does not work** or behaves u
 
 ## 5. Going Further
 
-- Want to understand the full rendering pipeline from Markdown file to page and all the conventions? Read **[Rendering Rules Explained](/canvas/rendering/)**.
-- Want to see asides, code blocks, footnotes, and other syntax showcased together on a "live example page"? Read **[Asides, Code Blocks, and Diagram Examples](/canvas/syntax/)**.
+- Want to understand the full rendering pipeline from Markdown file to page and all the conventions? Read **[How Rendering Works](/canvas/rendering/)**.
+- Want to see asides, code blocks, footnotes, and other syntax showcased together on a "live example page"? Read **[Asides, Code Blocks & Diagrams](/canvas/syntax/)**.

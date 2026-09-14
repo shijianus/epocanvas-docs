@@ -1,15 +1,16 @@
 ---
 import '@pagefind/default-ui/css/ui.css';
 import project from 'virtual:starlight/project-context';
-import { getLangFromLocale, getTranslation } from '../../utils/i18n';
+import { getLangFromLocale, getTranslation, UI_TRANSLATIONS } from '../../utils/i18n';
 
 const lang = getLangFromLocale(Astro.currentLocale);
 const t = (key: string) => getTranslation(key, lang);
 
+// Pagefind 弹窗文案：键名去掉 pagefind. 前缀后直接喂给 PagefindUI 的 translations
 const pagefindTranslations = {
 	placeholder: t('search.placeholder'),
 	...Object.fromEntries(
-		Object.entries(Astro.locals.t.all())
+		Object.entries(UI_TRANSLATIONS[lang] ?? {})
 			.filter(([key]) => key.startsWith('pagefind.'))
 			.map(([key, value]) => [key.replace('pagefind.', ''), value])
 	),
@@ -115,7 +116,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 					</span>
 				</div>
 				<div class="footer-brand">
-					<span>EpoCanvas Global Search</span>
+					<span>{t('search.modalTitle')}</span>
 				</div>
 			</div>
 		</div>

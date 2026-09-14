@@ -13,7 +13,7 @@ Open any documentation page and you will see four main functional regions:
 
 ![Annotated view of the EpoCanvas Docs three-column reading interface: (1) top navigation bar, (2) left sidebar, (3) central body text, (4) on this page table of contents](/images/canvas/ui-layout-annotated.png)
 
-*Figure: annotated three-column layout, using the "Rendering Rules Explained" page as an example. (1) Top global navigation bar; (2) left category sidebar; (3) central body text reading area; (4) right-hand "On this page" outline. The four regions are marked in the image with borders and numbers.*
+*Figure: annotated three-column layout, using the "How Rendering Works" page as an example. (1) Top global navigation bar; (2) left category sidebar; (3) central body text reading area; (4) right-hand "On this page" outline. The four regions are marked in the image with borders and numbers.*
 
 ![Diagram of the EpoCanvas Docs layout regions](/images/canvas/docs-layout-3tier.svg)
 
@@ -29,7 +29,7 @@ Sits at the very top of the page, fixed in place, and stays visible while you sc
 
 - **Site logo and title (1)**: the EpoCanvas icon and project name on the left; click to return to the documentation home page.
 - **Global search box (2)**: type keywords to search within the current page; press `Ctrl+K` / `Cmd+K` to open the site-wide search dialog. See [Full-Text Search & Keyboard Shortcuts](/canvas/search-engine/) for details.
-- **Main navigation buttons (3)**: quick links to frequently used sections such as "Home", "Product Overview", and "Getting Started"; the section you are currently in is highlighted automatically.
+- **Main navigation buttons (3)**: quick links to frequently used sections such as "Home", "Product", and "Quickstart"; the section you are currently in is highlighted automatically.
 - **Version badge (4)**: shows the release version that the current documentation corresponds to (for example `v1.2.0`); click to view the detailed changelog on GitHub.
 - **Language switcher (5)**: click the language button to expand a list of 10 available languages. Choosing one takes you to the same article in that language, switching the navigation, sidebar, and body text together.
 - **Light/dark theme toggle (6)**: a sun/moon icon that switches between light mode and dark mode.
@@ -39,7 +39,7 @@ Sits at the very top of the page, fixed in place, and stays visible while you sc
 
 Sits on the left side of the page (`16.5rem` wide, about 264 pixels) and shows all documentation chapters in a logical hierarchy:
 
-- **Collapsible groups**: documents are organized into groups such as "Product Overview & Getting Started" and "Core Features & Guides"; click a group name to expand or collapse it.
+- **Collapsible groups**: documents are organized into groups such as "Overview & Getting Started" and "Core Features & Guides"; click a group name to expand or collapse it.
 - **Current page highlight**: the article you are reading is highlighted in the sidebar with a pill-shaped background in the theme color.
 - **Scroll position memory**: when you jump from one article to another, the sidebar keeps its scroll position instead of jumping back to the top.
 
@@ -71,7 +71,7 @@ EpoCanvas Docs ships both a light and a dark theme. Both color schemes are defin
 
 ![Reading interface in light mode](/images/canvas/ui-theme-light.png)
 
-*Figure: the same site in light mode (using the Getting Started page as an example).*
+*Figure: the same site in light mode (using the Quickstart page as an example).*
 
 ---
 

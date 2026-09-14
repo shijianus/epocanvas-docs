@@ -9,7 +9,7 @@ description: EpoCanvas Docs 界面组件架构：Starlight 组件覆盖机制、
 
 ## 组件覆盖机制
 
-Starlight 允许在 `astro.config.mjs` 的 `components` 字段中，把任意原生组件替换为自定义实现。本专案覆盖了 7 个组件：
+Starlight 允许在 `astro.config.mjs` 的 `components` 字段中，把任意原生组件替换为自定义实现。本项目覆盖了 7 个组件：
 
 ```javascript
 // astro.config.mjs（节选）

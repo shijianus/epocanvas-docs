@@ -21,7 +21,7 @@ Todas las capacidades siguientes entran en vigor automáticamente durante la com
 | robots.txt | El proyecto incluye `public/robots.txt`, que permite el paso a todos los rastreadores y declara la ubicación del sitemap | Acceder a `/robots.txt` |
 
 :::tip
-El `title` y el `description` del Frontmatter son el material principal que muestran los motores de búsqueda. Al escribir documentación, rellena siempre un `description` breve y preciso; es la optimización puntual más importante para el SEO.
+El `title` y el `description` del Frontmatter son el material principal que muestran los motores de búsqueda. Al escribir documentación, rellene siempre un `description` breve y preciso; es la optimización puntual más importante para el SEO.
 :::
 
 ### Canonical y dominio espejo
@@ -38,7 +38,7 @@ El resultado de la compilación es HTML + CSS puro. La navegación entre página
 
 ### Compresión de imágenes en tiempo de compilación
 
-Los recursos estáticos referenciados mediante `public/` los distribuye el CDN al desplegar; la cadena de herramientas de compilación integra el módulo de procesamiento de imágenes sharp, dejando preparada la capacidad para introducir en el futuro la optimización de imágenes en tiempo de compilación. La guía actual exige que los screenshots tengan unos 1440 píxeles de ancho y que los diagramas sean preferiblemente SVG, controlando el peso de las imágenes en el origen.
+Los recursos estáticos referenciados mediante `public/` los distribuye el CDN al desplegar; la cadena de herramientas de compilación integra el módulo de procesamiento de imágenes sharp, dejando preparada la capacidad para introducir en el futuro la optimización de imágenes en tiempo de compilación. La guía actual exige que las capturas de pantalla tengan unos 1440 píxeles de ancho y que los diagramas sean preferiblemente SVG, controlando el peso de las imágenes en el origen.
 
 ### Carga del índice de búsqueda bajo demanda
 

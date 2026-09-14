@@ -103,7 +103,7 @@ jobs:
 3. 読者がトップバーのバージョンバッジをクリックすれば、すべての過去バージョンのアーカイブを確認できます。
 
 :::note
-このパイプラインが担当するのは GitHub Release の作成だけで、**サイトのデプロイは行いません**。公開環境の更新は Cloudflare Pages の Git 自動ビルド（またはローカルの `pnpm run deploy`）で行われ、両者は互いに依存していません。詳細は [Cloudflare Pages でのデプロイ](/canvas/cloudflare/) を参照してください。
+このパイプラインが担当するのは GitHub Release の作成だけで、**サイトのデプロイは行いません**。公開環境の更新は Cloudflare Pages の Git 自動ビルド（またはローカルの `pnpm run deploy`）で行われ、両者は互いに依存していません。詳細は [Cloudflare Pages へのデプロイ](/canvas/cloudflare/) を参照してください。
 :::
 
 ---

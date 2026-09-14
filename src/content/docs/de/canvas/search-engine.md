@@ -22,7 +22,7 @@ Klicken Sie auf das Suchfeld in der Mitte der Kopfzeile (Lupen-Symbol) und geben
 
 ![Beschriftete Darstellung der Suche innerhalb der Seite in der Kopfzeile: ① Eingabefeld ② Trefferzähler ③ vor/zurück-Navigation ④ Löschen ⑤ Hervorhebung auf der Seite](/images/canvas/ui-inpage-search.png)
 
-*Abbildung: Beschriftete Darstellung nach der Eingabe von „Bereitstellung" in das Suchfeld der Kopfzeile. ① Eingabefeld in der Kopfzeile; ② Trefferzähler (aktuell Treffer N von M); ③ Buttons für vorheriger/nächster Treffer; ④ Löschen-Button; ⑤ alle Treffer im Text der aktuellen Seite werden automatisch hervorgehoben.*
+*Abbildung: Beschriftete Darstellung nach der Eingabe von „部署" („Bereitstellung") in das Suchfeld der Kopfzeile. ① Eingabefeld in der Kopfzeile; ② Trefferzähler (z. B. `3/9`); ③ Buttons für vorheriger/nächster Treffer; ④ Löschen-Button; ⑤ alle Treffer im Text der aktuellen Seite werden automatisch hervorgehoben.*
 
 ### Stichwort eingeben
 
@@ -32,7 +32,7 @@ Unterstützt werden deutsche Begriffe (z. B. „Bereitstellung", „Komponente")
 
 - Mit <kbd>Enter</kbd> oder einem Klick auf den nach unten zeigenden Pfeil springen Sie zum nächsten Treffer;
 - mit <kbd>Shift + Enter</kbd> oder einem Klick auf den nach oben zeigenden Pfeil gelangen Sie zum vorherigen Treffer;
-- im Suchfeld läuft live ein Fortschrittszähler mit `aktuell Treffer N von M`, sodass Sie Ihren Lesefortschritt jederzeit im Blick behalten.
+- im Suchfeld läuft live ein Fortschrittszähler im Format `N/M` (z. B. `3/9`), sodass Sie Ihren Lesefortschritt jederzeit im Blick behalten.
 
 ### Suche löschen und Seite wiederherstellen
 
@@ -46,7 +46,7 @@ Unabhängig davon, auf welcher Seite Sie sich gerade befinden: Drücken Sie das 
 
 ![Beschriftete Darstellung des sitewide-Suchdialogs: ① Auslöser-Abzeichen ② Sucheingabefeld ③ Ergebnisliste ④ Leiste mit Tastenkürzeln](/images/canvas/ui-search-modal.png)
 
-*Abbildung: Beschriftete Darstellung nach der Eingabe von „Bereitstellung" in den Dialog. ① das `Ctrl K`-Abzeichen rechts neben dem Suchfeld (auch per Klick öffnet sich der Dialog); ② Sucheingabefeld; ③ nach Dokumenten gruppierte Ergebnisliste mit hervorgehobenen Treffern; ④ Hinweisleiste mit Tastenkürzeln am unteren Rand.*
+*Abbildung: Beschriftete Darstellung nach der Eingabe von „部署" („Bereitstellung") in den Dialog. ① das `Ctrl K`-Abzeichen rechts neben dem Suchfeld (auch per Klick öffnet sich der Dialog); ② Sucheingabefeld; ③ nach Dokumenten gruppierte Ergebnisliste mit hervorgehobenen Treffern; ④ Hinweisleiste mit Tastenkürzeln am unteren Rand.*
 
 ### Stichwort eingeben
 

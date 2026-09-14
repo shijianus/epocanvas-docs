@@ -158,5 +158,5 @@ watching for file changes...
 本機服務成功執行後，你可以繼續了解：
 
 - **[頁面佈局與閱讀體驗](/canvas/layout/)**：了解頂欄、側邊欄和內文介面的佈局細節。
-- **[渲染規則詳解](/canvas/rendering/)**：搞清楚 Markdown 是如何被渲染成最終頁面的，避免踩排版語法的坑。
+- **[渲染規則詳解](/canvas/rendering/)**：搞清楚 Markdown 是如何被渲染成最終頁面的，避免踩到排版語法的陷阱。
 - **[Cloudflare Pages 部署上線](/canvas/cloudflare/)**：把文件發布到網際網路並綁定獨立網域。

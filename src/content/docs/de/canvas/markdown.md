@@ -66,10 +66,10 @@ Diese Site rendert Standard-Markdown mit GFM-Erweiterungen; alle folgenden Forma
 | Absätze und Zeilenumbrüche | Leerzeile trennt Absätze | Grundbaustein des Haupttexts |
 | Fett / Kursiv / Durchgestrichen | `**fett**` `*kursiv*` `~~durchgestrichen~~` | Betont wichtige Textstellen |
 | Inline-Code | `` `Befehl` `` | Markiert Befehle, Dateinamen, Tastenkürzel |
-| Tasten | `<kbd>Strg</kbd>` | Tastendarstellung im Tastenkappen-Stil |
+| Tasten | `<kbd>Ctrl</kbd>` | Tastendarstellung im Tastenkappen-Stil |
 | Ungeordnete / geordnete Listen | `- Punkt` / `1. Punkt` | Listet gleichrangige Inhalte oder Schritte auf |
 | Aufgabenlisten | `- [x] erledigt` | Checkliste mit Kontrollkästchen |
-| Zitatblock | `> zitiertes Wortlaut` | Zitiert Originaltexte, ergänzt Randnotizen |
+| Zitatblock | `> zitierter Text` | Zitiert Originaltexte, ergänzt Randnotizen |
 | Codeblock | von drei Backticks umschlossen | Mehrzeiliger Code, mit Highlighting und Kopier-Button |
 | Tabelle | durch senkrechte Striche in Spalten geteilt | Parameter-gegenüberstellungen, Datenaufzählungen |
 | Link | `[Text](Adresse)` | Springt zu anderen Seiten der Site oder zu externen Websites |

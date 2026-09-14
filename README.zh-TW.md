@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](./LICENSE)
 [![Built with Astro](https://img.shields.io/badge/Built_with-Astro_5-orange.svg?style=flat-square)](https://astro.build)
 
-[English](./README.md) | [简体中文](./README.zh-CN.md) | 繁體中文 | [Français](./README.fr.md)
+[English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
 EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 與 Starlight 建置，內建三欄閱讀版面、雙模式搜尋與內容級多語系。所有內容以標準 Markdown 撰寫，可發布至 Cloudflare Pages。
 

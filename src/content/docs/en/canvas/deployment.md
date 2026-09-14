@@ -147,7 +147,7 @@ For the full publishing steps and how to verify the result online, read **[Deplo
 To change the site's basic information, focus on the following files:
 
 - **Site name and TOC menu**: edit `astro.config.mjs` in the root. You can change the site's `title` (site title), `site` (live domain), and `sidebar` (left-side TOC menu).
-- **Top navigation bar buttons**: edit `src/config/navigation.ts`. Here you can add or remove top buttons such as "Home" and "Product Docs" and their link targets.
+- **Top navigation bar buttons**: edit `src/config/navigation.ts`. Here you can add or remove top buttons such as "Home" and "Product" and their link targets.
 - **Page colors and font styles**: edit `src/styles/custom.css`. Here you can adjust the theme colors for light and dark mode.
 - **Adding new documents**: create a new `.md` file directly in the `src/content/docs/canvas/` directory and register it in the sidebar; see [Markdown Authoring & Formatting Guide](/canvas/markdown/) for details.
 
@@ -158,5 +158,5 @@ To change the site's basic information, focus on the following files:
 Once the local server is running successfully, you can continue with:
 
 - **[Page Layout & Reading Experience](/canvas/layout/)**: layout details of the top bar, sidebar, and content interface.
-- **[Rendering Rules Explained](/canvas/rendering/)**: understand how Markdown becomes the final page and avoid formatting syntax pitfalls.
+- **[How Rendering Works](/canvas/rendering/)**: understand how Markdown becomes the final page and avoid formatting syntax pitfalls.
 - **[Deploying to Cloudflare Pages](/canvas/cloudflare/)**: publish the documentation to the public internet and bind a custom domain.

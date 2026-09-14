@@ -21,7 +21,7 @@ export default defineConfig({
       // Titel der Website, wird im Browser-Tab und in der oberen Leiste angezeigt
       title: 'EpoCanvas Docs',
       // Beschreibung der Site, wird für Suchmaschinen-Snippets verwendet
-      description: 'EpoCanvas-Leitfaden zu Full-Stack-Technik, Architektur und Produkthebetrieb',
+      description: 'EpoCanvas 全栈技术、架构与产品运维指南',
 
       // Bildpfad des Logos links in der oberen Leiste
       logo: {
@@ -57,17 +57,17 @@ Das Kategorienverzeichnis auf der linken Seite wird über das `sidebar`-Array in
 sidebar: [
   // Gruppe eins: Produktureinblick
   {
-    label: 'Produktübersicht und Einstieg',       // Name der Gruppe
+    label: '产品概览与入门',       // Name der Gruppe
     items: [
-      { label: 'Produktübersicht und Kernnutzen', link: '/canvas/' },
-      { label: 'Schnellstart (in 3 Minuten laufen)', link: '/canvas/deployment/' },
+      { label: '产品简介与核心价值', link: '/canvas/' },
+      { label: '快速上手 (3分钟运行)', link: '/canvas/deployment/' },
     ],
   },
   // Gruppe zwei: Hier können Sie eigene Fachgruppen ergänzen
   {
-    label: 'Benutzerhandbuch',
+    label: '用户指南',
     items: [
-      { label: 'Konto-Registrierung und Anmeldung', link: '/canvas/login/' },
+      { label: '账号注册与登录', link: '/canvas/login/' },
     ],
   },
 ];

@@ -31,7 +31,7 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 ### Q3: Al ejecutar `pnpm install` se produce el error `packages field missing or empty`
 
 - **Causa**: `pnpm-workspace.yaml` está vacío o con un formato incompleto; pnpm lo interpreta como archivo de configuración de workspace y lanza el error.
-- **Solución**: asegúrate de que el archivo contiene el campo `packages`:
+- **Solución**: asegúrese de que el archivo contiene el campo `packages`:
 
   ```yaml
   packages:

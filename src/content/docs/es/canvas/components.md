@@ -82,7 +82,7 @@ Los datos del índice los genera Starlight en tiempo de compilación analizando 
 
 ### TwoColumnContent: única fuente del ancho de la columna derecha
 
-El ancho de la columna del índice de la derecha está fijado en `20rem` bajo `@media (min-width: 72rem)` (y en `21rem` para pantallas ultra anchas de `90rem` o más), y el ancho máximo del área del cuerpo del texto se reduce en consecuencia el ancho de la columna derecha. Para ajustar ese ancho, basta con modificar este único archivo; no lo sobrescribas de forma dispersa en otras hojas de estilos.
+El ancho de la columna del índice de la derecha está fijado en `20rem` bajo `@media (min-width: 72rem)` (y en `21rem` para pantallas ultra anchas de `90rem` o más), y el ancho máximo del área del cuerpo del texto se reduce en consecuencia el ancho de la columna derecha. Para ajustar ese ancho, basta con modificar este único archivo; no lo sobrescriba de forma dispersa en otras hojas de estilos.
 
 ### Header: navegación, theme e idioma
 
@@ -93,7 +93,7 @@ El ancho de la columna del índice de la derecha está fijado en `20rem` bajo `@
 
 ### Search: búsqueda de doble modo
 
-Un mismo componente implementa dos búsquedas (detalles en [Búsqueda de texto completo y uso de atajos de teclado](/canvas/search-engine/)):
+Un mismo componente implementa dos búsquedas (detalles en [Búsqueda de texto completo y atajos de teclado](/canvas/search-engine/)):
 
 1. **Búsqueda dentro de la página**: el cuadro de entrada de la barra superior; con Enter se salta entre los textos coincidentes de la página actual, y el resaltado se implementa marcando con un script;
 2. **Búsqueda en todo el sitio**: ventana emergente `<dialog>` + la UI predeterminada de Pagefind; el índice se genera en la fase `pnpm run build`.

@@ -147,7 +147,7 @@ Para os passos completos de publicação e os métodos de verificação online, 
 Se precisar de alterar as informações básicas do site, atenção sobretudo aos seguintes ficheiros:
 
 - **Nome do site e menu do catálogo**: altere o ficheiro `astro.config.mjs` na raiz. Pode modificar o `title` (título do site), o `site` (domínio online) e a `sidebar` (menu do catálogo à esquerda).
-- **Botões da barra de navegação superior**: altere o ficheiro `src/config/navigation.ts`. Aqui pode acrescentar ou remover botões do topo como "Página inicial" e "Apresentação do produto" e os respetivos caminhos de destino.
+- **Botões da barra de navegação superior**: altere o ficheiro `src/config/navigation.ts`. Aqui pode acrescentar ou remover botões do topo como "Início" e "Produto" e os respetivos caminhos de destino.
 - **Cores das páginas e estilos de letra**: altere o ficheiro `src/styles/custom.css`. Aqui pode ajustar as cores do tema no modo claro e no modo escuro.
 - **Acrescentar novos documentos**: crie diretamente um ficheiro `.md` na pasta `src/content/docs/canvas/` e registe-o na barra lateral; ver [Guia de escrita e formatação em Markdown](/canvas/markdown/).
 

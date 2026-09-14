@@ -117,7 +117,7 @@ match: (pathname: string) =>
 // Путь к файлу: src/utils/i18n.ts
 export const UI_TRANSLATIONS = {
   'zh-CN': {
-    'search.placeholder': 'Поиск по документации и командам...',
+    'search.placeholder': '搜索文档与指令...',
     // ... остальные строки этого языка
   },
   en: {

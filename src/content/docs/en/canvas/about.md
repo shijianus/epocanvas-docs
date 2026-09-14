@@ -26,7 +26,7 @@ Depending on who the reader is, this documentation project does three jobs:
 | :--- | :--- | :--- |
 | **Readers who just need to look something up** | Look up how a feature works or how to fix an error | Use the top search box or `Ctrl + K` site-wide search to jump straight to the relevant section |
 | **Developers who want to build their own documentation site** | Provides a complete, runnable documentation site source code and deployment workflow | Product Overview → Quickstart → Deployment |
-| **Writers who contribute documentation** | Specifies where files go, how to format them, where images are stored, and how to publish | The three chapters under the "Writing & Content Management" group |
+| **Writers who contribute documentation** | Specifies where files go, how to format them, where images are stored, and how to publish | The three chapters under the "Writing & Content" group |
 
 In one sentence: **readers can understand it, developers can take it away, and writers have a clear set of rules to follow.**
 
@@ -37,10 +37,10 @@ In one sentence: **readers can understand it, developers can take it away, and w
 The sidebar has five groups, each answering one question:
 
 - **Product Overview & Getting Started**: What is this thing? How do I run it locally?
-- **Core Features & Usage Guides**: How exactly do the reading interface, search, multilingual support, and navigation work?
-- **Writing & Content Management**: How do I write new documents? What are the rules for Markdown formatting and rendering?
+- **Core Features & Guides**: How exactly do the reading interface, search, multilingual support, and navigation work?
+- **Writing & Content**: How do I write new documents? What are the rules for Markdown formatting and rendering?
 - **Configuration & Customization**: Where do I change the site title, navigation menu, and theme colors? How do I modify components?
-- **Publishing & Deployment**: How do I publish the site, bind a domain, and handle SEO and version management?
+- **Deployment & Maintenance**: How do I publish the site, bind a domain, and handle SEO and version management?
 
 Every article stands on its own and can be consulted independently; there is no need to read them in order.
 

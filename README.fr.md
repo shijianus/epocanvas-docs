@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](./LICENSE)
 [![Built with Astro](https://img.shields.io/badge/Built_with-Astro_5-orange.svg?style=flat-square)](https://astro.build)
 
-[English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | Français
+[English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
 EpoCanvas Docs est le site de documentation officiel du projet EpoCanvas. Il repose sur Astro 5 et Starlight et propose, dès l'installation, une mise en page de lecture à trois colonnes, une recherche en deux modes et un contenu entièrement multilingue. Le contenu est rédigé en Markdown standard et publié sur Cloudflare Pages.
 

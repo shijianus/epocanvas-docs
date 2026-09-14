@@ -287,7 +287,7 @@ export default defineConfig({
 					'zh-TW': '快速上手 (3 分鐘執行)', en: 'Quickstart (Up and Running in 3 Minutes)', ja: 'クイックスタート (3分で起動)', ko: '빠른 시작 (3분 만에 실행)', es: 'Inicio rápido (en marcha en 3 minutos)', fr: 'Démarrage rapide (en 3 minutes)', de: 'Schnellstart (in 3 Minuten starten)', ru: 'Быстрый старт (запуск за 3 минуты)', pt: 'Início rápido (a funcionar em 3 minutos)',
 				},
 				'页面布局与阅读体验': {
-					'zh-TW': '頁面佈局與閱讀體驗', en: 'Page Layout & Reading Experience', ja: 'ページレイアウトと閲覧体験', ko: '페이지 레이아웃과 읽기 경험', es: 'Diseño de página y experiencia de lectura', fr: 'Mise en page et confort de lecture', de: 'Seitenlayout & Leseerlebnis', ru: 'Разметка страницы и удобство чтения', pt: 'Layout da página e experiência de leitura',
+					'zh-TW': '頁面佈局與閱讀體驗', en: 'Page Layout & Reading Experience', ja: 'ページレイアウトと閲覧体験', ko: '페이지 레이아웃과 읽기 경험', es: 'Diseño de página y experiencia de lectura', fr: 'Mise en page et confort de lecture', de: 'Seitenlayout & Leseerlebnis', ru: 'Макет страницы и удобство чтения', pt: 'Layout da página e experiência de leitura',
 				},
 				'全文搜索与快捷键使用': {
 					'zh-TW': '全文搜尋與快捷鍵使用', en: 'Full-Text Search & Keyboard Shortcuts', ja: '全文検索とショートカットキー', ko: '전체 텍스트 검색 및 단축키', es: 'Búsqueda de texto completo y atajos de teclado', fr: 'Recherche plein texte et raccourcis clavier', de: 'Volltextsuche & Tastenkürzel', ru: 'Полнотекстовый поиск и горячие клавиши', pt: 'Pesquisa de texto completo e atalhos de teclado',

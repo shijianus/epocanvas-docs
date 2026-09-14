@@ -146,7 +146,7 @@ Pour les étapes de publication complètes et les méthodes de vérification en 
 
 Pour modifier les informations de base du site, concentrez-vous sur les fichiers suivants :
 
-- **Nom du site et menu catalogue** : modifiez `astro.config.mjs` à la racine. Vous pouvez y changer le `title` du site (titre du site), `site` (nom de domaine en ligne) ainsi que `sidebar` (menu catalogue à gauche).
+- **Nom du site et sommaire** : modifiez `astro.config.mjs` à la racine. Vous pouvez y changer le `title` du site (titre du site), `site` (nom de domaine en ligne) ainsi que `sidebar` (sommaire à gauche).
 - **Boutons de la barre de navigation supérieure** : modifiez `src/config/navigation.ts`. Vous pouvez y ajouter ou retirer les boutons du haut tels que « Accueil », « Présentation du produit », etc., ainsi que leurs liens de destination.
 - **Couleurs des pages et styles de police** : modifiez `src/styles/custom.css`. Vous pouvez y ajuster les couleurs du thème en mode clair et sombre.
 - **Ajout d'un nouveau document** : créez directement un fichier `.md` dans le répertoire `src/content/docs/canvas/`, puis enregistrez-le dans la barre latérale ; voir [Guide de rédaction et de mise en forme Markdown](/canvas/markdown/).

@@ -66,7 +66,7 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 ### Q6: A página mostra dois títulos grandes exatamente iguais
 
 - **Causa**: foi escrito um título de nível `#` no corpo do texto. O `title` do Frontmatter já é renderizado como título grande; escrever outro `#` no corpo cria necessariamente uma duplicação.
-- **Solução**: remova o título `#` do corpo do texto e comece as secções em `##`. As regras completas estão em [regras de renderização detalhadas](/canvas/rendering/#regras-dos-títulos).
+- **Solução**: remova o título `#` do corpo do texto e comece as secções em `##`. As regras completas estão em [Regras de renderização em detalhes](/canvas/rendering/#regras-dos-títulos).
 
 ### Q7: Escrevi `> [!TIP]` mas o bloco de aviso não muda de cor e o texto aparece tal e qual
 
