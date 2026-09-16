@@ -26,7 +26,7 @@ description: EpoCanvas Docs 版本号命名规范、版本更新的标准发布�
 在项目根目录的 `RELEASE_NOTES.md` 中写清本次更新内容，这份文件会作为 GitHub Release 的说明文字：
 
 ```markdown
-## [v1.2.1] - 2026-09-18
+## [v1.2.1] - 2026-09-14
 
 ### 修复
 - 修正部署章节中的命令拼写错误。
@@ -90,6 +90,8 @@ jobs:
         run: |
           TAG_NAME="${{ github.ref_name }}"
           echo "Publishing release for tag: ${TAG_NAME}"
+          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
+          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
           gh release create "${TAG_NAME}" \
             --title "EpoCanvas Docs ${TAG_NAME}" \
             --notes-file RELEASE_NOTES.md \

@@ -22,7 +22,7 @@ Clique no campo de pesquisa no centro superior da página (ícone de lupa) e esc
 
 ![Imagem anotada da pesquisa na página pela barra superior: ① campo de entrada ② contador de correspondências ③ saltos para cima/baixo ④ limpar ⑤ destaque na página](/images/canvas/ui-inpage-search.png)
 
-*Figura: efeito real anotado após escrever "部署" ("implantação") no campo de pesquisa da barra superior. ① campo de entrada na barra superior; ② contador de correspondências (por exemplo `3/9`); ③ botões de salto para a correspondência anterior / seguinte; ④ botão de limpar; ⑤ todo o texto correspondente na página atual fica automaticamente destacado.*
+*Figura: efeito real anotado após escrever "部署" ("implantação") no campo de pesquisa da barra superior. ① campo de entrada na barra superior; ② contador de correspondências (por exemplo `1/26`); ③ botões de salto para a correspondência anterior / seguinte; ④ botão de limpar; ⑤ todo o texto correspondente na página atual fica automaticamente destacado.*
 
 ### Escrever palavras-chave
 
@@ -86,4 +86,4 @@ O EpoCanvas Docs utiliza a solução de pesquisa estática local **Pagefind**:
 
 - **Divisão em palavras**: para obter resultados mais precisos, escreva várias palavras separadas por espaços (por exemplo, `Cloudflare domínio`).
 - **Dar prioridade aos títulos**: os títulos dos documentos e das secções têm o maior peso na ordenação; os resultados cujo título contém a palavra pesquisada aparecem primeiro.
-- **Limitações do modo de desenvolvimento**: o servidor de desenvolvimento iniciado com `pnpm run dev` não reconstrói em tempo real o índice de todo o site; para que um artigo recentemente escrito apareça na pesquisa global, é preciso executar primeiro `pnpm run build`. A pesquisa na página não está sujeita a esta limitação.
+- **Limitações do modo de desenvolvimento**: o índice de todo o site só é gerado na compilação, e no servidor de desenvolvimento iniciado com `pnpm run dev` a caixa de diálogo `Ctrl+K` não carrega o índice, pelo que a pesquisa global não está disponível. Para testá-la, execute `pnpm run build` e depois `pnpm run preview`. A pesquisa na página não está sujeta a esta limitação.

@@ -12,7 +12,7 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 ### Q1: Al ejecutar `pnpm run dev` se indica que el puerto 4321 está ocupado
 
 - **Causa**: el servidor de desarrollo de una ejecución anterior no se cerró por completo, u otro programa ocupa el puerto 4321.
-- **Solución**: arranca en otro puerto:
+- **Solución**: arranque en otro puerto:
 
   ```bash
   pnpm run dev -- --port 4322
@@ -21,7 +21,7 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 ### Q2: Al instalar las dependencias aparece un error de compilación del módulo Sharp
 
 - **Causa**: Sharp es el módulo C++ subyacente que comprime las imágenes durante la compilación; tras cambiar la versión de Node.js, la caché antigua puede no coincidir con él.
-- **Solución**: limpia las dependencias y reinstala:
+- **Solución**: limpie las dependencias y reinstale:
 
   ```bash
   rm -rf node_modules pnpm-lock.yaml
@@ -45,16 +45,16 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 ### Q4: Creé un Markdown nuevo, pero no aparece en la barra lateral izquierda
 
 - **Causa**: el directorio de la barra lateral se declara manualmente; los archivos nuevos deben registrarse en la configuración.
-- **Solución**: abre `astro.config.mjs` y añade la entrada en el grupo adecuado del array `sidebar`:
+- **Solución**: abra `astro.config.mjs` y añada la entrada en el grupo adecuado del array `sidebar`:
 
   ```javascript
-  { label: '新功能说明', link: '/canvas/new-feature/' }
+  { label: 'Nueva función', link: '/canvas/new-feature/' }
   ```
 
 ### Q5: La terminal muestra el error `"title" is required`
 
 - **Causa**: falta el `title` en la cabecera del Markdown, o los tres guiones `---` iniciales no tienen el formato correcto.
-- **Solución**: revisa el Frontmatter al principio del archivo:
+- **Solución**: revise el Frontmatter al principio del archivo:
 
   ```yaml
   ---
@@ -66,12 +66,12 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 ### Q6: La página muestra dos títulos grandes idénticos
 
 - **Causa**: en el cuerpo del texto se volvió a escribir un encabezado de nivel 1 con `#`. El `title` del Frontmatter ya se renderiza como título grande, así que un `#` en el cuerpo lo duplica inevitablemente.
-- **Solución**: elimina el encabezado `#` del cuerpo y empieza las secciones en `##`. Las reglas completas están en [Reglas de renderizado en detalle](/canvas/rendering/#reglas-de-los-encabezados).
+- **Solución**: elimine el encabezado `#` del cuerpo y empiece las secciones en `##`. Las reglas completas están en [Reglas de renderizado en detalle](/canvas/rendering/#reglas-de-los-encabezados).
 
 ### Q7: Escribí `> [!TIP]` pero el bloque de aviso no cambia de color y el texto se muestra tal cual
 
 - **Causa**: la sintaxis de cita estilo GitHub `> [!TIP]` no está soportada; el compilador de Markdown no la reconoce.
-- **Solución**: usa la sintaxis de tres dos puntos:
+- **Solución**: use la sintaxis de tres dos puntos:
 
   ```markdown
   :::tip
@@ -84,7 +84,7 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 - **Causa**: la ruta de la imagen está mal escrita, o la imagen no se colocó en el directorio estático `public/`.
 - **Solución**:
   1. Confirma que la imagen está guardada en `public/images/canvas/your-pic.png`;
-  2. Al referenciarla, usa una ruta absoluta que empiece por `/`: `![descripción](/images/canvas/your-pic.png)`; no escribas rutas relativas como `../public/...`.
+  2. Al referenciarla, use una ruta absoluta que empiece por `/`: `![descripción](/images/canvas/your-pic.png)`; no escriba rutas relativas como `../public/...`.
 
 ---
 
@@ -92,8 +92,8 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 
 ### Q9: Al depurar con `pnpm dev` en local, la búsqueda global no encuentra el artículo recién escrito
 
-- **Causa**: la ventana emergente de búsqueda en todo el sitio depende del índice de Pagefind, y el índice solo se genera durante `pnpm run build`; el servidor de desarrollo no reconstruye el índice en tiempo real para mantener la velocidad de la actualización en caliente.
-- **Solución**: compila por completo y verifica con el servidor de vista previa:
+- **Causa**: la búsqueda global depende del índice de Pagefind, que solo se genera durante `pnpm run build`; en modo de desarrollo el diálogo de `Ctrl+K` no carga el índice (se abre sin campo de búsqueda), por lo que la búsqueda global no está disponible. Es el comportamiento previsto del framework, no un fallo del sitio.
+- **Solución**: compile por completo y verifique con el servidor de vista previa:
 
   ```bash
   pnpm run build
@@ -118,16 +118,16 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 
 ### Q12: Al ejecutar `pnpm run deploy` se produce el error `Project not found`
 
-- **Causa**: el parámetro `--project-name` del comando de despliegue no coincide con el nombre del proyecto en la consola de Cloudflare; también puede ser que no hayas iniciado sesión en esa máquina.
+- **Causa**: el parámetro `--project-name` del comando de despliegue no coincide con el nombre del proyecto en la consola de Cloudflare; también puede ser que no haya iniciado sesión en esa máquina.
 - **Solución**:
-  1. Ejecuta primero `npx wrangler whoami` para confirmar que la sesión está iniciada;
+  1. Ejecute primero `npx wrangler whoami` para confirmar que la sesión está iniciada;
   2. Verifica el nombre del proyecto en la consola de Cloudflare y, si hace falta, modifica el parámetro `--project-name` del script `deploy` en `package.json`.
 
 ---
 
 ## 5. Autoverificación local antes de confirmar cambios
 
-Antes de hacer push a GitHub, ejecuta el siguiente comando para una autoverificación completa (comprobación de tipos + compilación total):
+Antes de hacer push a GitHub, ejecute el siguiente comando para una autoverificación completa (comprobación de tipos + compilación total):
 
 ```bash
 pnpm exec astro check && pnpm run build

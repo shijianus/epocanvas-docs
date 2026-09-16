@@ -100,8 +100,8 @@ export const navigationConfig: NavItem[] = [
 export default defineConfig({
   redirects: {
     // 이 사이트의 챕터 경로를 의미 있게 이름 바꾼 뒤, 옛 링크는 전부 점프를 유지합니다
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

@@ -5,7 +5,7 @@ description: Préparation de l'environnement local d'EpoCanvas Docs, installatio
 
 Il existe deux chemins pour faire tourner ce site de documentation ; choisissez-en un selon votre objectif :
 
-- **Vous voulez voir immédiatement un site en ligne** : aucune installation nécessaire, sautez directement à la section [Déploiement en un clic](#déploiement-en-un-clic-la-mise-en-ligne-en-un-seul-clic) ci-dessous ; un clic sur le bouton et, deux minutes plus tard, vous obtenez votre propre adresse ;
+- **Vous voulez voir immédiatement un site en ligne** : aucune installation nécessaire, sautez directement à la section [Déploiement en un clic](#déploiement-en-un-clic--la-mise-en-ligne-en-un-seul-clic) ci-dessous ; un clic sur le bouton et, deux minutes plus tard, vous obtenez votre propre adresse ;
 - **Vous voulez rédiger la documentation et modifier le contenu** : suivez d'abord [Préparation](#préparation) pour faire tourner le projet en local et visualiser l'effet au fil de vos modifications, puis publiez avec la commande de déploiement de l'[aide-mémoire des commandes](#aide-mémoire-des-commandes-de-développement-courantes) une fois la rédaction terminée.
 
 ---
@@ -61,7 +61,7 @@ Le déploiement en un clic convient pour « mettre d'abord le site en ligne », 
 
 | Outil | Version recommandée | Commande de vérification | Description |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.14.1` (20 LTS recommandé) | `node -v` | Environnement de base pour exécuter JavaScript et construire les pages statiques |
+| **Node.js** | `>= 18.20.8` (20.3+ ou 22 LTS recommandé) | `node -v` | Environnement de base pour exécuter JavaScript et construire les pages statiques |
 | **pnpm** | `>= 9` (10 en environnement CI) | `pnpm -v` | Gestionnaire de paquets recommandé : installation rapide et économie d'espace disque |
 | **Git** | Dernière version stable | `git --version` | Sert à récupérer le code et à gérer les versions |
 

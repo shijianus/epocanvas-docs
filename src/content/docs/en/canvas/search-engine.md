@@ -22,7 +22,7 @@ Click the search box in the middle of the page header (magnifier icon) and type 
 
 ![Annotated view of in-page search in the header: (1) input box, (2) match counter, (3) previous/next navigation, (4) clear button, (5) highlights on the page](/images/canvas/ui-inpage-search.png)
 
-*Figure: what the header search box looks like after typing "部署" ("deploy"). (1) Header input box; (2) match counter (e.g. `3/9`); (3) previous / next navigation buttons; (4) clear button; (5) all matching text on the current page is highlighted automatically.*
+*Figure: what the header search box looks like after typing "部署" ("deploy"). (1) Header input box; (2) match counter (e.g. `1/26`); (3) previous / next navigation buttons; (4) clear button; (5) all matching text on the current page is highlighted automatically.*
 
 ### Enter Keywords
 
@@ -86,4 +86,4 @@ EpoCanvas Docs uses **Pagefind**, a local static search solution:
 
 - **Split into words**: for more precise results, enter several words separated by spaces (for example `Cloudflare domain`).
 - **Titles rank first**: document titles and section headings carry the highest weight in ranking, so results with keyword hits in the title come first.
-- **Dev mode limitation**: the dev server started with `pnpm run dev` does not rebuild the site-wide index in real time. To find newly written articles in the site-wide search, run `pnpm run build` first. In-page search is not affected by this.
+- **Dev mode limitation**: the site-wide index is only generated at build time, and in the dev server started with `pnpm run dev` the `Ctrl+K` dialog does not load the index, so site-wide search is unavailable there. To try the search, run `pnpm run build` and then `pnpm run preview` to view the built site. In-page search is not affected.

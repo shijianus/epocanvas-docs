@@ -34,8 +34,8 @@ L'intégralité du code source se trouve dans `src/components/starlight/` ; tail
 
 | Fichier du composant | Taille | Rôle |
 | :--- | :--- | :--- |
-| `Header.astro` | environ 713 lignes | Tout le contenu de la barre supérieure : logo, champ de recherche, navigation principale, badge de version, changement de langue, bascule de thème, accès GitHub et Telegram |
-| `Search.astro` | environ 840 lignes | Recherche à deux modes : recherche dans la page depuis la barre supérieure (surlignage et comptage) + fenêtre de recherche site-wide via `Ctrl+K` (Pagefind UI) |
+| `Header.astro` | environ 639 lignes | Tout le contenu de la barre supérieure : logo, champ de recherche, navigation principale, badge de version, changement de langue, bascule de thème, accès GitHub et Telegram |
+| `Search.astro` | environ 837 lignes | Recherche à deux modes : recherche dans la page depuis la barre supérieure (surlignage et comptage) + fenêtre de recherche site-wide via `Ctrl+K` (Pagefind UI) |
 | `Pagination.astro` | environ 123 lignes | Cartes « Page précédente / Page suivante » en bas de page : fines bordures sans relief, titres aux couleurs du thème, flèches obliques ↙/↘ indiquant le sens de navigation |
 | `TwoColumnContent.astro` | environ 77 lignes | Squelette à deux colonnes pour le corps du texte et le sommaire à droite ; contrôle la largeur fixe de la colonne droite et son défilement |
 | `TableOfContents.astro` | environ 64 lignes | Titre « Sommaire de cette page », icône et liste du sommaire ; filtre le titre de la page elle-même |

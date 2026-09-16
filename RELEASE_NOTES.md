@@ -16,13 +16,13 @@ v1.2.0 is the first tagged release. It completes the reading experience, search,
 
 - A three-column reading layout with a per-page outline that tracks the current section, and a sidebar that keeps its scroll position across page transitions.
 - Dual-mode search: in-page lookup from the header search box, and site-wide search in a `Ctrl+K` / `Cmd+K` dialog. Everything runs locally in the browser.
-- An interface translated into 10 languages, switched in place without reloading the page.
-- Extended Markdown support: five admonition types, Shiki code highlighting with file-name labels, line highlighting, diff rendering, and GFM tables.
+- An interface translated into 10 languages; the language picker links to the same page in the target language.
+- Extended Markdown support: four admonition types, Expressive Code (Shiki) syntax highlighting with file-name labels, line highlighting, diff rendering, and GFM tables.
 - One-command deployment to Cloudflare Pages with automatic HTTPS on a custom domain.
 
 ## Reading Experience
 
-- **Three-column layout**: category navigation on the left, article content in the center, and the current page's table of contents on the right. The content column is width-capped (54rem) for comfortable long-form reading.
+- **Three-column layout**: category navigation on the left, article content in the center, and the current page's table of contents on the right. The content column is width-capped (60rem) for comfortable long-form reading.
 - **Outline follow-highlight**: the right-hand outline picks up every `h2`/`h3` heading and highlights the section currently in view; entries link smoothly to their anchors.
 - **Sidebar scroll persistence**: switching pages preserves the navigation's scroll position, so readers don't lose their place in deep category trees.
 - **Theme**: the dark theme is the default, follows the operating system preference, and can be toggled manually from the header.
@@ -36,13 +36,13 @@ v1.2.0 is the first tagged release. It completes the reading experience, search,
 ## Localization
 
 - The interface ships with 10 languages: Simplified Chinese (default), Traditional Chinese, English, Japanese, Korean, Spanish, French, German, Russian, and Portuguese.
-- Switching languages updates the text in place — no page reload — and preserves the scroll position and reading progress.
-- Translations live in a single client-side dictionary (`src/utils/i18n.ts`), so adding a language is a one-file change.
+- Switching languages navigates to the same page in the target language. Each language has its own URL, so a translated page can be bookmarked and shared directly.
+- Translations live in a single dictionary (`src/utils/i18n.ts`) and are rendered at build time, so adding a language is a one-file change.
 
 ## Authoring and Markdown Support
 
 - Pages are plain Markdown files under `src/content/docs/`, registered in the sidebar defined in `astro.config.mjs`. A `title` and `description` in the frontmatter are required.
-- **Admonitions**: five callout types — `:::note`, `:::tip`, `:::important`, `:::warning`, `:::caution`.
+- **Admonitions**: four callout types — `:::note`, `:::tip`, `:::caution`, `:::danger`.
 - **Code blocks**: rendered with Expressive Code (Shiki), including syntax highlighting, file-name labels on the title bar, line numbers, per-line highlighting, diff rendering, and a copy button.
 - **Extended Markdown**: GFM tables, task lists, and strikethrough are supported.
 - **Images**: stored under `public/images/canvas/` and referenced with absolute paths.

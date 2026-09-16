@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import starlight from '@astrojs/starlight';
 
 // Starlight 默认把 <table> 渲染成 block 滚动盒，内容不足一屏时边框内会留一大块空白。
@@ -168,9 +169,39 @@ function rehypeLocalizeAsides() {
 	};
 }
 
+// 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。
+// 目标统一带尾斜杠，避免线上 301 后再被补一次斜杠跳转。
+const redirects = {
+	'/mail': '/canvas/',
+	'/canvas/dns-setup': '/canvas/layout/',
+	'/canvas/ai-hub': '/canvas/i18n/',
+	'/canvas/oauth-provider': '/canvas/navigation/',
+	'/canvas/system-config': '/canvas/markdown/',
+	'/canvas/workbench': '/canvas/syntax/',
+	'/canvas/api-reference': '/canvas/configuration/',
+	'/canvas/rule-engine': '/canvas/cloudflare/',
+	'/canvas/security-rbac': '/canvas/releases/',
+};
+
+// Astro 静态模式只会为 redirects 生成 meta-refresh HTML 页（200 状态，SEO 不友好）。
+// Cloudflare Pages 原生 _redirects 支持 301 且优先于静态文件命中，这里在构建完成后
+// 额外写出该文件；两种机制并存——线上走 301，本地 preview 仍用 meta-refresh 页。
+function cloudflareRedirectsFile() {
+	return {
+		name: 'epo-cloudflare-redirects',
+		hooks: {
+			'astro:build:done': async ({ dir }) => {
+				const lines = Object.entries(redirects).map(([from, to]) => `${from}  ${to}  301`);
+				await fs.promises.writeFile(path.join(fileURLToPath(dir), '_redirects'), lines.join('\n') + '\n', 'utf8');
+			},
+		},
+	};
+}
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.epocanvas.com',
+	redirects,
 	// 关闭 Astro 开发工具栏（页面底部 id="dev-toolbar-root" 的悬浮图标），纯文档站点用不到它
 	devToolbar: {
 		enabled: false,
@@ -179,6 +210,7 @@ export default defineConfig({
 		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides],
 	},
 		integrations: [
+			cloudflareRedirectsFile(),
 			starlight({
 				title: 'EpoCanvas Docs',
 				description: 'EpoCanvas 全栈技术、架构与产品运维指南',
@@ -378,17 +410,5 @@ export default defineConfig({
 			})(),
 		}),
 	],
-	// 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。
-	redirects: {
-		'/mail': '/canvas',
-		'/canvas/dns-setup': '/canvas/layout',
-		'/canvas/ai-hub': '/canvas/i18n',
-		'/canvas/oauth-provider': '/canvas/navigation',
-		'/canvas/system-config': '/canvas/markdown',
-		'/canvas/workbench': '/canvas/syntax',
-		'/canvas/api-reference': '/canvas/configuration',
-		'/canvas/rule-engine': '/canvas/cloudflare',
-		'/canvas/security-rbac': '/canvas/releases',
-	},
 });
 

@@ -43,7 +43,7 @@ export default defineConfig({
   ],
 
   // 이전 경로 리다이렉트 테이블. 링크가 깨지는 것을 방지합니다
-  redirects: { '/mail': '/canvas' },
+  redirects: { '/mail': '/canvas/' },
 });
 ```
 

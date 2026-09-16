@@ -82,7 +82,7 @@ En pantallas de distintos tamaños, como móviles o tabletas, la página ajusta 
 | Tipo de dispositivo | Ancho de pantalla | Comportamiento del diseño |
 | :--- | :--- | :--- |
 | **Escritorio de pantalla ancha / portátil** | `>= 1152px` | Se muestra completo el diseño estándar de tres columnas (menú izquierdo + cuerpo central + esquema derecho). |
-| **Tableta / ventana estrecha** | `768px ~ 1152px` | El esquema derecho se oculta y se mantiene el diseño de dos columnas con navegación izquierda y cuerpo. |
-| **Teléfono inteligente** | `< 768px` | Las barras laterales se contraen por completo y el cuerpo se muestra a todo el ancho. Al pulsar el botón de menú de la barra superior se desliza el cajón de la barra lateral. |
+| **Tableta / ventana estrecha** | `800px ~ 1152px` | El esquema derecho se oculta y se mantiene el diseño de dos columnas con navegación izquierda y cuerpo. |
+| **Teléfono inteligente** | `< 800px` | Las barras laterales se contraen por completo y el cuerpo se muestra a todo el ancho. Al pulsar el botón de menú de la barra superior se desliza el cajón de la barra lateral. |
 
 Tanto si se usa un monitor ultrapanorámico como si se consulta puntualmente desde el móvil, la experiencia de lectura resulta natural y cómoda.

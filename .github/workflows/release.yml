@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'   # 推送以 v 开头的标签时自动触发
 
 permissions:
   contents: write

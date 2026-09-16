@@ -100,8 +100,8 @@ export const navigationConfig: NavItem[] = [
 export default defineConfig({
   redirects: {
     // 本站章節路徑語意化重新命名後，舊連結全部保留跳轉
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

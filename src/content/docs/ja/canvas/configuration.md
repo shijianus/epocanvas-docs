@@ -43,7 +43,7 @@ export default defineConfig({
   ],
 
   // 旧パスのリダイレクト表。リンク切れを防ぎます
-  redirects: { '/mail': '/canvas' },
+  redirects: { '/mail': '/canvas/' },
 });
 ```
 

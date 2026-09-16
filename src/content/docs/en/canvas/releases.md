@@ -26,7 +26,7 @@ Versions use the `vMAJOR.MINOR.PATCH` format (currently `v1.2.0`):
 Describe the update in `RELEASE_NOTES.md` in the project root; this file becomes the body text of the GitHub Release:
 
 ```markdown
-## [v1.2.1] - 2026-09-18
+## [v1.2.1] - 2026-09-14
 
 ### Fixes
 - Fixed a command typo in the deployment chapter.
@@ -90,6 +90,8 @@ jobs:
         run: |
           TAG_NAME="${{ github.ref_name }}"
           echo "Publishing release for tag: ${TAG_NAME}"
+          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
+          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
           gh release create "${TAG_NAME}" \
             --title "EpoCanvas Docs ${TAG_NAME}" \
             --notes-file RELEASE_NOTES.md \

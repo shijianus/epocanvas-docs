@@ -11,7 +11,7 @@ function slugify(text) {
 		.trim()
 		.toLowerCase()
 		.replace(/[^\p{L}\p{N}\p{M}\s_\-]/gu, '')
-		.replace(/\s+/g, '-');
+		.replace(/ /g, '-');
 }
 
 // 提取非代码块内的标题与链接，返回 { headings: [{depth,text}], links: [{href, line}] }
@@ -117,6 +117,7 @@ for (const locale of LOCALES) {
 
 if (problems.length === 0) {
 	console.log('OK: 所有锚点均能命中');
+	process.exit(0);
 } else {
 	const byType = {};
 	for (const p of problems) {
@@ -124,4 +125,6 @@ if (problems.length === 0) {
 		console.log(`[${p.type}] ${p.file}:${p.line} -> ${p.href}`);
 	}
 	console.log('\n汇总:', JSON.stringify(byType));
+	// 非零码退出，供 CI（build.yml）作为质量门使用
+	process.exit(1);
 }

@@ -27,7 +27,7 @@ EpoCanvas Docs는 EpoCanvas 프로젝트의 공식 문서 사이트입니다. As
 
 ## 요구 사항
 
-- Node.js 20 이상 (18.17+ 지원)
+- Node.js 20.3+ 또는 22+ (최소 18.20.8)
 - pnpm 10
 
 ## 빠른 시작

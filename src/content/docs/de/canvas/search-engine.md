@@ -22,7 +22,7 @@ Klicken Sie auf das Suchfeld in der Mitte der Kopfzeile (Lupen-Symbol) und geben
 
 ![Beschriftete Darstellung der Suche innerhalb der Seite in der Kopfzeile: ① Eingabefeld ② Trefferzähler ③ vor/zurück-Navigation ④ Löschen ⑤ Hervorhebung auf der Seite](/images/canvas/ui-inpage-search.png)
 
-*Abbildung: Beschriftete Darstellung nach der Eingabe von „部署" („Bereitstellung") in das Suchfeld der Kopfzeile. ① Eingabefeld in der Kopfzeile; ② Trefferzähler (z. B. `3/9`); ③ Buttons für vorheriger/nächster Treffer; ④ Löschen-Button; ⑤ alle Treffer im Text der aktuellen Seite werden automatisch hervorgehoben.*
+*Abbildung: Beschriftete Darstellung nach der Eingabe von „部署" („Bereitstellung") in das Suchfeld der Kopfzeile. ① Eingabefeld in der Kopfzeile; ② Trefferzähler (z. B. `1/26`); ③ Buttons für vorheriger/nächster Treffer; ④ Löschen-Button; ⑤ alle Treffer im Text der aktuellen Seite werden automatisch hervorgehoben.*
 
 ### Stichwort eingeben
 
@@ -86,4 +86,4 @@ EpoCanvas Docs setzt auf eine lokale statische Suchlösung mit **Pagefind**:
 
 - **Begriffe aufteilen**: Für präzisere Ergebnisse können Sie mehrere Wörter durch Leerzeichen getrennt eingeben (z. B. `Cloudflare Domain`).
 - **Zuerst im Titel suchen**: Dokument- und Abschnittstitel haben in der Sortierung das höchste Gewicht; Ergebnisse, deren Titel das Stichwort enthält, stehen ganz oben.
-- **Einschränkung im Entwicklungsmodus**: Der mit `pnpm run dev` gestartete Entwicklungsserver baut den sitewide-Index nicht laufend neu auf; frisch geschriebene Artikel tauchen erst dann in der sitewide Suche auf, wenn Sie einmal `pnpm run build` ausgeführt haben. Die Suche innerhalb der Seite ist davon nicht betroffen.
+- **Einschränkung im Entwicklungsmodus**: Der sitewide-Index wird nur beim Build erzeugt; im Entwicklungsserver (`pnpm run dev`) lädt der `Ctrl+K`-Dialog den Index nicht, die sitewide Suche ist dort nicht benutzbar. Um die Suche zu testen, führen Sie `pnpm run build` und danach `pnpm run preview` aus. Die Suche innerhalb der Seite ist davon nicht betroffen.

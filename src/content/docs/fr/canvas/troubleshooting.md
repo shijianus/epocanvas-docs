@@ -92,7 +92,7 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 
 ### Q9 : en débogage local avec `pnpm dev`, la recherche globale ne trouve pas l'article venant d'être rédigé
 
-- **Cause** : la fenêtre de recherche sur l'ensemble du site s'appuie sur l'index Pagefind, qui n'est généré que lors de `pnpm run build` ; pour préserver la vitesse du rechargement à chaud, le serveur de développement ne reconstruit pas l'index en temps réel.
+- **Cause** : la recherche globale s'appuie sur l'index Pagefind, généré uniquement lors de `pnpm run build` ; en mode développement, la fenêtre `Ctrl+K` ne charge pas l'index (elle s'ouvre sans champ de recherche), donc la recherche globale y est indisponible. C'est le comportement prévu du framework, pas un défaut du site.
 - **Solution** : après un build complet, vérifiez avec le serveur d'aperçu :
 
   ```bash

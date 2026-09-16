@@ -34,12 +34,12 @@ components: {
 
 | 元件檔案 | 規模 | 職責 |
 | :--- | :--- | :--- |
-| `Header.astro` | 約 713 行 | 頂欄全部內容：Logo、搜尋框、主導覽、版本徽標、語言切換、主題切換、GitHub 與 Telegram 入口 |
-| `Search.astro` | 約 840 行 | 雙模式搜尋：頂欄頁內尋找（高亮與計數）+ `Ctrl+K` 全站檢索彈窗（Pagefind UI） |
+| `Header.astro` | 約 639 行 | 頂欄全部內容：Logo、搜尋框、主導覽、版本徽標、語言切換、主題切換、GitHub 與 Telegram 入口 |
+| `Search.astro` | 約 837 行 | 雙模式搜尋：頂欄頁內尋找（高亮與計數）+ `Ctrl+K` 全站檢索彈窗（Pagefind UI） |
 | `Pagination.astro` | 約 123 行 | 底部「上一頁 / 下一頁」翻頁卡片：扁平細邊框、主題色標題、↙/↘ 斜向箭頭指示翻頁方向 |
 | `TwoColumnContent.astro` | 約 77 行 | 內文與右側目錄的雙欄骨架，控制右欄固定寬度與捲動 |
-| `TableOfContents.astro` | 約 64 行 | 「本頁目錄」標題、圖示與目錄列表，過濾掉頁面自身標題 |
-| `PageTitle.astro` | 約 62 行 | 頁面大標題（取 Frontmatter 的 `title`）與「最後更新於」時間戳記 |
+| `TableOfContents.astro` | 約 65 行 | 「本頁目錄」標題、圖示與目錄列表，過濾掉頁面自身標題 |
+| `PageTitle.astro` | 約 65 行 | 頁面大標題（取 Frontmatter 的 `title`）與「最後更新於」時間戳記 |
 | `Sidebar.astro` | 約 22 行 | 薄封裝：複用 Starlight 原生的 `SidebarPersister`，實現換頁時側邊欄捲動位置不變 |
 
 ---

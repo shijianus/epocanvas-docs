@@ -109,7 +109,7 @@ The tech stack actually used by the current version (as reflected in the build o
 | **Expressive Code** | Bundled with Starlight | Code block highlighting, title bars, line highlighting |
 | **Pagefind** | Integrated via `@pagefind/default-ui` 1.5.2 | Generates the static search index at build time |
 | **Wrangler** | v4.131.0 | Official Cloudflare CLI; runs the deployment |
-| **Runtime** | Node.js >= 18.14.1 + pnpm >= 9 | Local development and build environment |
+| **Runtime** | Node.js >= 18.20.8 + pnpm >= 9 | Local development and build environment |
 
 When upgrading dependencies, also read the regression testing notes in [UI Components & Custom Development](/canvas/components/).
 

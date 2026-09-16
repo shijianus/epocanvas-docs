@@ -109,7 +109,7 @@ La pile technique réellement utilisée par la version actuelle (sur la base des
 | **Expressive Code** | Intégré avec Starlight | Coloration des blocs de code, barre de titre, surlignage de lignes |
 | **Pagefind** | Intégré via `@pagefind/default-ui` 1.5.2 | Génère l'index de recherche statique au moment du build |
 | **Wrangler** | v4.131.0 | CLI officielle de Cloudflare, exécute le déploiement |
-| **Environnement d'exécution** | Node.js >= 18.14.1 + pnpm >= 9 | Environnement de développement et de build local |
+| **Environnement d'exécution** | Node.js >= 18.20.8 + pnpm >= 9 | Environnement de développement et de build local |
 
 Lors de la mise à jour des dépendances, veuillez également lire les points d'attention relatifs aux tests de régression dans [Composants d'interface et développement personnalisé](/canvas/components/).
 

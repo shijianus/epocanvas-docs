@@ -109,7 +109,7 @@ EpoCanvas Docs 适合以下场景：
 | **Expressive Code** | 随 Starlight 集成 | 代码块高亮、标题栏、行高亮 |
 | **Pagefind** | 经 `@pagefind/default-ui` 1.5.2 集成 | 构建期生成静态搜索索引 |
 | **Wrangler** | v4.131.0 | Cloudflare 官方 CLI，执行部署 |
-| **运行环境** | Node.js >= 18.14.1 + pnpm >= 9 | 本地开发与构建环境 |
+| **运行环境** | Node.js >= 18.20.8 + pnpm >= 9 | 本地开发与构建环境 |
 
 升级依赖时请同步阅读 [界面组件与二次开发](/canvas/components/) 中的回归测试注意事项。
 

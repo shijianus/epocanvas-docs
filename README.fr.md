@@ -27,7 +27,7 @@ Le site utilise une mise en page à trois colonnes : navigation par catégories 
 
 ## Prérequis
 
-- Node.js 20 ou supérieur (18.17+ pris en charge)
+- Node.js 20.3+ ou 22+ (minimum 18.20.8)
 - pnpm 10
 
 ## Démarrage rapide

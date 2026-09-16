@@ -82,7 +82,7 @@ Sur des écrans de tailles différentes, comme un téléphone ou une tablette, l
 | Type d'appareil | Largeur d'écran | Comportement de la mise en page |
 | :--- | :--- | :--- |
 | **Ordinateur de bureau grand écran / ordinateur portable** | `>= 1152px` | Affichage complet de la mise en page standard à trois colonnes (menu à gauche + corps du texte au centre + plan à droite). |
-| **Tablette / fenêtre étroite** | `768px ~ 1152px` | Le plan de droite est masqué ; la mise en page à deux colonnes (navigation à gauche et corps du texte) est conservée. |
-| **Téléphone intelligent** | `< 768px` | Les deux barres latérales sont repliées et le corps du texte occupe toute la largeur. Un clic sur le bouton de menu de la barre supérieure fait glisser la barre latérale sous forme de tiroir. |
+| **Tablette / fenêtre étroite** | `800px ~ 1152px` | Le plan de droite est masqué ; la mise en page à deux colonnes (navigation à gauche et corps du texte) est conservée. |
+| **Téléphone intelligent** | `< 800px` | Les deux barres latérales sont repliées et le corps du texte occupe toute la largeur. Un clic sur le bouton de menu de la barre supérieure fait glisser la barre latérale sous forme de tiroir. |
 
 Que ce soit sur un écran ultra-large ou pour une consultation rapide sur un téléphone, l'expérience de lecture reste naturelle et confortable.

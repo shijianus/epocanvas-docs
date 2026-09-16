@@ -100,8 +100,8 @@ Ao longo da iteração do projeto é inevitável ajustar caminhos da documentaç
 export default defineConfig({
   redirects: {
     // Após a renomeação semântica dos caminhos dos capítulos do site, todos os links antigos mantêm o redirecionamento
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

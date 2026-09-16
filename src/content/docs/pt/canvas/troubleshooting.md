@@ -48,7 +48,7 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 - **Solução**: abra o `astro.config.mjs` e acrescente no grupo adequado do array `sidebar`:
 
   ```javascript
-  { label: '新功能说明', link: '/canvas/new-feature/' }
+  { label: 'Novo recurso', link: '/canvas/new-feature/' }
   ```
 
 ### Q5: O terminal devolve o erro `"title" is required`
@@ -92,7 +92,7 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 
 ### Q9: Ao depurar com `pnpm dev` em local, a pesquisa global não encontra o artigo recém-escrito
 
-- **Causa**: a janela de pesquisa em todo o site depende do índice do Pagefind, gerado apenas no `pnpm run build`; para manter a velocidade da atualização em tempo real, o servidor de desenvolvimento não reconstrói o índice continuamente.
+- **Causa**: a pesquisa global depende do índice do Pagefind, gerado apenas no `pnpm run build`; em modo de desenvolvimento a caixa de diálogo `Ctrl+K` não carrega o índice (abre sem campo de pesquisa), pelo que a pesquisa global não está disponível. É o comportamento previsto do framework, não um defeito do site.
 - **Solução**: depois de um build completo, valide com o servidor de pré-visualização:
 
   ```bash

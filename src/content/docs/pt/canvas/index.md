@@ -109,7 +109,7 @@ Stack tecnológica realmente usada na versão atual (conforme o resultado do bui
 | **Expressive Code** | Integrado com o Starlight | Destaque de blocos de código, barra de título e destaque de linhas |
 | **Pagefind** | Integrado via `@pagefind/default-ui` 1.5.2 | Geração do índice de pesquisa estático durante o build |
 | **Wrangler** | v4.131.0 | CLI oficial do Cloudflare, executa a implantação |
-| **Ambiente de execução** | Node.js >= 18.14.1 + pnpm >= 9 | Ambiente de desenvolvimento e build local |
+| **Ambiente de execução** | Node.js >= 18.20.8 + pnpm >= 9 | Ambiente de desenvolvimento e build local |
 
 Ao atualizar dependências, leia também as notas sobre testes de regressão em [Componentes da interface e desenvolvimento personalizado](/canvas/components/).
 

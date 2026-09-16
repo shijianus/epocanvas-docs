@@ -26,7 +26,7 @@ description: EpoCanvas Docs의 버전 번호 명명 규칙, 버전 업데이트�
 프로젝트 루트의 `RELEASE_NOTES.md`에 이번 업데이트 내용을 분명히 적습니다. 이 파일은 GitHub Release의 설명 텍스트로 사용됩니다:
 
 ```markdown
-## [v1.2.1] - 2026-09-18
+## [v1.2.1] - 2026-09-14
 
 ### 수정
 - 배포 챕터의 명령어 오탈자를 수정했습니다.
@@ -90,6 +90,8 @@ jobs:
         run: |
           TAG_NAME="${{ github.ref_name }}"
           echo "Publishing release for tag: ${TAG_NAME}"
+          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
+          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
           gh release create "${TAG_NAME}" \
             --title "EpoCanvas Docs ${TAG_NAME}" \
             --notes-file RELEASE_NOTES.md \

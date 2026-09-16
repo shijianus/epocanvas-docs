@@ -82,7 +82,7 @@ Auf Bildschirmen unterschiedlicher Größe – etwa Smartphones oder Tablets –
 | Gerätetyp | Bildschirmbreite | Layoutverhalten |
 | :--- | :--- | :--- |
 | **Breitbild-Desktop / Laptop** | `>= 1152px` | Vollständiges dreispaltiges Standardlayout (linke Navigation + mittiger Haupttext + rechte Gliederung). |
-| **Tablet / schmales Fenster** | `768px ~ 1152px` | Die rechte Gliederung wird ausgeblendet; linke Navigation und Haupttext bleiben als zweispaltiges Layout erhalten. |
-| **Smartphone** | `< 768px` | Beide Seitenleisten sind eingeklappt, der Haupttext wird in voller Breite angezeigt. Über den Menü-Button in der Kopfzeile lässt sich die Seitenleiste als Drawer ausklappen. |
+| **Tablet / schmales Fenster** | `800px ~ 1152px` | Die rechte Gliederung wird ausgeblendet; linke Navigation und Haupttext bleiben als zweispaltiges Layout erhalten. |
+| **Smartphone** | `< 800px` | Beide Seitenleisten sind eingeklappt, der Haupttext wird in voller Breite angezeigt. Über den Menü-Button in der Kopfzeile lässt sich die Seitenleiste als Drawer ausklappen. |
 
 Ob auf einem Ultrabreitbild-Monitor oder beim kurzzeitigen Nachschlagen auf dem Smartphone – das Leseerlebnis bleibt stets natürlich und angenehm.

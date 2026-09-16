@@ -101,8 +101,8 @@ export default defineConfig({
   redirects: {
     // Tras renombrar semánticamente las rutas de las secciones del sitio,
     // los enlaces antiguos se conservan todos como redirecciones
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

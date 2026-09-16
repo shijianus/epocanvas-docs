@@ -27,7 +27,7 @@ EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 
 
 ## 環境需求
 
-- Node.js 20 或以上版本（支援 18.17+）
+- Node.js 20.3+ 或 22+（最低 18.20.8）
 - pnpm 10
 
 ## 快速開始

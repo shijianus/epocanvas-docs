@@ -34,8 +34,8 @@ Todo o código-fonte está em `src/components/starlight/`, com a seguinte dimens
 
 | Ficheiro do componente | Dimensão | Responsabilidade |
 | :--- | :--- | :--- |
-| `Header.astro` | cerca de 713 linhas | Todo o conteúdo da barra superior: logótipo, campo de pesquisa, navegação principal, emblema de versão, seletor de idioma, alternador de tema, entradas para GitHub e Telegram |
-| `Search.astro` | cerca de 840 linhas | Pesquisa em dois modos: pesquisa dentro da página na barra superior (realce e contagem) + janela modal de pesquisa em todo o site com `Ctrl+K` (UI do Pagefind) |
+| `Header.astro` | cerca de 639 linhas | Todo o conteúdo da barra superior: logótipo, campo de pesquisa, navegação principal, emblema de versão, seletor de idioma, alternador de tema, entradas para GitHub e Telegram |
+| `Search.astro` | cerca de 837 linhas | Pesquisa em dois modos: pesquisa dentro da página na barra superior (realce e contagem) + janela modal de pesquisa em todo o site com `Ctrl+K` (UI do Pagefind) |
 | `Pagination.astro` | cerca de 123 linhas | Cartões de navegação "anterior / seguinte" no rodapé: bordas finas, títulos na cor do tema, setas diagonais ↙/↘ a indicar o sentido da navegação |
 | `TwoColumnContent.astro` | cerca de 77 linhas | Esqueleto de duas colunas para o corpo do texto e o índice à direita; controla a largura fixa da coluna direita e a rolagem |
 | `TableOfContents.astro` | cerca de 64 linhas | Título "Nesta página", ícone e lista do índice; filtra o próprio título da página |

@@ -184,7 +184,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 		});
 
 		document.addEventListener('click', (e) => {
-			if (!langWrapper.contains(e.target)) {
+			if (e.target instanceof Node && !langWrapper.contains(e.target)) {
 				langWrapper.classList.remove('open');
 				langBtn.setAttribute('aria-expanded', 'false');
 			}
@@ -194,7 +194,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 	// Theme Toggle Setup
 	const themeBtn = document.getElementById('vp-theme-toggle');
 	if (themeBtn) {
-		const updateTheme = (theme) => {
+		const updateTheme = (theme: string) => {
 			document.documentElement.dataset.theme = theme;
 			localStorage.setItem('starlight-theme', theme);
 			themeBtn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');

@@ -109,7 +109,7 @@ EpoCanvas Docs는 다음과 같은 상황에 적합합니다:
 | **Expressive Code** | Starlight와 함께 통합 | 코드 블록 하이라이트, 제목 표시줄, 줄 하이라이트 |
 | **Pagefind** | `@pagefind/default-ui` 1.5.2로 통합 | 빌드 시점에 정적 검색 인덱스 생성 |
 | **Wrangler** | v4.131.0 | Cloudflare 공식 CLI, 배포 실행 |
-| **실행 환경** | Node.js >= 18.14.1 + pnpm >= 9 | 로컬 개발과 빌드 환경 |
+| **실행 환경** | Node.js >= 18.20.8 + pnpm >= 9 | 로컬 개발과 빌드 환경 |
 
 의존성을 업그레이드할 때는 [UI 컴포넌트와 커스텀 개발](/canvas/components/)의 회귀 테스트 주의 사항도 함께 읽어 주세요.
 

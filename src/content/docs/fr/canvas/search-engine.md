@@ -86,4 +86,4 @@ EpoCanvas Docs utilise la solution de recherche statique locale **Pagefind** :
 
 - **Découper en plusieurs mots** : pour obtenir des résultats plus précis, saisissez plusieurs mots séparés par des espaces (par exemple `Cloudflare domaine`).
 - **Privilégier les titres** : les titres de documents et de sections ont le poids le plus élevé dans le tri ; les résultats dont le titre contient les mots-clés apparaissent en premier.
-- **Limites du mode développement** : le serveur de développement lancé par `pnpm run dev` ne reconstruit pas l'index site-wide en temps réel ; pour qu'un nouvel article apparaisse dans la recherche globale, il faut d'abord exécuter `pnpm run build`. La recherche dans la page n'est pas concernée par cette limite.
+- **Limites du mode développement** : l'index du site n'est généré qu'à la compilation ; dans le serveur de développement lancé par `pnpm run dev`, la fenêtre `Ctrl+K` ne charge pas l'index et la recherche globale y est donc indisponible. Pour la tester, exécutez `pnpm run build` puis `pnpm run preview`. La recherche dans la page n'est pas concernée.

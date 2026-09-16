@@ -34,12 +34,12 @@ components: {
 
 | コンポーネントファイル | 規模 | 役割 |
 | :--- | :--- | :--- |
-| `Header.astro` | 約 713 行 | トップバーの全内容: ロゴ、検索ボックス、メインナビ、バージョン バッジ、言語切替、テーマ切替、GitHub と Telegram への入口 |
-| `Search.astro` | 約 840 行 | 2 モード検索: トップバーのページ内検索（ハイライトとカウント）+ `Ctrl+K` のサイト全体検索ポップアップ（Pagefind UI） |
+| `Header.astro` | 約 639 行 | トップバーの全内容: ロゴ、検索ボックス、メインナビ、バージョン バッジ、言語切替、テーマ切替、GitHub と Telegram への入口 |
+| `Search.astro` | 約 837 行 | 2 モード検索: トップバーのページ内検索（ハイライトとカウント）+ `Ctrl+K` のサイト全体検索ポップアップ（Pagefind UI） |
 | `Pagination.astro` | 約 123 行 | 下部の「前のページ / 次のページ」カード。フラットな細枠、テーマカラーのタイトル、↙/↘ の斜め矢印でページ送りの方向を表示 |
 | `TwoColumnContent.astro` | 約 77 行 | 本文と右側目次の 2 カラム骨格。右カラムの固定幅とスクロールを制御 |
-| `TableOfContents.astro` | 約 64 行 | 「目次」の見出し、アイコンと目次リスト。ページ自身のタイトルは除外 |
-| `PageTitle.astro` | 約 62 行 | ページの大きな見出し（Frontmatter の `title` を使用）と「最終更新」タイムスタンプ |
+| `TableOfContents.astro` | 約 65 行 | 「目次」の見出し、アイコンと目次リスト。ページ自身のタイトルは除外 |
+| `PageTitle.astro` | 約 65 行 | ページの大きな見出し（Frontmatter の `title` を使用）と「最終更新」タイムスタンプ |
 | `Sidebar.astro` | 約 22 行 | 薄いラッパー。Starlight 公式の `SidebarPersister` を再利用し、ページ移動時にサイドバーのスクロール位置を維持 |
 
 ---

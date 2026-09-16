@@ -61,7 +61,7 @@ El despliegue con un clic sirve para "publicar primero el sitio", pero redactar 
 
 | Herramienta | Versión recomendada | Comando de comprobación | Descripción |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.14.1` (se recomienda la 20 LTS) | `node -v` | Entorno base para ejecutar JavaScript y compilar las páginas estáticas |
+| **Node.js** | `>= 18.20.8` (se recomienda 20.3+ o 22 LTS) | `node -v` | Entorno base para ejecutar JavaScript y compilar las páginas estáticas |
 | **pnpm** | `>= 9` (en CI se usa la 10) | `pnpm -v` | Gestor de paquetes recomendado: instala rápido y ahorra espacio en disco |
 | **Git** | Última versión estable | `git --version` | Se usa para descargar el código y gestionar las versiones |
 

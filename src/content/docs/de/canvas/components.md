@@ -34,8 +34,8 @@ Der gesamte Quellcode liegt unter `src/components/starlight/`; Umfang und Aufgab
 
 | Komponentendatei | Umfang | Aufgabe |
 | :--- | :--- | :--- |
-| `Header.astro` | ca. 713 Zeilen | Der gesamte Inhalt der oberen Leiste: Logo, Suchfeld, Hauptnavigation, Versionsabzeichen, Sprachumschaltung, Design-Umschaltung, Zugänge zu GitHub und Telegram |
-| `Search.astro` | ca. 840 Zeilen | Zweimodus-Suche: Suche innerhalb der Seite über die obere Leiste (Hervorhebung und Zähler) + `Ctrl+K`-Dialog für die Suche auf der gesamten Site (Pagefind UI) |
+| `Header.astro` | ca. 639 Zeilen | Der gesamte Inhalt der oberen Leiste: Logo, Suchfeld, Hauptnavigation, Versionsabzeichen, Sprachumschaltung, Design-Umschaltung, Zugänge zu GitHub und Telegram |
+| `Search.astro` | ca. 837 Zeilen | Zweimodus-Suche: Suche innerhalb der Seite über die obere Leiste (Hervorhebung und Zähler) + `Ctrl+K`-Dialog für die Suche auf der gesamten Site (Pagefind UI) |
 | `Pagination.astro` | ca. 123 Zeilen | Blätterkarten „Zurück / Weiter“ am Seitenende: schmaler Rand ohne Schatten, Titel in Themenfarbe, ↙/↘ diagonale Pfeile zeigen die Blätterrichtung an |
 | `TwoColumnContent.astro` | ca. 77 Zeilen | Das Zweispalten-Gerüst aus Haupttext und Inhaltsverzeichnis rechts; steuert feste Breite und Scrollverhalten der rechten Spalte |
 | `TableOfContents.astro` | ca. 64 Zeilen | Titel „Auf dieser Seite“, Symbol und Verzeichnisliste; filtert den Seitentitel selbst heraus |

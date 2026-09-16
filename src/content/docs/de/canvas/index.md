@@ -31,7 +31,7 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 ### 1. Klare dreispaltige Leseoberfläche
 
 - **Navigationsleiste links**: Ordnet alle Dokumentkategorien nach Modulen, mit einklappbaren Ebenen; beim Seitenwechsel springt nichts.
-- **Haupttext in der Mitte**: Maximale Breite des Haupttexts 60 rem, Zeilenabstand 1,68; Codeblöcke passen ihre Breite an – so ermüdet längeres Lesen weniger.
+- **Haupttext in der Mitte**: Maximale Breite des Haupttexts 60rem, Zeilenabstand 1,68; Codeblöcke passen ihre Breite an – so ermüdet längeres Lesen weniger.
 - **Gliederungsleiste rechts**: Erfasst automatisch die `h2`- und `h3`-Überschriften des Artikels und erzeugt daraus das Inhaltsverzeichnis „Auf dieser Seite“; die aktuelle Leseposition wird beim Scrollen hervorgehoben, ein Klick auf eine Überschrift springt sanft dorthin.
 
 ### 2. Zwei Suchmodi: Seite durchsuchen + Site-weite Suche
@@ -109,7 +109,7 @@ Der tatsächlich verwendete Technologie-Stack der aktuellen Version (maßgeblich
 | **Expressive Code** | mit Starlight integriert | Code-Highlighting, Titelleisten, Zeilenhervorhebung |
 | **Pagefind** | integriert über `@pagefind/default-ui` 1.5.2 | Erzeugt beim Build den statischen Suchindex |
 | **Wrangler** | v4.131.0 | Offizielle Cloudflare-CLI für die Bereitstellung |
-| **Laufzeitumgebung** | Node.js >= 18.14.1 + pnpm >= 9 | Umgebung für lokale Entwicklung und Build |
+| **Laufzeitumgebung** | Node.js >= 18.20.8 + pnpm >= 9 | Umgebung für lokale Entwicklung und Build |
 
 Lesen Sie beim Aktualisieren von Abhängigkeiten bitte auch die Hinweise zu Regressionstests unter [UI-Komponenten & eigene Anpassungen](/canvas/components/).
 

@@ -43,7 +43,7 @@ export default defineConfig({
   ],
 
   // Umleitungstabelle für alte Pfade, um defekte Links zu verhindern
-  redirects: { '/mail': '/canvas' },
+  redirects: { '/mail': '/canvas/' },
 });
 ```
 

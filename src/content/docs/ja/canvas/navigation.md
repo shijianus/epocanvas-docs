@@ -100,8 +100,8 @@ export const navigationConfig: NavItem[] = [
 export default defineConfig({
   redirects: {
     // サイト内の章パスを意味の分かる名前に変更した後も、旧リンクはすべてリダイレクトを維持する
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

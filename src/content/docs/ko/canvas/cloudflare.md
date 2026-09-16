@@ -73,11 +73,11 @@ pnpm run deploy
 이는 두 단계를 순서대로 실행하는 것과 같습니다: 먼저 `astro build`가 사이트 전체를 `dist/` 디렉터리로 컴파일하고 검색 인덱스를 생성한 뒤, `wrangler pages deploy dist`를 호출하여 결과물을 Cloudflare에 직접 업로드합니다. 빌드 단계의 실제 출력은 다음과 같습니다:
 
 ```text
-00:06:22 [build] 15 page(s) built in 18.73s
-00:06:22 [build] Complete!
+23:54:01 [build] 181 page(s) built in 20.78s
+23:54:01 [build] Complete!
 ```
 
-업로드가 완료되면 Wrangler가 이번 배포의 미리보기 주소를 출력합니다. 첫 배포 시 Wrangler가 프로젝트 이름을 대화형으로 물어보는데, 그냥 Enter를 눌러 `package.json`에 미리 설정된 `epocanvas-docs`를 사용하면 됩니다.
+업로드가 완료되면 Wrangler가 이번 배포의 미리보기 주소를 출력합니다. 프로젝트 이름은 `deploy` 스크립트가 `--project-name epocanvas-docs`로 미리 지정하므로, 배포 중에 대화형으로 물어보지 않습니다.
 
 ### 3단계: 콘솔에서 내 프로젝트 찾기
 

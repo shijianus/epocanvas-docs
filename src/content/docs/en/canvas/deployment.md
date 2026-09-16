@@ -61,7 +61,7 @@ One-click deployment is good for "getting the site out there first", but writing
 
 | Tool | Recommended version | Check command | Notes |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.14.1` (20 LTS recommended) | `node -v` | Base environment for running JavaScript and building static pages |
+| **Node.js** | `>= 18.20.8` (20.3+ or 22 LTS recommended) | `node -v` | Base environment for running JavaScript and building static pages |
 | **pnpm** | `>= 9` (10 in CI environments) | `pnpm -v` | The recommended package manager; installs quickly and saves disk space |
 | **Git** | Latest stable version | `git --version` | Used to pull code and manage versions |
 

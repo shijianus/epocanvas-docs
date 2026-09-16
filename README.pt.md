@@ -27,7 +27,7 @@ O site usa uma disposição de três colunas: navegação por categorias à esqu
 
 ## Requisitos
 
-- Node.js 20 ou superior (18.17+ é suportado)
+- Node.js 20.3+ ou 22+ (mínimo 18.20.8)
 - pnpm 10
 
 ## Início rápido

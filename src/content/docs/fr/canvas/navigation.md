@@ -100,8 +100,8 @@ Il est inévitable d'ajuster les chemins de la documentation au fil des itérati
 export default defineConfig({
   redirects: {
     // après le renommage sémantique des chemins de sections, les anciens liens redirigent vers les nouvelles adresses
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

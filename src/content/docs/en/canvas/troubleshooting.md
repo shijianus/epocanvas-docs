@@ -92,7 +92,7 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 
 ### Q9: During local `pnpm dev` debugging, site-wide search cannot find a newly written article
 
-- **Cause**: The site-wide search dialog depends on the Pagefind index, which is only generated during `pnpm run build`. To keep hot reload fast, the dev server does not rebuild the index in real time.
+- **Cause**: Site-wide search depends on the Pagefind index, which is only generated during `pnpm run build`. In dev mode the `Ctrl+K` dialog does not load the index (it opens without a search input), so site-wide search is unavailable there. This is expected framework behavior, not a site bug.
 - **Fix**: Build fully and verify with the preview server:
 
   ```bash

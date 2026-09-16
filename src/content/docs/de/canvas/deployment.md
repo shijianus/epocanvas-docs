@@ -61,7 +61,7 @@ Die Ein-Klick-Bereitstellung eignet sich, um die Site zunächst zu veröffentlic
 
 | Werkzeug | Empfohlene Version | Prüf-Befehl | Erläuterung |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.14.1` (empfohlen: 20 LTS) | `node -v` | Basisumgebung zum Ausführen von JavaScript und zum Bauen statischer Seiten |
+| **Node.js** | `>= 18.20.8` (empfohlen: 20.3+ oder 22 LTS) | `node -v` | Basisumgebung zum Ausführen von JavaScript und zum Bauen statischer Seiten |
 | **pnpm** | `>= 9` (in CI-Umgebungen: 10) | `pnpm -v` | Empfohlener Paketmanager, schnelle Installation und sparsamer Speicherverbrauch |
 | **Git** | neueste stabile Version | `git --version` | Für das Abrufen des Codes und die Versionsverwaltung |
 

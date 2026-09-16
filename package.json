@@ -7,14 +7,12 @@
     "start": "astro dev",
     "build": "astro build",
     "deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true",
-    "cf:deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main --commit-dirty=true",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.32.0",
-    "astro": "^5.0.0",
-    "sharp": "^0.33.5"
+    "astro": "^5.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

@@ -27,7 +27,7 @@ El sitio usa una maquetación de tres columnas: el catálogo de categorías a la
 
 ## Requisitos
 
-- Node.js 20 o posterior (se admite 18.17+)
+- Node.js 20.3+ o 22+ (mínimo 18.20.8)
 - pnpm 10
 
 ## Inicio rápido

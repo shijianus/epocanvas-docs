@@ -86,4 +86,4 @@ EpoCanvas Docs usa la solución de búsqueda estática local **Pagefind**:
 
 - **Dividir en términos**: para encontrar contenido con más precisión, introduzca varias palabras separadas por espacios (por ejemplo, `Cloudflare dominio`).
 - **Priorizar los títulos**: los títulos de los documentos y de las secciones tienen el mayor peso en la ordenación; los resultados con coincidencias en el título aparecen primero.
-- **Limitación en modo de desarrollo**: el servidor de desarrollo iniciado con `pnpm run dev` no reconstruye en tiempo real el índice de todo el sitio; para que un artículo recién escrito aparezca en la búsqueda global hay que ejecutar antes una vez `pnpm run build`. La búsqueda en la página no está sujeta a esta limitación.
+- **Limitación en modo de desarrollo**: el índice de todo el sitio solo se genera al compilar, y en el servidor de desarrollo iniciado con `pnpm run dev` el diálogo de `Ctrl+K` no carga el índice, por lo que la búsqueda global no está disponible. Para probarla, ejecute `pnpm run build` y luego `pnpm run preview`. La búsqueda en la página no está sujeta a esta limitación.

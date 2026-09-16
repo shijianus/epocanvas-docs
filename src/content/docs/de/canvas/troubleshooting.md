@@ -92,7 +92,7 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
 
 ### Q9: Beim lokalen Debuggen mit `pnpm dev` findet die globale Suche den frisch geschriebenen Artikel nicht
 
-- **Ursache**: Das Suchfenster für die gesamte Site hängt vom Pagefind-Index ab, und dieser entsteht nur bei `pnpm run build`; der Entwicklungsserver baut den Index zum Erhalt der Hot-Reload-Geschwindigkeit nicht in Echtzeit neu auf.
+- **Ursache**: Die sitewide Suche hängt vom Pagefind-Index ab, der nur beim Build erzeugt wird; im Entwicklungsmodus lädt der `Ctrl+K`-Dialog den Index nicht (nach dem Öffnen fehlt das Eingabefeld), die sitewide Suche ist dort nicht verfügbar. Das ist vorgesehenes Framework-Verhalten, kein Defekt der Site.
 - **Lösung**: Nach einem vollständigen Build mit dem Vorschau-Server prüfen:
 
   ```bash

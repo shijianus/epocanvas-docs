@@ -100,8 +100,8 @@ Documentation paths inevitably change as the project evolves. So that old links 
 export default defineConfig({
   redirects: {
     // After the site's section paths were renamed for clarity, all old links keep redirecting
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

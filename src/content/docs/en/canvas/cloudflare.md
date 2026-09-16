@@ -73,11 +73,11 @@ pnpm run deploy
 It runs two steps in sequence: first `astro build` compiles the whole site into the `dist/` directory and generates the search index, then `wrangler pages deploy dist` uploads the output directly to Cloudflare. The real build output looks like this:
 
 ```text
-00:06:22 [build] 15 page(s) built in 18.73s
-00:06:22 [build] Complete!
+23:54:01 [build] 181 page(s) built in 20.78s
+23:54:01 [build] Complete!
 ```
 
-When the upload finishes, Wrangler prints a preview URL for this deployment. On the first deployment Wrangler asks for the project name interactively; just press Enter to accept the preset `epocanvas-docs` from `package.json`.
+When the upload finishes, Wrangler prints a preview URL for this deployment. The project name is preset by the `deploy` script (`--project-name epocanvas-docs`), so nothing is asked interactively during deployment.
 
 ### Step 3: Find Your Project in the Dashboard
 

@@ -82,7 +82,7 @@ On screens of different sizes, such as phones and tablets, the layout adjusts au
 | Device type | Screen width | Layout behavior |
 | :--- | :--- | :--- |
 | **Wide desktop / laptop** | `>= 1152px` | The full standard three-column layout (left sidebar + central body + right outline). |
-| **Tablet / narrow window** | `768px ~ 1152px` | The right-hand outline is hidden; the left navigation and body text remain as a two-column layout. |
-| **Smartphone** | `< 768px` | Both sidebars collapse and the body text takes the full width. Tap the menu button in the header to slide out the sidebar drawer. |
+| **Tablet / narrow window** | `800px ~ 1152px` | The right-hand outline is hidden; the left navigation and body text remain as a two-column layout. |
+| **Smartphone** | `< 800px` | Both sidebars collapse and the body text takes the full width. Tap the menu button in the header to slide out the sidebar drawer. |
 
 Whether you are on an ultra-wide monitor or checking the docs on a phone, you get a natural, comfortable reading experience.

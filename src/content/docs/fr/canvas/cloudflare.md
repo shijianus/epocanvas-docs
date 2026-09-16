@@ -35,7 +35,7 @@ Les deux méthodes peuvent coexister : au quotidien, build automatique via Git ;
 :::
 
 :::tip[Vraiment pas envie de taper des commandes ?]
-La page [prise en main](/canvas/deployment/) propose des boutons de déploiement en un clic pour Cloudflare, Vercel et Netlify : un clic, l'autorisation du compte, la confirmation de la configuration, et le site de documentation est publié sur votre propre compte cloud, voir [déploiement en un clic](/canvas/deployment/#déploiement-en-un-clic-la-mise-en-ligne-en-un-seul-clic). Le bouton Cloudflare passe par l'hébergement statique Workers, une voie indépendante de la méthode Pages présentée sur cette page ; pour un site de documentation statique, l'expérience d'accès est identique, choisissez simplement l'une des deux.
+La page [prise en main](/canvas/deployment/) propose des boutons de déploiement en un clic pour Cloudflare, Vercel et Netlify : un clic, l'autorisation du compte, la confirmation de la configuration, et le site de documentation est publié sur votre propre compte cloud, voir [déploiement en un clic](/canvas/deployment/#déploiement-en-un-clic--la-mise-en-ligne-en-un-seul-clic). Le bouton Cloudflare passe par l'hébergement statique Workers, une voie indépendante de la méthode Pages présentée sur cette page ; pour un site de documentation statique, l'expérience d'accès est identique, choisissez simplement l'une des deux.
 :::
 
 ---
@@ -73,11 +73,11 @@ pnpm run deploy
 Elle équivaut à exécuter deux étapes successives : d'abord `astro build` compile tout le site dans le répertoire `dist/` et génère l'index de recherche, puis `wrangler pages deploy dist` téléverse le résultat directement vers Cloudflare. Voici la sortie réelle de l'étape de build :
 
 ```text
-00:06:22 [build] 15 page(s) built in 18.73s
-00:06:22 [build] Complete!
+23:54:01 [build] 181 page(s) built in 20.78s
+23:54:01 [build] Complete!
 ```
 
-Une fois le téléversement terminé, Wrangler affiche l'URL d'aperçu du déploiement. Lors du premier déploiement, Wrangler demande interactivement le nom du projet ; validez simplement avec Entrée pour utiliser le nom `epocanvas-docs` préconfiguré dans `package.json`.
+Une fois le téléversement terminé, Wrangler affiche l'URL d'aperçu du déploiement. Le nom du projet est prédéfini par le script `deploy` (`--project-name epocanvas-docs`) ; aucune demande interactive n'apparaît pendant le déploiement.
 
 ### Étape 3 : retrouver votre projet dans la console
 
@@ -119,7 +119,7 @@ Si vous souhaitez que « chaque commit déclenche automatiquement la mise en lig
 
 ### Étape 1 : lancer le processus de création
 
-Sur la page de liste des projets Workers & Pages, cliquez sur le bouton **Create application** en haut à droite (voir le repère ② de l'illustration de l'[étape 3 de la méthode 1](#étape-3-retrouver-votre-projet-dans-la-console)), puis choisissez l'onglet **Pages**.
+Sur la page de liste des projets Workers & Pages, cliquez sur le bouton **Create application** en haut à droite (voir le repère ② de l'illustration de l'[étape 3 de la méthode 1](#étape-3--retrouver-votre-projet-dans-la-console)), puis choisissez l'onglet **Pages**.
 
 ### Étape 2 : connecter le dépôt Git
 

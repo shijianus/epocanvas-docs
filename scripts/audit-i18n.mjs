@@ -43,28 +43,35 @@ const FIGURE_CAPTION = /^\*(?:Figure|Abbildung|Figura|Рисунок|图示|圖�
 
 // ---- 1. CJK leftover in latin/cyrillic locales (prose only) ----
 let issues1 = 0;
+// 正文页与各语言首页（index.mdx）都纳入检查，避免只扫 canvas/ 目录留下盲区
 for (const loc of LATIN) {
-	for (const f of pages(loc)) {
-		const lines = stripCode(read(loc, f)).split('\n');
+	const checkFile = (relPath, label) => {
+		const lines = stripCode(fs.readFileSync(path.join(docsDir, loc, relPath), 'utf8')).split('\n');
 		lines.forEach((line, i) => {
 			if (!cjk.test(line)) return;
 			if (LANG_TABLE.test(line.trim()) || FIGURE_CAPTION.test(line.trim())) return;
 			issues1++;
-			if (issues1 <= 40) console.log(`[CJK-in-${loc}] ${loc}/canvas/${f}:${i + 1}: ${line.trim().slice(0, 110)}`);
+			if (issues1 <= 40) console.log(`[CJK-in-${loc}] ${label}:${i + 1}: ${line.trim().slice(0, 110)}`);
 		});
-	}
+	};
+	for (const f of pages(loc)) checkFile(`canvas/${f}`, `${loc}/canvas/${f}`);
+	if (fs.existsSync(path.join(docsDir, loc, 'index.mdx'))) checkFile('index.mdx', `${loc}/index.mdx`);
 }
 console.log(`1) CJK leftovers in latin locales (prose lines, code excluded): ${issues1}`);
 
 // ---- 2. zh-TW terms inside root zh-CN ----
+// 与第 1 节一致先剥离代码块，避免代码示例里的繁体用词被误报。
 let twIssues = 0;
-for (const f of fs.readdirSync(path.join(docsDir, 'canvas')).filter((f) => f.endsWith('.md'))) {
-	const lines = fs.readFileSync(path.join(docsDir, 'canvas', f), 'utf8').split('\n');
+// 根首页 index.mdx 与 canvas/ 正文一起检查，避免审计盲区
+const rootZhFiles = ['index.mdx', ...fs.readdirSync(path.join(docsDir, 'canvas')).filter((f) => f.endsWith('.md'))];
+for (const f of rootZhFiles) {
+	const full = f === 'index.mdx' ? path.join(docsDir, 'index.mdx') : path.join(docsDir, 'canvas', f);
+	const lines = stripCode(fs.readFileSync(full, 'utf8')).split('\n');
 	lines.forEach((line, i) => {
 		for (const t of ['专案', '點擊', '資訊', '網路', '軟體', '預設', '支援', '伺服器', '檔案', '程式', '設定', '搜尋', '影片', '記憶體', '滑鼠']) {
 			if (line.includes(t)) {
 				twIssues++;
-				if (twIssues <= 30) console.log(`[TW-in-zh-CN] canvas/${f}:${i + 1}: "${t}" ${line.trim().slice(0, 90)}`);
+				if (twIssues <= 30) console.log(`[TW-in-zh-CN] ${f}:${i + 1}: "${t}" ${line.trim().slice(0, 90)}`);
 			}
 		}
 	});
@@ -73,6 +80,7 @@ console.log(`2) Taiwan-style terms in root zh-CN: ${twIssues}`);
 
 // ---- 3. frontmatter parity: keys + title/slug ----
 console.log('\n3) frontmatter parity per page:');
+let fmIssues = 0;
 for (const f of ROOT_PAGES) {
 	const rf = front(read('canvas', f));
 	const rootKeys = Object.keys(rf || {}).sort().join(',');
@@ -87,6 +95,7 @@ for (const f of ROOT_PAGES) {
 			if (LATIN.includes(loc) && cjk.test(t)) rows.push(`${loc}:title-is-CJK!`);
 		}
 	}
+	if (rows.length) fmIssues += rows.length;
 	const desc = (rf && rf.description ? rf.description : '').slice(0, 24);
 	console.log(`  ${f.padEnd(20)} root-title="${((rf && rf.title) || '').slice(0, 20).padEnd(22)} ${rows.length ? 'ISSUES: ' + rows.join(' ') : 'OK'}`);
 }
@@ -117,6 +126,7 @@ console.log(`   -> ${imgMissing} missing`);
 // ---- 5. per-locale vs root: heading & code-fence alignment ----
 // 字节长度比在中文与拉丁文之间天然差 2-3 倍，不作为对齐依据。
 console.log('\n5) structural alignment (headings / code fences vs root):');
+let structIssues = 0;
 for (const loc of locales) {
 	const bad = [];
 	for (const f of ROOT_PAGES) {
@@ -130,12 +140,24 @@ for (const loc of locales) {
 			bad.push(`${f}(h${dh >= 0 ? '+' : ''}${dh} fences${dcf >= 0 ? '+' : ''}${dcf})`);
 		}
 	}
+	if (bad.length) structIssues += bad.length;
 	console.log(`  ${loc}: ${bad.length === 0 ? 'all pages structurally aligned' : bad.join(' ')}`);
 }
 
 // ---- 6. index.mdx parity ----
 console.log('\n6) index.mdx per locale:');
+let mdxIssues = 0;
 for (const loc of locales) {
 	const p = path.join(docsDir, loc, 'index.mdx');
-	console.log(`  ${loc}: ${fs.existsSync(p) ? fs.statSync(p).size + 'B' : 'MISSING'}`);
+	const exists = fs.existsSync(p);
+	if (!exists) mdxIssues++;
+	console.log(`  ${loc}: ${exists ? fs.statSync(p).size + 'B' : 'MISSING'}`);
 }
+
+// 任何一节发现问题都以非零码退出，供 CI（build.yml）作为质量门使用
+const totalIssues = issues1 + twIssues + fmIssues + imgMissing + structIssues + mdxIssues;
+if (totalIssues > 0) {
+	console.error(`\ni18n audit FAILED: ${totalIssues} issue(s)`);
+	process.exit(1);
+}
+console.log('\ni18n audit OK');

@@ -100,8 +100,8 @@ Im Lauf der Projektentwicklung werden Dokumentpfade zwangsläufig geändert. Dam
 export default defineConfig({
   redirects: {
     // Nach dem semantischen Umbenennen der Kapitelpfade bleiben alle alten Links als Weiterleitung erhalten
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

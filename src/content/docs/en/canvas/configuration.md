@@ -43,7 +43,7 @@ export default defineConfig({
   ],
 
   // Redirect table for old paths, so existing links do not break
-  redirects: { '/mail': '/canvas' },
+  redirects: { '/mail': '/canvas/' },
 });
 ```
 

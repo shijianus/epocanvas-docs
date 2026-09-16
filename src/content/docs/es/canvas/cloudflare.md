@@ -73,11 +73,11 @@ pnpm run deploy
 Equivale a ejecutar dos pasos en secuencia: primero `astro build` compila todo el sitio al directorio `dist/` y genera el índice de búsqueda, y luego `wrangler pages deploy dist` sube el resultado directamente a Cloudflare. La salida real de la fase de compilación es la siguiente:
 
 ```text
-00:06:22 [build] 15 page(s) built in 18.73s
-00:06:22 [build] Complete!
+23:54:01 [build] 181 page(s) built in 20.78s
+23:54:01 [build] Complete!
 ```
 
-Al terminar la subida, Wrangler muestra la dirección de vista previa de ese despliegue. En el primer despliegue, Wrangler pregunta interactivamente el nombre del proyecto; basta con pulsar Enter para usar el `epocanvas-docs` ya predefinido en `package.json`.
+Al terminar la subida, Wrangler muestra la dirección de vista previa de ese despliegue. El nombre del proyecto lo fija de antemano el script `deploy` (`--project-name epocanvas-docs`), por lo que no se pregunta de forma interactiva.
 
 ### Paso 3: localizar su proyecto en la consola
 

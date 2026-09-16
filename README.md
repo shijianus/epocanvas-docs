@@ -27,7 +27,7 @@ The site uses a three-column layout: category navigation on the left, article co
 
 ## Requirements
 
-- Node.js 20 or later (18.17+ is supported)
+- Node.js 20.3+ or 22+ (minimum 18.20.8)
 - pnpm 10
 
 ## Quick Start

@@ -61,7 +61,7 @@ A implantação com um clique serve para "publicar o site primeiro", mas escreve
 
 | Ferramenta | Versão recomendada | Comando de verificação | Descrição |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.14.1` (recomendado 20 LTS) | `node -v` | Ambiente de base para executar JavaScript e construir as páginas estáticas |
+| **Node.js** | `>= 18.20.8` (recomendado 20.3+ ou 22 LTS) | `node -v` | Ambiente de base para executar JavaScript e construir as páginas estáticas |
 | **pnpm** | `>= 9` (10 em ambientes de CI) | `pnpm -v` | Gestor de pacotes recomendado, instala depressa e poupa espaço em disco |
 | **Git** | Versão estável mais recente | `git --version` | Usado para obter o código e gerir versões |
 

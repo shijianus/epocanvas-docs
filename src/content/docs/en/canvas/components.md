@@ -34,8 +34,8 @@ All source code lives in `src/components/starlight/`. Their sizes and responsibi
 
 | Component file | Size | Responsibility |
 | :--- | :--- | :--- |
-| `Header.astro` | About 713 lines | Everything in the top bar: logo, search box, main navigation, version badge, language switcher, theme toggle, GitHub and Telegram links |
-| `Search.astro` | About 840 lines | Dual-mode search: in-page search from the top bar (highlighting and counters) + the `Ctrl+K` site-wide search dialog (Pagefind UI) |
+| `Header.astro` | About 639 lines | Everything in the top bar: logo, search box, main navigation, version badge, language switcher, theme toggle, GitHub and Telegram links |
+| `Search.astro` | About 837 lines | Dual-mode search: in-page search from the top bar (highlighting and counters) + the `Ctrl+K` site-wide search dialog (Pagefind UI) |
 | `Pagination.astro` | About 123 lines | Bottom "previous / next" cards: flat thin borders, theme-colored titles, and ↙/↘ diagonal arrows indicating the paging direction |
 | `TwoColumnContent.astro` | About 77 lines | Two-column skeleton for body text and the right-side table of contents; controls the fixed width and scrolling of the right column |
 | `TableOfContents.astro` | About 64 lines | The "On this page" title, icon, and TOC list; filters out the page's own title |

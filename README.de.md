@@ -27,7 +27,7 @@ Die Website verwendet ein dreispaltiges Layout: links die Kategorie-Navigation, 
 
 ## Voraussetzungen
 
-- Node.js 20 oder neuer (18.17+ wird unterstützt)
+- Node.js 20.3+ oder 22+ (mind. 18.20.8)
 - pnpm 10
 
 ## Schnellstart

@@ -100,8 +100,8 @@ export const navigationConfig: NavItem[] = [
 export default defineConfig({
   redirects: {
     // После семантического переименования путей разделов сайта все старые ссылки сохраняются и перенаправляются
-    '/canvas/rule-engine': '/canvas/cloudflare',
-    '/canvas/dns-setup': '/canvas/layout',
+    '/canvas/rule-engine': '/canvas/cloudflare/',
+    '/canvas/dns-setup': '/canvas/layout/',
   },
 });
 ```

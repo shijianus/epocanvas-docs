@@ -43,7 +43,7 @@ export default defineConfig({
   ],
 
   // Tabela de redirecionamento de caminhos antigos, para evitar links quebrados
-  redirects: { '/mail': '/canvas' },
+  redirects: { '/mail': '/canvas/' },
 });
 ```
 

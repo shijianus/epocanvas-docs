@@ -82,7 +82,7 @@ Em ecrãs de diferentes dimensões, como telemóveis ou tablets, o layout ajusta
 | Tipo de dispositivo | Largura do ecrã | Comportamento do layout |
 | :--- | :--- | :--- |
 | **PC de secretária / portátil de ecrã largo** | `>= 1152px` | Apresenta integralmente o layout padrão de três colunas (menu à esquerda + texto ao centro + índice à direita). |
-| **Tablet / janela estreita** | `768px ~ 1152px` | O índice à direita fica oculto, mantendo-se o layout de duas colunas (navegação à esquerda + corpo do texto). |
-| **Telemóvel** | `< 768px` | As barras laterais recolhem na totalidade e o corpo do texto ocupa toda a largura. Clicar no botão de menu na barra superior desliza a barra lateral em gaveta. |
+| **Tablet / janela estreita** | `800px ~ 1152px` | O índice à direita fica oculto, mantendo-se o layout de duas colunas (navegação à esquerda + corpo do texto). |
+| **Telemóvel** | `< 800px` | As barras laterais recolhem na totalidade e o corpo do texto ocupa toda a largura. Clicar no botão de menu na barra superior desliza a barra lateral em gaveta. |
 
 Quer num monitor ultralargo quer numa consulta rápida no telemóvel, a experiência de leitura mantém-se natural e confortável.
