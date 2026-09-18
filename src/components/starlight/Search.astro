@@ -126,12 +126,16 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 <script is:inline>
 	(() => {
 		const modKeys = document.querySelectorAll('.key-mod');
-		if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+		if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)) {
 			modKeys.forEach((key) => {
 				key.textContent = '⌘';
 			});
 			const trigger = document.getElementById('epo-modal-trigger');
-			if (trigger) trigger.setAttribute('aria-keyshortcuts', 'Meta+K');
+			if (trigger) {
+				trigger.setAttribute('aria-keyshortcuts', 'Meta+K');
+				// 文案键里的快捷键写死为 Ctrl+K，苹果平台上提示同步换成 ⌘，避免两处不一致
+				if (trigger.title) trigger.title = trigger.title.replace(/Ctrl/i, '⌘');
+			}
 		}
 	})();
 </script>

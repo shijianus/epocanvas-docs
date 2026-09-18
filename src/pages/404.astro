@@ -1,0 +1,124 @@
+---
+/**
+ * 自定义 404 页：配合 astro.config.mjs 里的 disable404Route: true 使用。
+ * Starlight 内置 404 固定用默认语言渲染，对非中文访客不友好；
+ * 这里改为服务端输出中文兜底文案，再用一小段脚本按浏览器语言
+ * 从统一字典（src/utils/i18n.ts）里取对应语言替换，无 JS 时保持中文兜底。
+ */
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getTranslation, SUPPORTED_LANGUAGES, UI_TRANSLATIONS, localizedHref } from '../utils/i18n';
+
+// 各语言的提示文案 / 首页地址 / 按钮文字，序列化成 JSON 塞进页面，
+// 由下方内联脚本按浏览器语言挑选（is:inline + JSON 标签，不做打包期处理）。
+const payload = JSON.stringify({
+	messages: Object.fromEntries(Object.keys(UI_TRANSLATIONS).map((code) => [code, getTranslation('notfound.message', code)])),
+	homeHrefs: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, localizedHref('/', lang.code)])),
+	homeLabels: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, getTranslation('nav.home', lang.code)])),
+});
+---
+
+<StarlightPage
+	frontmatter={{
+		title: '404',
+		description: 'EpoCanvas Docs 404',
+		template: 'splash',
+		pagefind: false,
+	}}
+>
+	<div class="not-found">
+		<p class="not-found-code" aria-hidden="true">404</p>
+		<p id="not-found-message" class="not-found-message">{getTranslation('notfound.message', 'zh-CN')}</p>
+		<a id="not-found-home" class="not-found-home" href="/">{getTranslation('nav.home', 'zh-CN')}</a>
+		<script is:inline type="application/json" id="not-found-i18n" set:html={payload} />
+	</div>
+</StarlightPage>
+
+<script is:inline>
+	(() => {
+		const dataEl = document.getElementById('not-found-i18n');
+		if (!dataEl) return;
+		let data;
+		try {
+			data = JSON.parse(dataEl.textContent || '{}');
+		} catch {
+			return;
+		}
+		const codes = Object.keys(data.messages || {});
+		const wanted = (navigator.language || '').toLowerCase().replace('_', '-');
+		const findByCode = (code) => codes.find((c) => c.toLowerCase() === code);
+		let pick = findByCode(wanted) || findByCode(wanted.split('-')[0]);
+		// 精确匹配不上的中文变体按使用习惯分派：港/澳/台与繁体声明给繁體中文
+		if (!pick && wanted.startsWith('zh')) {
+			pick = /-(hk|mo|tw)$|^zh-hant/.test(wanted) ? 'zh-TW' : 'zh-CN';
+		}
+		if (!pick) pick = 'zh-CN';
+
+		const message = document.getElementById('not-found-message');
+		if (message) message.textContent = data.messages[pick];
+		const home = document.getElementById('not-found-home');
+		if (home) {
+			home.href = data.homeHrefs[pick];
+			home.textContent = data.homeLabels[pick];
+		}
+	})();
+</script>
+
+<style>
+	.not-found {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 3.5rem 0 4.5rem;
+		text-align: center;
+	}
+
+	.not-found-code {
+		margin: 0;
+		font-size: 5rem;
+		font-weight: 700;
+		line-height: 1;
+		letter-spacing: -0.03em;
+		color: var(--sl-color-accent, #2563eb);
+	}
+
+	:root[data-theme='dark'] .not-found-code {
+		color: #60a5fa;
+	}
+
+	.not-found-message {
+		margin: 0;
+		max-width: 34rem;
+		font-size: 1.05rem;
+		line-height: 1.7;
+		color: var(--sl-color-gray-2, #334155);
+	}
+
+	:root[data-theme='dark'] .not-found-message {
+		color: #cbd5e1;
+	}
+
+	.not-found-home {
+		display: inline-flex;
+		align-items: center;
+		margin-top: 0.75rem;
+		padding: 0.45rem 1.1rem;
+		border: 1px solid var(--sl-color-hairline, #e2e8f0);
+		border-radius: 8px;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--sl-color-white, #0f172a);
+		text-decoration: none;
+		transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+	}
+
+	:root[data-theme='dark'] .not-found-home {
+		color: #e2e8f0;
+	}
+
+	.not-found-home:hover {
+		border-color: var(--sl-color-accent, #2563eb);
+		color: var(--sl-color-accent, #2563eb);
+		background-color: var(--sl-color-accent-low, rgba(37, 99, 235, 0.08));
+	}
+</style>

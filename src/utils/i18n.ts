@@ -99,6 +99,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': '跳转到内容',
 		'social.github': 'GitHub 源码仓库',
 		'social.telegram': 'Telegram 技术社群',
+		'notfound.message': '页面未找到。请检查网址是否正确，或通过搜索和侧边栏继续浏览。',
 
 		'pagefind.clear_search': '清除',
 		'pagefind.load_more': '加载更多结果',
@@ -158,6 +159,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': '跳轉到內容',
 		'social.github': 'GitHub 原始碼儲存庫',
 		'social.telegram': 'Telegram 技術社群',
+		'notfound.message': '找不到頁面。請檢查網址是否正確，或透過搜尋與側邊欄繼續瀏覽。',
 
 		'pagefind.clear_search': '清除',
 		'pagefind.load_more': '載入更多結果',
@@ -217,6 +219,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'Skip to content',
 		'social.github': 'GitHub Repository',
 		'social.telegram': 'Telegram Community',
+		'notfound.message': 'Page not found. Check the URL, or use search and the sidebar to keep browsing.',
 
 		'pagefind.clear_search': 'Clear',
 		'pagefind.load_more': 'Load more results',
@@ -276,6 +279,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'コンテンツへスキップ',
 		'social.github': 'GitHub リポジトリ',
 		'social.telegram': 'Telegram コミュニティ',
+		'notfound.message': 'ページが見つかりません。URL を確認するか、検索やサイドバーから目的のページをお探しください。',
 
 		'pagefind.clear_search': 'クリア',
 		'pagefind.load_more': 'さらに結果を読み込む',
@@ -335,6 +339,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': '본문으로 건너뛰기',
 		'social.github': 'GitHub 저장소',
 		'social.telegram': 'Telegram 커뮤니티',
+		'notfound.message': '페이지를 찾을 수 없습니다. URL을 확인하거나 검색과 사이드바를 이용해 계속 탐색하세요.',
 
 		'pagefind.clear_search': '지우기',
 		'pagefind.load_more': '결과 더 보기',
@@ -394,6 +399,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'Saltar al contenido',
 		'social.github': 'Repositorio GitHub',
 		'social.telegram': 'Comunidad Telegram',
+		'notfound.message': 'No se encontró la página. Comprueba la URL o usa la búsqueda y el menú lateral para seguir navegando.',
 
 		'pagefind.clear_search': 'Borrar',
 		'pagefind.load_more': 'Cargar más resultados',
@@ -453,6 +459,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'Passer au contenu',
 		'social.github': 'Dépôt GitHub',
 		'social.telegram': 'Communauté Telegram',
+		'notfound.message': 'Page introuvable. Vérifiez l\'URL ou utilisez la recherche et le menu latéral pour poursuivre votre navigation.',
 
 		'pagefind.clear_search': 'Effacer',
 		'pagefind.load_more': 'Charger plus de résultats',
@@ -512,6 +519,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'Zum Inhalt springen',
 		'social.github': 'GitHub-Repository',
 		'social.telegram': 'Telegram-Community',
+		'notfound.message': 'Seite nicht gefunden. Prüfen Sie die URL oder nutzen Sie die Suche und die Seitenleiste, um weiter zu stöbern.',
 
 		'pagefind.clear_search': 'Löschen',
 		'pagefind.load_more': 'Weitere Ergebnisse laden',
@@ -571,6 +579,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'Перейти к содержимому',
 		'social.github': 'Репозиторий GitHub',
 		'social.telegram': 'Сообщество Telegram',
+		'notfound.message': 'Страница не найдена. Проверьте адрес или воспользуйтесь поиском и боковой панелью, чтобы продолжить.',
 
 		'pagefind.clear_search': 'Очистить',
 		'pagefind.load_more': 'Показать ещё результаты',
@@ -630,6 +639,7 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'skipLink.label': 'Pular para o conteúdo',
 		'social.github': 'Repositório GitHub',
 		'social.telegram': 'Comunidade Telegram',
+		'notfound.message': 'Página não encontrada. Verifique o URL ou use a pesquisa e a barra lateral para continuar a navegar.',
 
 		'pagefind.clear_search': 'Limpar',
 		'pagefind.load_more': 'Carregar mais resultados',

@@ -5,7 +5,6 @@ const root = process.cwd();
 const docsDir = path.join(root, 'src/content/docs');
 const locales = ['zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
 const LATIN = ['en', 'es', 'fr', 'de', 'pt', 'ru'];
-const CJKish = ['zh-tw', 'ja', 'ko'];
 
 const ROOT_PAGES = fs.readdirSync(path.join(docsDir, 'canvas')).filter((f) => f.endsWith('.md')).sort();
 function pages(loc) {
@@ -95,9 +94,8 @@ for (const f of ROOT_PAGES) {
 			if (LATIN.includes(loc) && cjk.test(t)) rows.push(`${loc}:title-is-CJK!`);
 		}
 	}
-	if (rows.length) fmIssues += rows.length;
-	const desc = (rf && rf.description ? rf.description : '').slice(0, 24);
-	console.log(`  ${f.padEnd(20)} root-title="${((rf && rf.title) || '').slice(0, 20).padEnd(22)} ${rows.length ? 'ISSUES: ' + rows.join(' ') : 'OK'}`);
+		if (rows.length) fmIssues += rows.length;
+		console.log(`  ${f.padEnd(20)} root-title="${((rf && rf.title) || '').slice(0, 20).padEnd(22)} ${rows.length ? 'ISSUES: ' + rows.join(' ') : 'OK'}`);
 }
 
 // ---- 4. image references outside code: exist? ----

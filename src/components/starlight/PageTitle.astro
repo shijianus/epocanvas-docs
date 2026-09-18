@@ -25,7 +25,7 @@ const updatedColon = lang.startsWith('zh') ? '：' : ': ';
 				</span>
 			)
 		}
-		<span class="meta-separator">/</span>
+		{lastUpdated && <span class="meta-separator">/</span>}
 		<span class="meta-item">{getTranslation('page.specification', lang)}</span>
 	</div>
 </div>

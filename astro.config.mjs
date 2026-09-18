@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -169,6 +169,71 @@ function rehypeLocalizeAsides() {
 	};
 }
 
+// remark-rehype 给脚注区块注入的标题（#footnote-label，进入目录）与返回链接的
+// aria-label 是写死的英文（Footnotes / Back to reference N），不随页面语言变化。
+// 这里按源文件的语言目录替换为对应语言的文案；没有脚注的文件不受影响。
+const FOOTNOTE_LABELS = {
+	'zh-CN': '脚注',
+	'zh-tw': '註腳',
+	en: 'Footnotes',
+	ja: '脚注',
+	ko: '각주',
+	es: 'Notas al pie',
+	fr: 'Notes de bas de page',
+	de: 'Fußnoten',
+	ru: 'Сноски',
+	pt: 'Notas de rodapé',
+};
+const FOOTNOTE_BACK_LABELS = {
+	'zh-CN': '返回引注 {n}',
+	'zh-tw': '返回引註 {n}',
+	en: 'Back to reference {n}',
+	ja: '注釈 {n} に戻る',
+	ko: '각주 {n}로 돌아가기',
+	es: 'Volver a la referencia {n}',
+	fr: 'Retour à la référence {n}',
+	de: 'Zurück zu Verweis {n}',
+	ru: 'Вернуться к сноске {n}',
+	pt: 'Voltar à referência {n}',
+};
+function rehypeLocalizeFootnotes() {
+	return (tree, file) => {
+		const filePath = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
+		const match = filePath.match(/\/content\/docs\/([^/]+)\//);
+		const dir = match && LOCALE_DIRS.includes(match[1]) ? match[1] : 'zh-CN';
+		const backLabel = FOOTNOTE_BACK_LABELS[dir] ?? FOOTNOTE_BACK_LABELS.en;
+		const walk = (node) => {
+			if (!node || !Array.isArray(node.children)) return;
+			for (const child of node.children) {
+				if (child.type === 'element') {
+					if (
+						child.tagName === 'section' &&
+						child.properties?.dataFootnotes != null
+					) {
+						const heading = child.children.find(
+							(el) => el.type === 'element' && el.properties?.id === 'footnote-label'
+						);
+						if (heading) {
+							heading.children = [{ type: 'text', value: FOOTNOTE_LABELS[dir] ?? FOOTNOTE_LABELS.en }];
+						}
+					}
+					if (child.tagName === 'a' && child.properties?.dataFootnoteBackref != null) {
+						const ref = /^Back to reference (\d+)(?:-(\d+))?$/.exec(
+							String(child.properties.ariaLabel ?? '')
+						);
+						if (ref) {
+							child.properties.ariaLabel = backLabel
+								.replace('{n}', ref[1] + (ref[2] ? '-' + ref[2] : ''));
+						}
+					}
+				}
+				walk(child);
+			}
+		};
+		walk(tree);
+	};
+}
+
 // 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。
 // 目标统一带尾斜杠，避免线上 301 后再被补一次斜杠跳转。
 const redirects = {
@@ -201,13 +266,17 @@ function cloudflareRedirectsFile() {
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.epocanvas.com',
+	// 站点唯一走 astro:assets 管线的图片是各语言首页 hero 的 SVG logo，全站没有 <Image> 调用，
+	// SVG 不需要光栅化优化。默认 sharp 服务在 pnpm 隔离布局下解析不到原生依赖，
+	// 冷缓存（CI / 首次构建）会直接报 MissingSharp；passthrough 服务产物不变且构建确定。
+	image: { service: passthroughImageService() },
 	redirects,
 	// 关闭 Astro 开发工具栏（页面底部 id="dev-toolbar-root" 的悬浮图标），纯文档站点用不到它
 	devToolbar: {
 		enabled: false,
 	},
 	markdown: {
-		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides],
+		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
 	},
 		integrations: [
 			cloudflareRedirectsFile(),
@@ -264,6 +333,9 @@ export default defineConfig({
 				replacesTitle: false,
 			},
 			favicon: '/favicon.svg',
+			// 内置 404 固定按默认语言渲染；改用 src/pages/404.astro 自定义页，
+			// 由浏览器语言选择提示文案（src/pages/404.astro 顶部有实现说明）。
+			disable404Route: true,
 			head: [
 				{
 					tag: 'link',

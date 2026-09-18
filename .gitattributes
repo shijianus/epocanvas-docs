@@ -1,0 +1,14 @@
+# 统一行尾：仓库内一律 LF，检出时也保持 LF。
+# 没有本文件时，Windows 上的 core.autocrlf=true 会把部分文件检成 CRLF，
+# 造成同一仓库内 CRLF/LF 混用（审计发现 canvas/ 下 4 个 md 受影响）。
+* text=auto eol=lf
+
+# 二进制文件不做任何行尾转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary

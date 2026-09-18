@@ -88,8 +88,7 @@ for (const locale of LOCALES) {
 	walk(dir, true);
 	for (const file of files) {
 		const md = fs.readFileSync(file, 'utf8');
-		const { headings, links } = parseMarkdown(md);
-		const slugs = slugSet(headings);
+		const { links } = parseMarkdown(md);
 		for (const link of links) {
 			if (link.href.startsWith('http') || link.href.startsWith('mailto:')) continue;
 			const hashIdx = link.href.indexOf('#');

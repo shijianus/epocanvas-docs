@@ -265,7 +265,9 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 	}
 
 	.header-right {
-		display: flex;
+		/* 不在此处声明 display：scoped 样式特异性高于 Starlight 的 .sl-hidden 工具类，
+		   写死 display:flex 会让小屏隐藏失效，桌面导航在移动端溢出顶栏。
+		   桌面端的 flex 布局由模板上的 md:sl-flex 工具类提供。 */
 		align-items: center;
 		justify-content: flex-end;
 		margin-left: auto;
