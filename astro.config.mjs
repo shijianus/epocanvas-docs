@@ -236,16 +236,28 @@ function rehypeLocalizeFootnotes() {
 
 // 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。
 // 目标统一带尾斜杠，避免线上 301 后再被补一次斜杠跳转。
+// Cloudflare Pages 的 _redirects 按路径精确匹配：带尾斜杠的请求命中不了
+// 不带斜杠的规则，会回落到 Astro 生成的 meta-refresh 页（200 而非 301）。
+// 因此每条旧路径同时登记带斜杠与不带斜杠两种写法，保证线上始终走 301。
 const redirects = {
 	'/mail': '/canvas/',
+	'/mail/': '/canvas/',
 	'/canvas/dns-setup': '/canvas/layout/',
+	'/canvas/dns-setup/': '/canvas/layout/',
 	'/canvas/ai-hub': '/canvas/i18n/',
+	'/canvas/ai-hub/': '/canvas/i18n/',
 	'/canvas/oauth-provider': '/canvas/navigation/',
+	'/canvas/oauth-provider/': '/canvas/navigation/',
 	'/canvas/system-config': '/canvas/markdown/',
+	'/canvas/system-config/': '/canvas/markdown/',
 	'/canvas/workbench': '/canvas/syntax/',
+	'/canvas/workbench/': '/canvas/syntax/',
 	'/canvas/api-reference': '/canvas/configuration/',
+	'/canvas/api-reference/': '/canvas/configuration/',
 	'/canvas/rule-engine': '/canvas/cloudflare/',
+	'/canvas/rule-engine/': '/canvas/cloudflare/',
 	'/canvas/security-rbac': '/canvas/releases/',
+	'/canvas/security-rbac/': '/canvas/releases/',
 };
 
 // Astro 静态模式只会为 redirects 生成 meta-refresh HTML 页（200 状态，SEO 不友好）。
