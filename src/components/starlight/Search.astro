@@ -24,7 +24,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 ---
 
 <site-search class="epo-site-search" {...dataAttributes}>
-	<!-- Header In-Page Direct Search Box with Centered Layout & Complete Text Display -->
+	{/* Header In-Page Direct Search Box with Centered Layout & Complete Text Display */}
 	<div class="epo-search-box" id="epo-search-box" role="search">
 		<span class="search-box-icon">
 			<svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -33,7 +33,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			</svg>
 		</span>
 
-		<!-- In-Page Direct Interactive Input -->
+		{/* In-Page Direct Interactive Input */}
 		<input
 			id="epo-inpage-input"
 			class="epo-search-input"
@@ -44,7 +44,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			aria-label={t('search.label')}
 		/>
 
-		<!-- In-Page Match Navigation Controls (Shown when active query matches) -->
+		{/* In-Page Match Navigation Controls (Shown when active query matches) */}
 		<div id="epo-search-nav" class="epo-search-nav" style="display: none;">
 			<span id="epo-search-count" class="epo-search-count">0/0</span>
 			<button type="button" id="epo-search-prev" class="inpage-nav-btn" title={t('search.prevTitle')}>
@@ -58,7 +58,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			</button>
 		</div>
 
-		<!-- Global Search Modal Trigger Shortcut Badge (Ctrl+K) -->
+		{/* Global Search Modal Trigger Shortcut Badge (Ctrl+K) */}
 		<button
 			type="button"
 			id="epo-modal-trigger"
@@ -73,7 +73,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		</button>
 	</div>
 
-	<!-- Full-featured Pagefind Global Search Modal Dialog (Triggered by Ctrl+K or Shortcut Badge) -->
+	{/* Full-featured Pagefind Global Search Modal Dialog (Triggered by Ctrl+K or Shortcut Badge) */}
 	<dialog class="epo-search-dialog" aria-label={t('search.label')} style="padding:0">
 		<div class="epo-search-modal-frame">
 			<div class="modal-header">

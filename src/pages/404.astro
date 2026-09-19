@@ -4,16 +4,25 @@
  * Starlight 内置 404 固定用默认语言渲染，对非中文访客不友好；
  * 这里改为服务端输出中文兜底文案，再用一小段脚本按浏览器语言
  * 从统一字典（src/utils/i18n.ts）里取对应语言替换，无 JS 时保持中文兜底。
+ * 壳层文字（顶栏搜索框占位符、检索按钮提示、页头副标题）也一并切换，
+ * 避免"页面文案已翻译、界面框架仍是中文"的割裂感。
  */
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import { getTranslation, SUPPORTED_LANGUAGES, UI_TRANSLATIONS, localizedHref } from '../utils/i18n';
 
-// 各语言的提示文案 / 首页地址 / 按钮文字，序列化成 JSON 塞进页面，
+// 各语言的提示文案 / 首页地址 / 按钮文字 / 壳层文字，序列化成 JSON 塞进页面，
 // 由下方内联脚本按浏览器语言挑选（is:inline + JSON 标签，不做打包期处理）。
+const shellKeys = ['search.placeholder', 'search.label', 'search.shortcutTitle', 'search.openModalAria', 'page.specification'];
 const payload = JSON.stringify({
 	messages: Object.fromEntries(Object.keys(UI_TRANSLATIONS).map((code) => [code, getTranslation('notfound.message', code)])),
 	homeHrefs: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, localizedHref('/', lang.code)])),
 	homeLabels: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, getTranslation('nav.home', lang.code)])),
+	shell: Object.fromEntries(
+		Object.keys(UI_TRANSLATIONS).map((code) => [
+			code,
+			Object.fromEntries(shellKeys.map((key) => [key, getTranslation(key, code)])),
+		])
+	),
 });
 ---
 
@@ -59,6 +68,25 @@ const payload = JSON.stringify({
 		if (home) {
 			home.href = data.homeHrefs[pick];
 			home.textContent = data.homeLabels[pick];
+		}
+		// 顶栏与页头的壳层文字同步切换；苹果平台的 Ctrl 提示与搜索组件一样替换为 ⌘
+		const shell = (data.shell || {})[pick];
+		if (shell) {
+			const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
+			const input = document.getElementById('epo-inpage-input');
+			if (input) {
+				input.placeholder = shell['search.placeholder'] || input.placeholder;
+				input.setAttribute('aria-label', shell['search.label'] || input.getAttribute('aria-label'));
+			}
+			const trigger = document.getElementById('epo-modal-trigger');
+			if (trigger) {
+				let shortcutTitle = shell['search.shortcutTitle'] || trigger.title;
+				if (isMac) shortcutTitle = shortcutTitle.replace(/Ctrl/i, '⌘');
+				trigger.title = shortcutTitle;
+				trigger.setAttribute('aria-label', shell['search.openModalAria'] || trigger.getAttribute('aria-label'));
+			}
+			const specItem = document.querySelector('.page-metadata .meta-item:last-of-type');
+			if (specItem && shell['page.specification']) specItem.textContent = shell['page.specification'];
 		}
 	})();
 </script>

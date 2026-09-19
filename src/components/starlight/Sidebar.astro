@@ -10,8 +10,8 @@ const { sidebar } = Astro.locals.starlightRoute;
 	<SidebarPersister>
 		<SidebarSublist sublist={sidebar} />
 	</SidebarPersister>
-	<!-- 小屏下顶栏的主题/语言控件被隐藏（Header 的 sl-hidden md:sl-flex），
-	     展开的导航菜单底部必须补上这两个入口，否则移动端无法切换。桌面端由 md:sl-hidden 隐藏。 -->
+	{/* 小屏下顶栏的主题/语言控件被隐藏（Header 的 sl-hidden md:sl-flex），
+	     展开的导航菜单底部必须补上这两个入口，否则移动端无法切换。桌面端由 md:sl-hidden 隐藏。 */}
 	<div class="md:sl-hidden">
 		<MobileMenuFooter />
 	</div>

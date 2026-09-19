@@ -263,6 +263,50 @@ function cloudflareRedirectsFile() {
 	};
 }
 
+// Starlight 已在每个页面 head 输出全部语言版本的 <link rel="alternate" hreflang=…>，
+// 唯独缺一条 x-default（告诉搜索引擎语言都不匹配时展示哪个版本）。这里在构建完成后
+// 按产物目录找到每个页面的默认语言（简体中文根路径）版本，补注这一条；
+// 页面本身没有根路径版本（理论上不该发生）或 meta-refresh 跳转页则跳过。
+function hreflangXDefault() {
+	return {
+		name: 'epo-hreflang-x-default',
+		hooks: {
+			'astro:build:done': async ({ dir }) => {
+				const outDir = fileURLToPath(dir);
+				const files = [];
+				const walk = (rel) => {
+					const abs = rel ? path.join(outDir, rel) : outDir;
+					for (const entry of fs.readdirSync(abs, { withFileTypes: true })) {
+						const relChild = rel ? rel + '/' + entry.name : entry.name;
+						if (entry.isDirectory()) walk(relChild);
+						else if (entry.name === 'index.html') files.push(relChild);
+					}
+				};
+				walk('');
+				let injected = 0;
+				for (const rel of files) {
+					// 产物路径 → 路由路径：canvas/…/index.html → /canvas/…/，en/canvas/…/index.html → /en/canvas/…/
+					const segments = ('/' + rel.replace(/(^|\/)index\.html$/, '')).split('/').filter(Boolean);
+					if (segments.length && LOCALE_DIRS.includes(segments[0].toLowerCase())) segments.shift();
+					const base = segments.join('/');
+					const file = path.join(outDir, rel);
+					let html = await fs.promises.readFile(file, 'utf8');
+					if (html.includes('hreflang="x-default"')) continue;
+					if (!fs.existsSync(path.join(outDir, base, 'index.html'))) continue;
+					const canonicalIdx = html.indexOf('rel="canonical"');
+					if (canonicalIdx === -1) continue;
+					const link = `<link rel="alternate" hreflang="x-default" href="https://docs.epocanvas.com${base ? '/' + base : ''}/">`;
+					const insertAt = html.indexOf('>', canonicalIdx) + 1;
+					html = html.slice(0, insertAt) + link + html.slice(insertAt);
+					await fs.promises.writeFile(file, html, 'utf8');
+					injected++;
+				}
+				console.log(`[epo-hreflang-x-default] injected x-default into ${injected} page(s)`);
+			},
+		},
+	};
+}
+
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.epocanvas.com',
@@ -278,9 +322,10 @@ export default defineConfig({
 	markdown: {
 		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
 	},
-		integrations: [
-			cloudflareRedirectsFile(),
-			starlight({
+	integrations: [
+		cloudflareRedirectsFile(),
+		hreflangXDefault(),
+		starlight({
 				title: 'EpoCanvas Docs',
 				description: 'EpoCanvas 全栈技术、架构与产品运维指南',
 				// 简体中文是默认语言，占用 URL 根路径；其余语言各有独立目录与译文。

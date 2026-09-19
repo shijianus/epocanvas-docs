@@ -27,8 +27,8 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 	</div>
 
 	<div class="header-right sl-hidden md:sl-flex print:hidden">
-		<!-- Dynamic & Flexible Navigation Buttons -->
-		<nav class="nav-links sl-flex" aria-label={getTranslation('nav.ariaLabel', lang)}>
+	{/* Dynamic & Flexible Navigation Buttons */}
+	<nav class="nav-links sl-flex" aria-label={getTranslation('nav.ariaLabel', lang)}>
 			{
 				navigationConfig.map((item) => {
 					const isActive = item.match ? item.match(matchPath) : matchPath === item.href;
@@ -60,7 +60,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 
 		<div class="nav-divider"></div>
 
-		<!-- Multi-Language Picker with 10 Mainstream Languages -->
+		{/* Multi-Language Picker with 10 Mainstream Languages */}
 		<div class="lang-dropdown-wrapper">
 			<button
 				id="vp-lang-btn"
@@ -104,7 +104,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 			</div>
 		</div>
 
-		<!-- High-Contrast Appearance Switch Toggle -->
+		{/* High-Contrast Appearance Switch Toggle */}
 		<div class="theme-switch-wrapper" title={getTranslation('theme.toggle', lang)}>
 			<button
 				id="vp-theme-toggle"
@@ -114,8 +114,8 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 				aria-label={getTranslation('theme.toggle', lang)}
 			>
 				<span class="toggle-track">
-					<span class="toggle-thumb">
-						<!-- Clear high-contrast sun icon with stroked rays and solid amber center -->
+						<span class="toggle-thumb">
+						{/* Clear high-contrast sun icon with stroked rays and solid amber center */}
 						<svg class="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 							<circle cx="12" cy="12" r="4.5" fill="#f59e0b" stroke="#d97706" stroke-width="1.5" />
 							<line x1="12" y1="1" x2="12" y2="4" stroke="#d97706" />
@@ -127,7 +127,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 							<line x1="4.22" y1="19.78" x2="6.34" y2="17.66" stroke="#d97706" />
 							<line x1="17.66" y1="6.34" x2="19.78" y2="4.22" stroke="#d97706" />
 						</svg>
-						<!-- Clear glowing sky-blue crescent moon icon -->
+						{/* Clear glowing sky-blue crescent moon icon */}
 						<svg class="icon-moon" width="13" height="13" viewBox="0 0 24 24" fill="#38bdf8" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
 						</svg>
@@ -138,7 +138,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 
 		<div class="nav-divider"></div>
 
-		<!-- Social Icons -->
+		{/* Social Icons */}
 		<div class="header-social-links sl-flex">
 			<a
 				href="https://github.com/shijianus/epocanvas-docs"

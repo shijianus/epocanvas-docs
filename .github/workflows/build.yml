@@ -39,3 +39,6 @@ jobs:
 
       - name: Anchor link check
         run: node scripts/check-anchors.mjs
+
+      - name: Image sanity check
+        run: node scripts/check-images.mjs
