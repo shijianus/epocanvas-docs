@@ -34,7 +34,7 @@ components: {
 
 | 元件檔案 | 規模 | 職責 |
 | :--- | :--- | :--- |
-| `Header.astro` | 約 631 行 | 頂欄全部內容：Logo、搜尋框、主導覽、版本徽標、語言切換、主題切換、GitHub 入口 |
+| `Header.astro` | 約 646 行 | 頂欄全部內容：Logo、搜尋框、主導覽、版本徽標、語言切換、主題切換、GitHub 與 Telegram 入口 |
 | `Search.astro` | 約 837 行 | 雙模式搜尋：頂欄頁內尋找（高亮與計數）+ `Ctrl+K` 全站檢索彈窗（Pagefind UI） |
 | `Pagination.astro` | 約 123 行 | 底部「上一頁 / 下一頁」翻頁卡片：扁平細邊框、主題色標題、↙/↘ 斜向箭頭指示翻頁方向 |
 | `TwoColumnContent.astro` | 約 77 行 | 內文與右側目錄的雙欄骨架，控制右欄固定寬度與捲動 |
@@ -89,7 +89,7 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 各元件在建置�
 - 導覽按鈕遍歷 `navigationConfig` 渲染，啟用態樣式由 `match` 函式的回傳值決定，連結透過 `localizedHref()` 自動加上目前語言前綴；
 - 主題切換寫入 LocalStorage 的 `starlight-theme` 鍵，頁面載入時按「本機選擇 → 系統偏好」的順序決定初始主題；
 - 語言下拉選單裡每一項都是指向目前頁面對應語言版本的真實連結，點擊即跳轉，沒有額外的狀態儲存；
-- 頂欄右側的 GitHub 圖示硬編碼在 `src/components/starlight/Header.astro` 內；`astro.config.mjs` 的 `social` 控制的是側欄底部那組社交圖示，兩處互不影響。
+- 頂欄右側的 GitHub 與 Telegram 圖示都硬編碼在 `src/components/starlight/Header.astro` 內，改地址直接編輯該檔案；Telegram 指向 `@epocanvas` 帳號頁，懸停提示即語言詞條 `social.telegram`。`astro.config.mjs` 的 `social` 控制的是側欄底部那組社交圖示，兩處互不影響。
 
 ### Search：雙模式搜尋
 

@@ -34,7 +34,7 @@ components: {
 
 | 组件文件 | 规模 | 职责 |
 | :--- | :--- | :--- |
-| `Header.astro` | 约 631 行 | 顶栏全部内容：Logo、搜索框、主导航、版本徽标、语言切换、主题切换、GitHub 入口 |
+| `Header.astro` | 约 646 行 | 顶栏全部内容：Logo、搜索框、主导航、版本徽标、语言切换、主题切换、GitHub 与 Telegram 入口 |
 | `Search.astro` | 约 837 行 | 双模式搜索：顶栏页内查找（高亮与计数）+ `Ctrl+K` 全站检索弹窗（Pagefind UI） |
 | `Pagination.astro` | 约 123 行 | 底部"上一页 / 下一页"翻页卡片：扁平细边框、主题色标题、↙/↘ 斜向箭头指示翻页方向 |
 | `TwoColumnContent.astro` | 约 77 行 | 正文与右侧目录的双栏骨架，控制右栏固定宽度与滚动 |
@@ -89,7 +89,7 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 字典 ──→ 各组件在构建�
 - 导航按钮遍历 `navigationConfig` 渲染，激活态样式由 `match` 函数的返回值决定，链接通过 `localizedHref()` 自动加上当前语言前缀；
 - 主题切换写入 LocalStorage 的 `starlight-theme` 键，页面加载时按"本地选择 → 系统偏好"的顺序决定初始主题；
 - 语言下拉菜单里每一项都是指向当前页面对应语言版本的真实链接，点击即跳转，没有额外的状态存储；
-- 顶栏右侧的 GitHub 图标硬编码在 `src/components/starlight/Header.astro` 内；`astro.config.mjs` 的 `social` 控制的是侧边栏底部那组社交图标，两处互不影响。
+- 顶栏右侧的 GitHub 与 Telegram 图标都硬编码在 `src/components/starlight/Header.astro` 内，改地址直接编辑该文件；Telegram 指向 `@epocanvas` 账号页，悬停提示即语言词条 `social.telegram`。`astro.config.mjs` 的 `social` 控制的是侧边栏底部那组社交图标，两处互不影响。
 
 ### Search：双模式搜索
 

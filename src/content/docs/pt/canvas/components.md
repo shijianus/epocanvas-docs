@@ -34,7 +34,7 @@ Todo o código-fonte está em `src/components/starlight/`, com a seguinte dimens
 
 | Ficheiro do componente | Dimensão | Responsabilidade |
 | :--- | :--- | :--- |
-| `Header.astro` | cerca de 631 linhas | Todo o conteúdo da barra superior: logótipo, campo de pesquisa, navegação principal, emblema de versão, seletor de idioma, alternador de tema, entrada para GitHub |
+| `Header.astro` | cerca de 646 linhas | Todo o conteúdo da barra superior: logótipo, campo de pesquisa, navegação principal, emblema de versão, seletor de idioma, alternador de tema, entradas para GitHub e Telegram |
 | `Search.astro` | cerca de 837 linhas | Pesquisa em dois modos: pesquisa dentro da página na barra superior (realce e contagem) + janela modal de pesquisa em todo o site com `Ctrl+K` (UI do Pagefind) |
 | `Pagination.astro` | cerca de 123 linhas | Cartões de navegação "anterior / seguinte" no rodapé: bordas finas, títulos na cor do tema, setas diagonais ↙/↘ a indicar o sentido da navegação |
 | `TwoColumnContent.astro` | cerca de 77 linhas | Esqueleto de duas colunas para o corpo do texto e o índice à direita; controla a largura fixa da coluna direita e a rolagem |
@@ -89,7 +89,7 @@ A largura da coluna do índice à direita é fixada em `20rem` sob `@media (min-
 - Os botões de navegação são renderizados percorrendo `navigationConfig`; o estilo ativo é determinado pelo valor devolvido pela função `match`, e os links recebem automaticamente o prefixo do idioma atual através de `localizedHref()`;
 - A alternância de tema grava a chave `starlight-theme` no LocalStorage; ao carregar a página, o tema inicial é decidido pela ordem "escolha local → preferência do sistema";
 - Cada item do menu pendente de idiomas é um link real para a versão da página atual nesse idioma; clicar navega imediatamente, sem estado adicional guardado;
-- O ícone do GitHub à direita da barra superior está definido em `src/components/starlight/Header.astro`; a entrada `social` em `astro.config.mjs` controla o outro conjunto de ícones no fim da barra lateral. Os dois não interferem entre si.
+- Os ícones do GitHub e do Telegram à direita da barra superior estão definidos em `src/components/starlight/Header.astro`; alterar um endereço significa editar esse ficheiro. O Telegram aponta para a página da conta `@epocanvas` e a dica de ferramenta é a cadeia `social.telegram`. A entrada `social` em `astro.config.mjs` controla o outro conjunto de ícones no fim da barra lateral; os dois não interferem entre si.
 
 ### Search: pesquisa em dois modos
 
