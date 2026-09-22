@@ -34,7 +34,7 @@ L'intégralité du code source se trouve dans `src/components/starlight/` ; tail
 
 | Fichier du composant | Taille | Rôle |
 | :--- | :--- | :--- |
-| `Header.astro` | environ 639 lignes | Tout le contenu de la barre supérieure : logo, champ de recherche, navigation principale, badge de version, changement de langue, bascule de thème, accès GitHub et Telegram |
+| `Header.astro` | environ 631 lignes | Tout le contenu de la barre supérieure : logo, champ de recherche, navigation principale, badge de version, changement de langue, bascule de thème, accès GitHub |
 | `Search.astro` | environ 837 lignes | Recherche à deux modes : recherche dans la page depuis la barre supérieure (surlignage et comptage) + fenêtre de recherche site-wide via `Ctrl+K` (Pagefind UI) |
 | `Pagination.astro` | environ 123 lignes | Cartes « Page précédente / Page suivante » en bas de page : fines bordures sans relief, titres aux couleurs du thème, flèches obliques ↙/↘ indiquant le sens de navigation |
 | `TwoColumnContent.astro` | environ 77 lignes | Squelette à deux colonnes pour le corps du texte et le sommaire à droite ; contrôle la largeur fixe de la colonne droite et son défilement |
@@ -89,7 +89,7 @@ La largeur de la colonne du sommaire à droite est fixée à `20rem` sous `@medi
 - Les boutons de navigation sont rendus en parcourant `navigationConfig` ; le style de l'état actif est déterminé par la valeur renvoyée par la fonction `match`, et les liens reçoivent automatiquement le préfixe de la langue courante via `localizedHref()` ;
 - La bascule de thème écrit la clé `starlight-theme` dans le LocalStorage ; au chargement de la page, le thème initial est déterminé selon l'ordre « choix local → préférence système » ;
 - Chaque entrée du menu déroulant des langues est un vrai lien vers la version de la page courante dans la langue correspondante ; un clic y accède directement, sans stockage d'état supplémentaire ;
-- Le lien GitHub à droite de la barre supérieure provient de `social.github` dans `astro.config.mjs` ; le lien Telegram (`https://t.me/epocanvas`) est actuellement codé en dur dans le composant ; pour le modifier, éditez directement `Header.astro`.
+- L'icône GitHub à droite de la barre supérieure est écrite en dur dans `src/components/starlight/Header.astro` ; l'entrée `social` de `astro.config.mjs` pilote l'autre jeu d'icônes en bas de la barre latérale. Les deux n'interagissent pas.
 
 ### Search : recherche à deux modes
 

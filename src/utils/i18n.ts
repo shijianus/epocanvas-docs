@@ -98,7 +98,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'EpoCanvas 官方工程与架构规范',
 		'skipLink.label': '跳转到内容',
 		'social.github': 'GitHub 源码仓库',
-		'social.telegram': 'Telegram 技术社群',
 		'notfound.message': '页面未找到。请检查网址是否正确，或通过搜索和侧边栏继续浏览。',
 
 		'pagefind.clear_search': '清除',
@@ -158,7 +157,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'EpoCanvas 官方工程與架構規範',
 		'skipLink.label': '跳轉到內容',
 		'social.github': 'GitHub 原始碼儲存庫',
-		'social.telegram': 'Telegram 技術社群',
 		'notfound.message': '找不到頁面。請檢查網址是否正確，或透過搜尋與側邊欄繼續瀏覽。',
 
 		'pagefind.clear_search': '清除',
@@ -218,7 +216,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'EpoCanvas Official Architecture Specification',
 		'skipLink.label': 'Skip to content',
 		'social.github': 'GitHub Repository',
-		'social.telegram': 'Telegram Community',
 		'notfound.message': 'Page not found. Check the URL, or use search and the sidebar to keep browsing.',
 
 		'pagefind.clear_search': 'Clear',
@@ -278,7 +275,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'EpoCanvas 公式アーキテクチャ仕様',
 		'skipLink.label': 'コンテンツへスキップ',
 		'social.github': 'GitHub リポジトリ',
-		'social.telegram': 'Telegram コミュニティ',
 		'notfound.message': 'ページが見つかりません。URL を確認するか、検索やサイドバーから目的のページをお探しください。',
 
 		'pagefind.clear_search': 'クリア',
@@ -338,7 +334,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'EpoCanvas 공식 아키텍처 사양',
 		'skipLink.label': '본문으로 건너뛰기',
 		'social.github': 'GitHub 저장소',
-		'social.telegram': 'Telegram 커뮤니티',
 		'notfound.message': '페이지를 찾을 수 없습니다. URL을 확인하거나 검색과 사이드바를 이용해 계속 탐색하세요.',
 
 		'pagefind.clear_search': '지우기',
@@ -398,7 +393,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'Especificación Oficial de Arquitectura EpoCanvas',
 		'skipLink.label': 'Saltar al contenido',
 		'social.github': 'Repositorio GitHub',
-		'social.telegram': 'Comunidad Telegram',
 		'notfound.message': 'No se encontró la página. Comprueba la URL o usa la búsqueda y el menú lateral para seguir navegando.',
 
 		'pagefind.clear_search': 'Borrar',
@@ -458,7 +452,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'Spécification Officielle d\'Architecture EpoCanvas',
 		'skipLink.label': 'Passer au contenu',
 		'social.github': 'Dépôt GitHub',
-		'social.telegram': 'Communauté Telegram',
 		'notfound.message': 'Page introuvable. Vérifiez l\'URL ou utilisez la recherche et le menu latéral pour poursuivre votre navigation.',
 
 		'pagefind.clear_search': 'Effacer',
@@ -518,7 +511,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'Offizielle EpoCanvas Architekturspezifikation',
 		'skipLink.label': 'Zum Inhalt springen',
 		'social.github': 'GitHub-Repository',
-		'social.telegram': 'Telegram-Community',
 		'notfound.message': 'Seite nicht gefunden. Prüfen Sie die URL oder nutzen Sie die Suche und die Seitenleiste, um weiter zu stöbern.',
 
 		'pagefind.clear_search': 'Löschen',
@@ -578,7 +570,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'Официальная архитектурная спецификация EpoCanvas',
 		'skipLink.label': 'Перейти к содержимому',
 		'social.github': 'Репозиторий GitHub',
-		'social.telegram': 'Сообщество Telegram',
 		'notfound.message': 'Страница не найдена. Проверьте адрес или воспользуйтесь поиском и боковой панелью, чтобы продолжить.',
 
 		'pagefind.clear_search': 'Очистить',
@@ -638,7 +629,6 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 		'page.specification': 'Especificação Oficial de Arquitetura EpoCanvas',
 		'skipLink.label': 'Pular para o conteúdo',
 		'social.github': 'Repositório GitHub',
-		'social.telegram': 'Comunidade Telegram',
 		'notfound.message': 'Página não encontrada. Verifique o URL ou use a pesquisa e a barra lateral para continuar a navegar.',
 
 		'pagefind.clear_search': 'Limpar',

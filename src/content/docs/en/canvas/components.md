@@ -34,7 +34,7 @@ All source code lives in `src/components/starlight/`. Their sizes and responsibi
 
 | Component file | Size | Responsibility |
 | :--- | :--- | :--- |
-| `Header.astro` | About 639 lines | Everything in the top bar: logo, search box, main navigation, version badge, language switcher, theme toggle, GitHub and Telegram links |
+| `Header.astro` | About 631 lines | Everything in the top bar: logo, search box, main navigation, version badge, language switcher, theme toggle, GitHub link |
 | `Search.astro` | About 837 lines | Dual-mode search: in-page search from the top bar (highlighting and counters) + the `Ctrl+K` site-wide search dialog (Pagefind UI) |
 | `Pagination.astro` | About 123 lines | Bottom "previous / next" cards: flat thin borders, theme-colored titles, and ↙/↘ diagonal arrows indicating the paging direction |
 | `TwoColumnContent.astro` | About 77 lines | Two-column skeleton for body text and the right-side table of contents; controls the fixed width and scrolling of the right column |
@@ -89,7 +89,7 @@ The right TOC column is fixed at `20rem` under `@media (min-width: 72rem)` (`21r
 - Navigation buttons are rendered by iterating over `navigationConfig`; the active state styling is decided by the `match` function's return value, and links get the current language prefix automatically via `localizedHref()`;
 - The theme toggle writes to the `starlight-theme` key in LocalStorage; on page load the initial theme is decided in the order "local choice → system preference";
 - Each item in the language dropdown is a real link to the current page's version in that language; clicking navigates immediately, with no extra state storage;
-- The GitHub link on the right of the top bar comes from `social.github` in `astro.config.mjs`. The Telegram link (`https://t.me/epocanvas`) is currently hardcoded in the component; edit `Header.astro` directly to change it.
+- The GitHub icon on the right of the top bar is hardcoded in `src/components/starlight/Header.astro`; the `social` entry in `astro.config.mjs` drives the separate icon set at the bottom of the sidebar. The two do not affect each other.
 
 ### Search: Dual-Mode Search
 

@@ -34,7 +34,7 @@ components: {
 
 | 컴포넌트 파일 | 규모 | 역할 |
 | :--- | :--- | :--- |
-| `Header.astro` | 약 639줄 | 상단 바의 전체 내용: 로고, 검색창, 메인 내비게이션, 버전 배지, 언어 전환, 테마 전환, GitHub 및 Telegram 진입점 |
+| `Header.astro` | 약 631줄 | 상단 바의 전체 내용: 로고, 검색창, 메인 내비게이션, 버전 배지, 언어 전환, 테마 전환, GitHub 진입점 |
 | `Search.astro` | 약 837줄 | 듀얼 모드 검색: 상단 바 페이지 내 찾기(하이라이트와 카운트) + `Ctrl+K` 사이트 전체 검색 팝업(Pagefind UI) |
 | `Pagination.astro` | 약 123줄 | 하단 "이전 페이지 / 다음 페이지" 카드: 얇은 평면 테두리, 테마 색상 제목, ↙/↘ 대각선 화살표로 페이지 이동 방향 표시 |
 | `TwoColumnContent.astro` | 약 77줄 | 본문과 오른쪽 목차의 2열 골격, 오른쪽 열의 고정 너비와 스크롤 제어 |
@@ -89,7 +89,7 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 사전 ──→ 각 컴포넌트가
 - 내비게이션 버튼은 `navigationConfig`를 순회하며 렌더링되고, 활성 상태 스타일은 `match` 함수의 반환값으로 결정되며, 링크는 `localizedHref()`를 통해 현재 언어 접두사가 자동으로 붙습니다;
 - 테마 전환은 LocalStorage의 `starlight-theme` 키에 기록되며, 페이지 로드 시 "로컬 선택 → 시스템 환경설정" 순서로 초기 테마를 결정합니다;
 - 언어 드롭다운 메뉴의 각 항목은 현재 페이지의 해당 언어 버전을 가리키는 실제 링크이며, 클릭하면 바로 이동하고 별도의 상태 저장은 없습니다;
-- 상단 바 오른쪽의 GitHub 링크는 `astro.config.mjs`의 `social.github`에서 오며, Telegram 링크(`https://t.me/epocanvas`)는 현재 컴포넌트 안에 하드코딩되어 있으므로 수정이 필요하면 `Header.astro`를 직접 편집하세요.
+- 상단 바 오른쪽의 GitHub 아이콘은 `src/components/starlight/Header.astro`에 직접 지정되어 있습니다. `astro.config.mjs`의 `social`이 제어하는 것은 사이드바 아래쪽의 아이콘 묶이며, 두 곳은 서로 영향을 주지 않습니다.
 
 ### Search: 듀얼 모드 검색
 

@@ -34,7 +34,7 @@ Der gesamte Quellcode liegt unter `src/components/starlight/`; Umfang und Aufgab
 
 | Komponentendatei | Umfang | Aufgabe |
 | :--- | :--- | :--- |
-| `Header.astro` | ca. 639 Zeilen | Der gesamte Inhalt der oberen Leiste: Logo, Suchfeld, Hauptnavigation, Versionsabzeichen, Sprachumschaltung, Design-Umschaltung, Zugänge zu GitHub und Telegram |
+| `Header.astro` | ca. 631 Zeilen | Der gesamte Inhalt der oberen Leiste: Logo, Suchfeld, Hauptnavigation, Versionsabzeichen, Sprachumschaltung, Design-Umschaltung, Zugang zu GitHub |
 | `Search.astro` | ca. 837 Zeilen | Zweimodus-Suche: Suche innerhalb der Seite über die obere Leiste (Hervorhebung und Zähler) + `Ctrl+K`-Dialog für die Suche auf der gesamten Site (Pagefind UI) |
 | `Pagination.astro` | ca. 123 Zeilen | Blätterkarten „Zurück / Weiter“ am Seitenende: schmaler Rand ohne Schatten, Titel in Themenfarbe, ↙/↘ diagonale Pfeile zeigen die Blätterrichtung an |
 | `TwoColumnContent.astro` | ca. 77 Zeilen | Das Zweispalten-Gerüst aus Haupttext und Inhaltsverzeichnis rechts; steuert feste Breite und Scrollverhalten der rechten Spalte |
@@ -89,7 +89,7 @@ Die Breite der Verzeichnisspalte rechts ist unter `@media (min-width: 72rem)` au
 - Die Navigationsschaltflächen werden durch Iteration über `navigationConfig` gerendert; der aktive Zustand ergibt sich aus dem Rückgabewert der `match`-Funktion, und die Links erhalten über `localizedHref()` automatisch das Präfix der aktuellen Sprache;
 - Die Design-Umschaltung schreibt den Schlüssel `starlight-theme` in den LocalStorage; beim Laden der Seite wird das Startdesign in der Reihenfolge „lokale Auswahl → Systemeinstellung“ bestimmt;
 - Jeder Eintrag im Sprach-Dropdown ist ein echter Link zur entsprechenden Sprachversion der aktuellen Seite; ein Klick genügt, es gibt keine zusätzliche Zustandsspeicherung;
-- Der GitHub-Link rechts in der oberen Leiste stammt aus `social.github` in `astro.config.mjs`; der Telegram-Link (`https://t.me/epocanvas`) ist derzeit fest im Komponentencode hinterlegt. Falls Sie ihn ändern möchten, bearbeiten Sie `Header.astro` direkt.
+- Das GitHub-Symbol rechts in der oberen Leiste steht fest in `src/components/starlight/Header.astro`; der Eintrag `social` in `astro.config.mjs` steuert die eigene Symbolgruppe am Ende der Seitenleiste. Beide beeinträchtigen sich nicht.
 
 ### Search: Zweimodus-Suche
 
