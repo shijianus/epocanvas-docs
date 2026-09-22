@@ -36,9 +36,9 @@ El dominio principal del sitio es `docs.epocanvas.com` y la configuración `<sit
 
 El resultado de la compilación es HTML + CSS puro. La navegación entre páginas, la lectura y el resaltado del índice al desplazarse no requieren descargar ningún framework de frontend (React/Vue y similares tienen un tamaño de runtime de cero); solo los componentes interactivos como la búsqueda, el conmutador de theme y el selector de idioma cargan bajo demanda unos pocos scripts. El primer renderizado no espera a JavaScript, y en redes lentas o dispositivos de gama baja la experiencia es igual de fluida.
 
-### Compresión de imágenes en tiempo de compilación
+### Control del peso de las imágenes en el origen
 
-Los recursos estáticos referenciados mediante `public/` los distribuye el CDN al desplegar; la cadena de herramientas de compilación integra el módulo de procesamiento de imágenes sharp, dejando preparada la capacidad para introducir en el futuro la optimización de imágenes en tiempo de compilación. La guía actual exige que las capturas de pantalla tengan unos 1440 píxeles de ancho y que los diagramas sean preferiblemente SVG, controlando el peso de las imágenes en el origen.
+Este sitio no procesa imágenes en tiempo de compilación: `astro.config.mjs` fija `image.service` en `passthroughImageService()`, así que los archivos de `public/` se copian tal cual a `dist/`, sin compresión ni cambio de tamaño. sharp se descarta a propósito: con la estructura aislada de pnpm no resuelve su dependencia nativa y, con la caché fría (CI, primera compilación), la compilación se corta con `MissingSharp`. El peso se controla antes de confirmar: capturas de interfaz de 1440 píxeles de ancho comprimidas fuera de línea y diagramas de arquitectura siempre en SVG.
 
 ### Carga del índice de búsqueda bajo demanda
 

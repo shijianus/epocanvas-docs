@@ -88,7 +88,7 @@ Se um item de navegação apontar para um site externo (por exemplo, a página d
 2. O sistema acrescenta automaticamente ao link os atributos de segurança `target="_blank" rel="noopener noreferrer"` e abre-o num novo separador;
 3. Junto ao texto aparece um pequeno ícone de seta inclinada para fora (`↗`), a indicar ao leitor que, ao clicar, sairá do site atual.
 
-O emblema de versão (`badge: 'v1.2.0'`) é apresentado dentro do botão sob a forma de cápsula; ao lançar uma nova versão, lembre-se de o atualizar em simultâneo, ver [Gestão de versões e fluxos de trabalho automatizados](/canvas/releases/).
+O emblema de versão é uma cápsula dentro do botão e o texto vem de `CURRENT_DOCS_VERSION` em `src/config/navigation.ts`, que lê diretamente o campo `version` do `package.json`: ao publicar, muda-se apenas o `package.json` e o cabeçalho acompanha sozinho. Clicar no emblema abre a lista de releases do GitHub. O procedimento completo está em [Gestão de versões e fluxos de trabalho automatizados](/canvas/releases/).
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 No build, o Astro gera páginas de redirecionamento automático para estes caminhos; quem visitar o endereço antigo é levado suavemente para o novo, e o peso nos motores de pesquisa é igualmente herdado.
+### Por que no site ativo a resposta é 301
+
+As páginas de salto geradas pelo Astro são documentos meta-refresh servidos com estado `200`, que os motores de busca encaram como segunda cópia do destino. O Cloudflare Pages lê um ficheiro `_redirects` na raiz do site antes dos ficheiros estáticos, por isso `cloudflareRedirectsFile()` em `astro.config.mjs` escreve `dist/_redirects` a partir da mesma tabela `legacyRedirects` quando o build termina:
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+As duas regras só diferem na barra final, porque o Cloudflare compara caminhos de forma exata: um pedido com barra não encontra a regra sem barra e cairia naquela página 200. Um `pnpm run preview` local nunca lê `_redirects` e continua a usar a página do Astro, pelo que os dois mecanismos coexistem.
+
+Registe apenas a forma **sem barra final**: o Astro converte-a em `<caminho antigo>/index.html`, e acrescentar também a variante com barra a `redirects` faz as duas colidirem na mesma rota, o que o build assinala como route collision (na próxima versão maior do Astro passa a erro).

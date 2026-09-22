@@ -88,7 +88,7 @@ Si un élément de navigation pointe vers un site externe (par exemple la page R
 2. Le système ajoute automatiquement au lien les attributs de sécurité `target="_blank" rel="noopener noreferrer"` et l'ouvre dans un nouvel onglet ;
 3. Une petite flèche diagonale sortante (`↗`) accompagne le texte, pour indiquer au lecteur qu'un clic le quittera du site courant.
 
-Le badge de version (`badge: 'v1.2.0'`) s'affiche sous forme de pilule dans le bouton ; pensez à le mettre à jour en même temps à chaque nouvelle version, voir [Gestion des versions et workflows automatisés](/canvas/releases/).
+Le badge de version est une pilule affichée dans le bouton ; son texte vient de `CURRENT_DOCS_VERSION` dans `src/config/navigation.ts`, qui lit directement le champ `version` de `package.json` — lors d'une publication, on ne modifie donc que `package.json` et l'en-tête suit tout seul. Un clic sur le badge ouvre la liste des releases GitHub. La procédure complète est décrite dans [Gestion des versions et workflows automatisés](/canvas/releases/).
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 Au build, Astro génère pour ces chemins des pages de redirection automatique : les lecteurs qui visitent l'ancienne adresse sont conduits en douceur vers la nouvelle, et le poids SEO auprès des moteurs de recherche est également transmis.
+### Pourquoi la réponse en ligne est un 301
+
+Les pages de redirection générées par Astro sont des documents meta-refresh servis avec le statut `200`, que les moteurs voient comme un doublon de la cible. Cloudflare Pages lit un fichier `_redirects` à la racine du site avant les fichiers statiques, aussi `cloudflareRedirectsFile()` dans `astro.config.mjs` écrit `dist/_redirects` à partir de la même table `legacyRedirects` une fois le build terminé :
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+Les deux règles ne diffèrent que par le barre finale, car Cloudflare compare les chemins exactement : une requête avec barre ne touche pas la règle sans barre et retomberait sur cette page 200. Un `pnpm run preview` local ne lit jamais `_redirects` et utilise toujours la page d'Astro, les deux mécanismes coexistent.
+
+N'enregistrez qu'une forme **sans barre finale** : Astro la rend comme `<ancien chemin>/index.html`, et ajouter aussi la variante avec barre dans `redirects` fait entrer les deux en collision sur la même route, signalée par un avertissement de route collision (une erreur bloquante à la version majeure suivante d'Astro).

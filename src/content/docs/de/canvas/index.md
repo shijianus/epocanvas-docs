@@ -109,7 +109,7 @@ Der tatsächlich verwendete Technologie-Stack der aktuellen Version (maßgeblich
 | **Expressive Code** | mit Starlight integriert | Code-Highlighting, Titelleisten, Zeilenhervorhebung |
 | **Pagefind** | integriert über `@pagefind/default-ui` 1.5.2 | Erzeugt beim Build den statischen Suchindex |
 | **Wrangler** | v4.131.0 | Offizielle Cloudflare-CLI für die Bereitstellung |
-| **Laufzeitumgebung** | Node.js >= 18.20.8 + pnpm >= 9 | Umgebung für lokale Entwicklung und Build |
+| **Laufzeitumgebung** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | Lokale Entwicklung und Builds; `pnpm run deploy` braucht wegen wrangler Node.js 22 oder neuer |
 
 Lesen Sie beim Aktualisieren von Abhängigkeiten bitte auch die Hinweise zu Regressionstests unter [UI-Komponenten & eigene Anpassungen](/canvas/components/).
 
@@ -131,7 +131,9 @@ epocanvas-docs/
 │   │   ├── canvas/            # Dokumente der einzelnen Kapitel (vereinfachtes Chinesisch, Standardsprache)
 │   │   └── en/ ja/ ...        # Verzeichnisse der vollständigen Übersetzungen in den anderen 9 Sprachen
 │   ├── styles/custom.css      # Globale Styles und Designfarben-Variablen
-│   └── utils/i18n.ts          # Wörterbuch der Oberflächentexte und Sprachliste
+│   ├── utils/i18n.ts          # Wörterbuch der Oberflächentexte und Sprachliste
+│   └── pages/404.astro        # eigene 404-Seite, Meldung folgt der Browser-Sprache
+├── scripts/                   # Cache-Invalidierung, i18n-, Bild- und Anker-Prüfungen sowie Screenshots
 ├── astro.config.mjs           # Hauptkonfigurationsdatei der Site (Titel, Sprachliste, Seitenleistenverzeichnis werden hier konfiguriert)
 └── package.json               # Projektabhängigkeiten und Laufzeitbefehle
 ```

@@ -88,7 +88,7 @@ export const navigationConfig: NavItem[] = [
 2. 系统自动为该链接加上 `target="_blank" rel="noopener noreferrer"` 安全属性，在新标签页打开；
 3. 文本旁会跟随一个斜向外的微型箭头图标（`↗`），提示读者点击后将离开当前站点。
 
-版本徽标（`badge: 'v1.2.0'`）以胶囊形式展示在按钮内，发新版本时记得同步修改，详见 [版本管理与自动化工作流](/canvas/releases/)。
+版本徽标以胶囊形式展示在按钮内，文字取自 `src/config/navigation.ts` 的 `CURRENT_DOCS_VERSION`，而它直接读 `package.json` 的 `version` 字段，所以发版时只改 `package.json` 一处即可，顶栏自动同步；点击徽标跳转到 GitHub Release 列表。完整发版步骤见 [版本管理与自动化工作流](/canvas/releases/)。
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 Astro 在构建时会为这些路径生成自动跳转页面，读者访问旧地址会被平滑带到新地址，搜索引擎权重也能继承。
+### 线上为什么是 301 而不是跳页
+
+Astro 生成的跳转页是 `200` 状态的 meta-refresh 文档，搜索引擎会把新旧地址当成两个页面。Cloudflare Pages 支持站点根目录的 `_redirects` 文件，且优先于静态文件命中，所以 `astro.config.mjs` 里的 `cloudflareRedirectsFile()` 会在构建完成后按同一张 `legacyRedirects` 表写出 `dist/_redirects`：
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+两条规则只差一个尾斜杠，因为 Cloudflare 按路径精确匹配：带斜杠的请求命中不了不带斜杠的规则，会回落到那个 200 跳页。本地 `pnpm run preview` 不读 `_redirects`，走的仍是 Astro 生成的跳页，两种机制并存、互不影响。
+
+新增旧路径时只登记**不带尾斜杠**的一条即可：Astro 会把它渲染成 `<旧路径>/index.html`，再把带斜杠的写法也写进 `redirects` 配置就会撞成同一条路由，构建期报 route collision 警告（Astro 下个大版本会直接报错中断构建）。

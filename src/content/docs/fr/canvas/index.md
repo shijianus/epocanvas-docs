@@ -109,7 +109,7 @@ La pile technique réellement utilisée par la version actuelle (sur la base des
 | **Expressive Code** | Intégré avec Starlight | Coloration des blocs de code, barre de titre, surlignage de lignes |
 | **Pagefind** | Intégré via `@pagefind/default-ui` 1.5.2 | Génère l'index de recherche statique au moment du build |
 | **Wrangler** | v4.131.0 | CLI officielle de Cloudflare, exécute le déploiement |
-| **Environnement d'exécution** | Node.js >= 18.20.8 + pnpm >= 9 | Environnement de développement et de build local |
+| **Environnement d'exécution** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | Développement et builds locaux ; `pnpm run deploy` exige Node.js 22 ou plus à cause de wrangler |
 
 Lors de la mise à jour des dépendances, veuillez également lire les points d'attention relatifs aux tests de régression dans [Composants d'interface et développement personnalisé](/canvas/components/).
 
@@ -131,7 +131,9 @@ epocanvas-docs/
 │   │   ├── canvas/            # Documents des différentes sections (chinois simplifié, langue par défaut)
 │   │   └── en/ ja/ ...        # Répertoires des traductions complètes dans les 9 autres langues
 │   ├── styles/custom.css      # Styles globaux et variables de couleurs du thème
-│   └── utils/i18n.ts          # Dictionnaire des libellés d'interface et liste des langues
+│   ├── utils/i18n.ts          # Dictionnaire des libellés d'interface et liste des langues
+│   └── pages/404.astro        # page 404 personnalisée, message dans la langue du navigateur
+├── scripts/                   # invalidation du cache, contrôles i18n / images / ancres et captures d'écran
 ├── astro.config.mjs           # Fichier de configuration principal du site (titre, liste des langues et catalogue de la barre latérale se configurent ici)
 └── package.json               # Dépendances du projet et configuration des commandes d'exécution
 ```

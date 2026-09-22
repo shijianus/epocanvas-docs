@@ -36,9 +36,9 @@ The site's primary domain is `docs.epocanvas.com`; the `<site>` configuration ma
 
 The build output is pure HTML + CSS. Page navigation, reading, and TOC scroll highlighting require downloading no front-end framework at all (React/Vue and similar runtimes are zero bytes); only interactive components such as search, theme toggle, and language switching load a small amount of script on demand. First-screen rendering does not wait for JavaScript, so weak networks and low-end devices stay smooth.
 
-### Image Compression at Build Time
+### Image Size Control at the Source
 
-Static assets referenced through `public/` are served by the CDN at deployment; the build toolchain includes the sharp image processing module, reserving the ability to add build-time image optimization later. The current conventions require screenshots to be kept around 1440 pixels wide and diagrams to use SVG first, controlling image size at the source.
+This site does not run image processing at build time: `astro.config.mjs` sets `image.service` to `passthroughImageService()`, so files under `public/` are copied into `dist/` unchanged — no compression, no resizing. sharp is deliberately not used: under pnpm's isolated layout it cannot resolve its native dependency, and with a cold cache (CI, first build) the build fails outright with `MissingSharp`. Sizes are controlled before committing instead — interface screenshots are 1440 pixels wide and compressed offline, and architecture diagrams are always SVG.
 
 ### Search Index Loaded On Demand
 

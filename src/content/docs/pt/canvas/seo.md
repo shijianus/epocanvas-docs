@@ -36,9 +36,9 @@ O domínio principal do site é `docs.epocanvas.com` e a configuração `<site>`
 
 O resultado do build é HTML + CSS puros. A navegação entre páginas, a leitura e o realce do índice durante a rolagem não exigem o descarregamento de qualquer framework de front-end (React/Vue e similares têm peso de runtime zero); apenas os componentes interativos — pesquisa, alternância de tema, alternância de idioma — carregam alguns scripts conforme necessário. A primeira renderização não espera pelo JavaScript e mantém-se fluida em redes fracas e equipamentos modestos.
 
-### Compressão de imagens no momento do build
+### Tamanho das imagens controlado na origem
 
-Os recursos estáticos referenciados através de `public/` são distribuídos pela CDN na implantação; a cadeia de ferramentas de build inclui o módulo de processamento de imagem sharp, reservando capacidade para otimização de imagens em build no futuro. As normas atuais exigem capturas de ecrã com largura em torno de 1440 píxeis e preferência por SVG nos diagramas, controlando o tamanho das imagens na origem.
+Este site não processa imagens no momento do build: `astro.config.mjs` define `image.service` como `passthroughImageService()`, pelo que os ficheiros em `public/` são copiados tal como estão para `dist/`, sem compressão nem redimensionamento. O sharp é evitado de propósito: com a estrutura isolada do pnpm a sua dependência nativa não é resolvida e, com cache fria (CI, primeira compilação), o build falha logo com `MissingSharp`. O tamanho controla-se antes do commit: capturas de interface com 1440 píxeis de largura, comprimidas offline, e diagramas de arquitetura sempre em SVG.
 
 ### Carregamento do índice de pesquisa a pedido
 

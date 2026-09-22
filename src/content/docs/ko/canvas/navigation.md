@@ -88,7 +88,7 @@ export const navigationConfig: NavItem[] = [
 2. 시스템이 해당 링크에 `target="_blank" rel="noopener noreferrer"` 보안 속성을 자동으로 붙여 새 탭에서 열립니다;
 3. 텍스트 옆에 사선 방향의 작은 화살표 아이콘(`↗`)이 따라 붙어, 클릭하면 현재 사이트를 떠난다는 것을 알려 줍니다.
 
-버전 배지(`badge: 'v1.2.0'`)는 버튼 안에 캡슐 형태로 표시되며, 새 버전을 발행할 때 함께 수정하는 것을 잊지 마세요. 자세한 내용은 [버전 관리 및 자동화 워크플로](/canvas/releases/)를 참조하세요.
+버전 배지는 버튼 안의 캡슐 형태로, 문구는 `src/config/navigation.ts`의 `CURRENT_DOCS_VERSION`에서 가져옵니다. 이 값은 `package.json`의 `version`을 바로 읽기 때문에 릴리스 때는 `package.json` 한 곳만 고치면 상단이 자동으로 따라갑니다. 배지를 누르면 GitHub 릴리스 목록이 열립니다. 전체 절차는 [버전 관리 및 자동화 워크플로](/canvas/releases/)에 있습니다.
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 Astro는 빌드 시점에 이 경로들에 대한 자동 이동 페이지를 생성합니다. 독자가 옛 주소로 접속하면 새 주소로 부드럽게 안내되고, 검색 엔진 가중치도 이어받을 수 있습니다.
+### 실제 서비스에서 301이 응답하는 이유
+
+Astro가 만드는 전환 페이지는 `200` 상태의 meta-refresh 문서라 검색엔진이 새 주소를 별개 페이지로 봅니다. Cloudflare Pages는사이트 `_redirects`를 정적 파일보다 먼저 적용하므로, `astro.config.mjs`의 `cloudflareRedirectsFile()`이 빌드 뒤에 같은 `legacyRedirects` 표로 `dist/_redirects`를 써냅니다:
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+두 규칙은 끝 슬래시 하나만 다릅니다. Cloudflare는 경로를 정확히 비교해 슬래시가 있는 요청은 없는 규칙에 걸리지 않고 그 200 페이지로 떨어집니다. 로컬 `pnpm run preview`는 `_redirects`를 읽지 않아 Astro 전환 페이지를 쓰므로 두 장치는 함께 존재합니다.
+
+옛 경로를 추가할 때는 **슬래시 없는** 한 줄만 등록하세요. Astro가 이를 `<옛 경로>/index.html`로 렌더링하는데, 슬래시 형태까지 `redirects`에 넣으면 같은 라우트로 충돌해 빌드 시 route collision 경고가 납니다(Astro 다음 메이저에서는 빌드가 실패합니다).

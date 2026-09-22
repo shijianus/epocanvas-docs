@@ -36,9 +36,9 @@ Le domaine principal du site est `docs.epocanvas.com` ; la configuration `<site>
 
 Le résultat du build est du HTML + CSS pur. La navigation entre pages, la lecture et la surbrillance au défilement du sommaire ne nécessitent le téléchargement d'aucun framework front-end (runtime React/Vue etc. de taille nulle) ; seuls les composants interactifs comme la recherche, la bascule de thème et le changement de langue chargent quelques scripts à la demande. Le premier rendu n'attend pas JavaScript, et l'affichage reste fluide sur réseau lent comme sur appareils d'entrée de gamme.
 
-### Compression des images au build
+### Poids des images maîtrisé à la source
 
-Les ressources statiques référencées via `public/` sont distribuées par le CDN au déploiement ; la chaîne d'outils de build intègre le module de traitement d'images sharp, ce qui réserve la possibilité d'ajouter plus tard une optimisation d'images au moment du build. Les règles actuelles exigent de limiter la largeur des captures d'écran à environ 1440 pixels et de privilégier le SVG pour les schémas, afin de contrôler le poids des images à la source.
+Ce site ne traite pas les images au build : `astro.config.mjs` définit `image.service` sur `passthroughImageService()`, les fichiers de `public/` sont donc copiés tels quels dans `dist/`, sans compression ni redimensionnement. sharp est écarté volontairement : avec l'arborescence isolée de pnpm, sa dépendance native n'est pas résolue et, sur un cache froid (CI, premier build), le build échoue immédiatement avec `MissingSharp`. Le poids se maîtrise avant la validation : captures d'interface de 1440 pixels de large compressées hors ligne, et schémas d'architecture toujours en SVG.
 
 ### Chargement de l'index de recherche à la demande
 

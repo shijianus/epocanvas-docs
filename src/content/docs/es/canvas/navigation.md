@@ -88,7 +88,7 @@ Si un elemento de navegación apunta a un sitio externo (por ejemplo, la página
 2. El sistema añade automáticamente al enlace los atributos de seguridad `target="_blank" rel="noopener noreferrer"` y lo abre en una pestaña nueva;
 3. Junto al texto aparece un pequeño icono de flecha diagonal hacia fuera (`↗`), que avisa al lector de que al hacer clic abandonará el sitio actual.
 
-La insignia de versión (`badge: 'v1.2.0'`) se muestra como una cápsula dentro del botón; al publicar una versión nueva, recuerde actualizarla, tal como se detalla en [Gestión de versiones y flujos automatizados](/canvas/releases/).
+La insignia de versión es una cápsula dentro del botón y su texto sale de `CURRENT_DOCS_VERSION` en `src/config/navigation.ts`, que lee directamente el campo `version` de `package.json`: al publicar solo cambias `package.json` y la cabecera se actualiza sola. Al pulsar la insignia se abre la lista de releases de GitHub. El procedimiento completo está en [Gestión de versiones y flujos automatizados](/canvas/releases/).
 
 ---
 
@@ -108,3 +108,15 @@ export default defineConfig({
 ```
 
 Astro genera en tiempo de compilación páginas de salto automático para esas rutas: quien visite una dirección antigua llega sin problemas a la nueva, y el peso en los buscadores también se hereda.
+### Por qué en producción responde un 301
+
+Las páginas de salto que genera Astro se sirven con estado `200` mediante meta-refresh, y los buscadores las ven como una segunda copia del destino. Cloudflare Pages lee un archivo `_redirects` en la raíz del sitio antes que los archivos estáticos, así que `cloudflareRedirectsFile()` en `astro.config.mjs` escribe `dist/_redirects` a partir de la misma tabla `legacyRedirects` al terminar la compilación:
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+Las dos reglas solo difieren en la barra final, porque Cloudflare compara rutas de forma exacta: una petición con barra no encuentra la regla sin barra y caería en esa página 200. Un `pnpm run preview` local nunca lee `_redirects` y sigue usando la página de Astro, de modo que ambos mecanismos conviven.
+
+Al añadir una ruta antigua, registra solo la forma **sin barra final**: Astro la convierte en `<ruta antigua>/index.html`, y si además metes la variante con barra en `redirects`, ambas colisionan en la misma ruta y la compilación avisa de un route collision (en la siguiente versión mayor de Astro será un error).

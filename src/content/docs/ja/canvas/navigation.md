@@ -88,7 +88,7 @@ export const navigationConfig: NavItem[] = [
 2. システムがそのリンクに `target="_blank" rel="noopener noreferrer"` のセキュリティ属性を自動的に付け、新しいタブで開きます。
 3. テキストの横に斜め向きの小さな矢印アイコン（`↗`）が表示され、クリックすると現在のサイトを離れることが読者に伝わります。
 
-バージョンバッジ（`badge: 'v1.2.0'`）はカプセルの形でボタン内に表示されます。新しいバージョンをリリースしたら忘れずに更新してください。詳細は [バージョン管理と自動化ワークフロー](/canvas/releases/) を参照してください。
+バージョンバッジはボタン内のカプセル表示で、文言は `src/config/navigation.ts` の `CURRENT_DOCS_VERSION` から取ります。これは `package.json` の `version` を直接読むため、リリース時に書き換えるのは `package.json` の 1 箇所だけでよく、ヘッダーは自動追従します。バッジをクリックすると GitHub のリリース一覧へ開きます。手順は [バージョン管理と自動化ワークフロー](/canvas/releases/) を参照してください。
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 Astro はビルド時にこれらのパスの自動転送ページを生成します。読者が古いアドレスにアクセスすると新しいアドレスへスムーズに案内され、検索エンジンの評価も引き継がれます。
+### 本番で 301 が返る理由
+
+Astro が生成する転送ページは `200` の meta-refresh 文書で、検索エンジンには別ページとして認識されます。Cloudflare Pages はサイトの `_redirects` を静的ファイルより先に適用するため、`astro.config.mjs` の `cloudflareRedirectsFile()` がビルド完了後に同じ `legacyRedirects` から `dist/_redirects` を書き出します：
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+2 行の違いは末尾スラッシュだけで、Cloudflare はパスを完全一致で照合するため、スラッシュ付きのリクエストはスラッシュ無しのルールに当たらず、あの 200 ページに落ちます。手元の `pnpm run preview` は `_redirects` を読まないため Astro の転送ページが使われ、両者は共存します。
+
+旧パスを追加するのは**スラッシュ無し**の 1 行だけにしてください。Astro はそれを `<旧パス>/index.html` として描画するため、スラッシュ付きも `redirects` に書くと同一ルートに衝突し、ビルド時に route collision の警告が出ます（Astro の次のメジャーではエラーで停止します）。

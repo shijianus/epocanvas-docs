@@ -109,7 +109,7 @@ EpoCanvas Docs 适合以下场景：
 | **Expressive Code** | 随 Starlight 集成 | 代码块高亮、标题栏、行高亮 |
 | **Pagefind** | 经 `@pagefind/default-ui` 1.5.2 集成 | 构建期生成静态搜索索引 |
 | **Wrangler** | v4.131.0 | Cloudflare 官方 CLI，执行部署 |
-| **运行环境** | Node.js >= 18.20.8 + pnpm >= 9 | 本地开发与构建环境 |
+| **运行环境** | Node.js 18.20.8 / 20.3+ / 22+，pnpm 10 | 本地开发与构建环境；执行 `pnpm run deploy` 时 wrangler 要求 Node.js 22 及以上 |
 
 升级依赖时请同步阅读 [界面组件与二次开发](/canvas/components/) 中的回归测试注意事项。
 
@@ -131,7 +131,9 @@ epocanvas-docs/
 │   │   ├── canvas/            # 各章节文档（简体中文，默认语言）
 │   │   └── en/ ja/ ...        # 其他 9 种语言的完整译文目录
 │   ├── styles/custom.css      # 全局样式与主题颜色变量
-│   └── utils/i18n.ts          # 界面词条字典与语言清单
+│   ├── utils/i18n.ts          # 界面词条字典与语言清单
+│   └── pages/404.astro        # 自定义 404 页（按浏览器语言输出提示文案）
+├── scripts/                   # 构建前缓存失效、i18n/图片/锚点校验与截图脚本
 ├── astro.config.mjs           # 站点主配置文件（标题、语言列表、侧边栏目录在这里配）
 └── package.json               # 项目依赖与运行命令配置
 ```

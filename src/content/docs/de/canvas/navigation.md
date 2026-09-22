@@ -88,7 +88,7 @@ Zeigt ein Navigationseintrag auf eine externe Website (z. B. die Releases-Seite 
 2. versieht das System den Link automatisch mit den Sicherheitseigenschaften `target="_blank" rel="noopener noreferrer"` und öffnet ihn in einem neuen Tab;
 3. erscheint neben dem Text ein kleines, nach außen geneigtes Pfeilsymbol (`↗`), das darauf hinweist, dass man die aktuelle Website beim Klicken verlässt.
 
-Das Versionsabzeichen (`badge: 'v1.2.0'`) wird als Pille im Button angezeigt; denken Sie bei einem neuen Release daran, es mitzupflegen. Details siehe [Versionsverwaltung & automatisierte Workflows](/canvas/releases/).
+Das Versionsabzeichen ist eine Pille im Button; sein Text kommt aus `CURRENT_DOCS_VERSION` in `src/config/navigation.ts`, das direkt das Feld `version` in `package.json` liest. Beim Release ändert man also nur `package.json`, die Kopfzeile zieht automatisch mit. Ein Klick auf das Abzeichen öffnet die GitHub-Release-Liste. Der komplette Ablauf steht unter [Versionsverwaltung & automatisierte Workflows](/canvas/releases/).
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 Astro erzeugt beim Build für diese Pfade automatische Weiterleitungsseiten; wer eine alte Adresse aufruft, wird sanft zur neuen Adresse geführt, und auch das Suchmaschinen-Ranking wird vererbt.
+### Warum live ein 301 zurückkommt
+
+Die von Astro erzeugten Umlenkseiten sind meta-refresh-Dokumente mit Status `200`, die Suchmaschinen als zweite Kopie des Ziels werten. Cloudflare Pages wertet eine `_redirects`-Datei im Projektstamm noch vor den statischen Dateien, deshalb schreibt `cloudflareRedirectsFile()` in `astro.config.mjs` nach dem Build `dist/_redirects` aus derselben Tabelle `legacyRedirects`:
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+Beide Regeln unterscheiden sich nur durch den abschließenden Slash, denn Cloudflare vergleicht Pfade exakt: eine Anfrage mit Slash trifft die Regel ohne Slash nicht und fiele auf jene 200-Seite zurück. Ein lokales `pnpm run preview` liest `_redirects` nicht und nutzt weiter Astros Umlenkseite, beide Mechanismen bestehen nebeneinander.
+
+Trage alte Pfade nur **ohne abschließenden Slash** ein: Astro rendert daraus `<alter Pfad>/index.html`. Würde man zusätzlich die Variante mit Slash in `redirects` aufnehmen, kollidieren beide zu einer Route, was der Build als route collision meldet (im nächsten Astro-Hauptversion ein harter Fehler).

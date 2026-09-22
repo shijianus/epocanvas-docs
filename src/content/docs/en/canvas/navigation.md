@@ -88,7 +88,7 @@ If a navigation item points to an external website (for example, the Releases pa
 2. The system automatically adds the `target="_blank" rel="noopener noreferrer"` security attributes to the link and opens it in a new tab;
 3. A small diagonal arrow icon (`↗`) follows the label, telling readers that clicking it leaves the current site.
 
-The version badge (`badge: 'v1.2.0'`) is displayed inside the button as a pill. Remember to update it when releasing a new version; see [Versioning & Automation Workflows](/canvas/releases/) for details.
+The version badge is a pill inside that button. Its text comes from `CURRENT_DOCS_VERSION` in `src/config/navigation.ts`, which reads the `version` field of `package.json` directly — so a release only ever changes `package.json`, and the header updates itself. Clicking the badge opens the GitHub Release list. The full procedure is in [Versioning & Automation Workflows](/canvas/releases/).
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 At build time, Astro generates automatic redirect pages for these paths, so readers visiting an old address are smoothly taken to the new one, and search engine ranking is carried over as well.
+### Why the live site answers with 301
+
+The redirect pages Astro emits are meta-refresh documents served with status `200`, which search engines treat as a second copy of the target. Cloudflare Pages reads a `_redirects` file at the site root and applies it before static files, so `cloudflareRedirectsFile()` in `astro.config.mjs` writes `dist/_redirects` from the same `legacyRedirects` table once the build finishes:
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+The two rules differ only by a trailing slash, because Cloudflare matches paths exactly: a request with the slash does not hit the rule without it and would fall back to that 200 page. A local `pnpm run preview` never reads `_redirects` and keeps using the Astro page, so both mechanisms coexist.
+
+When adding an old path, register only the **slash-free** form: Astro renders it as `<old path>/index.html`, and adding the trailing-slash variant to the `redirects` config as well collides both into one route, which the build reports as a route collision warning (a hard error in the next Astro major).

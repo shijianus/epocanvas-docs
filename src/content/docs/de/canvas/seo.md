@@ -36,9 +36,9 @@ Die Hauptdomain der Site ist `docs.epocanvas.com`; die `<site>`-Konfiguration en
 
 Das Build-Ergebnis ist reines HTML + CSS. Seitennavigation, Lesen und die hervorhebende Scrollverfolgung des Inhaltsverzeichnisses erfordern keinen Download irgendeines Frontend-Frameworks (Laufzeitgröße von React/Vue usw.: null); nur interaktive Komponenten wie Suche, Design-Umschaltung und Sprachumschaltung laden bei Bedarf wenige Skripte nach. Das Rendering des ersten Bildschirms wartet nicht auf JavaScript; auch auf schwachen Verbindungen und leistungsschwachen Geräten läuft alles flüssig.
 
-### Bildkompression zur Build-Zeit
+### Bildvolumen an der Quelle begrenzen
 
-Statische Ressourcen, die über `public/` eingebunden werden, liefert beim Deployment das CDN aus; in der Build-Werkzeugkette ist das Bildverarbeitungsmodul sharp enthalten, das die Möglichkeit für eine spätere eingebaute Bildoptimierung zur Build-Zeit offenhält. Die aktuelle Konvention schreibt vor, Screenshot-Breiten bei etwa 1440 Pixel zu halten und für Schaubilder vorrangig SVG zu verwenden – so wird das Bildvolumen an der Quelle begrenzt.
+Diese Site verarbeitet Bilder nicht zur Build-Zeit: In `astro.config.mjs` ist `image.service` auf `passthroughImageService()` gesetzt, Dateien aus `public/` werden daher unverändert nach `dist/` kopiert – ohne Kompression und ohne Größenänderung. Auf sharp wird bewusst verzichtet: Bei der isolierten Verzeichnisstruktur von pnpm lässt sich die native Abhängigkeit nicht auflösen, und mit leerem Cache (CI, Erstbuild) bricht der Build mit `MissingSharp` ab. Begrenzt wird das Volumen vor dem Einchecken: Screenshots einheitlich 1440 Pixel breit und offline vorkomprimiert, Architekturbilder ausschließlich als SVG.
 
 ### Bedarfsgesteuertes Laden des Suchindex
 

@@ -88,7 +88,7 @@ export const navigationConfig: NavItem[] = [
 2. 系統自動為該連結加上 `target="_blank" rel="noopener noreferrer"` 安全屬性，在新分頁開啟；
 3. 文字旁會跟隨一個斜向外的微型箭頭圖示（`↗`），提示讀者點擊後將離開目前網站。
 
-版本徽標（`badge: 'v1.2.0'`）以膠囊形式展示在按鈕內，發新版本時記得同步修改，詳見 [版本管理與自動化工作流程](/canvas/releases/)。
+版本徽標以膠囊形式展示在按鈕內，文字取自 `src/config/navigation.ts` 的 `CURRENT_DOCS_VERSION`，而它直接讀 `package.json` 的 `version` 欄位，所以發版時只改 `package.json` 一處即可，頂列自動同步；點擊徽標會跳到 GitHub Release 清單。完整發版步驟見 [版本管理與自動化工作流程](/canvas/releases/)。
 
 ---
 
@@ -107,3 +107,15 @@ export default defineConfig({
 ```
 
 Astro 在建置時會為這些路徑產生自動跳轉頁面，讀者存取舊網址會被平滑帶到新網址，搜尋引擎權重也能繼承。
+### 線上為什麼是 301 而非跳轉頁
+
+Astro 產生的跳轉頁是 `200` 狀態的 meta-refresh 文件，搜尋引擎會新舊網址當成兩頁。Cloudflare Pages 支援網站根目錄的 `_redirects` 文件，且優先於靜態檔案命中，因此 `astro.config.mjs` 的 `cloudflareRedirectsFile()` 會在建置完成後依同一張 `legacyRedirects` 表寫出 `dist/_redirects`：
+
+```text
+/mail  /canvas/  301
+/mail/  /canvas/  301
+```
+
+兩條規則只差一個尾斜線，因為 Cloudflare 依路徑精確比對：帶斜線的請求比對不到不帶斜線的規則，會回退到那個 200 跳轉頁。本機 `pnpm run preview` 不讀 `_redirects`，走的仍是 Astro 產生的跳轉頁，兩種機制並存、互不影響。
+
+新增舊路徑時只登記**不帶尾斜線**的一條即可：Astro 會把它渲染成 `<舊路徑>/index.html`，若再把帶斜線的寫法也寫進 `redirects` 設定，兩條會撞成同一條路由，建置期報 route collision 警告（Astro 下個主版本會直接中斷建置）。

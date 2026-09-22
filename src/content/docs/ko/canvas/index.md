@@ -109,7 +109,7 @@ EpoCanvas Docs는 다음과 같은 상황에 적합합니다:
 | **Expressive Code** | Starlight와 함께 통합 | 코드 블록 하이라이트, 제목 표시줄, 줄 하이라이트 |
 | **Pagefind** | `@pagefind/default-ui` 1.5.2로 통합 | 빌드 시점에 정적 검색 인덱스 생성 |
 | **Wrangler** | v4.131.0 | Cloudflare 공식 CLI, 배포 실행 |
-| **실행 환경** | Node.js >= 18.20.8 + pnpm >= 9 | 로컬 개발과 빌드 환경 |
+| **실행 환경** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | 로컬 개발과 빌드 환경. `pnpm run deploy`는 wrangler 때문에 Node.js 22 이상이 필요합니다 |
 
 의존성을 업그레이드할 때는 [UI 컴포넌트와 커스텀 개발](/canvas/components/)의 회귀 테스트 주의 사항도 함께 읽어 주세요.
 
@@ -131,7 +131,9 @@ epocanvas-docs/
 │   │   ├── canvas/            # 각 장의 문서 (간체 중국어, 기본 언어)
 │   │   └── en/ ja/ ...        # 나머지 9개 언어의 완전한 번역 디렉터리
 │   ├── styles/custom.css      # 전역 스타일과 테마 색상 변수
-│   └── utils/i18n.ts          # UI 문구 사전과 언어 목록
+│   ├── utils/i18n.ts          # UI 문구 사전과 언어 목록
+│   └── pages/404.astro        # 직접 만든 404 페이지(브라우저 언어로 안내 문구 출력)
+├── scripts/                   # 빌드 전 캐시 무효화, i18n·이미지·앵커 점검, 스크린샷 생성 스크립트
 ├── astro.config.mjs           # 사이트 메인 설정 파일 (제목, 언어 목록, 사이드바 목차를 여기서 설정)
 └── package.json               # 프로젝트 의존성과 실행 명령어 설정
 ```

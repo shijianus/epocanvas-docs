@@ -109,7 +109,7 @@ The tech stack actually used by the current version (as reflected in the build o
 | **Expressive Code** | Bundled with Starlight | Code block highlighting, title bars, line highlighting |
 | **Pagefind** | Integrated via `@pagefind/default-ui` 1.5.2 | Generates the static search index at build time |
 | **Wrangler** | v4.131.0 | Official Cloudflare CLI; runs the deployment |
-| **Runtime** | Node.js >= 18.20.8 + pnpm >= 9 | Local development and build environment |
+| **Runtime** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | Local development and builds; `pnpm run deploy` needs Node.js 22 or newer because of wrangler |
 
 When upgrading dependencies, also read the regression testing notes in [UI Components & Custom Development](/canvas/components/).
 
@@ -131,7 +131,9 @@ epocanvas-docs/
 │   │   ├── canvas/            # Chapter documents (Simplified Chinese, the default language)
 │   │   └── en/ ja/ ...        # Full translation directories for the other 9 languages
 │   ├── styles/custom.css      # Global styles and theme color variables
-│   └── utils/i18n.ts          # UI string dictionary and language list
+│   ├── utils/i18n.ts          # UI string dictionary and language list
+│   └── pages/404.astro        # custom 404 page, message follows the browser language
+├── scripts/                   # cache invalidation, i18n / image / anchor checks and the screenshot pipeline
 ├── astro.config.mjs           # Main site configuration file (title, language list, and sidebar are configured here)
 └── package.json               # Project dependencies and run scripts
 ```
