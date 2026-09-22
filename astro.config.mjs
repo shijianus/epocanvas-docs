@@ -235,40 +235,36 @@ function rehypeLocalizeFootnotes() {
 }
 
 // 早期版本的文档路径已重命名，这里保留旧链接的跳转，避免收藏夹和外部引用失效。
-// 目标统一带尾斜杠，避免线上 301 后再被补一次斜杠跳转。
-// Cloudflare Pages 的 _redirects 按路径精确匹配：带尾斜杠的请求命中不了
-// 不带斜杠的规则，会回落到 Astro 生成的 meta-refresh 页（200 而非 301）。
-// 因此每条旧路径同时登记带斜杠与不带斜杠两种写法，保证线上始终走 301。
-const redirects = {
+// 键一律不带尾斜杠：Astro 会自动生成 <旧路径>/index.html 跳转页，
+// 同一批路径再登记一次带斜杠的写法会与它撞成同一条路由（构建期 9 条
+// route collision 警告，Astro 下个大版本会直接报错）。
+// 尾斜杠的请求由构建后写出的 Cloudflare Pages _redirects 兜住，见下方
+// cloudflareRedirectsFile()：那里按路径精确匹配，所以两种写法都要发。
+const legacyRedirects = {
 	'/mail': '/canvas/',
-	'/mail/': '/canvas/',
 	'/canvas/dns-setup': '/canvas/layout/',
-	'/canvas/dns-setup/': '/canvas/layout/',
 	'/canvas/ai-hub': '/canvas/i18n/',
-	'/canvas/ai-hub/': '/canvas/i18n/',
 	'/canvas/oauth-provider': '/canvas/navigation/',
-	'/canvas/oauth-provider/': '/canvas/navigation/',
 	'/canvas/system-config': '/canvas/markdown/',
-	'/canvas/system-config/': '/canvas/markdown/',
 	'/canvas/workbench': '/canvas/syntax/',
-	'/canvas/workbench/': '/canvas/syntax/',
 	'/canvas/api-reference': '/canvas/configuration/',
-	'/canvas/api-reference/': '/canvas/configuration/',
 	'/canvas/rule-engine': '/canvas/cloudflare/',
-	'/canvas/rule-engine/': '/canvas/cloudflare/',
 	'/canvas/security-rbac': '/canvas/releases/',
-	'/canvas/security-rbac/': '/canvas/releases/',
 };
 
 // Astro 静态模式只会为 redirects 生成 meta-refresh HTML 页（200 状态，SEO 不友好）。
 // Cloudflare Pages 原生 _redirects 支持 301 且优先于静态文件命中，这里在构建完成后
 // 额外写出该文件；两种机制并存——线上走 301，本地 preview 仍用 meta-refresh 页。
+// Cloudflare 按路径精确匹配规则，所以每条旧路径在这里展开成带/不带尾斜杠两行。
 function cloudflareRedirectsFile() {
 	return {
 		name: 'epo-cloudflare-redirects',
 		hooks: {
 			'astro:build:done': async ({ dir }) => {
-				const lines = Object.entries(redirects).map(([from, to]) => `${from}  ${to}  301`);
+				const lines = Object.entries(legacyRedirects).flatMap(([from, to]) => [
+					`${from}  ${to}  301`,
+					`${from}/  ${to}  301`,
+				]);
 				await fs.promises.writeFile(path.join(fileURLToPath(dir), '_redirects'), lines.join('\n') + '\n', 'utf8');
 			},
 		},
@@ -326,7 +322,7 @@ export default defineConfig({
 	// SVG 不需要光栅化优化。默认 sharp 服务在 pnpm 隔离布局下解析不到原生依赖，
 	// 冷缓存（CI / 首次构建）会直接报 MissingSharp；passthrough 服务产物不变且构建确定。
 	image: { service: passthroughImageService() },
-	redirects,
+	redirects: legacyRedirects,
 	// 关闭 Astro 开发工具栏（页面底部 id="dev-toolbar-root" 的悬浮图标），纯文档站点用不到它
 	devToolbar: {
 		enabled: false,
