@@ -42,3 +42,6 @@ jobs:
 
       - name: Image sanity check
         run: node scripts/check-images.mjs
+
+      - name: Localized image reference check
+        run: node scripts/check-localized-images.mjs

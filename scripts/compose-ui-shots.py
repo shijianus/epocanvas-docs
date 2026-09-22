@@ -14,6 +14,8 @@
 右侧目录、Pagefind 检索弹窗（它在 requestIdleCallback 里才挂载）等内容
 均已出现。过早截图会得到近乎纯色的空白帧。本脚本对每张输入图做空白帧
 检测，发现空白帧会直接报错终止，不会覆盖 public/ 下的正常图片。
+无头采集配套脚本见 scripts/capture-ui-shots.mjs（CDP 驱动，截图与测矩形
+在同一页面状态下原子完成）。
 """
 import json
 import os
@@ -104,24 +106,6 @@ LOCALES = [
     ("ru", "ru", "ru"),
     ("pt", "pt", "pt"),
 ]
-
-
-# 空白帧判定阈值：正常截图含大量文字/控件，灰度标准差远高于该值；
-# 未渲染完成的空白帧只有背景与侧栏两块纯色，标准差接近 0。
-BLANK_STDDEV_THRESHOLD = 8.0
-
-
-def assert_not_blank(path):
-	"""空白帧检测：灰度标准差过低说明截图近乎纯色（采集时机过早、内容未渲染）。
-	直接终止流程而不是照常覆盖 public/ 下的正常图片，避免坏图静默上线。"""
-	img = Image.open(path).convert("L")
-	img.thumbnail((200, 200))
-	stddev = ImageStat.Stat(img).stddev[0]
-	if stddev < BLANK_STDDEV_THRESHOLD:
-		raise SystemExit(
-			f"[blank] {path} 近乎纯色（灰度标准差 {stddev:.2f} < {BLANK_STDDEV_THRESHOLD}），"
-			"疑似未渲染完成的空白截图；请检查采集时机（需等待正文与 Pagefind 渲染完成）后重试。"
-		)
 
 
 def font_for(code, size):
@@ -302,6 +286,24 @@ def compose_annotated(locale_dir, code, figure, scale=1):
             draw_circle(draw, cx, cy, i + 1, f_num, pill_fill, ring)
             draw_pill(draw, px, py, labels[i], f_pill, pill_fill, img.width - 8)
     return img
+
+
+# 空白帧判定阈值：正常截图含大量文字/控件，灰度标准差远高于该值；
+# 未渲染完成的空白帧只有背景与侧栏两块纯色，标准差接近 0。
+BLANK_STDDEV_THRESHOLD = 8.0
+
+
+def assert_not_blank(path):
+    """空白帧检测：灰度标准差过低说明截图近乎纯色（采集时机过早、内容未渲染）。
+    直接终止流程而不是照常覆盖 public/ 下的正常图片，避免坏图静默上线。"""
+    img = Image.open(path).convert("L")
+    img.thumbnail((200, 200))
+    stddev = ImageStat.Stat(img).stddev[0]
+    if stddev < BLANK_STDDEV_THRESHOLD:
+        raise SystemExit(
+            f"[blank] {path} 近乎纯色（灰度标准差 {stddev:.2f} < {BLANK_STDDEV_THRESHOLD}），"
+            "疑似未渲染完成的空白截图；请检查采集时机（需等待正文与 Pagefind 渲染完成）后重试。"
+        )
 
 
 def main():

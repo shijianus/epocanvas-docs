@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "node scripts/invalidate-render-cache.mjs",
     "build": "astro build",
     "deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main",
     "preview": "astro preview",
