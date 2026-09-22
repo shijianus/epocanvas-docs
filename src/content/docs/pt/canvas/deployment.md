@@ -36,7 +36,7 @@ Altere obrigatoriamente o comando de implantação para `npx wrangler deploy`. O
 
 Na primeira implantação, como a Cloudflare deteta que o repositório não tem ficheiro de configuração de Workers, identifica automaticamente que se trata de um site estático Astro e cria no seu repositório um Pull Request (PR) com a configuração gerada automaticamente — basta aceitá-lo (merge); a partir daí, cada push é automaticamente construído e publicado. Do clique no botão à visualização do endereço, em condições normais, levam dois a três minutos.
 
-Concluída a implantação, a Cloudflare atribui um endereço público do tipo `https://epocanvas-docs.<seu-subdomínio>.workers.dev`, com certificado HTTPS incluído. Para usar o seu próprio domínio, na consola entre em Workers & Pages → o seu projeto → **Settings** → **Domains & Routes** e adicione-o.
+Concluída a implantação, a Cloudflare atribui um endereço público do tipo `https://epocanvas-docs.<seu-subdomínio>.workers.dev`, com certificado HTTPS incluído. Para usar o seu próprio domínio, na consola entre em Workers & Pages → o seu projeto → **Settings** → **Domains & Routes** e adicione-o. A instância publicada serve de referência: o domínio padrão do Pages [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev) e o domínio próprio [https://docs.epocanvas.com](https://docs.epocanvas.com).
 
 ### Implantação no Vercel e no Netlify
 
@@ -46,8 +46,8 @@ Se está habituado a outras plataformas, os dois botões seguintes fazem o mesmo
 
 [![Deploy to Netlify](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel**: clique no botão → autorize o GitHub → mantenha as opções predefinidas e clique em Deploy. No fim obtém o domínio `xxx.vercel.app`; o plano Hobby pessoal é gratuito;
-- **Netlify**: clique no botão → ligue o GitHub → a plataforma clona o repositório e faz o primeiro build automaticamente. No fim obtém o domínio `xxx.netlify.app`; o plano gratuito chega.
+- **Vercel**: clique no botão → autorize o GitHub → mantenha as opções predefinidas e clique em Deploy. No fim obtém o domínio `epocanvas-docs.vercel.app`; o plano Hobby pessoal é gratuito;
+- **Netlify**: clique no botão → ligue o GitHub → a plataforma clona o repositório e faz o primeiro build automaticamente. No fim obtém o domínio `epocanvas-docs.netlify.app`; o plano gratuito chega.
 
 :::note
 O mecanismo dos três botões é o mesmo: clonar o repositório para a sua conta GitHub e configurar a implantação contínua "novo push, novo build e publicação automáticos". Escolha uma plataforma e utilize-a; não precisa de implantar em duplicado. Este site próprio está alojado por envio direto para o Cloudflare Pages (ver [Implantação no Cloudflare Pages](/canvas/cloudflare/)), caminho que não interfere com os botões acima — num site de documentação estático, a experiência de acesso vista pelo leitor é a mesma nas duas formas de alojamento.

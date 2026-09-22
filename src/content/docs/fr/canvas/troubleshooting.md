@@ -83,8 +83,8 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 
 - **Cause** : le chemin de l'image est erroné, ou l'image n'a pas été placée dans le répertoire statique `public/`.
 - **Solution** :
-  1. Vérifiez que l'image est enregistrée dans `public/images/canvas/your-pic.png` ;
-  2. Référencez-la avec un chemin absolu commençant par `/` : `![Description](/images/canvas/your-pic.png)`, sans chemin relatif du type `../public/...`.
+  1. Vérifiez que l'image est enregistrée dans `public/images/canvas/ui-docs-reading.png` ;
+  2. Référencez-la avec un chemin absolu commençant par `/` : `![Description](/images/canvas/ui-docs-reading.png)`, sans chemin relatif du type `../public/...`.
 
 ---
 

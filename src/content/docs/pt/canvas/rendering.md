@@ -103,7 +103,7 @@ Todos os blocos de código incluem automaticamente um botão de copiar num só c
 
 ## Regras das imagens
 
-- As imagens são colocadas uniformemente em `public/images/canvas/` e referenciadas com caminho absoluto: `![descrição](/images/canvas/xxx.png)`;
+- As imagens são colocadas uniformemente em `public/images/canvas/` e referenciadas com caminho absoluto: `![descrição](/images/canvas/ui-docs-reading.png)`;
 - Os diagramas de arquitetura e de fluxo utilizam o formato vetorial `.svg`; as capturas de ecrã da interface utilizam `.png` comprimido;
 - O texto descritivo tem de ser preenchido: é o texto alternativo quando a imagem falha ao carregar e é também a base da acessibilidade;
 - **A versão atual não inclui renderização de diagramas Mermaid**: uma cerca ` ```mermaid ` é apenas apresentada como um bloco de código normal com o código-fonte. Quando for preciso um diagrama de fluxo, exporte primeiro o SVG numa ferramenta como o mermaid.live e insira-o depois como imagem.

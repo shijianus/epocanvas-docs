@@ -36,7 +36,7 @@ description: EpoCanvas Docs のローカル環境の準備、依存関係のイ�
 
 初回デプロイ時、Cloudflare はリポジトリに Workers 設定ファイルがないことを検出すると、これが Astro 静的サイトだと自動認識し、自動生成された設定の Pull Request（PR）をリポジトリに送ってきます。マージすればよく、以降はプッシュするたびに自動でビルドして公開されます。ボタンをクリックしてから URL が表示されるまで、順調にいけば 2〜3 分です。
 
-デプロイが完了すると、Cloudflare は `https://epocanvas-docs.<あなたのサブドメイン>.workers.dev` 形式の公開 URL を割り当て、HTTPS 証明書も自動で付きます。自分のドメインに変えたいときは、ダッシュボードで Workers & Pages → 自分のプロジェクト → **Settings** → **Domains & Routes** と進んで追加します。
+デプロイが完了すると、Cloudflare は `https://epocanvas-docs.<あなたのサブドメイン>.workers.dev` 形式の公開 URL を割り当て、HTTPS 証明書も自動で付きます。自分のドメインに変えたいときは、ダッシュボードで Workers & Pages → 自分のプロジェクト → **Settings** → **Domains & Routes** と進んで追加します。 実際に公開されている本站を確かめるには、Pages のデフォルト ドメイン [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev) とカスタム ドメイン [https://docs.epocanvas.com](https://docs.epocanvas.com) を直接開いてください。
 
 ### Vercel と Netlify へのデプロイ
 
@@ -46,8 +46,8 @@ description: EpoCanvas Docs のローカル環境の準備、依存関係のイ�
 
 [![Netlify にデプロイ](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel**: ボタンをクリック → GitHub を認可 → デフォルトのまま Deploy をクリック。完了すると `xxx.vercel.app` のドメインが得られ、個人用の Hobby プランは無料です。
-- **Netlify**: ボタンをクリック → GitHub と接続 → プラットフォームが自動でリポジトリをクローンし、初回ビルドまで行います。完了すると `xxx.netlify.app` のドメインが得られ、無料枠で十分使えます。
+- **Vercel**: ボタンをクリック → GitHub を認可 → デフォルトのまま Deploy をクリック。完了すると `epocanvas-docs.vercel.app` のドメインが得られ、個人用の Hobby プランは無料です。
+- **Netlify**: ボタンをクリック → GitHub と接続 → プラットフォームが自動でリポジトリをクローンし、初回ビルドまで行います。完了すると `epocanvas-docs.netlify.app` のドメインが得られ、無料枠で十分使えます。
 
 :::note
 3 つのボタンの仕組みは同じです: リポジトリをあなたの GitHub アカウントにクローンし、「コードをプッシュしたら自動で再ビルドして公開する」継続的デプロイを設定します。使うプラットフォームは 1 つ選べばよく、重複してデプロイする必要はありません。このサイト自体は Cloudflare Pages 直接アップロード方式でホストしています（[Cloudflare Pages へのデプロイ](/canvas/cloudflare/) を参照）が、上記のボタンの手順とは互いに影響しません。静的ドキュメントサイトであれば、どちらのホスティング方式でも読者が感じる閲覧体験は同じです。

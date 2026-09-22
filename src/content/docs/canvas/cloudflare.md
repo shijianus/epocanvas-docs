@@ -150,7 +150,7 @@ Git 集成项目的 Settings 页会多出构建配置区块（框架预设、构
 
 ## 绑定自定义域名
 
-Cloudflare 默认分配的 `xxx.pages.dev` 域名可以直接使用；绑定自己的域名（例如 `docs.epocanvas.com`）只需几分钟。
+Cloudflare 默认分配的 `epocanvas-docs.pages.dev` 域名可以直接使用；绑定自己的域名（例如 `docs.epocanvas.com`）只需几分钟。
 
 ### 第 1 步：打开自定义域设置
 
@@ -207,7 +207,7 @@ content-type: text/html; charset=utf-8
 
 ### 自定义域名提示 SSL 握手失败 (Error 525)？
 
-证书签发需要 2~5 分钟全球生效时间，等待后强刷即可；期间可先访问 `xxx.pages.dev` 默认域名。
+证书签发需要 2~5 分钟全球生效时间，等待后强刷即可；期间可先访问 `epocanvas-docs.pages.dev` 默认域名。
 
 ### 运行 `pnpm run deploy` 报错 `Project not found`？
 

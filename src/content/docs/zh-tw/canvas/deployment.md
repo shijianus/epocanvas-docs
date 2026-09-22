@@ -36,7 +36,7 @@ description: EpoCanvas Docs 本機環境準備、安裝相依套件、啟動本�
 
 首次部署時，Cloudflare 偵測到儲存庫裡沒有 Workers 設定檔，會自動識別出這是 Astro 靜態站點，並向你的儲存庫發起一個自動產生的設定 Pull Request（PR）——把它合併即可，之後每次推送都會自動建置上線。從點擊按鈕到看到網址，順利的話兩三分鐘。
 
-部署完成後，Cloudflare 會分配一個 `https://epocanvas-docs.<你的子網域>.workers.dev` 形式的公開網址，自帶 HTTPS 憑證。想換成自己的網域，在控制台進入 Workers & Pages → 你的專案 → **Settings** → **Domains & Routes** 新增即可。
+部署完成後，Cloudflare 會分配一個 `https://epocanvas-docs.<你的子網域>.workers.dev` 形式的公開網址，自帶 HTTPS 憑證。想換成自己的網域，在控制台進入 Workers & Pages → 你的專案 → **Settings** → **Domains & Routes** 新增即可。 本站的線上實例可直接對照：Pages 預設網域 [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev) 與自訂網域 [https://docs.epocanvas.com](https://docs.epocanvas.com)。
 
 ### 部署到 Vercel 和 Netlify
 
@@ -46,8 +46,8 @@ description: EpoCanvas Docs 本機環境準備、安裝相依套件、啟動本�
 
 [![Deploy to Netlify](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel**：點擊按鈕 → 授權 GitHub → 保持預設選項點擊 Deploy。完成後得到 `xxx.vercel.app` 網域，個人 Hobby 方案免費；
-- **Netlify**：點擊按鈕 → 連接 GitHub → 平台自動 clone 儲存庫並完成首次建置。完成後得到 `xxx.netlify.app` 網域，免費額度夠用。
+- **Vercel**：點擊按鈕 → 授權 GitHub → 保持預設選項點擊 Deploy。完成後得到 `epocanvas-docs.vercel.app` 網域，個人 Hobby 方案免費；
+- **Netlify**：點擊按鈕 → 連接 GitHub → 平台自動 clone 儲存庫並完成首次建置。完成後得到 `epocanvas-docs.netlify.app` 網域，免費額度夠用。
 
 :::note
 三個按鈕的機制相同：把儲存庫 clone 到你的 GitHub 帳號，並設定好「推送程式碼就自動重新建置上線」的持續部署。選一個平台用就好，不需要重複部署。本站自身採用 Cloudflare Pages 直傳方式託管（見 [Cloudflare Pages 部署上線](/canvas/cloudflare/)），與上述按鈕路徑互不影響——對靜態文件站來說，兩種託管方式讀者看到的存取體驗是一致的。

@@ -150,7 +150,7 @@ Nas páginas Settings dos projetos com integração Git aparece um bloco adicion
 
 ## Associar um domínio personalizado
 
-O domínio `xxx.pages.dev` atribuído por predefinição pelo Cloudflare pode ser usado diretamente; associar o seu próprio domínio (por exemplo, `docs.epocanvas.com`) demora apenas alguns minutos.
+O domínio `epocanvas-docs.pages.dev` atribuído por predefinição pelo Cloudflare pode ser usado diretamente; associar o seu próprio domínio (por exemplo, `docs.epocanvas.com`) demora apenas alguns minutos.
 
 ### Passo 1: Abrir as definições de domínio personalizado
 
@@ -207,7 +207,7 @@ Force a atualização no navegador (`Ctrl+F5` / `Cmd+Shift+R`) para eliminar a c
 
 ### O domínio personalizado indica falha no handshake SSL (Error 525)?
 
-A emissão do certificado precisa de 2 a 5 minutos para ficar ativa a nível global; aguarde e force a atualização; entretanto pode aceder ao domínio predefinido `xxx.pages.dev`.
+A emissão do certificado precisa de 2 a 5 minutos para ficar ativa a nível global; aguarde e force a atualização; entretanto pode aceder ao domínio predefinido `epocanvas-docs.pages.dev`.
 
 ### O comando `pnpm run deploy` devolve o erro `Project not found`?
 

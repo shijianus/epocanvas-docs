@@ -83,8 +83,8 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
 
 - **Ursache**: Der Bildpfad ist falsch geschrieben, oder das Bild liegt nicht im statischen Verzeichnis `public/`.
 - **Lösung**:
-  1. Bestätigen Sie, dass das Bild unter `public/images/canvas/your-pic.png` gespeichert ist;
-  2. Verwenden Sie beim Einbinden einen absoluten Pfad beginnend mit `/`: `![Beschreibung](/images/canvas/your-pic.png)`; schreiben Sie keinen relativen Pfad wie `../public/...`.
+  1. Bestätigen Sie, dass das Bild unter `public/images/canvas/ui-docs-reading.png` gespeichert ist;
+  2. Verwenden Sie beim Einbinden einen absoluten Pfad beginnend mit `/`: `![Beschreibung](/images/canvas/ui-docs-reading.png)`; schreiben Sie keinen relativen Pfad wie `../public/...`.
 
 ---
 

@@ -83,8 +83,8 @@ description: EpoCanvas Docs 本地运行报错、文档不显示、提示框渲�
 
 - **原因**：图片路径写错，或图片没有放进 `public/` 静态目录。
 - **解决办法**：
-  1. 确认图片保存在 `public/images/canvas/your-pic.png`；
-  2. 引用时用 `/` 开头的绝对路径：`![描述](/images/canvas/your-pic.png)`，不要写 `../public/...` 这样的相对路径。
+  1. 确认图片保存在 `public/images/canvas/ui-docs-reading.png`；
+  2. 引用时用 `/` 开头的绝对路径：`![描述](/images/canvas/ui-docs-reading.png)`，不要写 `../public/...` 这样的相对路径。
 
 ---
 

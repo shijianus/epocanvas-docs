@@ -103,7 +103,7 @@ Every code block automatically gets a one-click copy button, and code text is in
 
 ## Image Rules
 
-- Store images in `public/images/canvas/` and reference them with absolute paths: `![description](/images/canvas/xxx.png)`;
+- Store images in `public/images/canvas/` and reference them with absolute paths: `![description](/images/canvas/ui-docs-reading.png)`;
 - Use `.svg` vector format for architecture and flow diagrams, and compressed `.png` for UI screenshots;
 - The description text is required: it is the alt text shown when the image fails to load and the basis for accessibility;
 - **The current version has no built-in Mermaid diagram rendering**: a ` ```mermaid ` fence is displayed as an ordinary code block showing the source. When you need a flow diagram, export an SVG from a tool such as mermaid.live first, then insert it as an image.

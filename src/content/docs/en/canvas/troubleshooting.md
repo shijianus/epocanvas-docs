@@ -83,8 +83,8 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 
 - **Cause**: The image path is wrong, or the image was not placed in the `public/` static directory.
 - **Fix**:
-  1. Confirm the image is saved at `public/images/canvas/your-pic.png`;
-  2. Reference it with an absolute path starting with `/`: `![description](/images/canvas/your-pic.png)`. Do not use relative paths like `../public/...`.
+  1. Confirm the image is saved at `public/images/canvas/ui-docs-reading.png`;
+  2. Reference it with an absolute path starting with `/`: `![description](/images/canvas/ui-docs-reading.png)`. Do not use relative paths like `../public/...`.
 
 ---
 

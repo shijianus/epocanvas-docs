@@ -150,7 +150,7 @@ Git 連携プロジェクトの Settings ページには、ビルド設定のブ
 
 ## カスタムドメインをバインドする
 
-Cloudflare がデフォルトで割り当てる `xxx.pages.dev` ドメインはそのまま使えます。自分のドメイン（例: `docs.epocanvas.com`）をバインドする場合も、数分で完了します。
+Cloudflare がデフォルトで割り当てる `epocanvas-docs.pages.dev` ドメインはそのまま使えます。自分のドメイン（例: `docs.epocanvas.com`）をバインドする場合も、数分で完了します。
 
 ### ステップ 1: カスタムドメイン設定を開く
 
@@ -207,7 +207,7 @@ content-type: text/html; charset=utf-8
 
 ### カスタムドメインで SSL ハンドシェイク失敗 (Error 525) と表示される？
 
-証明書の発行には、全世界に反映されるまで 2〜5 分ほどかかります。待ってから強制リロードしてください。それまでは `xxx.pages.dev` のデフォルトドメインでアクセスできます。
+証明書の発行には、全世界に反映されるまで 2〜5 分ほどかかります。待ってから強制リロードしてください。それまでは `epocanvas-docs.pages.dev` のデフォルトドメインでアクセスできます。
 
 ### `pnpm run deploy` が `Project not found` エラーになる？
 

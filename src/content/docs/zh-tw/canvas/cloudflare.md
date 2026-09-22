@@ -150,7 +150,7 @@ Git 整合專案的 Settings 頁會多出建置設定區塊（框架預設、建
 
 ## 綁定自訂網域
 
-Cloudflare 預設分配的 `xxx.pages.dev` 網域可以直接使用；綁定自己的網域（例如 `docs.epocanvas.com`）只需幾分鐘。
+Cloudflare 預設分配的 `epocanvas-docs.pages.dev` 網域可以直接使用；綁定自己的網域（例如 `docs.epocanvas.com`）只需幾分鐘。
 
 ### 第 1 步：開啟自訂網域設定
 
@@ -207,7 +207,7 @@ content-type: text/html; charset=utf-8
 
 ### 自訂網域提示 SSL 交握失敗 (Error 525)？
 
-憑證簽發需要 2~5 分鐘全球生效時間，等待後強制重新整理即可；期間可先存取 `xxx.pages.dev` 預設網域。
+憑證簽發需要 2~5 分鐘全球生效時間，等待後強制重新整理即可；期間可先存取 `epocanvas-docs.pages.dev` 預設網域。
 
 ### 執行 `pnpm run deploy` 報錯 `Project not found`？
 

@@ -83,8 +83,8 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 
 - **Causa**: o caminho da imagem está errado, ou a imagem não foi colocada no diretório estático `public/`.
 - **Solução**:
-  1. Confirme que a imagem está guardada em `public/images/canvas/your-pic.png`;
-  2. Ao referenciá-la, use um caminho absoluto começado por `/`: `![descrição](/images/canvas/your-pic.png)`; não escreva caminhos relativos como `../public/...`.
+  1. Confirme que a imagem está guardada em `public/images/canvas/ui-docs-reading.png`;
+  2. Ao referenciá-la, use um caminho absoluto começado por `/`: `![descrição](/images/canvas/ui-docs-reading.png)`; não escreva caminhos relativos como `../public/...`.
 
 ---
 

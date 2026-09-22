@@ -150,7 +150,7 @@ The Settings page of a Git-integrated project has an extra build configuration s
 
 ## Bind a Custom Domain
 
-The default `xxx.pages.dev` domain assigned by Cloudflare works out of the box; binding your own domain (for example `docs.epocanvas.com`) takes only a few minutes.
+The default `epocanvas-docs.pages.dev` domain assigned by Cloudflare works out of the box; binding your own domain (for example `docs.epocanvas.com`) takes only a few minutes.
 
 ### Step 1: Open the Custom Domain Settings
 
@@ -207,7 +207,7 @@ Hard-refresh the browser (`Ctrl+F5` / `Cmd+Shift+R`) to rule out caching. If it 
 
 ### Custom Domain Shows an SSL Handshake Failure (Error 525)?
 
-Certificate issuance takes 2–5 minutes to propagate globally; wait and hard-refresh. In the meantime you can use the default `xxx.pages.dev` domain.
+Certificate issuance takes 2–5 minutes to propagate globally; wait and hard-refresh. In the meantime you can use the default `epocanvas-docs.pages.dev` domain.
 
 ### `pnpm run deploy` Fails with `Project not found`?
 

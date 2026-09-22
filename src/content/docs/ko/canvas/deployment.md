@@ -36,7 +36,7 @@ description: EpoCanvas Docs 로컬 환경 준비, 의존성 설치, 로컬 개�
 
 첫 배포 시 Cloudflare는 저장소에 Workers 설정 파일이 없는 것을 감지하고 이것이 Astro 정적 사이트임을 자동으로 인식한 뒤, 자동 생성된 설정 Pull Request(PR)를 여러분의 저장소에 보냅니다. 그 PR을 병합하면 되고, 이후에는 푸시할 때마다 자동으로 빌드되어 온라인에 올라갑니다. 버튼 클릭부터 주소 확인까지, 순조로우면 2~3분 걸립니다.
 
-배포가 완료되면 Cloudflare는 `https://epocanvas-docs.<여러분의 서브도메인>.workers.dev` 형식의 공개 주소를 할당하며, HTTPS 인증서가 기본 포함됩니다. 자신의 도메인으로 바꾸려면 콘솔에서 Workers & Pages → 내 프로젝트 → **Settings** → **Domains & Routes**로 이동해 추가하면 됩니다.
+배포가 완료되면 Cloudflare는 `https://epocanvas-docs.<여러분의 서브도메인>.workers.dev` 형식의 공개 주소를 할당하며, HTTPS 인증서가 기본 포함됩니다. 자신의 도메인으로 바꾸려면 콘솔에서 Workers & Pages → 내 프로젝트 → **Settings** → **Domains & Routes**로 이동해 추가하면 됩니다. 실제 공개 인스턴스는 Pages 기본 도메인 [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)과 사용자 도메인 [https://docs.epocanvas.com](https://docs.epocanvas.com)에서 바로 비교할 수 있습니다.
 
 ### Vercel과 Netlify에 배포
 
@@ -46,8 +46,8 @@ description: EpoCanvas Docs 로컬 환경 준비, 의존성 설치, 로컬 개�
 
 [![Deploy to Netlify](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel**: 버튼 클릭 → GitHub 승인 → 기본 옵션을 유지한 채 Deploy 클릭. 완료 후 `xxx.vercel.app` 도메인을 받으며, 개인 Hobby 플랜은 무료입니다.
-- **Netlify**: 버튼 클릭 → GitHub 연결 → 플랫폼이 자동으로 저장소를 복제하고 첫 빌드를 완료합니다. 완료 후 `xxx.netlify.app` 도메인을 받으며, 무료 등급으로도 충분합니다.
+- **Vercel**: 버튼 클릭 → GitHub 승인 → 기본 옵션을 유지한 채 Deploy 클릭. 완료 후 `epocanvas-docs.vercel.app` 도메인을 받으며, 개인 Hobby 플랜은 무료입니다.
+- **Netlify**: 버튼 클릭 → GitHub 연결 → 플랫폼이 자동으로 저장소를 복제하고 첫 빌드를 완료합니다. 완료 후 `epocanvas-docs.netlify.app` 도메인을 받으며, 무료 등급으로도 충분합니다.
 
 :::note
 세 버튼의 동작 방식은 같습니다. 저장소를 여러분의 GitHub 계정으로 복제하고, "코드를 푸시하면 자동으로 다시 빌드해 게시하는" 지속적 배포를 설정합니다. 한 플랫폼을 골라 사용하면 되며 반복 배포할 필요가 없습니다. 이 사이트 자체는 Cloudflare Pages 직접 업로드 방식으로 호스팅되며([Cloudflare Pages 배포](/canvas/cloudflare/) 참고), 위 버튼 경로와 서로 영향을 주지 않습니다. 정적 문서 사이트의 경우 두 호스팅 방식 모두 독자가 경험하는 접속 환경은 동일합니다.

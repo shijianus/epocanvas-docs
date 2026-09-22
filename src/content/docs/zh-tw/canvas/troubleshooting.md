@@ -83,8 +83,8 @@ description: EpoCanvas Docs 本機執行報錯、文件不顯示、提示框渲�
 
 - **原因**：圖片路徑寫錯，或圖片沒有放進 `public/` 靜態目錄。
 - **解決辦法**：
-  1. 確認圖片儲存在 `public/images/canvas/your-pic.png`；
-  2. 引用時用 `/` 開頭的絕對路徑：`![描述](/images/canvas/your-pic.png)`，不要寫 `../public/...` 這樣的相對路徑。
+  1. 確認圖片儲存在 `public/images/canvas/ui-docs-reading.png`；
+  2. 引用時用 `/` 開頭的絕對路徑：`![描述](/images/canvas/ui-docs-reading.png)`，不要寫 `../public/...` 這樣的相對路徑。
 
 ---
 

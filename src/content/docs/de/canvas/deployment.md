@@ -36,7 +36,7 @@ Nach dem Klick auf die Schaltfläche führt der Assistent durch drei Schritte:
 
 Bei der ersten Bereitstellung erkennt Cloudflare, dass im Repository keine Workers-Konfigurationsdatei liegt, identifiziert die Site automatisch als statische Astro-Site und stellt in Ihrem Repository einen automatisch generierten Konfigurations-Pull-Request (PR) – mergen Sie ihn einfach; danach wird bei jedem Push automatisch gebaut und veröffentlicht. Vom Klick auf die Schaltfläche bis zur sichtbaren Webadresse vergehen bei reibungslosem Ablauf zwei bis drei Minuten.
 
-Nach Abschluss der Bereitstellung weist Cloudflare eine öffentliche Adresse der Form `https://epocanvas-docs.<Ihre-Subdomain>.workers.dev` zu, mit HTTPS-Zertifikat. Möchten Sie Ihre eigene Domain verwenden, gehen Sie in der Konsole zu Workers & Pages → Ihr Projekt → **Settings** → **Domains & Routes** und fügen Sie sie dort hinzu.
+Nach Abschluss der Bereitstellung weist Cloudflare eine öffentliche Adresse der Form `https://epocanvas-docs.<Ihre-Subdomain>.workers.dev` zu, mit HTTPS-Zertifikat. Möchten Sie Ihre eigene Domain verwenden, gehen Sie in der Konsole zu Workers & Pages → Ihr Projekt → **Settings** → **Domains & Routes** und fügen Sie sie dort hinzu. Die veröffentlichte Instanz lässt sich direkt vergleichen: die Standard-Domain von Pages [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev) und die eigene Domain [https://docs.epocanvas.com](https://docs.epocanvas.com).
 
 ### Bereitstellung auf Vercel und Netlify
 
@@ -46,8 +46,8 @@ Wer andere Plattformen gewohnt ist: Die beiden folgenden Schaltflächen erledige
 
 [![Auf Netlify bereitstellen](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel**: Schaltfläche klicken → GitHub autorisieren → bei den Standardoptionen auf Deploy klicken. Anschließend erhalten Sie die Domain `xxx.vercel.app`; der persönliche Hobby-Tarif ist kostenlos;
-- **Netlify**: Schaltfläche klicken → GitHub verbinden → die Plattform klont das Repository automatisch und schließt den ersten Build ab. Anschließend erhalten Sie die Domain `xxx.netlify.app`; das kostenlose Paket reicht aus.
+- **Vercel**: Schaltfläche klicken → GitHub autorisieren → bei den Standardoptionen auf Deploy klicken. Anschließend erhalten Sie die Domain `epocanvas-docs.vercel.app`; der persönliche Hobby-Tarif ist kostenlos;
+- **Netlify**: Schaltfläche klicken → GitHub verbinden → die Plattform klont das Repository automatisch und schließt den ersten Build ab. Anschließend erhalten Sie die Domain `epocanvas-docs.netlify.app`; das kostenlose Paket reicht aus.
 
 :::note
 Alle drei Schaltflächen funktionieren nach demselben Mechanismus: Das Repository wird in Ihr GitHub-Konto geklont und ein Continuous Deployment eingerichtet, bei dem ein Push des Codes automatisch neu baut und veröffentlicht. Wählen Sie einfach eine Plattform – eine doppelte Bereitstellung ist nicht nötig. Diese Site selbst wird per direktem Upload auf Cloudflare Pages gehostet (siehe [Bereitstellung auf Cloudflare Pages](/canvas/cloudflare/)); das beeinflusst den Weg über die Schaltflächen nicht – für eine statische Dokumentations-Site ist das Besuchserlebnis bei beiden Hosting-Arten identisch.

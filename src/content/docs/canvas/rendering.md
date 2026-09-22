@@ -103,7 +103,7 @@ description: EpoCanvas Docs 完整渲染规则：从 Markdown 文件到最终页
 
 ## 图片规则
 
-- 图片统一放在 `public/images/canvas/`，用绝对路径引用：`![说明](/images/canvas/xxx.png)`；
+- 图片统一放在 `public/images/canvas/`，用绝对路径引用：`![说明](/images/canvas/ui-docs-reading.png)`；
 - 架构与流程示意图用 `.svg` 矢量格式，界面截图用压缩后的 `.png`；
 - 描述文字必须填写，这是图片加载失败时的替代文本，也是无障碍访问的依据；
 - **当前版本不内置 Mermaid 图表渲染**：` ```mermaid ` 围栏只会按普通代码块显示源码。需要流程图时，先在 mermaid.live 等工具中导出 SVG，再作为图片插入。

@@ -150,7 +150,7 @@ La página Settings de un proyecto con integración Git muestra además un bloqu
 
 ## Vincular un dominio propio
 
-El dominio `xxx.pages.dev` que Cloudflare asigna por defecto se puede usar directamente; vincular su propio dominio (por ejemplo `docs.epocanvas.com`) solo lleva unos minutos.
+El dominio `epocanvas-docs.pages.dev` que Cloudflare asigna por defecto se puede usar directamente; vincular su propio dominio (por ejemplo `docs.epocanvas.com`) solo lleva unos minutos.
 
 ### Paso 1: abrir la configuración de dominio propio
 
@@ -207,7 +207,7 @@ Recarga forzada en el navegador (`Ctrl+F5` / `Cmd+Shift+R`) para descartar la ca
 
 ### ¿El dominio propio muestra un error de handshake SSL (Error 525)?
 
-La emisión del certificado necesita entre 2 y 5 minutos para hacerse efectiva globalmente; espera y recarga forzada. Mientras tanto, se puede acceder primero con el dominio predeterminado `xxx.pages.dev`.
+La emisión del certificado necesita entre 2 y 5 minutos para hacerse efectiva globalmente; espera y recarga forzada. Mientras tanto, se puede acceder primero con el dominio predeterminado `epocanvas-docs.pages.dev`.
 
 ### ¿`pnpm run deploy` falla con `Project not found`?
 

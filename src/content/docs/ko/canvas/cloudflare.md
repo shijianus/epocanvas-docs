@@ -150,7 +150,7 @@ Git 연동 프로젝트의 Settings 페이지에는 빌드 설정 블록(프레�
 
 ## 커스텀 도메인 연결
 
-Cloudflare가 기본으로 할당하는 `xxx.pages.dev` 도메인은 바로 사용할 수 있으며, 자기 도메인(예: `docs.epocanvas.com`)을 연결하는 데는 몇 분밖에 걸리지 않습니다.
+Cloudflare가 기본으로 할당하는 `epocanvas-docs.pages.dev` 도메인은 바로 사용할 수 있으며, 자기 도메인(예: `docs.epocanvas.com`)을 연결하는 데는 몇 분밖에 걸리지 않습니다.
 
 ### 1단계: 커스텀 도메인 설정 열기
 
@@ -207,7 +207,7 @@ content-type: text/html; charset=utf-8
 
 ### 커스텀 도메인에서 SSL 핸드셰이크 실패(Error 525)가 표시되나요?
 
-인증서 발급에는 보통 2~5분의 전 세계 적용 시간이 필요하므로 기다린 후 강제 새로 고침하면 됩니다. 그동안은 `xxx.pages.dev` 기본 도메인으로 먼저 접근할 수 있습니다.
+인증서 발급에는 보통 2~5분의 전 세계 적용 시간이 필요하므로 기다린 후 강제 새로 고침하면 됩니다. 그동안은 `epocanvas-docs.pages.dev` 기본 도메인으로 먼저 접근할 수 있습니다.
 
 ### `pnpm run deploy` 실행 시 `Project not found` 오류가 발생하나요?
 

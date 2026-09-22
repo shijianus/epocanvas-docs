@@ -150,7 +150,7 @@ Auf der Settings-Seite eines Git-Projekts erscheint zusätzlich ein Block mit de
 
 ## Eigene Domain anbinden
 
-Die von Cloudflare automatisch vergebene Domain `xxx.pages.dev` lässt sich direkt verwenden; die eigene Domain (z. B. `docs.epocanvas.com`) anzubinden dauert nur wenige Minuten.
+Die von Cloudflare automatisch vergebene Domain `epocanvas-docs.pages.dev` lässt sich direkt verwenden; die eigene Domain (z. B. `docs.epocanvas.com`) anzubinden dauert nur wenige Minuten.
 
 ### Schritt 1: Die Einstellungen für eigene Domains öffnen
 
@@ -207,7 +207,7 @@ Zwingen Sie den Browser zum Neuladen (`Ctrl+F5` / `Cmd+Shift+R`), um den Cache a
 
 ### Die eigene Domain meldet einen SSL-Handshake-Fehler (Error 525)?
 
-Die Zertifikatsausstellung braucht 2–5 Minuten, bis sie weltweit wirksam ist; warten Sie kurz und laden Sie danach neu. In der Zwischenzeit erreichen Sie die Site über die Standarddomain `xxx.pages.dev`.
+Die Zertifikatsausstellung braucht 2–5 Minuten, bis sie weltweit wirksam ist; warten Sie kurz und laden Sie danach neu. In der Zwischenzeit erreichen Sie die Site über die Standarddomain `epocanvas-docs.pages.dev`.
 
 ### `pnpm run deploy` bricht mit `Project not found` ab?
 

@@ -83,8 +83,8 @@ description: EpoCanvas Docs のローカル実行エラー、ドキュメント�
 
 - **原因**: 画像のパスが間違っているか、画像が `public/` 静的ディレクトリに置かれていません。
 - **解決方法**:
-  1. 画像が `public/images/canvas/your-pic.png` に保存されていることを確認します。
-  2. 参照するときは `/` で始まる絶対パスを使います: `![説明](/images/canvas/your-pic.png)`。`../public/...` のような相対パスは書かないでください。
+  1. 画像が `public/images/canvas/ui-docs-reading.png` に保存されていることを確認します。
+  2. 参照するときは `/` で始まる絶対パスを使います: `![説明](/images/canvas/ui-docs-reading.png)`。`../public/...` のような相対パスは書かないでください。
 
 ---
 

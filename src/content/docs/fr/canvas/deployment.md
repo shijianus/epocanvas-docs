@@ -36,7 +36,7 @@ Remplacez impérativement la commande de déploiement par `npx wrangler deploy`.
 
 Lors du premier déploiement, Cloudflare détecte l'absence de fichier de configuration Workers dans le dépôt, identifie automatiquement qu'il s'agit d'un site statique Astro et ouvre sur votre dépôt une Pull Request (PR) de configuration générée automatiquement — il suffit de la fusionner ; ensuite, chaque poussée de code déclenchera automatiquement un build et une mise en ligne. Du clic sur le bouton à l'affichage de l'adresse, comptez deux à trois minutes si tout se passe bien.
 
-Une fois le déploiement terminé, Cloudflare attribue une adresse publique de la forme `https://epocanvas-docs.<votre-sous-domaine>.workers.dev`, avec certificat HTTPS intégré. Pour utiliser votre propre domaine, rendez-vous dans la console sous Workers & Pages → votre projet → **Settings** → **Domains & Routes** et ajoutez-le.
+Une fois le déploiement terminé, Cloudflare attribue une adresse publique de la forme `https://epocanvas-docs.<votre-sous-domaine>.workers.dev`, avec certificat HTTPS intégré. Pour utiliser votre propre domaine, rendez-vous dans la console sous Workers & Pages → votre projet → **Settings** → **Domains & Routes** et ajoutez-le. L'instance en ligne sert de référence : le domaine par défaut Pages [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev) et le domaine personnel [https://docs.epocanvas.com](https://docs.epocanvas.com).
 
 ### Déploiement vers Vercel et Netlify
 
@@ -46,8 +46,8 @@ Si vous préférez d'autres plateformes, les deux boutons ci-dessous font la mê
 
 [![Déployer vers Netlify](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel** : cliquez sur le bouton → autorisez GitHub → cliquez sur Deploy en conservant les options par défaut. Vous obtenez ensuite un domaine `xxx.vercel.app`, gratuit avec l'offre personnelle Hobby ;
-- **Netlify** : cliquez sur le bouton → connectez GitHub → la plateforme clone automatiquement le dépôt et effectue le premier build. Vous obtenez ensuite un domaine `xxx.netlify.app`, largement suffisant avec l'offre gratuite.
+- **Vercel** : cliquez sur le bouton → autorisez GitHub → cliquez sur Deploy en conservant les options par défaut. Vous obtenez ensuite un domaine `epocanvas-docs.vercel.app`, gratuit avec l'offre personnelle Hobby ;
+- **Netlify** : cliquez sur le bouton → connectez GitHub → la plateforme clone automatiquement le dépôt et effectue le premier build. Vous obtenez ensuite un domaine `epocanvas-docs.netlify.app`, largement suffisant avec l'offre gratuite.
 
 :::note
 Les trois boutons fonctionnent selon le même mécanisme : cloner le dépôt sous votre compte GitHub et configurer le déploiement continu « une poussée de code déclenche automatiquement un nouveau build et une mise en ligne ». Choisissez une seule plateforme, inutile de déployer deux fois. Ce site lui-même est hébergé par transfert direct vers Cloudflare Pages (voir [Déploiement et mise en ligne via Cloudflare Pages](/canvas/cloudflare/)), ce qui n'interfère pas avec les chemins par bouton ci-dessus — pour un site de documentation statique, l'expérience d'accès constatée par le lecteur est identique quel que soit le mode d'hébergement.

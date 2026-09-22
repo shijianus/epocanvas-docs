@@ -103,7 +103,7 @@ Tous les blocs de code sont accompagnés d'un bouton de copie en un clic ; le te
 
 ## Règles des images
 
-- Les images sont regroupées dans `public/images/canvas/` et référencées par un chemin absolu : `![Description](/images/canvas/xxx.png)` ;
+- Les images sont regroupées dans `public/images/canvas/` et référencées par un chemin absolu : `![Description](/images/canvas/ui-docs-reading.png)` ;
 - Les schémas d'architecture et de flux utilisent le format vectoriel `.svg`, les captures d'écran d'interface un `.png` compressé ;
 - Le texte alternatif est obligatoire : c'est le texte de substitution en cas d'échec de chargement de l'image, et la base de l'accessibilité ;
 - **La version actuelle n'intègre pas le rendu des diagrammes Mermaid** : une barrière ` ```mermaid ` s'affiche uniquement comme un bloc de code ordinaire montrant le code source. Pour obtenir un diagramme de flux, exportez d'abord le SVG depuis un outil comme mermaid.live, puis insérez-le comme image.

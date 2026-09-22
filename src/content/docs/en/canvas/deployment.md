@@ -36,7 +36,7 @@ Make sure to change the deploy command to `npx wrangler deploy`. The pre-filled 
 
 On the first deployment, Cloudflare detects that the repository has no Workers configuration file, recognizes it as an Astro static site, and opens an auto-generated configuration Pull Request (PR) against your repository — just merge it; from then on, every push is built and published automatically. From clicking the button to seeing the URL takes two to three minutes if all goes well.
 
-After deployment, Cloudflare assigns a public address of the form `https://epocanvas-docs.<your-subdomain>.workers.dev` with an HTTPS certificate included. To use your own domain, go to Workers & Pages → your project → **Settings** → **Domains & Routes** in the dashboard and add it there.
+After deployment, Cloudflare assigns a public address of the form `https://epocanvas-docs.<your-subdomain>.workers.dev` with an HTTPS certificate included. To use your own domain, go to Workers & Pages → your project → **Settings** → **Domains & Routes** in the dashboard and add it there. Both addresses of the live instance are open to comparison: the default Pages domain [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev) and the custom domain [https://docs.epocanvas.com](https://docs.epocanvas.com).
 
 ### Deploy to Vercel and Netlify
 
@@ -46,8 +46,8 @@ If you prefer other platforms, the two buttons below do the same thing; both pla
 
 [![Deploy to Netlify](/images/canvas/deploy/badge-netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/shijianus/epocanvas-docs)
 
-- **Vercel**: click the button → authorize GitHub → keep the default options and click Deploy. You get an `xxx.vercel.app` domain; free on the personal Hobby plan;
-- **Netlify**: click the button → connect GitHub → the platform clones the repository and completes the first build automatically. You get an `xxx.netlify.app` domain; the free tier is enough.
+- **Vercel**: click the button → authorize GitHub → keep the default options and click Deploy. You get an `epocanvas-docs.vercel.app` domain; free on the personal Hobby plan;
+- **Netlify**: click the button → connect GitHub → the platform clones the repository and completes the first build automatically. You get an `epocanvas-docs.netlify.app` domain; the free tier is enough.
 
 :::note
 All three buttons work the same way: they clone the repository to your GitHub account and set up continuous deployment so that pushing code automatically rebuilds and republishes the site. Pick one platform and stick with it; there is no need to deploy twice. This site itself is hosted via direct upload to Cloudflare Pages (see [Deploying to Cloudflare Pages](/canvas/cloudflare/)), which is independent of the button flows above — for a static documentation site, readers get the same access experience from either hosting method.

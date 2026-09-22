@@ -150,7 +150,7 @@ La page Settings d'un projet intégré à Git comporte une section supplémentai
 
 ## Lier un domaine personnalisé
 
-Le domaine `xxx.pages.dev` attribué par défaut par Cloudflare est directement utilisable ; lier votre propre domaine (par exemple `docs.epocanvas.com`) ne prend que quelques minutes.
+Le domaine `epocanvas-docs.pages.dev` attribué par défaut par Cloudflare est directement utilisable ; lier votre propre domaine (par exemple `docs.epocanvas.com`) ne prend que quelques minutes.
 
 ### Étape 1 : ouvrir les paramètres de domaine personnalisé
 
@@ -207,7 +207,7 @@ Forcez le rechargement du navigateur (`Ctrl+F5` / `Cmd+Shift+R`) pour écarter l
 
 ### Le domaine personnalisé affiche un échec de handshake SSL (Error 525) ?
 
-L'émission du certificat nécessite 2 à 5 minutes pour prendre effet à l'échelle mondiale ; attendez puis forcez le rechargement. Pendant ce délai, le domaine par défaut `xxx.pages.dev` reste accessible.
+L'émission du certificat nécessite 2 à 5 minutes pour prendre effet à l'échelle mondiale ; attendez puis forcez le rechargement. Pendant ce délai, le domaine par défaut `epocanvas-docs.pages.dev` reste accessible.
 
 ### `pnpm run deploy` échoue avec `Project not found` ?
 

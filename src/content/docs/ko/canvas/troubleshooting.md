@@ -83,8 +83,8 @@ description: EpoCanvas Docs 로컬 실행 오류, 문서가 표시되지 않는 
 
 - **원인**: 이미지 경로가 잘못되었거나, 이미지를 `public/` 정적 디렉터리에 넣지 않았습니다.
 - **해결 방법**:
-  1. 이미지가 `public/images/canvas/your-pic.png`에 저장되어 있는지 확인합니다;
-  2. 참조할 때는 `/`로 시작하는 절대 경로를 사용합니다: `![설명](/images/canvas/your-pic.png)`, `../public/...` 같은 상대 경로는 쓰지 않습니다.
+  1. 이미지가 `public/images/canvas/ui-docs-reading.png`에 저장되어 있는지 확인합니다;
+  2. 참조할 때는 `/`로 시작하는 절대 경로를 사용합니다: `![설명](/images/canvas/ui-docs-reading.png)`, `../public/...` 같은 상대 경로는 쓰지 않습니다.
 
 ---
 

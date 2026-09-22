@@ -103,7 +103,7 @@ description: "EpoCanvas Docs의 완전한 렌더링 규칙: Markdown 파일에�
 
 ## 이미지 규칙
 
-- 이미지는 `public/images/canvas/`에 통일하여 두고 절대 경로로 참조합니다: `![설명](/images/canvas/xxx.png)`;
+- 이미지는 `public/images/canvas/`에 통일하여 두고 절대 경로로 참조합니다: `![설명](/images/canvas/ui-docs-reading.png)`;
 - 아키텍처와 흐름 구성도는 `.svg` 벡터 형식을, 화면 스크린샷은 압축된 `.png`를 사용합니다;
 - 설명 텍스트는 반드시 채워야 하며, 이것은 이미지 로딩 실패 시의 대체 텍스트이자 접근성(무장애 열람)의 근거가 됩니다;
 - **현재 버전은 Mermaid 다이어그램 렌더링을 내장하지 않습니다**: ` ```mermaid ` 펜스는 일반 코드 블록으로 소스가 그대로 표시됩니다. 흐름도가 필요하면 먼저 mermaid.live 같은 도구에서 SVG로 내보낸 뒤 이미지로 삽입하세요.

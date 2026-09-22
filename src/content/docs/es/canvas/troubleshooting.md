@@ -83,8 +83,8 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 
 - **Causa**: la ruta de la imagen está mal escrita, o la imagen no se colocó en el directorio estático `public/`.
 - **Solución**:
-  1. Confirma que la imagen está guardada en `public/images/canvas/your-pic.png`;
-  2. Al referenciarla, use una ruta absoluta que empiece por `/`: `![descripción](/images/canvas/your-pic.png)`; no escriba rutas relativas como `../public/...`.
+  1. Confirma que la imagen está guardada en `public/images/canvas/ui-docs-reading.png`;
+  2. Al referenciarla, use una ruta absoluta que empiece por `/`: `![descripción](/images/canvas/ui-docs-reading.png)`; no escriba rutas relativas como `../public/...`.
 
 ---
 

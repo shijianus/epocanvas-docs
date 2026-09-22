@@ -103,7 +103,7 @@ Alle Codeblöcke erhalten automatisch einen Kopieren-Button; der Codetext wird v
 
 ## Bild-Regeln
 
-- Bilder liegen einheitlich unter `public/images/canvas/` und werden mit absolutem Pfad eingebunden: `![Beschreibung](/images/canvas/xxx.png)`;
+- Bilder liegen einheitlich unter `public/images/canvas/` und werden mit absolutem Pfad eingebunden: `![Beschreibung](/images/canvas/ui-docs-reading.png)`;
 - Architektur- und Ablaufdiagramme verwenden das Vektorformat `.svg`, Screenshots der Oberfläche komprimierte `.png`-Dateien;
 - der Beschreibungstext ist Pflicht: Er ist der Alternativtext, falls das Bild nicht lädt, und die Grundlage für barrierefreien Zugang;
 - **die aktuelle Version bringt kein Mermaid-Diagrammrendering mit**: Der ` ```mermaid `-Fence zeigt den Quelltext nur als gewöhnlichen Codeblock an. Brauchen Sie ein Flussdiagramm, exportieren Sie es vorher mit einem Tool wie mermaid.live als SVG und fügen es als Bild ein.
