@@ -190,10 +190,8 @@ async function main() {
 		};
 
 		// 主题持久化：导航前写入 localStorage（Starlight 读取 starlight-theme 键）
-		let themeScript = null;
 		const setThemeOnNewDoc = (theme) => {
 			const source = `try{localStorage.setItem('starlight-theme','${theme}')}catch(e){}`;
-			themeScript = source; // 保留最后一次注册，便于日志排查
 			return S('Page.addScriptToEvaluateOnNewDocument', { source });
 		};
 		await setThemeOnNewDoc('dark');

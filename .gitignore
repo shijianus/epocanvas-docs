@@ -20,3 +20,6 @@ pnpm-debug.log*
 .DS_Store
 *.local
 .cf-work/
+
+# Qoder CLI 本地会话目录
+.qoder/
