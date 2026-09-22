@@ -9,7 +9,7 @@ Damit Leser jederzeit wissen, welcher Produktversion das aktuelle Dokument entsp
 
 ## 1. Regeln für semantische Versionsnummern (SemVer)
 
-Die Versionsnummer folgt dem Format `vHauptversion.Nebenversion.Revision` (aktuell `v1.2.0`):
+Die Versionsnummer folgt dem Format `vHauptversion.Nebenversion.Revision` (aktuell `v1.3.0`):
 
 | Änderungsart | Beispiel | Auslösender Anlass |
 | :--- | :--- | :--- |

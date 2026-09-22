@@ -9,7 +9,7 @@ Para que el lector sepa con claridad "a qué versión del producto corresponde l
 
 ## 1. Reglas del versionado semántico (SemVer)
 
-El número de versión sigue el formato `v mayor.menor.parche` (actualmente `v1.2.0`):
+El número de versión sigue el formato `v mayor.menor.parche` (actualmente `v1.3.0`):
 
 | Tipo de cambio | Ejemplo | Situación que lo activa |
 | :--- | :--- | :--- |

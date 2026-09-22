@@ -9,7 +9,7 @@ So that readers know which version of the product the current documentation corr
 
 ## 1. Semantic Versioning Rules (SemVer)
 
-Versions use the `vMAJOR.MINOR.PATCH` format (currently `v1.2.0`):
+Versions use the `vMAJOR.MINOR.PATCH` format (currently `v1.3.0`):
 
 | Change type | Example | When it applies |
 | :--- | :--- | :--- |
