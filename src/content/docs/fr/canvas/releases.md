@@ -9,7 +9,7 @@ Pour que les lecteurs sachent clairement « à quelle version du produit corresp
 
 ## 1. Règles de numérotation sémantique (SemVer)
 
-Les numéros de version suivent le format `v majeure.mineure.corrective` (actuellement `v1.3.0`) :
+Les numéros de version suivent le format `v majeure.mineure.corrective` (actuellement `v1.3.1`) :
 
 | Type de changement | Exemple | Situation déclenchante |
 | :--- | :--- | :--- |

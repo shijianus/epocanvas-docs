@@ -9,7 +9,7 @@ Para que os leitores saibam com clareza "a que versão do produto corresponde a 
 
 ## 1. Regra de numeração semântica de versões (SemVer)
 
-O número de versão segue o formato `vversão principal.versão secundária.revisão` (atualmente `v1.3.0`):
+O número de versão segue o formato `vversão principal.versão secundária.revisão` (atualmente `v1.3.1`):
 
 | Tipo de alteração | Exemplo | Situação que o desencadeia |
 | :--- | :--- | :--- |
