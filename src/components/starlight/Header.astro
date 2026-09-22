@@ -13,6 +13,9 @@ const lang = getLangFromLocale(Astro.currentLocale);
 const currentLang = SUPPORTED_LANGUAGES.find((item) => item.code === lang) ?? SUPPORTED_LANGUAGES[0];
 // 导航高亮基于去掉语言前缀的路径判断，保证各语言页面高亮状态一致。
 const matchPath = localizedHref(pathname, 'zh-CN');
+// 全站只有一份 404.html（Astro 不为各语言生成 /en/404/ 这类路由），
+// 所以在 404 页上按当前路径拼语言链接会得到 10 条死链，这里改为指向各语言首页。
+const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 ---
 
 <div class="header sl-flex">
@@ -90,7 +93,7 @@ const matchPath = localizedHref(pathname, 'zh-CN');
 						SUPPORTED_LANGUAGES.map((langMeta) => (
 							<a
 								class:list={['lang-item-btn', { active: langMeta.code === lang }]}
-								href={localizedHref(pathname, langMeta.code)}
+								href={localizedHref(langMenuPath, langMeta.code)}
 								hreflang={langMeta.code}
 							>
 								<span class="lang-label">{langMeta.label}</span>
