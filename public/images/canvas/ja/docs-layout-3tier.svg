@@ -88,7 +88,7 @@
         <rect width="480" height="350" fill="#0f172a" />
         
         <!-- Breadcrumbs -->
-        <text x="30" y="30" fill="#64748b" font-size="9.7">ドキュメント / 製品概要 / 構成一覧</text>
+        <text x="30" y="30" fill="#64748b" font-size="9.7">ドキュメント / 製品概要 / <tspan fill="#f8fafc">構成一覧</tspan></text>
         
         <!-- Page Title & Tag -->
         <text x="30" y="65" fill="#f8fafc" font-size="14.2" font-weight="700">EpoCanvas Docs アーキテクチャ一覧</text>

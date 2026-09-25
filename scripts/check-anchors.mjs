@@ -19,11 +19,25 @@ function parseMarkdown(md) {
 	const headings = [];
 	const links = [];
 	const lines = md.split(/\r?\n/);
-	let inFence = false;
+	let fenceChar = null;
+	let fenceLen = 0;
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i];
-		if (/^\s*(```|~~~)/.test(line)) { inFence = !inFence; continue; }
-		if (inFence) continue;
+		const fenceMatch = /^ {0,3}(`{3,}|~{3,})/.exec(line);
+		if (fenceMatch) {
+			const marker = fenceMatch[1];
+			if (fenceChar === null) {
+				fenceChar = marker[0];
+				fenceLen = marker.length;
+				continue;
+			}
+			if (marker[0] === fenceChar && marker.length >= fenceLen) {
+				fenceChar = null;
+				fenceLen = 0;
+				continue;
+			}
+		}
+		if (fenceChar !== null) continue;
 		const h = line.match(/^(#{1,6})\s+(.*)$/);
 		if (h) {
 			// 去掉标题尾部多余的 # 与行内格式

@@ -12,18 +12,38 @@ import { getTranslation, SUPPORTED_LANGUAGES, UI_TRANSLATIONS, localizedHref } f
 
 // 各语言的提示文案 / 首页地址 / 按钮文字 / 壳层文字，序列化成 JSON 塞进页面，
 // 由下方内联脚本按浏览器语言挑选（is:inline + JSON 标签，不做打包期处理）。
-const shellKeys = ['search.placeholder', 'search.label', 'search.shortcutTitle', 'search.openModalAria', 'page.specification'];
-const payload = JSON.stringify({
+//
+// JSON.stringify 不转义 `<`，而这个 payload 是以 set:html 原样写进 <script type="application/json">
+// 的。HTML 解析器在遇到 `</script` 时就结束该元素，因此任何一条词条里出现的 `</script>`
+// （或 `<!--`）都会让后续内容逃逸成真实 DOM。这里统一把 `<` 改写为对应的 unicode
+// 转义序列（见 escapeForInlineScript）——它在 JSON 字符串里合法，JSON.parse 会原样还原，
+// 而 HTML 解析器再也看不到成对的尖括号，因此不可能提前结束这个 script 元素。
+const escapeForInlineScript = (json: string) => json.replace(/</g, '\\u003c');
+const shellKeys = [
+	'search.placeholder',
+	'search.label',
+	'search.shortcutTitle',
+	'search.openModalAria',
+	'page.specification',
+	'nav.home',
+	'nav.docs',
+	'nav.quickstart',
+	'nav.guide',
+	'nav.deploy',
+	'nav.faq',
+];
+const payload = escapeForInlineScript(JSON.stringify({
 	messages: Object.fromEntries(Object.keys(UI_TRANSLATIONS).map((code) => [code, getTranslation('notfound.message', code)])),
 	homeHrefs: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, localizedHref('/', lang.code)])),
 	homeLabels: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, getTranslation('nav.home', lang.code)])),
+	shortCodes: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, lang.shortCode])),
 	shell: Object.fromEntries(
 		Object.keys(UI_TRANSLATIONS).map((code) => [
 			code,
 			Object.fromEntries(shellKeys.map((key) => [key, getTranslation(key, code)])),
 		])
 	),
-});
+}));
 ---
 
 <StarlightPage
@@ -32,6 +52,15 @@ const payload = JSON.stringify({
 		description: 'EpoCanvas Docs 404',
 		template: 'splash',
 		pagefind: false,
+		head: [
+			{
+				tag: 'meta',
+				attrs: {
+					name: 'robots',
+					content: 'noindex, nofollow',
+				},
+			},
+		],
 	}}
 >
 	<div class="not-found">
@@ -87,6 +116,19 @@ const payload = JSON.stringify({
 			}
 			const specItem = document.querySelector('.page-metadata .meta-item:last-of-type');
 			if (specItem && shell['page.specification']) specItem.textContent = shell['page.specification'];
+
+			// 同步顶栏语言标识文字
+			const shortCode = (data.shortCodes || {})[pick];
+			const langCodeEl = document.getElementById('current-lang-code');
+			if (langCodeEl && shortCode) langCodeEl.textContent = shortCode;
+
+			// 同步顶栏导航按钮文字
+			const navKeyOrder = ['nav.home', 'nav.docs', 'nav.quickstart', 'nav.guide', 'nav.deploy', 'nav.faq'];
+			const navBtns = document.querySelectorAll('.nav-links .nav-btn:not(.nav-btn-version)');
+			navBtns.forEach((btn, idx) => {
+				const key = navKeyOrder[idx];
+				if (key && shell[key]) btn.textContent = shell[key];
+			});
 		}
 	})();
 </script>

@@ -12,18 +12,30 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const LOCALE_DIRS = ['zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
-// 全语言共用的图片（第三方英文界面、语言无关的徽标等）
+// 全语言共用的图片（第三方英文界面、语言无关的徽标等）。
+// 每一项都必须是 public/images/canvas/ 下真实存在的文件，下面有断言兜住：
+// 白名单只会让规则变松，条目改名或删除后留在这里，等于悄悄开了一个免检口子。
 const SHARED_ALLOWLIST = [
 	'deploy/cf-01-projects-list.png',
 	'deploy/cf-02-deployments.png',
 	'deploy/cf-03-settings.png',
 	'deploy/cf-04-domains.png',
-	'deploy/cf-deploy-live-site.png',
 	'deploy-live-site.png',
 	'deploy/badge-cloudflare.svg',
 	'deploy/badge-netlify.svg',
 	'deploy/badge-vercel.svg',
 ];
+
+const root = process.cwd();
+
+const staleEntries = SHARED_ALLOWLIST.filter(
+	(name) => !fs.existsSync(path.join(root, 'public', 'images', 'canvas', name))
+);
+if (staleEntries.length) {
+	console.error('[check-localized-images] 共享图白名单里有已不存在的条目（会造成免检漏洞）：');
+	for (const s of staleEntries) console.error('  -> ' + s);
+	process.exit(1);
+}
 
 const dist = path.join(process.cwd(), 'dist');
 if (!fs.existsSync(dist)) {

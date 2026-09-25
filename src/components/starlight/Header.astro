@@ -29,7 +29,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		{shouldRenderSearch && <Search />}
 	</div>
 
-	<div class="header-right sl-hidden md:sl-flex print:hidden">
+	<div class="header-right print:hidden">
 	{/* Dynamic & Flexible Navigation Buttons */}
 	<nav class="nav-links sl-flex" aria-label={getTranslation('nav.ariaLabel', lang)}>
 			{
@@ -237,10 +237,26 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		flex-shrink: 0;
 	}
 
-	:global(:root[data-has-sidebar]) .header-left {
-		width: var(--sl-sidebar-width, 16.5rem);
-		padding-left: var(--sl-sidebar-pad-x, 1rem);
-		padding-right: 1rem;
+	@media (max-width: 36rem) {
+		.header-left {
+			padding-left: 0.5rem;
+			padding-right: 0.25rem;
+		}
+		:global(.site-title span) {
+			display: none !important;
+		}
+	}
+
+	@media (min-width: 50rem) {
+		:global(:root[data-has-sidebar]) .header-left {
+			width: var(--sl-sidebar-width, 16.5rem);
+			padding-left: var(--sl-sidebar-pad-x, 1rem);
+			padding-right: 1rem;
+		}
+
+		:global(:root[data-has-sidebar]) .header-center {
+			padding-left: var(--sl-content-pad-x, 1.5rem);
+		}
 	}
 
 	.title-wrapper {
@@ -260,18 +276,11 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		flex: 1 1 auto;
 		min-width: 0;
 		height: 100%;
-		padding-left: 1.5rem;
+		padding-left: 0.75rem;
 		box-sizing: border-box;
 	}
 
-	:global(:root[data-has-sidebar]) .header-center {
-		padding-left: var(--sl-content-pad-x, 1.5rem);
-	}
-
 	.header-right {
-		/* 不在此处声明 display：scoped 样式特异性高于 Starlight 的 .sl-hidden 工具类，
-		   写死 display:flex 会让小屏隐藏失效，桌面导航在移动端溢出顶栏。
-		   桌面端的 flex 布局由模板上的 md:sl-flex 工具类提供。 */
 		align-items: center;
 		justify-content: flex-end;
 		margin-left: auto;
@@ -280,6 +289,41 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		padding-right: 1.25rem;
 		flex-shrink: 0;
 		box-sizing: border-box;
+		display: none;
+	}
+
+	@media (min-width: 50rem) {
+		.header-right {
+			display: flex;
+		}
+	}
+
+	/* 在无侧边栏的页面（如 splash 首页），小屏没有汉堡包菜单与侧边栏抽屉，
+	   在顶栏保留紧凑的语言下拉与主题开关，否则移动端访客无法切换语言与明暗模式。
+	   导航链接和社交图标在小屏依然隐藏，避免顶栏溢出。 */
+	:global(:root:not([data-has-sidebar])) .header-right {
+		display: flex;
+		gap: 0.35rem;
+		padding-right: 0.75rem;
+	}
+
+	:global(:root:not([data-has-sidebar])) .header-right .nav-links,
+	:global(:root:not([data-has-sidebar])) .header-right .nav-divider,
+	:global(:root:not([data-has-sidebar])) .header-right .header-social-links {
+		display: none;
+	}
+
+	@media (min-width: 50rem) {
+		:global(:root:not([data-has-sidebar])) .header-right {
+			gap: 0.55rem;
+			padding-right: 1.25rem;
+		}
+
+		:global(:root:not([data-has-sidebar])) .header-right .nav-links,
+		:global(:root:not([data-has-sidebar])) .header-right .nav-divider,
+		:global(:root:not([data-has-sidebar])) .header-right .header-social-links {
+			display: flex;
+		}
 	}
 
 	/* Navigation Bar - Flexible Modern Navigation Buttons */

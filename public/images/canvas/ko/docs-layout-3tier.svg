@@ -88,7 +88,7 @@
         <rect width="480" height="350" fill="#0f172a" />
         
         <!-- Breadcrumbs -->
-        <text x="30" y="30" fill="#64748b" font-size="11">문서 / 제품 개요 / 시스템 구성</text>
+        <text x="30" y="30" fill="#64748b" font-size="11">문서 / 제품 개요 / <tspan fill="#f8fafc">시스템 구성</tspan></text>
         
         <!-- Page Title & Tag -->
         <text x="30" y="65" fill="#f8fafc" font-size="20" font-weight="700">EpoCanvas Docs 아키텍처 개요</text>

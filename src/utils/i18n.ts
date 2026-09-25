@@ -27,13 +27,15 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
 	{ code: 'pt', label: 'Português', englishName: 'Portuguese', flag: '🇵🇹', shortCode: 'PT', dir: 'pt' },
 ];
 
-/** 语言代码 → URL 目录前缀，用于把当前页面路径换算成另一种语言的地址。 */
-const LANG_TO_DIR: Record<string, string> = Object.fromEntries(
-	SUPPORTED_LANGUAGES.map((lang) => [lang.code, lang.dir])
-);
+/**
+ * 语言代码 → URL 目录前缀，用于把当前页面路径换算成另一种语言的地址。
+ * 用 Map 而不是普通对象：普通对象的 `obj[k]` / `k in obj` 会命中 Object.prototype 上的
+ * 成员（`constructor`、`__proto__` 等），使这些路径段被误判成语言前缀而被吞掉。
+ */
+const LANG_TO_DIR = new Map<string, string>(SUPPORTED_LANGUAGES.map((lang) => [lang.code, lang.dir]));
 
 /** URL 目录前缀 → 语言代码，用于从 Astro.currentLocale 反查语言。 */
-const DIR_TO_LANG: Record<string, string> = Object.fromEntries(
+const DIR_TO_LANG = new Map<string, string>(
 	SUPPORTED_LANGUAGES.filter((lang) => lang.dir).map((lang) => [lang.dir, lang.code])
 );
 
@@ -44,7 +46,8 @@ const DIR_TO_LANG: Record<string, string> = Object.fromEntries(
  */
 export function getLangFromLocale(locale: string | undefined): string {
 	if (!locale || locale === 'root') return 'zh-CN';
-	const lang = DIR_TO_LANG[locale.toLowerCase()] ?? LANG_TO_DIR[locale];
+	const lower = locale.toLowerCase();
+	const lang = (DIR_TO_LANG.has(lower) ? DIR_TO_LANG.get(lower) : undefined) ?? LANG_TO_DIR.get(locale);
 	return lang || 'zh-CN';
 }
 
@@ -52,17 +55,22 @@ export function getLangFromLocale(locale: string | undefined): string {
  * 把当前页面路径换算成目标语言的地址，保持正文路径不变。
  * 例：('/canvas/i18n/', 'en') → '/en/canvas/i18n/'；('/en/canvas/', 'zh-CN') → '/canvas/'。
  * 假定站点使用目录式构建（URL 以 / 结尾）。
+ * 语言码不在表内时原样返回当前路径（调用方应先经 getLangFromLocale 归一化）。
  */
 export function localizedHref(path: string, lang: string): string {
-	const dir = LANG_TO_DIR[lang];
-	if (dir === undefined) return path;
-	const segments = path.split('/').filter(Boolean);
-	if (segments.length > 0 && segments[0].toLowerCase() in DIR_TO_LANG) {
+	if (!LANG_TO_DIR.has(lang)) return path;
+	const dir = LANG_TO_DIR.get(lang) as string;
+	const match = path.match(/^([^?#]*)([?#].*)?$/);
+	const pathname = match ? match[1] : path;
+	const suffix = (match && match[2]) || '';
+	const segments = pathname.split('/').filter(Boolean);
+	if (segments.length > 0 && DIR_TO_LANG.has(segments[0].toLowerCase())) {
 		segments.shift();
 	}
 	const base = segments.join('/');
 	const prefix = dir ? '/' + dir : '';
-	return base ? `${prefix}/${base}/` : prefix ? `${prefix}/` : '/';
+	const clean = base ? `${prefix}/${base}/` : prefix ? `${prefix}/` : '/';
+	return clean + suffix;
 }
 
 export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
@@ -668,7 +676,13 @@ export const UI_TRANSLATIONS: Record<string, Record<string, string>> = {
 	},
 };
 
+/** 只取对象自身的键，避免原型成员被当成有效词条（如 key='constructor' 会取到 Object 构造器）。 */
+function ownValue(dict: Record<string, string> | undefined, key: string): string | undefined {
+	return dict && Object.hasOwn(dict, key) ? dict[key] : undefined;
+}
+
 export function getTranslation(key: string, lang = 'zh-CN'): string {
-	const dict = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS['zh-CN'];
-	return dict[key] || UI_TRANSLATIONS['zh-CN']?.[key] || key;
+	const zhCN = UI_TRANSLATIONS['zh-CN'];
+	const dict = Object.hasOwn(UI_TRANSLATIONS, lang) ? UI_TRANSLATIONS[lang] : undefined;
+	return ownValue(dict, key) || ownValue(zhCN, key) || key;
 }

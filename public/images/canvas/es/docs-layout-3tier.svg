@@ -88,7 +88,7 @@
         <rect width="480" height="350" fill="#0f172a" />
         
         <!-- Breadcrumbs -->
-        <text x="30" y="30" fill="#64748b" font-size="7.2">Documentación / descripción / arquitectura</text>
+        <text x="30" y="30" fill="#64748b" font-size="7.2">Documentación / descripción / <tspan fill="#f8fafc">arquitectura</tspan></text>
         
         <!-- Page Title & Tag -->
         <text x="30" y="65" fill="#f8fafc" font-size="14.8" font-weight="700">Arquitectura de EpoCanvas Docs</text>

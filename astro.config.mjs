@@ -4,6 +4,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import starlight from '@astrojs/starlight';
 
+// 站点来源。hreflang/alternate 链接必须是绝对地址，且必须与 Astro 的 site 配置完全一致，
+// 因此两处共用这一个常量；换域名只需改这一行（public/robots.txt 里的 Sitemap 行需同步改）。
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 // Starlight 默认把 <table> 渲染成 block 滚动盒，内容不足一屏时边框内会留一大块空白。
 // 这里给每张表包一层 .table-wrapper：滚动交给外层，表格本身保持 table 布局铺满宽度。
 function rehypeWrapTables() {
@@ -13,23 +17,55 @@ function rehypeWrapTables() {
 			const child = node.children[i];
 			walk(child);
 			if (child.type === 'element' && child.tagName === 'table') {
+				// 只替换当前位置，不额外推进 i：替换进来的 div 的子树已由上面的 walk(child)
+				// 处理过，再手动 i++ 会跳过紧邻的下一个兄弟节点，导致该节点内的表格漏包。
 				node.children[i] = {
 					type: 'element',
 					tagName: 'div',
 					properties: { className: ['table-wrapper'] },
 					children: [child],
 				};
-				i++;
 			}
 		}
 	};
 	return (tree) => walk(tree);
 }
 
-// 非默认语言页面的 Markdown 正文里会出现 /canvas/xxx 这类站点内链，
+// 翻译页里的 Markdown 正文中会出现 /canvas/xxx 这类站点内链，
 // 直接渲染会跳回中文页。这里按源文件所在的语言目录，把以 / 开头的内链
 // 自动加上语言前缀（如 /en/canvas/xxx）；已是带前缀或外链/锚点的不处理。
 const LOCALE_DIRS = ['zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
+// 根级静态资源（/favicon.svg、/files/tool.zip、/manifest.webmanifest…）不在任何语言目录下，
+// 给它们加前缀会直接改成 404。判据取"路径末段是否带扩展名"：本文档站的文档路由一律是
+// 目录式 URL（/canvas/xxx/，末段无扩展名），因此文档照旧加前缀、资源照旧保持原样。
+function looksLikeAssetPath(href) {
+	const lastSegment = href.split(/[?#]/)[0].split('/').filter(Boolean).pop() ?? '';
+	return /\.[A-Za-z][A-Za-z0-9]*$/.test(lastSegment);
+}
+function rehypeLocalizeInternalLinks() {
+	return (tree, file) => {
+		const path = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
+		const match = path.match(/\/content\/docs\/([^/]+)\//);
+		const dir = match && match[1];
+		if (!dir || !LOCALE_DIRS.includes(dir)) return;
+		const walk = (node) => {
+			if (!node || !Array.isArray(node.children)) return;
+			for (const child of node.children) {
+				if (child.type === 'element' && child.tagName === 'a') {
+					const href = child.properties?.href;
+					if (typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')) {
+						const firstSegment = href.slice(1).split('/')[0];
+						if (!LOCALE_DIRS.includes(firstSegment) && !looksLikeAssetPath(href)) {
+							child.properties.href = '/' + dir + href;
+						}
+					}
+				}
+				walk(child);
+			}
+		};
+		walk(tree);
+	};
+}
 // 翻译页里的架构图引用 /images/canvas/docs-*.svg（中文原图）。
 // 若 public/images/canvas/<语言>/ 下存在同名本地化图，则把 src 改写为该语言版本；
 // 不存在就保留原图（自动回退），新增图无需同步维护所有语言。
@@ -56,30 +92,6 @@ function rehypeLocalizeDiagramImages() {
 						const base = src.slice('/images/canvas/'.length);
 						if (base && !base.startsWith('/') && hasLocalizedImage(dir, base)) {
 							child.properties.src = '/images/canvas/' + dir + '/' + base;
-						}
-					}
-				}
-				walk(child);
-			}
-		};
-		walk(tree);
-	};
-}
-function rehypeLocalizeInternalLinks() {
-	return (tree, file) => {
-		const path = (file.path || file.history?.[0] || '').replace(/\\/g, '/');
-		const match = path.match(/\/content\/docs\/([^/]+)\//);
-		const dir = match && match[1];
-		if (!dir || !LOCALE_DIRS.includes(dir)) return;
-		const walk = (node) => {
-			if (!node || !Array.isArray(node.children)) return;
-			for (const child of node.children) {
-				if (child.type === 'element' && child.tagName === 'a') {
-					const href = child.properties?.href;
-					if (typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')) {
-						const firstSegment = href.slice(1).split('/')[0];
-						if (!LOCALE_DIRS.includes(firstSegment)) {
-							child.properties.href = '/' + dir + href;
 						}
 					}
 				}
@@ -261,10 +273,17 @@ function cloudflareRedirectsFile() {
 		name: 'epo-cloudflare-redirects',
 		hooks: {
 			'astro:build:done': async ({ dir }) => {
-				const lines = Object.entries(legacyRedirects).flatMap(([from, to]) => [
-					`${from}  ${to}  301`,
-					`${from}/  ${to}  301`,
-				]);
+				const lines = Object.entries(legacyRedirects).flatMap(([from, to]) => {
+					const list = [
+						`${from}  ${to}  301`,
+						`${from}/  ${to}  301`,
+					];
+					for (const loc of LOCALE_DIRS) {
+						list.push(`/${loc}${from}  /${loc}${to}  301`);
+						list.push(`/${loc}${from}/  /${loc}${to}  301`);
+					}
+					return list;
+				});
 				await fs.promises.writeFile(path.join(fileURLToPath(dir), '_redirects'), lines.join('\n') + '\n', 'utf8');
 			},
 		},
@@ -273,8 +292,16 @@ function cloudflareRedirectsFile() {
 
 // Starlight 已在每个页面 head 输出全部语言版本的 <link rel="alternate" hreflang=…>，
 // 唯独缺一条 x-default（告诉搜索引擎语言都不匹配时展示哪个版本）。这里在构建完成后
-// 按产物目录找到每个页面的默认语言（简体中文根路径）版本，补注这一条；
-// 页面本身没有根路径版本（理论上不该发生）或 meta-refresh 跳转页则跳过。
+// 按产物目录找到每个页面的默认语言（简体中文根路径）版本，补注这一条。
+//
+// 三条必须避开的坑（均为历史回归，见 AUDIT_REPORT D-01/D-04）：
+//  1. 判断"是否已有 x-default"只能看 <head> 里的真实 link 标签。整篇 HTML 做子串匹配会被
+//     正文里引用的字面量误触发——讲 hreflang 的那篇文档正文就写了这个字符串，导致它自己漏注。
+//  2. redirects 生成的 meta-refresh 跳转桩必须跳过。它的 canonical 指向新页面，若再补一条
+//     指向自己的 x-default，两份声明互相矛盾；且桩页没有 <head>，下面的"根语言版本是否存在"
+//     检查对它恒为真（base 就是它自己），拦不住。
+//  3. 404.html 是全站唯一一张错误页，Astro 不会生成 /en/404/ 这类路由，而 Starlight 仍按
+//     "每个语言都有本页"的前提给它输出了一整组 alternate。这里把这些指向空气的声明删掉。
 function hreflangXDefault() {
 	return {
 		name: 'epo-hreflang-x-default',
@@ -292,6 +319,8 @@ function hreflangXDefault() {
 				};
 				walk('');
 				let injected = 0;
+				let skippedStub = 0;
+				let skippedExisting = 0;
 				for (const rel of files) {
 					// 产物路径 → 路由路径：canvas/…/index.html → /canvas/…/，en/canvas/…/index.html → /en/canvas/…/
 					const segments = ('/' + rel.replace(/(^|\/)index\.html$/, '')).split('/').filter(Boolean);
@@ -299,17 +328,63 @@ function hreflangXDefault() {
 					const base = segments.join('/');
 					const file = path.join(outDir, rel);
 					let html = await fs.promises.readFile(file, 'utf8');
-					if (html.includes('hreflang="x-default"')) continue;
+					const headEnd = html.indexOf('</head>');
+					const head = headEnd === -1 ? html : html.slice(0, headEnd);
+					// 坑 2：跳转桩 / 明确 noindex 的页面一律不补
+					if (/http-equiv=["']refresh["']/i.test(head) || /content=["']noindex/i.test(head)) {
+						skippedStub++;
+						continue;
+					}
+					// 坑 1：只在 head 范围内按完整标签判断
+					if (/<link[^>]+hreflang=["']x-default["']/i.test(head)) {
+						skippedExisting++;
+						continue;
+					}
 					if (!fs.existsSync(path.join(outDir, base, 'index.html'))) continue;
 					const canonicalIdx = html.indexOf('rel="canonical"');
 					if (canonicalIdx === -1) continue;
-					const link = `<link rel="alternate" hreflang="x-default" href="https://docs.epocanvas.com${base ? '/' + base : ''}/">`;
+					const link = `<link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${base ? '/' + base : ''}/">`;
 					const insertAt = html.indexOf('>', canonicalIdx) + 1;
 					html = html.slice(0, insertAt) + link + html.slice(insertAt);
 					await fs.promises.writeFile(file, html, 'utf8');
 					injected++;
 				}
-				console.log(`[epo-hreflang-x-default] injected x-default into ${injected} page(s)`);
+
+				// 坑 3：清掉 404.html 上那组指向不存在路由的 language alternate。
+				// 只匹配 rel="alternate" + hreflang + href 三属性齐全的完整 link 标签，
+				// 属性顺序与 Starlight 输出一致（见 dist/404.html），不吃其它标签。
+				const notFoundFile = path.join(outDir, '404.html');
+				let stripped404 = 0;
+				if (fs.existsSync(notFoundFile)) {
+					const nf = await fs.promises.readFile(notFoundFile, 'utf8');
+					let cleaned = nf.replace(
+						/[ \t]*<link\s+rel="alternate"\s+hreflang="[^"]+"\s+href="[^"]+"\s*\/?>[ \t]*\n?/g,
+						''
+					);
+					// 404.html 是全局唯一错误页，产物中不存在 /404/ 路由，删除指向该死路由的 canonical
+					cleaned = cleaned.replace(
+						/[ \t]*<link\s+rel="canonical"\s+href="[^"]*\/404\/?"\s*\/?>[ \t]*\n?/g,
+						''
+					);
+					if (cleaned !== nf) {
+						// 兜底自检：删完必须仍能构成一份合法文档，且确实一条 alternate 都不剩
+						const removed = (nf.match(/rel="alternate"/g) || []).length - (cleaned.match(/rel="alternate"/g) || []).length;
+						const stillSane =
+							/<title>/.test(cleaned) && /<\/html>/i.test(cleaned) && !/rel="alternate"/.test(cleaned);
+						if (stillSane) {
+							await fs.promises.writeFile(notFoundFile, cleaned, 'utf8');
+							stripped404 = removed;
+						} else {
+							console.warn('[epo-hreflang-x-default] 404.html alternate 清理后自检未通过，已放弃该清理');
+						}
+					}
+				}
+
+				console.log(
+					`[epo-hreflang-x-default] injected x-default into ${injected} page(s)` +
+					`; 跳过跳转桩 ${skippedStub} 个、已有 x-default ${skippedExisting} 个` +
+					`; 404.html 清理无效 alternate ${stripped404} 条`
+				);
 			},
 		},
 	};
@@ -317,7 +392,7 @@ function hreflangXDefault() {
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://docs.epocanvas.com',
+	site: SITE_ORIGIN,
 	// 站点唯一走 astro:assets 管线的图片是各语言首页 hero 的 SVG logo，全站没有 <Image> 调用，
 	// SVG 不需要光栅化优化。默认 sharp 服务在 pnpm 隔离布局下解析不到原生依赖，
 	// 冷缓存（CI / 首次构建）会直接报 MissingSharp；passthrough 服务产物不变且构建确定。

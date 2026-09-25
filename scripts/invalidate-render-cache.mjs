@@ -32,9 +32,29 @@ function listImages() {
 	return out.sort();
 }
 
+function listTranslationFiles() {
+	// 目录不存在时返回空清单而不是抛错：本脚本挂在 prebuild 上，
+	// 任何异常都会让每一次构建直接失败。
+	const dir = path.join(root, 'node_modules', '@astrojs', 'starlight', 'translations');
+	if (!fs.existsSync(dir)) return [];
+	return fs
+		.readdirSync(dir)
+		.filter((f) => f.endsWith('.json'))
+		.sort()
+		.map((f) => {
+			const st = fs.statSync(path.join(dir, f));
+			return f + ':' + st.size + ':' + st.mtimeMs;
+		});
+}
+
 const fingerprint = crypto
 	.createHash('sha1')
-	.update(listImages().join('\n'))
+	.update([
+		'images:' + listImages().join('\n'),
+		// rehypeLocalizeAsides() 直接读 Starlight 的翻译文件来决定提示框/脚注标签，
+		// 这些文件变化同样会让已缓存的渲染结果过期，必须一起进指纹。
+		'translations:' + listTranslationFiles().join('\n'),
+	].join('\n'))
 	.digest('hex');
 
 const previous = fs.existsSync(keyFile) ? fs.readFileSync(keyFile, 'utf8').trim() : null;

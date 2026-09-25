@@ -165,6 +165,12 @@ header.header {
   align-items: center !important;
 }
 
+@media (max-width: 36rem) {
+  .site-title span {
+    display: none !important;
+  }
+}
+
 /* Sidebar Pane & Content: Prevent false scrollbar when content fits without overflow */
 .sidebar-pane {
   overflow-y: auto !important;

@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        # lastUpdated: true 的"最后更新于"取自 git 历史。默认浅克隆只有 1 个提交，
+        # 会让每个文件的最后修改时间都塌成 checkout 那一次提交，整站日期变成构建日。
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -45,3 +49,8 @@ jobs:
 
       - name: Localized image reference check
         run: node scripts/check-localized-images.mjs
+
+      # 上面几道门只看 src/content/ 源文件，不看构建产物；这道门把 dist/ 里真正发出去的
+      # 每条链接、每个锚点、每组 hreflang 实际解析一遍（rehype 改写与构建钩子的回归只有这里拦得住）。
+      - name: Built-output link & hreflang check
+        run: node scripts/check-links.mjs

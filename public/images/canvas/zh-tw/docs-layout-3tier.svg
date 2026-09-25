@@ -88,7 +88,7 @@
         <rect width="480" height="350" fill="#0f172a" />
         
         <!-- Breadcrumbs -->
-        <text x="30" y="30" fill="#64748b" font-size="11">文件 / 專案概觀 / 系統架構總覽</text>
+        <text x="30" y="30" fill="#64748b" font-size="11">文件 / 專案概觀 / <tspan fill="#f8fafc">系統架構總覽</tspan></text>
         
         <!-- Page Title & Tag -->
         <text x="30" y="65" fill="#f8fafc" font-size="20" font-weight="700">EpoCanvas Docs 架構總覽</text>

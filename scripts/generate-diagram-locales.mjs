@@ -68,7 +68,17 @@ for (const name of DIAGRAMS) {
 			const tr = dict[raw];
 			if (!tr) { missed.push(raw); return full; }
 			matched++;
-			return `<text${fitFontSize(attrs, raw, tr)}>${escapeXml(tr)}</text>`;
+			let formattedTr = escapeXml(tr);
+			const tspanMatch = /<tspan([^>]*)>([\s\S]*?)<\/tspan>/.exec(inner);
+			if (tspanMatch) {
+				const tspanAttrs = tspanMatch[1];
+				const parts = tr.split(' / ');
+				if (parts.length > 1) {
+					const last = parts.pop();
+					formattedTr = escapeXml(parts.join(' / ') + ' / ') + `<tspan${tspanAttrs}>${escapeXml(last)}</tspan>`;
+				}
+			}
+			return `<text${fitFontSize(attrs, raw, tr)}>${formattedTr}</text>`;
 		});
 		fs.writeFileSync(path.join(outDir, `${name}.svg`), out, 'utf8');
 		totalMissing += missed.length;
