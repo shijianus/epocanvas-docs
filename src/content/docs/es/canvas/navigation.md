@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // texto mostrado por defecto (como "首页", "产品说明")
   href: string; // enlace de destino o ruta relativa
   match?: (pathname: string) => boolean; // regla que decide si la página actual debe resaltar este botón
-  badge?: string; // insignia de cápsula adicional (como el número de versión "v1.2.0")
+  badge?: string; // insignia de cápsula adicional (como el número de versión "v1.3.1")
   isExternal?: boolean; // indica si es un salto a una página externa (en ese caso se abre en una ventana nueva)
 }
 ```

@@ -56,7 +56,8 @@
 		}
 
 		:global([data-has-sidebar][data-has-toc]) .main-pane {
-			--sl-content-margin-inline: 0 auto;
+			/* 两侧 auto 让内容列在宽屏下水平居中（0 auto 会整列贴左，宽屏右侧留大片空白） */
+			--sl-content-margin-inline: auto;
 			order: 1;
 			flex: 1;
 			min-width: 0;

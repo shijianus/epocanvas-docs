@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // 預設顯示的文字（如「首頁」、「產品說明」）
   href: string; // 跳轉連結或相對路徑
   match?: (pathname: string) => boolean; // 判斷目前頁面是否應高亮該按鈕的規則
-  badge?: string; // 額外顯示的小膠囊徽標（如版本號 "v1.2.0"）
+  badge?: string; // 額外顯示的小膠囊徽標（如版本號 "v1.3.1"）
   isExternal?: boolean; // 是否為外部網頁跳轉（是則在新視窗開啟）
 }
 ```

@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // デフォルトで表示するテキスト（例：「ホーム」「製品概要」）
   href: string; // ジャンプ先のリンクまたは相対パス
   match?: (pathname: string) => boolean; // 現在のページでこのボタンをハイライトすべきかを判定するルール
-  badge?: string; // 追加で表示する小さなカプセル型バッジ（例：バージョン番号 "v1.2.0"）
+  badge?: string; // 追加で表示する小さなカプセル型バッジ（例：バージョン番号 "v1.3.1"）
   isExternal?: boolean; // 外部 Web ページへの遷移かどうか（true の場合は新しいウィンドウで開く）
 }
 ```

@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // texto apresentado por predefinição (como "Início", "Introdução ao produto")
   href: string; // link de destino ou caminho relativo
   match?: (pathname: string) => boolean; // regra que determina se a página atual deve destacar este botão
-  badge?: string; // pequeno emblema em cápsula adicional (como o número de versão "v1.2.0")
+  badge?: string; // pequeno emblema em cápsula adicional (como o número de versão "v1.3.1")
   isExternal?: boolean; // indica se é um salto para uma página externa (nesse caso abre numa nova janela)
 }
 ```

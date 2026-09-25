@@ -30,7 +30,7 @@ Sie befindet sich ganz oben auf der Seite, ist fixiert und bleibt beim Herunters
 - **Website-Logo und Titel (①)**: Links werden das EpoCanvas-Symbol und der Projektname angezeigt; ein Klick führt schnell zurück zur Startseite der Dokumentation.
 - **Globales Suchfeld (②)**: Geben Sie im Feld Stichwörter ein, um Inhalte der aktuellen Seite direkt zu finden; mit `Ctrl+K` / `Cmd+K` öffnen Sie den sitewide-Suchdialog. Details siehe [Volltextsuche & Tastenkürzel](/canvas/search-engine/).
 - **Buttons der Hauptnavigation (③)**: Schnellzugriffslinks zu häufig genutzten Bereichen wie „Startseite", „Produkt" und „Schnellstart"; der aktuell aufgerufene Bereich wird automatisch hervorgehoben.
-- **Versionsabzeichen (④)**: Zeigt die Release-Versionsnummer des aktuellen Dokuments an (z. B. `v1.2.0`); ein Klick öffnet den detaillierten Änderungsverlauf auf GitHub.
+- **Versionsabzeichen (④)**: Zeigt die Release-Versionsnummer des aktuellen Dokuments an (z. B. `v1.3.1`); ein Klick öffnet den detaillierten Änderungsverlauf auf GitHub.
 - **Sprachumschalter (⑤)**: Ein Klick auf den Sprach-Button entfaltet 10 verfügbare Sprachen; nach der Auswahl gelangen Sie zur Version desselben Artikels in der Zielsprache – Navigation, Seitenleiste und Haupttext werden gemeinsam umgestellt.
 - **Umschalter für helles/dunkles Design (⑥)**: Ein Sonne/Mond-Symbol schaltet zwischen hellem und dunklem Design um.
 - **GitHub und Telegram (⑦⑧)**: Die Symbole rechts führen zum Open-Source-Repository bzw. zur technischen Community.

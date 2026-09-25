@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // standardmäßig angezeigter Text (z. B. „Startseite", „Produkt")
   href: string; // Sprunglink oder relativer Pfad
   match?: (pathname: string) => boolean; // Regel, die entscheidet, ob der Button auf der aktuellen Seite hervorgehoben werden soll
-  badge?: string; // zusätzlich angezeigtes kleines Pillen-Abzeichen (z. B. Versionsnummer "v1.2.0")
+  badge?: string; // zusätzlich angezeigtes kleines Pillen-Abzeichen (z. B. Versionsnummer "v1.3.1")
   isExternal?: boolean; // ob es ein Sprung zu einer externen Website ist (dann in neuem Fenster geöffnet)
 }
 ```

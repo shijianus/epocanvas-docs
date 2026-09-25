@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // Default displayed text (e.g. "首页", "产品说明")
   href: string; // Navigation link or relative path
   match?: (pathname: string) => boolean; // Rule deciding whether the current page should highlight this button
-  badge?: string; // Small pill badge shown next to the label (e.g. version "v1.2.0")
+  badge?: string; // Small pill badge shown next to the label (e.g. version "v1.3.1")
   isExternal?: boolean; // Whether this is an external link (opens in a new window if so)
 }
 ```

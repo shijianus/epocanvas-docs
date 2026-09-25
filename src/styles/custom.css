@@ -389,11 +389,13 @@ nav.sidebar {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Markdown Tables：外层负责边框与横向滚动，表格本身恢复 table 布局并铺满整行，
-   避免内容较窄时边框盒右侧留出大片空洞 */
+/* Markdown Tables：外层按表格内容自适应宽度并整体居中（fit-content + auto 边距），
+   内容较窄的表格以紧凑尺寸居中展示；内容过宽时 max-width 兜底占满整行，
+   由 overflow-x 负责横向滚动，此时表格自然铺满内容列（仅这种"必要"情况才不再居中）。 */
 .sl-markdown-content .table-wrapper {
-  width: 100%;
-  margin: 1.5rem 0;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.5rem auto;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 6px;
   overflow-x: auto;

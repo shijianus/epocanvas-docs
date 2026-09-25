@@ -30,7 +30,7 @@ Située tout en haut de la page, elle est fixe et reste toujours visible lors du
 - **Logo et titre du site (①)** : à gauche, l'icône EpoCanvas et le nom du projet sont affichés ; un clic permet de revenir rapidement à la page d'accueil de la documentation.
 - **Champ de recherche global (②)** : saisissez des mots-clés dans le champ pour rechercher directement dans le contenu de la page courante ; `Ctrl+K` / `Cmd+K` ouvre la fenêtre de recherche site-wide, voir [Recherche plein texte et raccourcis clavier](/canvas/search-engine/).
 - **Boutons de navigation principale (③)** : ils fournissent des liens de saut rapide vers les fonctions courantes telles que « Accueil », « Présentation du produit », « Prise en main » ; la section courante est mise en surbrillance automatiquement.
-- **Badge de version (④)** : il affiche le numéro de la version publiée correspondant à la documentation courante (par exemple `v1.2.0`) ; un clic permet de consulter l'historique détaillé des mises à jour sur GitHub.
+- **Badge de version (④)** : il affiche le numéro de la version publiée correspondant à la documentation courante (par exemple `v1.3.1`) ; un clic permet de consulter l'historique détaillé des mises à jour sur GitHub.
 - **Sélecteur multilingue (⑤)** : un clic sur le bouton de langue déploie une liste de 10 langues disponibles ; après sélection, vous êtes redirigé vers la version de l'article courant dans la langue cible, avec bascule simultanée de la navigation, de la barre latérale et du corps du texte.
 - **Bascule du thème clair/sombre (⑥)** : une icône soleil/lune permet de passer du mode clair au mode sombre.
 - **GitHub et Telegram (⑦⑧)** : les icônes à droite mènent respectivement au dépôt open source et à la communauté technique.

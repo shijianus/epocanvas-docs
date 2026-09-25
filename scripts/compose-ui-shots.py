@@ -113,10 +113,10 @@ def font_for(code, size):
     return ImageFont.truetype(path, size)
 
 
-def draw_circle(draw, cx, cy, num, f, fill, ring):
+def draw_circle(draw, cx, cy, num, f, fill, ring, num_color="white"):
     r = 14
     draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=fill, outline=ring, width=2)
-    draw.text((cx, cy), str(num), font=f, fill="white", anchor="mm")
+    draw.text((cx, cy), str(num), font=f, fill=num_color, anchor="mm")
 
 
 def draw_pill(draw, cx, cy, text, f, fill, clamp_x):
@@ -157,26 +157,13 @@ def geo_layout(rects, W, clamp_x):
 
 
 def geo_topnav(rects, W, clamp_x):
+    # 顶栏特写：底图页头条按 1.5 倍放大后铺满画布宽度（1440×56 → 2160×84），
+    # 圆点坐标必须同样乘 1.5 才能与画面元素对位；圆点统一放在页头条下方
+    # 的纯色带上（cy=112），横坐标对准各元素中心，由短刻度线向上指向元素。
     s = 1.5
-    title = R(rects, "title")
-    search = R(rects, "search")
-    nav = R(rects, "nav")
-    badge = R(rects, "badge")
-    lang = R(rects, "lang")
-    theme = R(rects, "theme")
-    gh = R(rects, "github")
-    tg = R(rects, "tg")
-    hy = 42
-    return [
-        ((title["x"] + title["w"] + 8) * s, hy),
-        (center(search)[0] * s, hy),
-        (center(nav)[0] * s, hy),
-        ((badge["x"] + badge["w"] + 6) * s, hy),
-        (center(lang)[0] * s, hy),
-        (center(theme)[0] * s, hy),
-        (center(gh)[0] * s, hy),
-        (center(tg)[0] * s, hy),
-    ], None
+    circle_y = 112
+    keys = ["title", "search", "nav", "badge", "lang", "theme", "github", "tg"]
+    return [(center(R(rects, k))[0] * s, circle_y) for k in keys]
 
 
 def geo_i18n(rects, W, clamp_x):
@@ -250,11 +237,12 @@ def compose_annotated(locale_dir, code, figure, scale=1):
     f_pill = font_for(code, round(20 * scale))
     f_num = font_for(code, round(15 * scale))
     if figure == "ui-topnav-annotated":
-        # 顶栏特写：从整屏截图裁出页头条（规避裁剪参数在不同像素比下的错位），
-        # 1.5 倍放大后贴到 216x216 纯色画布上，胶囊画在补齐区
-        img = img.crop((0, 0, 1440, 144))
-        raw = img.resize((int(img.width * scale), int(img.height * scale)), Image.LANCZOS)
-        canvas = Image.new("RGB", (2160, 216), (11, 15, 25))
+        # 顶栏特写：只裁页头条（56px 高，规避裁剪参数在不同像素比下的错位），
+        # 1.5 倍放大后贴到 2160×236 画布顶部；页头条下方是纯色带，
+        # 用于排编号圆点与两行图例胶囊。注意放大倍数必须与 geo_topnav 里的 s 一致。
+        img = img.crop((0, 0, 1440, 56))
+        raw = img.resize((img.width * 3 // 2, img.height * 3 // 2), Image.LANCZOS)
+        canvas = Image.new("RGB", (2160, 236), (11, 15, 25))
         canvas.paste(raw, (0, 0))
         img = canvas
         f_pill = font_for(code, 22)
@@ -264,27 +252,30 @@ def compose_annotated(locale_dir, code, figure, scale=1):
     pill_fill = AMBER_PILL if amber else BLUE_PILL
     ring = AMBER_RING if amber else BLUE_RING
     num_color = AMBER_TEXT if amber else "white"
-    anchors = geo_fn(rects, img.width, img.width - 8)
     if figure == "ui-topnav-annotated":
-        circles, _ = anchors
-        # 胶囊分两行排在补齐区：前 6 个一行，后 2 个一行
+        circles = geo_fn(rects, img.width, img.width - 8)
+        # 刻度线：从页头条底边垂直指向圆点顶部，标明圆点对应的元素位置
+        for cx, cy in circles:
+            draw.line([(cx, 86), (cx, cy - 14)], fill=pill_fill, width=3)
+        for i, (cx, cy) in enumerate(circles):
+            draw_circle(draw, cx, cy, i + 1, f_num, pill_fill, ring, num_color)
+        # 胶囊图例分两行排在下方：前 6 个一行，后 2 个一行
         rows = [labels[:6], labels[6:]]
         for ri, row in enumerate(rows):
             widths = [draw.textlength(t, font=f_pill) + 26 for t in row]
             total = sum(widths) + 24 * (len(row) - 1)
             x = (img.width - total) / 2
-            y = 128 + ri * 48
+            y = 162 + ri * 42
             for t, w in zip(row, widths):
                 box = [x, y - 17, x + w, y + 17]
                 draw.rounded_rectangle(box, radius=8, fill=pill_fill)
                 draw.text((x + w / 2, y - 1), t, font=f_pill, fill=num_color, anchor="mm")
                 x += w + 24
-        for i, (cx, cy) in enumerate(circles):
-            draw_circle(draw, cx, cy, i + 1, f_num, pill_fill, ring)
-    else:
-        for i, ((cx, cy), (px, py)) in enumerate(anchors):
-            draw_circle(draw, cx, cy, i + 1, f_num, pill_fill, ring)
-            draw_pill(draw, px, py, labels[i], f_pill, pill_fill, img.width - 8)
+        return img
+    anchors = geo_fn(rects, img.width, img.width - 8)
+    for i, ((cx, cy), (px, py)) in enumerate(anchors):
+        draw_circle(draw, cx, cy, i + 1, f_num, pill_fill, ring, num_color)
+        draw_pill(draw, px, py, labels[i], f_pill, pill_fill, img.width - 8)
     return img
 
 

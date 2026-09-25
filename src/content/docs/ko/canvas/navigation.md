@@ -19,7 +19,7 @@ export interface NavItem {
   defaultLabel: string; // 기본 표시 텍스트(예: "首页", "产品说明")
   href: string; // 이동 링크 또는 상대 경로
   match?: (pathname: string) => boolean; // 현재 페이지가 이 버튼을 하이라이트해야 하는지 판단하는 규칙
-  badge?: string; // 추가로 표시하는 작은 캡슐 배지(예: 버전 번호 "v1.2.0")
+  badge?: string; // 추가로 표시하는 작은 캡슐 배지(예: 버전 번호 "v1.3.1")
   isExternal?: boolean; // 외부 웹페이지 이동 여부(참이면 새 창으로 열림)
 }
 ```
