@@ -284,6 +284,7 @@ function cloudflareRedirectsFile() {
 					}
 					return list;
 				});
+				lines.unshift('/epomail/*  https://epomail-docs.pages.dev/epomail/:splat  302');
 				await fs.promises.writeFile(path.join(fileURLToPath(dir), '_redirects'), lines.join('\n') + '\n', 'utf8');
 			},
 		},
