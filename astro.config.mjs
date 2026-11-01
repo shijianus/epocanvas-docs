@@ -489,6 +489,8 @@ export default defineConfig({
 				TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
 				Search: './src/components/starlight/Search.astro',
 				Pagination: './src/components/starlight/Pagination.astro',
+				// 覆写 SkipLink：移除「跳转到内容」快捷跳转
+				SkipLink: './src/components/starlight/SkipLink.astro',
 			},
 			// 侧边栏分组与条目的多语言文案，键为各语言的 BCP-47 代码；
 			// 中文标签写在 sidebar 的 label 里，其余语言从这里取。
