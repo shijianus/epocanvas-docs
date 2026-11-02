@@ -3,7 +3,7 @@ title: Visão geral do produto e valor central
 description: Manual de produto oficial do EpoCanvas Docs — um site de documentação estático de alto desempenho criado para projetos de código aberto, com o posicionamento do produto, as vantagens principais e os problemas que resolve.
 ---
 
-**EpoCanvas Docs** é o sistema oficial de sites de documentação técnica criado para o ecossistema de código aberto EpoCanvas. Baseia-se no framework moderno de sites estáticos **Astro 5** e no **Starlight**, e tem como objetivo oferecer aos programadores uma plataforma de documentação com tipografia profissional, abertura rápida, pesquisa cómoda e manutenção fácil.
+**EpoCanvas Docs** é o sistema oficial de sites de documentação técnica criado para o ecossistema de código aberto EpoCanvas. Baseia-se no framework moderno de sites estáticos **Astro 7** e no **Starlight**, e tem como objetivo oferecer aos programadores uma plataforma de documentação com tipografia profissional, abertura rápida, pesquisa cómoda e manutenção fácil.
 
 Quer seja para escrever o manual de utilizador de um produto, a especificação de uma API ou registar o design da arquitetura de um sistema, o EpoCanvas Docs permite ao autor concentrar-se em escrever bom conteúdo em Markdown, proporcionando ao mesmo tempo aos leitores uma experiência de navegação confortável e natural.
 
@@ -36,7 +36,7 @@ O EpoCanvas Docs foi desenhado precisamente para resolver estes problemas concre
 
 ### 2. Pesquisa em dois modos: dentro da página + em todo o site
 
-- **Localizar na página atual**: escreva palavras-chave diretamente na caixa de pesquisa do topo e todos os textos correspondentes na página são imediatamente destacados, com um contador de progresso como `3/9`; prima Enter para saltar de ocorrência em ocorrência.
+- **Localizar na página atual**: escreva palavras-chave diretamente na caixa de pesquisa do topo e todos os textos correspondentes na página são imediatamente destacados, com um contador de progresso como `3/9`; prima Enter para saltar de ocorrência em ocorrência. O campo de pesquisa na página só aparece a partir de `64rem`; abaixo fica o botão global. Use Localizar na página do browser para o artigo atual. Se as capturas diferirem, prevalece a interface atual.
 - **Janela de pesquisa em todo o site**: prima `Ctrl + K` (`Cmd + K` em Mac) para abrir a janela de pesquisa global, que se baseia no índice estático do Pagefind e lista todos os documentos correspondentes com pré-visualização dos parágrafos.
 - Toda a capacidade de pesquisa é executada localmente no navegador, sem depender de qualquer serviço de backend — funciona mesmo alojado numa intranet.
 
@@ -44,7 +44,7 @@ O EpoCanvas Docs foi desenhado precisamente para resolver estes problemas concre
 
 - Suporta 10 idiomas: chinês simplificado, chinês tradicional, inglês, japonês, coreano, espanhol, francês, alemão, russo e português; a navegação, a barra lateral e todo o corpo dos documentos estão integralmente traduzidos em cada idioma.
 - Clique no botão de idioma no canto superior direito para saltar para a versão do mesmo artigo nesse idioma; o URL tem o prefixo do idioma (por exemplo, `/en/canvas/`), pelo que pode ser guardado nos favoritos ou partilhado diretamente com colegas que usem outros idiomas.
-- Quando a tradução de uma página para determinado idioma ainda não existe, essa página apresenta automaticamente o conteúdo predefinido em chinês, sem dar erro 404.
+- O fallback para o idioma predefinido é apenas uma proteção. Complete os 10 idiomas antes de publicar; traduções em falta fazem falhar `audit-i18n` e a CI.
 
 ### 4. Tipografia profissional de Markdown e código
 
@@ -54,7 +54,7 @@ O EpoCanvas Docs foi desenhado precisamente para resolver estes problemas concre
 
 ### 5. Build rápido e alojamento gratuito
 
-- Compilação estática baseada em Astro 5: o resultado do build é HTML e CSS puros com uma pequena quantidade de JS carregado a pedido; o site completo, com 10 idiomas e cerca de 180 páginas, faz o build completo em cerca de 25 segundos.
+- Compilação estática baseada em Astro 7: o resultado do build é HTML e CSS puros com uma pequena quantidade de JS carregado a pedido; o site completo, com 10 idiomas e cerca de 180 páginas, faz o build completo em cerca de 25 segundos.
 - Comandos de implantação pré-configurados para o Cloudflare Pages: uma única instrução publica a documentação online e obtém automaticamente o certificado HTTPS.
 
 ---
@@ -67,7 +67,7 @@ Para manter a documentação leve e fácil de manter, o sistema está dividido e
 
 *Figura: arquitetura do sistema. O autor só precisa de manter o conteúdo em Markdown; todas as restantes etapas são feitas automaticamente.*
 
-- **Base e estilos**: assenta no núcleo estático do Astro 5; as variáveis de design são definidas em `src/styles/custom.css`, e o tema claro e o tema escuro partilham o mesmo conjunto de nomes de variáveis.
+- **Base e estilos**: assenta no núcleo estático do Astro 7; as variáveis de design são definidas em `src/styles/custom.css`, e o tema claro e o tema escuro partilham o mesmo conjunto de nomes de variáveis.
 - **Gestão do conteúdo**: todos os documentos ficam no diretório `src/content/docs/`, escritos em Markdown puro (`.md`) ou em MDX (`.mdx`) que permite embutir componentes.
 - **Componentes de interface**: ao sobrepor os componentes nativos do Starlight, foram personalizados a barra superior, a barra lateral, o índice da página e a janela de pesquisa.
 - **Distribuição e acesso**: o resultado da compilação fica no diretório `dist/`, alojado no Cloudflare Pages, com resposta pelos nós de CDN globais mais próximos.
@@ -90,7 +90,7 @@ O EpoCanvas Docs é adequado aos seguintes cenários:
 
 | Característica | EpoCanvas Docs | Docusaurus | VitePress | GitBook (versão comercial) |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tecnologia de base** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Plataforma SaaS fechada |
+| **Tecnologia de base** | Astro 7 + Starlight | React 18 | Vue 3 + Vite | Plataforma SaaS fechada |
 | **Mecanismo de pesquisa** | Índice estático local do Pagefind | Algolia ou outro serviço de pesquisa configurado | Pesquisa em memória com Minisearch | Pesquisa com backend próprio |
 | **Desenho da disposição** | Três colunas (menu à esquerda + texto ao centro + índice à direita) | Exige configurar plugins para alterar | Duas/três colunas por predefinição | Duas colunas fixas |
 | **Forma de implantação** | Envio direto para o Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Alojamento privado da plataforma |
@@ -104,12 +104,12 @@ Stack tecnológica realmente usada na versão atual (conforme o resultado do bui
 
 | Componente | Versão | Função |
 | :--- | :--- | :--- |
-| **Astro** | v5.18.2 | Núcleo do site estático, responsável pelo build e pelas rotas |
-| **Starlight** | v0.32.6 | Framework do site de documentação, fornece o esqueleto da disposição e o processamento de conteúdo |
+| **Astro** | v7.4.4 | Núcleo do site estático, responsável pelo build e pelas rotas |
+| **Starlight** | v0.41.11 | Framework do site de documentação, fornece o esqueleto da disposição e o processamento de conteúdo |
 | **Expressive Code** | Integrado com o Starlight | Destaque de blocos de código, barra de título e destaque de linhas |
-| **Pagefind** | Integrado via `@pagefind/default-ui` 1.5.2 | Geração do índice de pesquisa estático durante o build |
-| **Wrangler** | v4.131.0 | CLI oficial do Cloudflare, executa a implantação |
-| **Ambiente de execução** | Node.js 22.20+ (22.x) ou Node.js 24.12+, pnpm 10.34.5 | Requisitos para desenvolvimento, compilação e implantação |
+| **Pagefind** | Integrado via `@pagefind/default-ui` 1.6.0 | Geração do índice de pesquisa estático durante o build |
+| **Wrangler** | v4.156.1 | CLI oficial do Cloudflare, executa a implantação |
+| **Ambiente de execução** | Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0, pnpm 10.34.5 | Requisitos para desenvolvimento, compilação e implantação |
 
 Ao atualizar dependências, leia também as notas sobre testes de regressão em [Componentes da interface e desenvolvimento personalizado](/canvas/components/).
 

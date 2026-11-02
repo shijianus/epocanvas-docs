@@ -7,7 +7,7 @@
 
 [English](./README.md) | 简体中文 | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 Starlight 构建，内置三栏阅读布局、双模式搜索与内容级多语言。全部内容以标准 Markdown 编写，可发布至 Cloudflare Pages。
+EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 7 与 Starlight 构建，内置三栏阅读布局、双模式搜索与内容级多语言。全部内容以Markdown 或 MDX 编写，可发布至 Cloudflare Pages。
 
 **在线站点**：[https://docs.epocanvas.com](https://docs.epocanvas.com)（备用地址：[https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
 
@@ -15,7 +15,9 @@ EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 St
 
 ![EpoCanvas Docs 文档站首页](./public/images/canvas/ui-home-landing.png)
 
-站点采用三栏布局：左侧为分类导航，中间为正文，右侧为当前页面的目录。默认深色主题，跟随系统设置，也可在顶栏手动切换。
+*历史界面示例：这张共用的中文首页截图显示 v1.2.0 和 Astro 5，并非当前候选版。图中的语言切换文案与控件位置属于历史状态，实际操作以当前文档为准；它不是本次候选版本的验收截图。*
+
+站点采用三栏布局：左侧为分类导航，中间为正文，右侧为当前页面的目录。首次访问跟随系统主题；手动选择后使用保存的主题。
 
 ## 功能特性
 
@@ -27,10 +29,10 @@ EpoCanvas Docs 是 EpoCanvas 项目的官方文档站点，基于 Astro 5 与 St
 
 ## 环境要求
 
-- Node.js 22.20+ (22.x) 或 Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (固定版本)
 
-CI 使用 `.node-version` 固定的 Node.js 22.20.0。
+CI 使用 `.node-version` 固定的 Node.js 22.23.4。
 
 ## 快速开始
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![替代文字](/images/canvas/your-image.png)
    ```
+
+5. 在其余 9 种语言的 `src/content/docs/<locale>/canvas/` 中完成对应译文，补齐侧边栏 `translations`，并在 `public/images/canvas/<locale>/` 中提供需要翻译的图片。发布前必须完成全部 10 种语言；中文回退只是框架兜底，缺译会使 `pnpm run verify` 和 CI 失败。
 
 提交前请在本地执行 `pnpm run verify`，确认所有检查通过。
 

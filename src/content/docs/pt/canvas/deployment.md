@@ -61,11 +61,11 @@ A implantação com um clique serve para "publicar o site primeiro", mas escreve
 
 | Ferramenta | Versão necessária | Comando de verificação | Descrição |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Ambiente para executar JavaScript e compilar páginas estáticas |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | Ambiente para executar JavaScript e compilar páginas estáticas |
 | **pnpm** | `10.34.5` | `pnpm -v` | Versão do gestor de pacotes fixada pelo projeto |
 | **Git** | Versão estável mais recente | `git --version` | Usado para obter o código e gerir versões |
 
-O CI usa Node.js 22.20.0, fixado em `.node-version`.
+O CI usa Node.js 22.23.4, fixado em `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 Se ainda não tem o `pnpm` instalado, pode instalá-lo rapidamente de forma global através do npm que vem com o Node.js:
@@ -113,7 +113,7 @@ pnpm run dev
 O terminal produzirá uma saída semelhante à seguinte (o primeiro arranque precisa de pré-compilar as dependências e leva alguns segundos):
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

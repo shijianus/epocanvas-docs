@@ -12,9 +12,21 @@ If you want to use **EpoCanvas Docs** as the documentation site for your own tea
 The `astro.config.mjs` file in the project root is the main configuration file for the entire documentation site. The options directly related to site information are listed below (comments indicate when to change them):
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// Change the existing SITE_ORIGIN and the Sitemap URL in public/robots.txt together.
+// site and hreflangXDefault() share this value; do not change site alone.
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // Production domain of the site; affects SEO links and sitemap generation
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // Set to true to show only the logo and hide the title text
       },
 
-      // GitHub repository link in the top-right corner
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Social links in the Starlight sidebar.
+      // Header GitHub/Telegram URLs are defined separately in src/components/starlight/Header.astro.
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // Entry point for custom stylesheets
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+On Astro 7, this site sets `markdown.processor` with `unified()` from `@astrojs/markdown-remark` 7.3.5. The `rehypePlugins` above reuse the existing plugins in `astro.config.mjs`; retain their function definitions when updating the configuration.
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: the category or page name displayed in the sidebar. It can differ from the Frontmatter `title` (for example, to use a shorter display name);
 - **`link`**: the access path of the page, which corresponds to the file location under `src/content/docs/`.
 
-:::warning
+:::caution
 A newly created `.md` file only appears in the left sidebar after it is registered in the `sidebar` array. Creating the file without registering it is the most common beginner mistake.
 :::
 
@@ -125,9 +140,9 @@ Layout dimensions are also defined at the top of the same file:
 
 ## 4. Replacing the Site Logo
 
-1. Prepare a vector image of your brand logo (`.svg` is recommended; a sharp `.png` also works);
-2. Overwrite `public/images/logo.svg` with it (the large homepage image lives in `src/assets/logo.svg`);
-3. Refresh the browser and the icons in the top bar and on the homepage are replaced automatically.
+1. Prepare a valid `.svg` vector logo. These steps apply only to SVG; do not rename a PNG file to `.svg`.
+2. Replace `public/images/logo.svg` for the top bar and `src/assets/logo.svg` for the homepage image separately.
+3. Refresh the browser on the local development server and check both logos. The live site changes only after rebuilding and deploying.
 
 :::tip
 The two logos serve different purposes: `public/images/logo.svg` is used in the top bar, while `src/assets/logo.svg` is the decorative image on the right side of the homepage. It is best to replace both at the same time.

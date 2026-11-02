@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs ist die offizielle Dokumentationsseite des EpoCanvas-Projekts. Sie basiert auf Astro 5 und Starlight und bringt von Haus aus ein dreispaltiges Leselayout, eine Suche mit zwei Modi und vollständig mehrsprachige Inhalte mit. Alle Inhalte sind in normalem Markdown geschrieben und werden auf Cloudflare Pages veröffentlicht.
+EpoCanvas Docs ist die offizielle Dokumentationsseite des EpoCanvas-Projekts. Sie basiert auf Astro 7 und Starlight und bringt von Haus aus ein dreispaltiges Leselayout, eine Suche mit zwei Modi und vollständig mehrsprachige Inhalte mit. Alle Inhalte sind in Markdown oder MDX geschrieben und werden auf Cloudflare Pages veröffentlicht.
 
 **Live-Website**: [https://docs.epocanvas.com](https://docs.epocanvas.com) (Spiegel: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
 
@@ -15,7 +15,9 @@ EpoCanvas Docs ist die offizielle Dokumentationsseite des EpoCanvas-Projekts. Si
 
 ![Dokumentations-Startseite von EpoCanvas Docs](./public/images/canvas/ui-home-landing.png)
 
-Die Website verwendet ein dreispaltiges Layout: links die Kategorie-Navigation, in der Mitte der Artikeltext, rechts das Inhaltsverzeichnis der aktuellen Seite. Das dunkle Design ist voreingestellt, folgt der Systemeinstellung und lässt sich in der Kopfzeile manuell umschalten.
+*Historisches Oberflächenbeispiel: Dieser gemeinsam verwendete Screenshot der chinesischen Startseite zeigt v1.2.0 und Astro 5, nicht den aktuellen Kandidaten. Angaben zum Sprachwechsel und Positionen der Bedienelemente stammen aus dieser älteren Version; maßgeblich ist die aktuelle Dokumentation. Das Bild stammt nicht aus den Abnahmetests dieses Kandidaten.*
+
+Die Website verwendet ein dreispaltiges Layout: links die Kategorie-Navigation, in der Mitte der Artikeltext, rechts das Inhaltsverzeichnis der aktuellen Seite. Beim ersten Besuch folgt das Design der Systemeinstellung; eine manuelle Auswahl hat danach Vorrang.
 
 ## Funktionen
 
@@ -27,10 +29,10 @@ Die Website verwendet ein dreispaltiges Layout: links die Kategorie-Navigation, 
 
 ## Voraussetzungen
 
-- Node.js 22.20+ (22.x) oder Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (exakte Version)
 
-Die CI verwendet Node.js 22.20.0, festgelegt in `.node-version`.
+Die CI verwendet Node.js 22.23.4, festgelegt in `.node-version`.
 
 ## Schnellstart
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![Alternativtext](/images/canvas/ihr-bild.png)
    ```
+
+5. Ergänzen Sie die entsprechenden Seiten unter `src/content/docs/<locale>/canvas/` für die übrigen 9 Sprachen, die `translations` der Seitenleiste und die zu übersetzenden Bilder unter `public/images/canvas/<locale>/`. Vor der Veröffentlichung müssen alle 10 Sprachen vollständig sein; der chinesische Fallback ist nur eine Schutzfunktion des Frameworks. Fehlende Übersetzungen lassen `pnpm run verify` und CI fehlschlagen.
 
 Führen Sie vor dem Commit `pnpm run verify` aus und stellen Sie sicher, dass alle Prüfungen bestehen.
 

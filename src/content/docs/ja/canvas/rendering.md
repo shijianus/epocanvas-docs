@@ -9,7 +9,7 @@ description: EpoCanvas Docs のレンダリングルール完全版：Markdown �
 
 ## レンダリングパイプライン：.md ファイルから公開ページまで
 
-![EpoCanvas Docs の Markdown レンダリングパイプラインの模式図：Markdown ソースの走査、GFM AST 解析、コードハイライト、7 つのカスタムコンポーネントによるレイアウトの組み立て、静的 HTML と Pagefind インデックスの生成までの全 5 ステップの流れ](/images/canvas/docs-render-pipeline.svg)
+![EpoCanvas Docs の Markdown レンダリングパイプラインの模式図：Markdown ソースの走査、GFM AST 解析、コードハイライト、カスタムコンポーネントによるレイアウトの組み立て、静的 HTML と Pagefind インデックスの生成までの全 5 ステップの流れ](/images/canvas/docs-render-pipeline.svg)
 
 *図：Markdown レンダリングパイプラインの 5 ステップ。各ステップはビルド時に順番に実行され、ビルド成果物は純粋な静的ファイルで、クライアント側に実行時のフレームワークオーバーヘッドはありません。*
 

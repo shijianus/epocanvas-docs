@@ -61,11 +61,11 @@ El despliegue con un clic sirve para "publicar primero el sitio", pero redactar 
 
 | Herramienta | Versión requerida | Comando de comprobación | Descripción |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Entorno para ejecutar JavaScript y compilar páginas estáticas |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | Entorno para ejecutar JavaScript y compilar páginas estáticas |
 | **pnpm** | `10.34.5` | `pnpm -v` | Versión del gestor de paquetes fijada por el proyecto |
 | **Git** | Última versión estable | `git --version` | Se usa para descargar el código y gestionar las versiones |
 
-CI usa Node.js 22.20.0, fijado en `.node-version`.
+CI usa Node.js 22.23.4, fijado en `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 Si su ordenador aún no tiene instalado `pnpm`, puede instalarlo globalmente de forma rápida con el npm que trae el propio Node.js:
@@ -113,7 +113,7 @@ pnpm run dev
 La terminal mostrará una salida parecida a esta (el primer arranque precompila las dependencias y tarda unos segundos):
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

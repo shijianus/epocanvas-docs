@@ -9,7 +9,7 @@ description: EpoCanvas Docs のバージョン番号の命名規則、バージ�
 
 ## 1. セマンティックバージョニングの規則 (SemVer)
 
-バージョン番号は `vメジャー.マイナー.パッチ` の形式です（現在は `v1.3.1`）。
+安定版は `vMAJOR.MINOR.PATCH`、プレリリースは識別子付きです。現在の候補は `v1.3.2-beta.1` で、Release の公開や本番デプロイ済みを意味しません。
 
 | 変更の種類 | 例 | 発生する場面 |
 | :--- | :--- | :--- |
@@ -23,10 +23,12 @@ description: EpoCanvas Docs のバージョン番号の命名規則、バージ�
 
 ### ステップ 1：更新内容を記録する (`RELEASE_NOTES.md`)
 
-プロジェクトルートの `RELEASE_NOTES.md` に今回の更新内容をはっきり書きます。このファイルは GitHub Release の説明文として使われます。
+プロジェクトルートの `RELEASE_NOTES.md` に更新内容を書きます。このファイルは GitHub Release の説明文になります。先頭行は `# EpoCanvas Docs v<バージョン>` と完全に一致させ、バージョンは `package.json` と揃えてください。`verify:config` がこの形式を検査します。以下は形式の例です。実際のリリースでは未使用のバージョンに置き換え、プレリリースの本文には `candidate` または `prerelease` と明記してください。
 
 ```markdown
-## [v1.2.1] - 2026-09-14
+# EpoCanvas Docs v1.2.1
+
+2026-09-14
 
 ### 修正
 - デプロイの章にあるコマンドの誤字を修正。
@@ -35,7 +37,7 @@ description: EpoCanvas Docs のバージョン番号の命名規則、バージ�
 
 ### ステップ 2：package.json のバージョン番号を更新する
 
-ナビゲーションバーのバージョンバッジは `package.json` の `version` フィールドと自動的に連動しており、サイト全体のバージョンの単一のデータソース（Single Source of Truth）になっています。`package.json` のバージョン番号を更新するか（または `pnpm version patch` を実行するか）すると、トップバーのバッジが自動的に最新のバージョン番号へ同期され、複数か所を手で直す必要はありません。
+ナビゲーションバーのバージョンバッジは `package.json` の `version` フィールドと自動的に連動しており、サイト全体のバージョンの単一のデータソース（Single Source of Truth）になっています。`package.json` のバージョン番号を更新するか（または `pnpm version patch --no-git-tag-version` を実行するか）すると、トップバーのバッジが自動的に最新のバージョン番号へ同期され、複数か所を手で直す必要はありません。
 
 ```json
 {
@@ -113,7 +115,7 @@ CI（`build.yml`）は `pnpm run verify` でテスト、設定チェック、Ast
 
 ## 5. CI のビルドチェック
 
-`.github/workflows/build.yml` は `main` へのプッシュと Pull Request で完全な検証を実行します。CI は `.node-version` で固定した Node.js 22.20.0 と pnpm 10.34.5 を使用します。コミット前にローカルで同じ自己チェックを実行してください。
+`.github/workflows/build.yml` は `main` へのプッシュと Pull Request で完全な検証を実行します。CI は `.node-version` で固定した Node.js 22.23.4 と pnpm 10.34.5 を使用します。コミット前にローカルで同じ自己チェックを実行してください。
 
 ```bash
 pnpm run verify

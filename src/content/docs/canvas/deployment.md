@@ -61,11 +61,11 @@ description: EpoCanvas Docs 本地环境准备、安装依赖、启动本地开�
 
 | 工具 | 要求版本 | 检查命令 | 说明 |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | 运行 JavaScript 与构建静态页面的环境 |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | 运行 JavaScript 与构建静态页面的环境 |
 | **pnpm** | `10.34.5` | `pnpm -v` | 项目固定使用的包管理器版本 |
 | **Git** | 最新稳定版 | `git --version` | 用于拉取代码与版本管理 |
 
-CI 使用 `.node-version` 固定的 Node.js 22.20.0。
+CI 使用 `.node-version` 固定的 Node.js 22.23.4。 Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 如果你的电脑上还没安装 `pnpm`，可以通过 Node.js 自带的 npm 快速全局安装：
@@ -113,7 +113,7 @@ pnpm run dev
 终端将输出类似如下的信息（首次启动需要预编译依赖，耗时几秒）：
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

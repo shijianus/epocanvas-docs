@@ -25,9 +25,11 @@ Esta página organiza las necesidades de personalización más habituales en un 
    { label: 'Guía del usuario', link: '/canvas/user-guide/' }
    ```
 
-4. Guarda, comprueba en la vista previa local que aparece en el directorio de la izquierda, y después ejecuta `pnpm run deploy` para publicar.
+4. Completa la traducción correspondiente en `src/content/docs/<locale>/canvas/user-guide.md` para los otros 9 idiomas, junto con las `translations` de la barra lateral y las imágenes que necesiten traducción. Las traducciones ausentes hacen fallar las comprobaciones de publicación.
+5. Comprueba la navegación y el contenido en local, ejecuta `pnpm run verify` y revisa la compilación con `pnpm run preview`.
+6. Tras la revisión y la fusión, un mantenedor publica desde una rama `main` limpia que siga a `origin/main`, con HEAD igual al commit remoto. Autoriza con `pnpm exec wrangler login` y ejecuta `pnpm run deploy`. Para tu propio fork, configura primero el proyecto de destino según la [guía de despliegue](/canvas/cloudflare/); no reutilices sin cambios la configuración del mantenedor.
 
-:::warning
+:::caution
 Si creas el archivo sin registrarlo en la `sidebar`, la página es accesible pero no aparece en el directorio de la izquierda; es el error más habitual entre los principiantes.
 :::
 
@@ -128,7 +130,7 @@ export const UI_TRANSLATIONS = {
 };
 ```
 
-Los idiomas que no se actualicen mostrarán automáticamente el valor predeterminado en chino como fallback, sin errores. Tras guardar, la actualización en caliente local lo muestra de inmediato; no hace falta compilar.
+`getTranslation` utiliza primero el valor existente y no vacío del idioma actual. Solo recurre al chino si falta la clave o el valor está vacío, y al nombre de la clave si tampoco hay valor en chino. Una traducción existente que no se actualiza conserva su valor anterior; sincroniza los cambios en los 10 idiomas. La recarga en caliente local muestra los cambios guardados sin compilar.
 
 ---
 

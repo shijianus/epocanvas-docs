@@ -9,6 +9,11 @@ const LANG_DIRS = new Map([
   ['es', 'es'], ['fr', 'fr'], ['de', 'de'], ['ru', 'ru'], ['pt', 'pt'],
 ]);
 const EXPECTED = [...LANG_DIRS.keys(), 'x-default'];
+const EXPRESSIVE_CODE_LABELS = new Map([
+  ['zh-CN', { terminal: '终端窗口', copy: '复制到剪贴板', copied: '复制成功！' }],
+  ['en', { terminal: 'Terminal window', copy: 'Copy to clipboard', copied: 'Copied!' }],
+  ['de', { terminal: 'Terminalfenster', copy: 'In die Zwischenablage kopieren', copied: 'Kopiert!' }],
+]);
 if (!fs.existsSync(dist)) {
   console.error('[check-links] 未找到 dist/，请先运行 pnpm run build');
   process.exit(1);
@@ -106,6 +111,20 @@ for (const [rel, page] of pages) {
     try { url = resolveSiteUrl(value, page.route); }
     catch { issues.push(`${page.route}: 资源 URL 无效 ${value}`); continue; }
     if (url.origin === SITE_ORIGIN && !routeFile(url.pathname)) issues.push(`${page.route}: 资源不存在 ${value}`);
+  }
+
+  const labels = EXPRESSIVE_CODE_LABELS.get(page.lang);
+  if (labels && page.html.includes('class="frame')) {
+    const terminalCount = [...page.html.matchAll(/<span class="sr-only">([^<]*)<\/span>\s*<\/figcaption>/g)];
+    for (const [, label] of terminalCount) {
+      if (label !== labels.terminal) issues.push(`${page.route}: terminal label 应为 ${labels.terminal}`);
+    }
+    for (const button of page.html.matchAll(/<button\b[^>]*title="([^"]*)"[^>]*data-copied="([^"]*)"/g)) {
+      if (button[1] !== labels.copy || button[2] !== labels.copied) {
+        issues.push(`${page.route}: Expressive Code 复制按钮文案与 ${page.lang} 不符`);
+        break;
+      }
+    }
   }
 
   if (rel === '404.html') {

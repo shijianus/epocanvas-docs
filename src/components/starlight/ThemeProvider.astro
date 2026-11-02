@@ -1,0 +1,13 @@
+<script is:inline>
+	(() => {
+		let storedTheme;
+		try {
+			storedTheme = localStorage.getItem('starlight-theme');
+		} catch {
+			// Storage may be unavailable in restricted browsing contexts.
+		}
+		const preferred = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : null;
+		const theme = preferred || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme;
+	})();
+</script>

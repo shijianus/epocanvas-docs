@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs is the official documentation site of the EpoCanvas project. It is built with Astro 5 and Starlight and provides a three-column reading layout, dual-mode search, and full multilingual content out of the box. All content is written in plain Markdown and published to Cloudflare Pages.
+EpoCanvas Docs is the official documentation site of the EpoCanvas project. It is built with Astro 7 and Starlight and provides a three-column reading layout, dual-mode search, and full multilingual content out of the box. All content is written in Markdown and MDX and published to Cloudflare Pages.
 
 **Live site**: [https://docs.epocanvas.com](https://docs.epocanvas.com) · Mirror: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)
 
@@ -15,7 +15,9 @@ EpoCanvas Docs is the official documentation site of the EpoCanvas project. It i
 
 ![EpoCanvas Docs documentation home page](./public/images/canvas/ui-home-landing.png)
 
-The site uses a three-column layout: category navigation on the left, article content in the center, and the table of contents of the current page on the right. The dark theme is the default, follows the system preference, and can be toggled manually from the header.
+*Historical interface example: this shared Chinese homepage screenshot shows v1.2.0 and Astro 5, not the current candidate. Its language-switching copy and control positions are historical; follow the current documentation. It is not a screenshot from this candidate's acceptance testing.*
+
+The site uses a three-column layout: category navigation on the left, article content in the center, and the table of contents of the current page on the right. The theme follows the system preference on the first visit; a manual selection overrides it.
 
 ## Features
 
@@ -27,10 +29,10 @@ The site uses a three-column layout: category navigation on the left, article co
 
 ## Requirements
 
-- Node.js 22.20+ (22.x) or Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (exact version)
 
-CI uses Node.js 22.20.0, pinned in `.node-version`.
+CI uses Node.js 22.23.4, pinned in `.node-version`.
 
 ## Quick Start
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![alt text](/images/canvas/your-image.png)
    ```
+
+5. Complete the matching pages in `src/content/docs/<locale>/canvas/` for the other 9 languages, add the sidebar `translations`, and provide any translated images in `public/images/canvas/<locale>/`. All 10 languages are required before publication; Chinese fallback is only a framework safeguard. Missing translations fail `pnpm run verify` and CI.
 
 Run `pnpm run verify` before committing and make sure all checks pass.
 

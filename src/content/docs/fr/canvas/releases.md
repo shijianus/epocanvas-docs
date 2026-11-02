@@ -9,7 +9,7 @@ Pour que les lecteurs sachent clairement « à quelle version du produit corresp
 
 ## 1. Règles de numérotation sémantique (SemVer)
 
-Les numéros de version suivent le format `v majeure.mineure.corrective` (actuellement `v1.3.1`) :
+Les versions stables suivent `vMAJOR.MINOR.PATCH` ; les préversions ajoutent un identifiant, comme la candidate actuelle `v1.3.2-beta.1`. Cela ne signifie ni publication d’une Release ni déploiement en production.
 
 | Type de changement | Exemple | Situation déclenchante |
 | :--- | :--- | :--- |
@@ -23,10 +23,12 @@ Les numéros de version suivent le format `v majeure.mineure.corrective` (actuel
 
 ### Première étape : rédiger les notes de mise à jour (`RELEASE_NOTES.md`)
 
-Décrivez clairement le contenu de la mise à jour dans le fichier `RELEASE_NOTES.md` à la racine du projet ; ce fichier sert de texte descriptif de la GitHub Release :
+Décrivez la mise à jour dans `RELEASE_NOTES.md`, à la racine du projet ; ce fichier devient le corps de la Release GitHub. Sa première ligne doit être exactement `# EpoCanvas Docs v<version>`, avec la même version que `package.json` ; `verify:config` contrôle ce format. L’exemple ci-dessous illustre seulement le format : utilisez une version encore inutilisée pour publier. Le texte d’une préversion doit aussi contenir `candidate` ou `prerelease`.
 
 ```markdown
-## [v1.2.1] - 2026-09-14
+# EpoCanvas Docs v1.2.1
+
+2026-09-14
 
 ### Corrections
 - Correction d'une coquille dans une commande du chapitre de déploiement.
@@ -35,7 +37,7 @@ Décrivez clairement le contenu de la mise à jour dans le fichier `RELEASE_NOTE
 
 ### Deuxième étape : mettre à jour le numéro de version de package.json
 
-Le badge de version de la barre de navigation est déjà lié automatiquement au champ `version` de `package.json`, qui constitue la source unique de vérité (Single Source of Truth) pour la version de tout le site. Mettez à jour le numéro de version dans `package.json` (ou exécutez `pnpm version patch`) : le badge de la barre supérieure se synchronise automatiquement avec le dernier numéro, sans modification manuelle en plusieurs endroits :
+Le badge de version de la barre de navigation est déjà lié automatiquement au champ `version` de `package.json`, qui constitue la source unique de vérité (Single Source of Truth) pour la version de tout le site. Mettez à jour le numéro de version dans `package.json` (ou exécutez `pnpm version patch --no-git-tag-version`) : le badge de la barre supérieure se synchronise automatiquement avec le dernier numéro, sans modification manuelle en plusieurs endroits :
 
 ```json
 {
@@ -113,7 +115,7 @@ La CI (`build.yml`) exécute `pnpm run verify` : tests, contrôles de configurat
 
 ## 5. Vérifications de build en CI
 
-`.github/workflows/build.yml` effectue la validation complète lors des push sur `main` et des Pull Requests. La CI utilise Node.js 22.20.0, fixé dans `.node-version`, et pnpm 10.34.5. Exécutez la même vérification localement avant de committer :
+`.github/workflows/build.yml` effectue la validation complète lors des push sur `main` et des Pull Requests. La CI utilise Node.js 22.23.4, fixé dans `.node-version`, et pnpm 10.34.5. Exécutez la même vérification localement avant de committer :
 
 ```bash
 pnpm run verify

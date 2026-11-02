@@ -22,8 +22,8 @@
 
   <!-- Header -->
   <g transform="translate(45, 36)">
-    <text x="0" y="24" fill="#f8fafc" font-size="18" font-weight="700" letter-spacing="-0.4">Cloudflare Pages : deux voies de déploiement (Deployment Architecture)</text>
-    <text x="0" y="48" fill="#94a3b8" font-size="8.4">Transfert direct en CLI locale (ce site) vs build Git automatique (recommandé en équipe)</text>
+    <text x="0" y="24" fill="#f8fafc" font-size="16.5" font-weight="700" letter-spacing="-0.4">Modes de déploiement Cloudflare Pages</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="8.3">Transfert local ou intégration Git facultative : validation complète requise</text>
   </g>
 
   <!-- Left Column: CLI Direct Deploy -->
@@ -36,7 +36,7 @@
       <rect width="90" height="22" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="0.8" />
       <text x="45" y="15" fill="#fbbf24" font-size="6.82" font-weight="700" text-anchor="middle">Méthode 1 · recommandée</text>
       <text x="102" y="17" fill="#f8fafc" font-size="9.92" font-weight="700">Transfert direct en CLI locale (Wrangler CLI)</text>
-      <text x="0" y="38" fill="#94a3b8" font-size="6.82">La voie réelle de ce site : build local, puis transfert direct vers l'edge</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="6.82">Le script vérifie les conditions et valide avant le transfert</text>
     </g>
 
     <!-- Steps -->
@@ -46,15 +46,15 @@
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
         <text x="32" y="14" fill="#e2e8f0" font-size="8.8" font-weight="600">Une seule commande locale : pnpm run deploy</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.7">Le script fourni enchaîne build local et téléversement</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.9">Exige main propre et le même commit que origin/main distant</text>
       </g>
 
       <!-- Step 2 -->
       <g transform="translate(0, 48)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="8.9" font-weight="600">Astro 5 génère le résultat dist/ en local</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.9">Minification HTML/CSS et index Pagefind WASM générés en local</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Astro 7 génère dist/ et les index de recherche en local</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="8.4">pnpm run verify : types, build, tests et contenu</text>
       </g>
 
       <!-- Step 3 -->
@@ -62,29 +62,29 @@
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
         <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Wrangler lit les identifiants et téléverse vers Cloudflare Pages</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="8.2">Lit le token API local et ne téléverse que les fichiers modifiés</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Après les contrôles, transfert avec des identifiants Cloudflare valides</text>
       </g>
 
       <!-- Step 4 -->
       <g transform="translate(0, 144)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">En ligne en quelques secondes, URL d'aperçu immédiate</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Effectif dès la fin du transfert ; ni file d'attente ni orchestration de conteneurs</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Après le transfert, vérifiez le statut et l’URL</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Vérifiez branche et commit dans la console, puis le domaine</text>
       </g>
 
       <!-- Step 5 -->
       <g transform="translate(0, 192)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Le domaine principal docs.epocanvas.com est mis à jour en même temps</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Alias de production lié automatiquement ; cache CDN mondial prêt en quelques secondes</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="9.9" font-weight="600">Aperçu séparé : pnpm run deploy:preview</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="8.2">Après verify complet, lancez pnpm run verify:preview</text>
       </g>
     </g>
 
     <!-- Bottom Feature Tag -->
     <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8" />
-    <text x="36" y="340" fill="#fbbf24" font-size="6.82">Idéal pour : premier déploiement · travail solo · correctifs urgents · zéro quota de build</text>
+    <text x="36" y="340" fill="#fbbf24" font-size="7.1">Premier déploiement, travail solo, revue des aperçus ; contrôles requis</text>
   </g>
 
   <!-- Right Column: Git Webhook Deploy -->
@@ -95,9 +95,9 @@
     <!-- Mode Badge -->
     <g transform="translate(24, 22)">
       <rect width="90" height="22" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="0.8" />
-      <text x="45" y="15" fill="#60a5fa" font-size="6.82" font-weight="700" text-anchor="middle">Méthode 2 · collaboration</text>
+      <text x="45" y="15" fill="#60a5fa" font-size="7.3" font-weight="700" text-anchor="middle">Méthode 2 · option</text>
       <text x="102" y="17" fill="#f8fafc" font-size="11.9" font-weight="700">Build Git automatique (Connect to Git)</text>
-      <text x="0" y="38" fill="#94a3b8" font-size="6.9">Relie un dépôt GitHub ; chaque push déclenche un build en conteneur</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="6.82">Créez un projet avec intégration Git et reliez le dépôt</text>
     </g>
 
     <!-- Steps -->
@@ -106,52 +106,52 @@
       <g transform="translate(0, 0)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="9.9" font-weight="600">Push du développeur : git push origin main</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">Le push déclenche une notification webhook GitHub</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Poussez la branche de production (ex. main)</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.9">Activez le déploiement auto ; GitHub CI seul ne publie pas</text>
       </g>
 
       <!-- Step 2 -->
       <g transform="translate(0, 48)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="8.5" font-weight="600">Cloudflare attribue un conteneur de build</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Pages réserve un nœud libre et clone la branche dans un environnement propre</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Pages récupère la branche configurée</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Installez Node.js et pnpm selon la configuration du projet</text>
       </g>
 
       <!-- Step 3 -->
       <g transform="translate(0, 96)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="9.3" font-weight="600">Dans le cloud : pnpm run build</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Le conteneur installe les dépendances, compile le site et génère l'index Pagefind</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="9.3" font-weight="600">Dans le cloud : pnpm run verify</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.9">Installez d’abord avec pnpm install --frozen-lockfile</text>
       </g>
 
       <!-- Step 4 -->
       <g transform="translate(0, 144)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">URL d'aperçu indépendante par branche de PR</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.9">Chaque pull request reçoit son URL d'aperçu dédiée pour la revue</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Les URL d’aperçu dépendent de la configuration</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">URL distincte uniquement pour les branches ou PR avec aperçu activé</text>
       </g>
 
       <!-- Step 5 -->
       <g transform="translate(0, 192)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Logs de build et historique de déploiement intégralement conservés</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.7">Logs complets dans le tableau de bord Cloudflare, rollback en un clic</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Après validation et déploiement réussis, vérifiez les logs</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Vérifiez statut, branche, commit et domaine dans la console</text>
       </g>
     </g>
 
     <!-- Bottom Feature Tag -->
     <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8" />
-    <text x="36" y="340" fill="#60a5fa" font-size="7.9">Idéal pour : équipes · push = en ligne · sans clés individuelles · aperçus de PR</text>
+    <text x="36" y="340" fill="#60a5fa" font-size="7.7">Équipes, déploiement par branche et aperçus de PR configurables</text>
   </g>
 
   <!-- Bottom Common Info Banner -->
   <g transform="translate(45, 492)">
     <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
-    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ Coexistence</text>
-    <text x="145" y="28" fill="#94a3b8" font-size="8.5">Les deux voies coexistent : automatissez avec Git au quotidien et, en cas d'urgence, lancez pnpm run deploy en local pour écraser la version en ligne.</text>
+    <text x="20" y="18" fill="#10b981" font-size="7.4399999999999995" font-weight="700">Choisissez le type de projet à sa création ; validation complète dans les deux cas</text>
+    <text x="20" y="35" fill="#94a3b8" font-size="6.82">Passer de Direct Upload à Git exige un nouveau projet ; Wrangler reste soumis aux contrôles. Ce schéma ne prouve aucun déploiement.</text>
   </g>
 </svg>

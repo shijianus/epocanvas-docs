@@ -28,9 +28,9 @@ Sie befindet sich ganz oben auf der Seite, ist fixiert und bleibt beim Herunters
 *Abbildung: Beschriftete Nahaufnahme der Kopfzeilenelemente. ① Logo und Website-Name; ② globales Suchfeld; ③ Button-Gruppe der Hauptnavigation; ④ Versionsabzeichen; ⑤ Sprachumschalter; ⑥ Umschalter für helles/dunkles Design; ⑦ Einstieg zum GitHub-Repository; ⑧ Einstieg zur Telegram-Community.*
 
 - **Website-Logo und Titel (①)**: Links werden das EpoCanvas-Symbol und der Projektname angezeigt; ein Klick führt schnell zurück zur Startseite der Dokumentation.
-- **Globales Suchfeld (②)**: Geben Sie im Feld Stichwörter ein, um Inhalte der aktuellen Seite direkt zu finden; mit `Ctrl+K` / `Cmd+K` öffnen Sie den sitewide-Suchdialog. Details siehe [Volltextsuche & Tastenkürzel](/canvas/search-engine/).
+- **Globales Suchfeld (②)**: Geben Sie im Feld Stichwörter ein, um Inhalte der aktuellen Seite direkt zu finden; mit `Ctrl+K` / `Cmd+K` öffnen Sie den sitewide-Suchdialog. Details siehe [Volltextsuche & Tastenkürzel](/canvas/search-engine/). Das Seiten-Suchfeld erscheint erst ab `64rem`; darunter bleibt nur die websiteweite Suchschaltfläche. Für den aktuellen Artikel steht die Seitensuche des Browsers bereit. Bei abweichenden Screenshots gilt die aktuelle Oberfläche.
 - **Buttons der Hauptnavigation (③)**: Schnellzugriffslinks zu häufig genutzten Bereichen wie „Startseite", „Produkt" und „Schnellstart"; der aktuell aufgerufene Bereich wird automatisch hervorgehoben.
-- **Versionsabzeichen (④)**: Zeigt die Release-Versionsnummer des aktuellen Dokuments an (z. B. `v1.3.1`); ein Klick öffnet den detaillierten Änderungsverlauf auf GitHub.
+- **Versionsabzeichen (④)**: zeigt die Repository-Metadaten, derzeit Kandidat `v1.3.2-beta.1`, und verlinkt die GitHub-Historie. Es bestätigt kein Produktionsdeployment dieses Kandidaten.
 - **Sprachumschalter (⑤)**: Ein Klick auf den Sprach-Button entfaltet 10 verfügbare Sprachen; nach der Auswahl gelangen Sie zur Version desselben Artikels in der Zielsprache – Navigation, Seitenleiste und Haupttext werden gemeinsam umgestellt.
 - **Umschalter für helles/dunkles Design (⑥)**: Ein Sonne/Mond-Symbol schaltet zwischen hellem und dunklem Design um.
 - **GitHub und Telegram (⑦⑧)**: Die Symbole rechts führen zum Open-Source-Repository bzw. zur technischen Community.
@@ -66,7 +66,7 @@ Sie befindet sich rechts vom Haupttext:
 
 EpoCanvas Docs stellt sowohl ein helles als auch ein dunkles Design bereit; beide Farbschemata sind vollständig über CSS-Variablen in `src/styles/custom.css` definiert:
 
-- **Systemeinstellung folgen**: Beim ersten Öffnen der Website erkennt sie die Hell-/Dunkel-Einstellung des Betriebssystems und zeigt das entsprechende Design an.
+- Beim ersten Besuch ohne gespeicherte Designwahl folgt die Oberfläche der Hell-/Dunkel-Einstellung des Systems; Dunkel ist kein fester Standard. Eine manuell gespeicherte Auswahl hat Vorrang.
 - **Manuelles Umschalten mit Speicherung**: Über den Design-Umschalter in der Kopfzeile können Sie manuell umschalten; die Auswahl wird im LocalStorage des Browsers gespeichert und bleibt beim nächsten Öffnen erhalten.
 
 ![Leseoberfläche im hellen Design](/images/canvas/ui-theme-light.png)

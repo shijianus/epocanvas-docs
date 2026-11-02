@@ -25,9 +25,11 @@ Diese Seite fasst die häufigsten Anpassungswünsche in einer Schnellreferenz zu
    { label: 'Benutzerhandbuch', link: '/canvas/user-guide/' }
    ```
 
-4. Prüfen Sie nach dem Speichern in der lokalen Vorschau, ob der Eintrag im linken Verzeichnis erscheint, und veröffentlichen Sie dann mit `pnpm run deploy`.
+4. Ergänzen Sie die entsprechende Übersetzung in `src/content/docs/<locale>/canvas/user-guide.md` für die übrigen 9 Sprachen sowie die `translations` der Seitenleiste und die zu übersetzenden Bilder. Fehlende Übersetzungen lassen die Veröffentlichungsprüfungen fehlschlagen.
+5. Prüfen Sie Navigation und Inhalt lokal, führen Sie `pnpm run verify` aus und kontrollieren Sie den Build mit `pnpm run preview`.
+6. Nach Review und Merge veröffentlicht ein Maintainer aus einem sauberen `main`, der `origin/main` verfolgt und dessen HEAD dem entfernten Commit entspricht. Autorisieren Sie mit `pnpm exec wrangler login` und starten Sie dann `pnpm run deploy`. Konfigurieren Sie für einen eigenen Fork zuerst das Zielprojekt gemäß der [Deployment-Anleitung](/canvas/cloudflare/); übernehmen Sie die Einstellungen des Maintainers nicht unverändert.
 
-:::warning
+:::caution
 Wer nur die Datei anlegt, ohne sie im `sidebar` zu registrieren, erhält eine erreichbare Seite ohne Eintrag im linken Verzeichnis – der häufigste Anfängerfehler.
 :::
 
@@ -128,7 +130,7 @@ export const UI_TRANSLATIONS = {
 };
 ```
 
-Für übersprungene Sprachen wird automatisch der chinesische Standardwert als Fallback angezeigt, ohne Fehlermeldung. Nach dem Speichern ist die Änderung dank Hot Reload sofort in der lokalen Vorschau sichtbar; ein Build ist nicht nötig.
+`getTranslation` verwendet zuerst den vorhandenen, nicht leeren Wert der aktuellen Sprache. Nur bei fehlendem Schlüssel oder leerem Wert erfolgt der Rückgriff auf Chinesisch; fehlt auch dieser Wert, erscheint der Schlüsselname. Eine vorhandene, nicht aktualisierte Übersetzung behält ihren alten Wert. Synchronisieren Sie Änderungen daher in allen 10 Sprachen. Gespeicherte Änderungen sind lokal per Hot Reload ohne Build sichtbar.
 
 ---
 

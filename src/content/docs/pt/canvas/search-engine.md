@@ -3,7 +3,7 @@ title: Pesquisa de texto completo e atalhos de teclado
 description: "Guia de utilização da pesquisa de duplo modo do EpoCanvas Docs: pesquisa dentro da página pela barra superior e janela de pesquisa de todo o site com Ctrl+K, além do mecanismo de índice estático local."
 ---
 
-Ao consultar um grande volume de documentação técnica, encontrar rapidamente a opção de configuração ou o parâmetro pretendido é fundamental. O **EpoCanvas Docs** inclui uma **pesquisa de duplo modo**: o campo de pesquisa da barra superior serve para localizar rapidamente conteúdo na página atual, e a janela `Ctrl+K` serve para pesquisar em todos os documentos do site. Ambas as pesquisas são executadas localmente no browser, sem necessidade de qualquer serviço de backend, e continuam a funcionar num site alojado numa intranet sem acesso à Internet.
+O **EpoCanvas Docs** oferece pesquisa na página e em todo o site. A partir de `64rem` de largura, a barra mostra o campo de pesquisa na página; abaixo disso, apenas o botão de pesquisa global. Esta usa o índice estático do Pagefind, sem backend de pesquisa.
 
 ---
 
@@ -11,58 +11,58 @@ Ao consultar um grande volume de documentação técnica, encontrar rapidamente 
 
 | Cenário | Qual usar | Como fazer |
 | :--- | :--- | :--- |
-| Sabe que o texto está **neste artigo atual** | Pesquisa na página | Clicar diretamente no campo de pesquisa da barra superior e escrever as palavras-chave |
-| Não sabe **em que artigo** está o conteúdo e precisa de pesquisar em todo o site | Pesquisa em todo o site | Premir `Ctrl + K` (`Cmd + K` no Mac) |
+| O texto está no **artigo atual** | Pesquisa na página | Campo superior a partir de `64rem`; em ecrãs estreitos, Localizar na página do browser |
+| Não sabe **em que artigo** está o texto | Pesquisa global | Botão da barra ou `Ctrl + K` (`Cmd + K` no Mac) |
 
 ---
 
 ## Pesquisa na página: campo de pesquisa da barra superior
 
-Clique no campo de pesquisa no centro superior da página (ícone de lupa) e escreva diretamente as palavras-chave:
+Estas instruções aplicam-se a larguras de pelo menos `64rem`. Escreva no campo superior. Abaixo dessa largura, o campo, o contador e os controlos ficam ocultos; resta apenas a lupa que abre a pesquisa global. Para o artigo atual, use Localizar na página do browser.
 
 ![Imagem anotada da pesquisa na página pela barra superior: ① campo de entrada ② contador de correspondências ③ saltos para cima/baixo ④ limpar ⑤ destaque na página](/images/canvas/ui-inpage-search.png)
 
-*Figura: efeito real anotado após escrever "部署" ("implantação") no campo de pesquisa da barra superior. ① campo de entrada na barra superior; ② contador de correspondências (por exemplo `1/26`); ③ botões de salto para a correspondência anterior / seguinte; ④ botão de limpar; ⑤ todo o texto correspondente na página atual fica automaticamente destacado.*
+*Figura: captura existente para referência. Atualmente, o contador e os controlos anterior/seguinte e limpar aparecem abaixo do campo, não dentro, e ficam ocultos em ecrãs estreitos. Se as posições, os números ou o layout diferirem, siga a interface real.*
 
 ### Escrever palavras-chave
 
-Suporta expressões em português (como "implantação", "componente"), palavras em inglês e fragmentos de código (como `pnpm`, `astro.config.mjs`). Durante a escrita, todo o texto correspondente na página atual recebe imediatamente um fundo de destaque e a página desloca-se automaticamente para a primeira correspondência.
+Escreva palavras ou código como `pnpm` e `astro.config.mjs`. As correspondências visíveis no corpo ficam destacadas e a página salta para a primeira. A navegação e o conteúdo oculto ficam excluídos.
 
 ### Saltar entre resultados
 
-- Premir <kbd>Enter</kbd> ou clicar na seta para baixo: salta para a correspondência seguinte;
-- Premir <kbd>Shift + Enter</kbd> ou clicar na seta para cima: volta à correspondência anterior;
-- O campo de pesquisa mostra em tempo real o contador de progresso no formato `N/M` (por exemplo `3/9`), permitindo acompanhar o avanço da leitura.
+- Com o campo focado, <kbd>Enter</kbd> ou o botão de seta para baixo: correspondência seguinte;
+- Com o campo focado, <kbd>Shift + Enter</kbd> ou o botão de seta para cima: correspondência anterior;
+- Por baixo do campo, o contador `N/M` (por exemplo `3/9`) mostra a correspondência atual e o total.
 
 ### Limpar a pesquisa e restaurar a página
 
-Prima <kbd>Esc</kbd> ou clique no botão `×` para limpar todos os destaques e restaurar o aspeto original da página.
+Com o foco no campo, prima <kbd>Esc</kbd>, ou clique em `×`, para apagar a consulta e os destaques.
 
 ---
 
 ## Pesquisa em todo o site: janela Ctrl+K
 
-Esteja na página que estiver, prima o atalho <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd</kbd> + <kbd>K</kbd> no Mac) ou clique no emblema `Ctrl K` à direita do campo de pesquisa, e uma janela de pesquisa global surge no centro do ecrã:
+Prima <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd</kbd> + <kbd>K</kbd> no Mac) ou o botão de pesquisa da barra. Em ecrãs largos mostra o atalho; abaixo de `64rem`, uma lupa. Ambos abrem a pesquisa global, não um campo de pesquisa na página.
 
 ![Imagem anotada da janela de pesquisa em todo o site: ① emblema de acionamento ② campo de pesquisa ③ lista de resultados ④ barra de atalhos de teclado](/images/canvas/ui-search-modal.png)
 
-*Figura: efeito real anotado após escrever "部署" ("implantação") na janela. ① emblema `Ctrl K` à direita do campo de pesquisa (clicar nele também abre a janela); ② campo de entrada da pesquisa; ③ lista de resultados agrupada por documento, com as palavras encontradas destacadas; ④ barra inferior com sugestões de atalhos de teclado.*
+*Figura: captura existente do campo e dos resultados. Se os botões ou atalhos diferirem do layout atual, siga a interface real e as instruções abaixo. Atualmente, Tab foca os links; as sugestões inferiores podem ficar ocultas em ecrãs estreitos.*
 
 ### Escrever palavras-chave
 
-Suporta expressões em português (como "implantação", "componente"), palavras em inglês e fragmentos de código (como `pnpm`, `astro.config.mjs`). Os resultados cujo título contém a palavra pesquisada aparecem primeiro.
+Introduza palavras no idioma da página ou código como `pnpm` e `astro.config.mjs`. O Pagefind ordena por relevância; uma correspondência no título não garante a primeira posição.
 
 ### Percorrer a lista de resultados
 
-Os resultados estão agrupados por documento; cada entrada mostra o título do documento, a secção onde se encontra e uma pré-visualização do contexto com a palavra-chave, que fica destacada. Clicar no título de um grupo expande ou recolhe os parágrafos encontrados nesse documento.
+Os resultados agrupam-se por documento, com título, excerto e subresultados de secções disponíveis. Títulos e subresultados são links: o título abre o documento e a secção segue a sua âncora. O título não é um controlo para expandir ou recolher.
 
 ### Concluir todo o processo com o teclado
 
-- <kbd>↑</kbd> <kbd>↓</kbd>: move a seleção entre os resultados;
-- <kbd>Enter</kbd>: abre o resultado selecionado e salta para o parágrafo correspondente;
+- <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd>: mover o foco entre campos, botões e links de resultados;
+- Num link de resultado focado, <kbd>Enter</kbd>: abrir o link; os links de secção seguem a sua âncora;
 - <kbd>Esc</kbd>: fecha a janela.
 
-Todo o processo dispensa o rato.
+A interface atual do Pagefind não seleciona resultados com <kbd>↑</kbd> / <kbd>↓</kbd> nem expande passagens ao clicar no título de um documento.
 
 ---
 
@@ -77,13 +77,13 @@ Em muitos sites, a pesquisa na documentação envia o pedido para uma base de da
 O EpoCanvas Docs utiliza a solução de pesquisa estática local **Pagefind**:
 
 1. **Extração do índice no build**: ao executar `pnpm run build`, o sistema recolhe automaticamente o conteúdo de cada documento e gera um conjunto de ficheiros de índice estático comprimidos.
-2. **Download leve a pedido**: ao escrever no campo de pesquisa, o browser apenas descarrega os fragmentos de índice correspondentes aos caracteres introduzidos (de apenas alguns KB a algumas dezenas de KB).
-3. **Correspondência local imediata**: a correspondência e a ordenação são feitas inteiramente no browser, pelo que não há latência de rede e tudo funciona por completo mesmo numa intranet sem acesso à Internet.
+2. **Download a pedido**: o browser carrega do site o código de pesquisa e os fragmentos necessários do índice. A primeira carga ou a falta de cache continuam a exigir pedidos de rede.
+3. **Pesquisa no browser**: depois de carregar o índice, a pesquisa e a ordenação são locais. A intranet também tem de servir os ficheiros de pesquisa; isto não significa que a primeira visita funcione sem rede.
 
 ---
 
 ## Dicas para usar a pesquisa
 
 - **Divisão em palavras**: para obter resultados mais precisos, escreva várias palavras separadas por espaços (por exemplo, `Cloudflare domínio`).
-- **Dar prioridade aos títulos**: os títulos dos documentos e das secções têm o maior peso na ordenação; os resultados cujo título contém a palavra pesquisada aparecem primeiro.
+- **Use termos específicos**: títulos e nomes de secções ajudam a restringir a pesquisa; a ordem é determinada pelo Pagefind segundo a relevância.
 - **Limitações do modo de desenvolvimento**: o índice de todo o site só é gerado na compilação, e no servidor de desenvolvimento iniciado com `pnpm run dev` a caixa de diálogo `Ctrl+K` não carrega o índice, pelo que a pesquisa global não está disponível. Para testá-la, execute `pnpm run build` e depois `pnpm run preview`. A pesquisa na página não está sujeta a esta limitação.

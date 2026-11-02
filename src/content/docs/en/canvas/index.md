@@ -3,7 +3,7 @@ title: Product Overview & Core Value
 description: The official product documentation for EpoCanvas Docs — a high-performance static documentation site built for open-source projects, covering product positioning, core advantages, and the pain points it solves.
 ---
 
-**EpoCanvas Docs** is the official technical documentation site system built for the EpoCanvas open-source ecosystem. It is built on the modern static site framework **Astro 5** and **Starlight**, and aims to give developers a documentation platform that is professionally typeset, fast to load, easy to search, and easy to maintain.
+**EpoCanvas Docs** is the official technical documentation site system built for the EpoCanvas open-source ecosystem. It is built on the modern static site framework **Astro 7** and **Starlight**, and aims to give developers a documentation platform that is professionally typeset, fast to load, easy to search, and easy to maintain.
 
 Whether you are writing a product user manual, an API reference, or system architecture notes, EpoCanvas Docs lets writers focus on producing good Markdown content while giving readers a comfortable, natural browsing experience.
 
@@ -36,7 +36,7 @@ EpoCanvas Docs was designed specifically to solve these real pain points.
 
 ### 2. Two Search Modes: In-Page Find + Site-Wide Search
 
-- **Find on the current page**: type keywords into the top search box and every match on the page is highlighted immediately, with a progress counter such as `3/9`; press Enter to jump through the matches one by one.
+- **Find on the current page**: type keywords into the top search box and every match on the page is highlighted immediately, with a progress counter such as `3/9`; press Enter to jump through the matches one by one. The in-page input is visible only at viewport widths of at least `64rem`; narrower screens retain only the site-wide search button. Use the browser’s Find in Page for the current article. If screenshots differ, follow the current interface.
 - **Site-wide search dialog**: press `Ctrl + K` (`Cmd + K` on Mac) to open the site-wide search dialog, which lists all matching documents with paragraph previews, powered by a Pagefind static index.
 - All search runs locally in the browser with no backend dependency, so it works even when the site is hosted on an intranet.
 
@@ -44,7 +44,7 @@ EpoCanvas Docs was designed specifically to solve these real pain points.
 
 - Supports 10 languages — Simplified Chinese, Traditional Chinese, English, Japanese, Korean, Spanish, French, German, Russian, and Portuguese — with fully translated navigation, sidebar, and body text for every document in each language.
 - Click the language button in the top-right corner to jump to the target-language version of the same article. URLs carry a language prefix (such as `/en/canvas/`), so you can bookmark them or share them with colleagues who use another language.
-- When a page is missing a translation in a given language, that page automatically falls back to the default Chinese content instead of returning a 404 error.
+- Default-language fallback is only a framework safeguard. Complete all 10 translations before publishing; missing translations fail `audit-i18n` and CI.
 
 ### 4. Professional Markdown and Code Typography
 
@@ -54,7 +54,7 @@ EpoCanvas Docs was designed specifically to solve these real pain points.
 
 ### 5. Fast Builds, Free Hosting
 
-- Static compilation with Astro 5 produces pure HTML, CSS, and a small amount of on-demand JS; a full build of roughly 180 pages across all 10 languages takes about 25 seconds.
+- Static compilation with Astro 7 produces pure HTML, CSS, and a small amount of on-demand JS; a full build of roughly 180 pages across all 10 languages takes about 25 seconds.
 - A Cloudflare Pages deploy command is preconfigured; one command publishes the documentation online, and it automatically gets an HTTPS certificate.
 
 ---
@@ -67,7 +67,7 @@ To keep the documentation lightweight and easy to maintain, the system is divide
 
 *Figure: System architecture. Writers only maintain the Markdown content sources; every other step is handled automatically.*
 
-- **Base and styling**: built on the Astro 5 static core, with design variables defined in `src/styles/custom.css`; the light and dark themes share the same set of variable names.
+- **Base and styling**: built on the Astro 7 static core, with design variables defined in `src/styles/custom.css`; the light and dark themes share the same set of variable names.
 - **Content sources**: all documentation lives in the `src/content/docs/` directory, written in plain Markdown (`.md`) or in MDX (`.mdx`) that can embed components.
 - **UI components**: the top bar, sidebar, on-page table of contents, and search dialog are customized by overriding Starlight's native components.
 - **Distribution and access**: build output is stored in the `dist/` directory and hosted on Cloudflare Pages, served from the nearest global CDN node.
@@ -90,7 +90,7 @@ It is **not suited for** scenarios that require login authentication, comments a
 
 | Feature | EpoCanvas Docs | Docusaurus | VitePress | GitBook Commercial |
 | :--- | :--- | :--- | :--- | :--- |
-| **Underlying technology** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Closed-source SaaS platform |
+| **Underlying technology** | Astro 7 + Starlight | React 18 | Vue 3 + Vite | Closed-source SaaS platform |
 | **Search mechanism** | Pagefind local static index | Depends on the an Algolia integration or another search provider | Minisearch in-memory search | Built-in backend search |
 | **Layout** | Three columns (left menu + center content + right TOC) | Requires plugin configuration to change | Two/three columns by default | Fixed two columns |
 | **Deployment** | Direct upload to Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Platform's proprietary hosting |
@@ -104,12 +104,12 @@ The tech stack actually used by the current version (as reflected in the build o
 
 | Component | Version | Purpose |
 | :--- | :--- | :--- |
-| **Astro** | v5.18.2 | Static site core; handles build and routing |
-| **Starlight** | v0.32.6 | Documentation framework; provides the layout skeleton and content processing |
+| **Astro** | v7.4.4 | Static site core; handles build and routing |
+| **Starlight** | v0.41.11 | Documentation framework; provides the layout skeleton and content processing |
 | **Expressive Code** | Bundled with Starlight | Code block highlighting, title bars, line highlighting |
-| **Pagefind** | Integrated via `@pagefind/default-ui` 1.5.2 | Generates the static search index at build time |
-| **Wrangler** | v4.131.0 | Official Cloudflare CLI; runs the deployment |
-| **Runtime** | Node.js 22.20+ (22.x) or Node.js 24.12+, pnpm 10.34.5 | Requirements for local development, builds, and deployment |
+| **Pagefind** | Integrated via `@pagefind/default-ui` 1.6.0 | Generates the static search index at build time |
+| **Wrangler** | v4.156.1 | Official Cloudflare CLI; runs the deployment |
+| **Runtime** | Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0, pnpm 10.34.5 | Requirements for local development, builds, and deployment |
 
 When upgrading dependencies, also read the regression testing notes in [UI Components & Custom Development](/canvas/components/).
 

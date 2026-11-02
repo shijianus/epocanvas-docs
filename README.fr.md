@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs est le site de documentation officiel du projet EpoCanvas. Il repose sur Astro 5 et Starlight et propose, dès l'installation, une mise en page de lecture à trois colonnes, une recherche en deux modes et un contenu entièrement multilingue. Le contenu est rédigé en Markdown standard et publié sur Cloudflare Pages.
+EpoCanvas Docs est le site de documentation officiel du projet EpoCanvas. Il repose sur Astro 7 et Starlight et propose, dès l'installation, une mise en page de lecture à trois colonnes, une recherche en deux modes et un contenu entièrement multilingue. Le contenu est rédigé en Markdown ou MDX et publié sur Cloudflare Pages.
 
 **Site en ligne** : [https://docs.epocanvas.com](https://docs.epocanvas.com) (miroir : [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
 
@@ -15,7 +15,9 @@ EpoCanvas Docs est le site de documentation officiel du projet EpoCanvas. Il rep
 
 ![Page d'accueil de la documentation EpoCanvas Docs](./public/images/canvas/ui-home-landing.png)
 
-Le site utilise une mise en page à trois colonnes : navigation par catégories à gauche, contenu de l'article au centre et table des matières de la page en cours à droite. Le thème sombre est activé par défaut, suit les préférences du système et peut être modifié manuellement depuis l'en-tête.
+*Exemple historique de l’interface : cette capture commune de la page d’accueil en chinois montre v1.2.0 et Astro 5, et non la candidate actuelle. Le texte sur le changement de langue et la position des commandes datent de cette version ; suivez la documentation actuelle. Il ne s’agit pas d’une capture des tests d’acceptation de cette candidate.*
+
+Le site utilise une mise en page à trois colonnes : navigation par catégories à gauche, contenu de l'article au centre et table des matières de la page en cours à droite. Le thème suit les préférences du système lors de la première visite ; un choix manuel les remplace.
 
 ## Fonctionnalités
 
@@ -27,10 +29,10 @@ Le site utilise une mise en page à trois colonnes : navigation par catégories 
 
 ## Prérequis
 
-- Node.js 22.20+ (22.x) ou Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (version exacte)
 
-La CI utilise Node.js 22.20.0, fixé dans `.node-version`.
+La CI utilise Node.js 22.23.4, fixé dans `.node-version`.
 
 ## Démarrage rapide
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![texte alternatif](/images/canvas/your-image.png)
    ```
+
+5. Complétez les pages correspondantes dans `src/content/docs/<locale>/canvas/` pour les 9 autres langues, les `translations` de la barre latérale et les images à traduire dans `public/images/canvas/<locale>/`. Les 10 langues doivent être complètes avant publication ; le repli vers le chinois est seulement une protection du framework. Les traductions manquantes font échouer `pnpm run verify` et la CI.
 
 Exécutez `pnpm run verify` avant de committer et vérifiez que tous les contrôles passent.
 

@@ -42,8 +42,8 @@ function addLink(dir, href) {
 }
 
 test('Node boundary matches supported LTS lines', () => {
-  for (const version of ['20.19.0', '22.0.0', '22.19.0', '23.0.0', '24.11.9', '25.0.0', '22.20.0-rc.1', 'invalid']) assert.equal(supportedNodeVersion(version), false, version);
-  for (const version of ['22.20.0', '22.21.1', '24.12.0', '24.14.0']) assert.equal(supportedNodeVersion(version), true, version);
+  for (const version of ['20.19.0', '22.0.0', '22.19.0', '22.20.0', '22.23.3', '23.0.0', '24.11.9', '25.0.0', '22.23.4-rc.1', 'invalid']) assert.equal(supportedNodeVersion(version), false, version);
+  for (const version of ['22.23.4', '22.23.5', '22.24.0', '24.12.0', '24.14.0']) assert.equal(supportedNodeVersion(version), true, version);
 });
 test('release tags reject invalid SemVer and mismatched versions', () => {
   assert.equal(releaseMetadata('v1.3.2', '1.3.2').prerelease, false);
@@ -70,6 +70,25 @@ test('built link checker accepts relative, query and same-origin links', () => f
   writeSite(dir);
   for (const href of ['../search-engine/#section', '?source=nav#section', 'https://docs.epocanvas.com/canvas/search-engine/#section', '//docs.epocanvas.com/canvas/search-engine/#section']) addLink(dir, href);
   check(dir, 'check-links.mjs', 0);
+}));
+
+test('built link checker enforces localized Expressive Code labels for Chinese, English and German', () => fixture((dir) => {
+  writeSite(dir);
+  const locales = [
+    { lang: 'zh-CN', prefix: '', labels: ['终端窗口', '复制到剪贴板', '复制成功！'] },
+    { lang: 'en', prefix: '/en', labels: ['Terminal window', 'Copy to clipboard', 'Copied!'] },
+    { lang: 'de', prefix: '/de', labels: ['Terminalfenster', 'In die Zwischenablage kopieren', 'Kopiert!'] },
+  ];
+  for (const { prefix, labels } of locales) {
+    const file = path.join(dir, 'dist', prefix.slice(1), 'canvas/deployment/index.html');
+    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('</body>', `<figure class="frame"><figcaption><span class="sr-only">${labels[0]}</span></figcaption><button title="${labels[1]}" data-copied="${labels[2]}">Copy</button></figure></body>`));
+  }
+  check(dir, 'check-links.mjs', 0);
+  for (const { prefix, labels } of locales.slice(1)) {
+    const file = path.join(dir, 'dist', prefix.slice(1), 'canvas/deployment/index.html');
+    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(labels[0], locales[0].labels[0]));
+    check(dir, 'check-links.mjs', 1);
+  }
 }));
 for (const href of ['canvas/search-engine/', 'https://docs.epocanvas.com/missing/', '//docs.epocanvas.com/missing/', '../search-engine/#%ZZ', '../search-engine/#missing']) {
   test(`built link checker rejects ${href}`, () => fixture((dir) => {

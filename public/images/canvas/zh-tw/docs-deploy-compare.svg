@@ -22,8 +22,8 @@
 
   <!-- Header -->
   <g transform="translate(45, 36)">
-    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">Cloudflare Pages 雙軌部署方式對比 (Deployment Architecture)</text>
-    <text x="0" y="48" fill="#94a3b8" font-size="12.5">命令列本機直傳（本站採用） vs Git 儲存庫自動建置（團隊協作推薦）</text>
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.4">Cloudflare Pages 部署方式比較</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="12.5">本機直傳（儲存庫腳本）與 Git 整合（選用），均須完整驗證</text>
   </g>
 
   <!-- Left Column: CLI Direct Deploy -->
@@ -36,7 +36,7 @@
       <rect width="90" height="22" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="0.8" />
       <text x="45" y="15" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">方式一 · 推薦</text>
       <text x="102" y="17" fill="#f8fafc" font-size="16" font-weight="700">本機命令列直傳 (Wrangler CLI)</text>
-      <text x="0" y="38" fill="#94a3b8" font-size="11">本站實際採用的上線方式，本機建置後直傳邊緣</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="10.4">儲存庫腳本先檢查發布條件，完整驗證後上傳</text>
     </g>
 
     <!-- Steps -->
@@ -46,15 +46,15 @@
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
         <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">本機一條命令觸發: pnpm run deploy</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="9.5">在終端機執行預設腳本，串聯本機靜態編譯與上傳命令</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">需 main、乾淨工作區，提交須與遠端 origin/main 一致</text>
       </g>
 
       <!-- Step 2 -->
       <g transform="translate(0, 48)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">本機 Astro 5 編譯產生 dist/ 產物</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">本機完成 HTML/CSS 壓縮與 Pagefind WASM 搜尋索引產生</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">本機 Astro 7 產生 dist/ 與搜尋索引</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">pnpm run verify：型別、建置、測試與內容檢查</text>
       </g>
 
       <!-- Step 3 -->
@@ -62,29 +62,29 @@
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
         <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Wrangler 讀取憑證直傳 Cloudflare Pages</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">讀取本機 API Token，差量上傳增量檔案至 Cloudflare 儲存桶</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">通過發布檢查後，使用有效 Cloudflare 憑證上傳</text>
       </g>
 
       <!-- Step 4 -->
       <g transform="translate(0, 144)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">秒級啟用上線，輸出即時預覽網址</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">上傳完成即刻生效，無需等待任何雲端排隊或容器建置調度</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">上傳成功後核對部署狀態與網址</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">在主控台檢查分支與提交，再確認網域回應</text>
       </g>
 
       <!-- Step 5 -->
       <g transform="translate(0, 192)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">主網域 docs.epocanvas.com 同步更新</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">自動綁定生產環境別名，全球 CDN 節點幾秒內完成快取就緒</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">獨立預覽: pnpm run deploy:preview</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">完整 verify 後，執行 pnpm run verify:preview</text>
       </g>
     </g>
 
     <!-- Bottom Feature Tag -->
     <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8" />
-    <text x="36" y="340" fill="#fbbf24" font-size="11">適用場景：首次部署 · 單人維護 · 緊急修復 · 不耗費雲端建置配額</text>
+    <text x="36" y="340" fill="#fbbf24" font-size="11">適合：首次部署 · 單人維護 · 預覽審閱；仍須發布檢查</text>
   </g>
 
   <!-- Right Column: Git Webhook Deploy -->
@@ -95,9 +95,9 @@
     <!-- Mode Badge -->
     <g transform="translate(24, 22)">
       <rect width="90" height="22" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="0.8" />
-      <text x="45" y="15" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle">方式二 · 協作</text>
+      <text x="45" y="15" fill="#60a5fa" font-size="11" font-weight="700" text-anchor="middle">方式二 · 選用</text>
       <text x="102" y="17" fill="#f8fafc" font-size="16" font-weight="700">Git 自動建置 (Connect to Git)</text>
-      <text x="0" y="38" fill="#94a3b8" font-size="10.1">連結 GitHub 儲存庫，程式碼推送後在雲端容器自動編譯</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="10.3">需建立 Git 整合專案並連結儲存庫</text>
     </g>
 
     <!-- Steps -->
@@ -106,52 +106,52 @@
       <g transform="translate(0, 0)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="11.4" font-weight="600">開發者提交程式碼: git push origin main</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="9.3">提交程式碼到 GitHub 儲存庫，觸發 GitHub 傳送 Webhook 通知</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">推送生產分支（範例 main）</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">須啟用自動部署，單獨 GitHub CI 成功不會發布</text>
       </g>
 
       <!-- Step 2 -->
       <g transform="translate(0, 48)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">Cloudflare 自動分配雲端建置容器</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="9.2">Pages 調度空閒建置節點，拉取儲存庫分支程式碼到乾淨環境</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="11" font-weight="600">Pages 擷取設定的儲存庫分支</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">依專案設定安裝 Node.js 與 pnpm</text>
       </g>
 
       <!-- Step 3 -->
       <g transform="translate(0, 96)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">雲端執行: pnpm run build</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="9.3">容器自動安裝相依套件、編譯 Astro 網站並產生 Pagefind 索引</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">雲端執行: pnpm run verify</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">先 pnpm install --frozen-lockfile，完成安裝</text>
       </g>
 
       <!-- Step 4 -->
       <g transform="translate(0, 144)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">PR 預覽分支獨立連結產生</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">對 Pull Request 自動產生專屬預覽 URL，方便團隊多人檢視</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">預覽連結取決於專案設定</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">僅為啟用預覽的分支或 PR 產生獨立網址</text>
       </g>
 
       <!-- Step 5 -->
       <g transform="translate(0, 192)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">建置日誌與部署歷史全透明留檔</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">在 Cloudflare 主控台可檢視完整封裝主控台日誌，支援一鍵回滾</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">驗證通過並部署成功後檢查日誌</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="10">在主控台核對狀態、分支、提交與存取網域</text>
       </g>
     </g>
 
     <!-- Bottom Feature Tag -->
     <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8" />
-    <text x="36" y="340" fill="#60a5fa" font-size="10.6">適用場景：多人協作 · 提交即上線 · 成員免配雲端金鑰 · PR 獨立預覽</text>
+    <text x="36" y="340" fill="#60a5fa" font-size="11">適合：多人協作 · 依分支自動部署 · 可設定 PR 預覽</text>
   </g>
 
   <!-- Bottom Common Info Banner -->
   <g transform="translate(45, 492)">
     <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
-    <text x="30" y="28" fill="#10b981" font-size="12" font-weight="700">✓ 雙軌無縫共存</text>
-    <text x="145" y="28" fill="#94a3b8" font-size="11">兩種部署方式可以平滑並存：日常開發可透過 Git 自動化整合，緊急修正或離線除錯可隨時在本機執行 pnpm run deploy 直接覆蓋最新版本。</text>
+    <text x="20" y="18" fill="#10b981" font-size="12" font-weight="700">建立時選定專案類型；兩條路徑均須完整驗證</text>
+    <text x="20" y="35" fill="#94a3b8" font-size="11">Direct Upload 改用 Git 整合須另建專案；Wrangler 發布仍須檢查，圖示不代表已部署。</text>
   </g>
 </svg>

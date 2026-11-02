@@ -9,7 +9,7 @@ description: "EpoCanvas Docs의 완전한 렌더링 규칙: Markdown 파일에�
 
 ## 렌더링 파이프라인: .md 파일에서 온라인 페이지까지
 
-![EpoCanvas Docs Markdown 렌더링 파이프라인 구성도: Markdown 소스 스캔, GFM AST 파싱, 코드 하이라이트, 7개 커스텀 컴포넌트 레이아웃 조립에서 정적 HTML과 Pagefind 인덱스 생성까지의 완전한 5단계 흐름](/images/canvas/docs-render-pipeline.svg)
+![EpoCanvas Docs Markdown 렌더링 파이프라인 구성도: Markdown 소스 스캔, GFM AST 파싱, 코드 하이라이트, 커스텀 컴포넌트 레이아웃 조립에서 정적 HTML과 Pagefind 인덱스 생성까지의 완전한 5단계 흐름](/images/canvas/docs-render-pipeline.svg)
 
 *그림: Markdown 렌더링 파이프라인의 5단계 흐름. 각 단계는 빌드 시점에 순서대로 실행되며, 빌드 산출물은 순수 정적 파일이고 클라이언트에는 런타임 프레임워크 비용이 전혀 없습니다.*
 

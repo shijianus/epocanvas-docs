@@ -28,9 +28,9 @@ Sits at the very top of the page, fixed in place, and stays visible while you sc
 *Figure: close-up of the header elements. (1) Logo and site name; (2) global search box; (3) main navigation buttons; (4) version badge; (5) language switcher; (6) light/dark theme toggle; (7) link to the GitHub repository; (8) link to the Telegram channel.*
 
 - **Site logo and title (1)**: the EpoCanvas icon and project name on the left; click to return to the documentation home page.
-- **Global search box (2)**: type keywords to search within the current page; press `Ctrl+K` / `Cmd+K` to open the site-wide search dialog. See [Full-Text Search & Keyboard Shortcuts](/canvas/search-engine/) for details.
+- **Global search box (2)**: type keywords to search within the current page; press `Ctrl+K` / `Cmd+K` to open the site-wide search dialog. See [Full-Text Search & Keyboard Shortcuts](/canvas/search-engine/) for details. The in-page input is visible only at viewport widths of at least `64rem`; narrower screens retain only the site-wide search button. Use the browser’s Find in Page for the current article. If screenshots differ, follow the current interface.
 - **Main navigation buttons (3)**: quick links to frequently used sections such as "Home", "Product", and "Quickstart"; the section you are currently in is highlighted automatically.
-- **Version badge (4)**: shows the release version that the current documentation corresponds to (for example `v1.3.1`); click to view the detailed changelog on GitHub.
+- **Version badge (4)**: shows repository version metadata, currently candidate `v1.3.2-beta.1`, and links to GitHub release history. The badge does not prove that this candidate is deployed to production.
 - **Language switcher (5)**: click the language button to expand a list of 10 available languages. Choosing one takes you to the same article in that language, switching the navigation, sidebar, and body text together.
 - **Light/dark theme toggle (6)**: a sun/moon icon that switches between light mode and dark mode.
 - **GitHub and Telegram (7, 8)**: the icons on the right link to the open-source repository and the technical channel.
@@ -66,7 +66,7 @@ Sits to the right of the body text:
 
 EpoCanvas Docs ships both a light and a dark theme. Both color schemes are defined entirely by CSS variables in `src/styles/custom.css`:
 
-- **Follow the system preference**: on first visit, the site detects the operating system's light/dark setting and shows the matching theme.
+- On a first visit with no saved theme choice, the interface follows the system’s light/dark preference; it is not fixed to dark by default. A manually saved browser choice takes precedence.
 - **Manual toggle with memory**: clicking the theme toggle in the header switches manually; the choice is stored in the browser's LocalStorage and persists across visits.
 
 ![Reading interface in light mode](/images/canvas/ui-theme-light.png)

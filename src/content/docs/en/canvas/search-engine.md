@@ -3,7 +3,7 @@ title: Full-Text Search & Keyboard Shortcuts
 description: "How to use the two search modes in EpoCanvas Docs: the header in-page search and the Ctrl+K site-wide search dialog, plus the local static index mechanism."
 ---
 
-When working through large amounts of technical documentation, quickly finding the configuration option or parameter you need matters. **EpoCanvas Docs** has a built-in **dual-mode search**: the header search box locates text within the current page, while the `Ctrl+K` dialog searches all documentation across the site. Both modes run entirely in the browser, require no backend service, and work even when the site is hosted on an intranet without internet access.
+**EpoCanvas Docs** offers in-page and site-wide search. At viewport widths of `64rem` or more, the header shows the in-page input; below `64rem`, it shows only the site-wide search button. Site-wide search uses a Pagefind static index, without a search backend.
 
 ---
 
@@ -11,58 +11,58 @@ When working through large amounts of technical documentation, quickly finding t
 
 | Scenario | Mode | How |
 | :--- | :--- | :--- |
-| You remember the text is in **the current article** | In-page search | Click the search box in the header and type keywords |
-| You are not sure **which article** has the content and need a site-wide search | Site-wide search | Press `Ctrl + K` (`Cmd + K` on Mac) |
+| The text is in **the current article** | In-page search | Use the header input at `64rem` or wider; on narrow screens use the browser’s Find in Page |
+| You do not know **which article** contains the text | Site-wide search | Click the header search button or press `Ctrl + K` (`Cmd + K` on Mac) |
 
 ---
 
 ## In-Page Search: the Header Search Box
 
-Click the search box in the middle of the page header (magnifier icon) and type keywords directly:
+These instructions apply at viewport widths of at least `64rem`. Click the header’s in-page input and type keywords. Below that width, the input, counter, and match controls are hidden; only the magnifier button that opens site-wide search remains. Use the browser’s Find in Page for the current article on narrow screens.
 
 ![Annotated view of in-page search in the header: (1) input box, (2) match counter, (3) previous/next navigation, (4) clear button, (5) highlights on the page](/images/canvas/ui-inpage-search.png)
 
-*Figure: what the header search box looks like after typing "部署" ("deploy"). (1) Header input box; (2) match counter (e.g. `1/26`); (3) previous / next navigation buttons; (4) clear button; (5) all matching text on the current page is highlighted automatically.*
+*Figure: an existing in-page search screenshot, provided for orientation. The current counter, previous/next, and clear controls appear below the input, not inside it, and are hidden on narrow screens. If positions, counts, or layout in the screenshot differ, follow the actual interface.*
 
 ### Enter Keywords
 
-Supports English phrases (such as "deployment", "components"), Chinese words, and code snippets (such as `pnpm`, `astro.config.mjs`). While you type, all matching text on the current page is immediately highlighted and the page scrolls to the first match.
+Enter words or code snippets such as `pnpm` and `astro.config.mjs`. Matching visible body text is highlighted and the page scrolls to the first match. Navigation and hidden content are excluded.
 
 ### Jump Between Matches
 
-- Press <kbd>Enter</kbd> or click the down arrow: jump to the next match;
-- Press <kbd>Shift + Enter</kbd> or click the up arrow: return to the previous match;
-- The search box shows a live `N/M` progress counter (e.g. `3/9`), so you always know where you are.
+- With the input focused, press <kbd>Enter</kbd>, or click the down-arrow button, to move to the next match;
+- With the input focused, press <kbd>Shift + Enter</kbd>, or click the up-arrow button, to move to the previous match;
+- Controls below the input show an `N/M` counter (for example `3/9`), indicating the current match and total.
 
 ### Clear the Search and Restore the Page
 
-Press <kbd>Esc</kbd> or click the `×` button to remove all highlights and restore the page.
+With focus in the in-page input, press <kbd>Esc</kbd>, or click the `×` clear button, to clear the query and remove highlights.
 
 ---
 
 ## Site-Wide Search: the Ctrl+K Dialog
 
-No matter which page you are on, press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd</kbd> + <kbd>K</kbd> on Mac), or click the `Ctrl K` badge on the right of the search box, and a global search window opens in the middle of the screen:
+Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd</kbd> + <kbd>K</kbd> on Mac), or click the header’s site-wide search button. Wide screens show a shortcut badge; below `64rem` the button is a magnifier icon. It still opens site-wide search, not an in-page input.
 
 ![Annotated view of the site-wide search dialog: (1) trigger badge, (2) search input box, (3) results list, (4) keyboard shortcut bar](/images/canvas/ui-search-modal.png)
 
-*Figure: what the dialog looks like after typing "部署" ("deploy"). (1) The `Ctrl K` badge next to the search box (clicking it also opens the dialog); (2) search input box; (3) results grouped by document, with matching keywords highlighted; (4) keyboard shortcut hints at the bottom.*
+*Figure: an existing site-wide search screenshot showing the input and results. If button positions or shortcut hints differ from the current layout, follow the actual interface and the instructions below. The current interface uses Tab to focus links; the footer hints may be hidden on narrow screens.*
 
 ### Enter Keywords
 
-Supports English phrases (such as "deployment", "components"), Chinese words, and code snippets (such as `pnpm`, `astro.config.mjs`). Results whose titles match are listed first.
+Enter words in the current page’s language or code snippets such as `pnpm` and `astro.config.mjs`. Pagefind ranks results by relevance; a title match is not guaranteed to come first.
 
 ### Browse the Results List
 
-Results are grouped by document. Each entry shows the document title, the section it belongs to, and a context preview containing the keywords, with matching words highlighted. Click a group title to expand or collapse the matching paragraphs for that document.
+Results are organized by document, with a title, matching excerpt, and available section sub-results. Matching terms are highlighted. Titles and sub-results are links: a title opens the document, and a section link follows its anchor. A document title is not an expand/collapse control.
 
 ### Complete the Whole Flow with the Keyboard
 
-- <kbd>↑</kbd> <kbd>↓</kbd>: move the selection between results;
-- <kbd>Enter</kbd>: open the selected result and jump to the matching paragraph;
+- <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd>: move focus through inputs, buttons, and result links;
+- With a result link focused, press <kbd>Enter</kbd> to open it; section links follow their anchors;
 - <kbd>Esc</kbd>: close the dialog.
 
-No mouse required at any point.
+The current Pagefind interface does not use <kbd>↑</kbd> / <kbd>↓</kbd> to select results and does not expand matching passages when you click a document title.
 
 ---
 
@@ -77,13 +77,13 @@ Documentation search on many websites sends requests to a remote server's databa
 EpoCanvas Docs uses **Pagefind**, a local static search solution:
 
 1. **Index extracted at build time**: when you run `pnpm run build`, the system reads the content of every document and produces a set of compressed static index chunk files.
-2. **Lightweight on-demand downloads**: when you type in the search box, the browser fetches only the index chunks for the characters entered (each just a few KB to a few dozen KB).
-3. **Instant local matching**: matching and ranking happen entirely in the browser, so there is no network latency, and search works fully even on an intranet with no internet access.
+2. **On-demand index downloads**: the browser loads search code and the required index chunks from this site. Initial loading or missing cached files still involves network requests.
+3. **Matching in the browser**: once the index is loaded, matching and ranking run locally. An intranet deployment must serve the search assets too; local computation does not mean a first visit works without a network.
 
 ---
 
 ## Search Tips
 
 - **Split into words**: for more precise results, enter several words separated by spaces (for example `Cloudflare domain`).
-- **Titles rank first**: document titles and section headings carry the highest weight in ranking, so results with keyword hits in the title come first.
+- **Use specific terms**: titles and section names can help narrow the search, but Pagefind determines the order by relevance.
 - **Dev mode limitation**: the site-wide index is only generated at build time, and in the dev server started with `pnpm run dev` the `Ctrl+K` dialog does not load the index, so site-wide search is unavailable there. To try the search, run `pnpm run build` and then `pnpm run preview` to view the built site. In-page search is not affected.

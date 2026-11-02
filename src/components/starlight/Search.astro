@@ -16,8 +16,15 @@ const pagefindTranslations = {
 	),
 };
 
+const searchCopy = {
+	loading: t('search.initLoading'),
+	error: t('search.initError'),
+	retry: t('search.retry'),
+	development: t('search.devUnavailable'),
+};
 const dataAttributes: DOMStringMap = {
 	'data-translations': JSON.stringify(pagefindTranslations),
+	'data-search-copy': JSON.stringify(searchCopy),
 	'data-zero-results': t('search.zeroResults'),
 };
 if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash'] = '';
@@ -98,7 +105,9 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			</div>
 
 			<div class="modal-body">
-				<div class="search-container">
+				<p id="epo-search-status" class="search-status" role="status" aria-live="polite" aria-atomic="true"></p>
+				<button type="button" data-retry-search class="search-retry" hidden>{t('search.retry')}</button>
+				<div class="search-container" aria-busy="false">
 					<div id="starlight__search"></div>
 				</div>
 			</div>
@@ -145,6 +154,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 <script>
 	import { pagefindUserConfig } from 'virtual:starlight/pagefind-config';
+	import { findCaseInsensitiveRanges } from '../../utils/inpage-search';
 
 	class SiteSearch extends HTMLElement {
 		constructor() {
@@ -255,8 +265,6 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 					}
 				}
 
-				const lowerQuery = clean.toLowerCase();
-				const qLen = clean.length;
 				const newMatches: HTMLElement[] = [];
 
 				for (const textNode of nodesToReplace) {
@@ -264,24 +272,23 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 					const parent = textNode.parentNode;
 					if (!parent) continue;
 
-					let index = text.toLowerCase().indexOf(lowerQuery);
-					if (index === -1) continue;
+					const ranges = findCaseInsensitiveRanges(text, clean);
+					if (ranges.length === 0) continue;
 
 					const frag = document.createDocumentFragment();
 					let lastIndex = 0;
 
-					while (index !== -1) {
-						if (index > lastIndex) {
-							frag.appendChild(document.createTextNode(text.substring(lastIndex, index)));
+					for (const { start, end } of ranges) {
+						if (start > lastIndex) {
+							frag.appendChild(document.createTextNode(text.substring(lastIndex, start)));
 						}
 						const mark = document.createElement('mark');
 						mark.className = 'epo-doc-highlight';
-						mark.textContent = text.substring(index, index + qLen);
+						mark.textContent = text.substring(start, end);
 						frag.appendChild(mark);
 						newMatches.push(mark);
 
-						lastIndex = index + qLen;
-						index = text.toLowerCase().indexOf(lowerQuery, lastIndex);
+						lastIndex = end;
 					}
 
 					if (lastIndex < text.length) {
@@ -290,6 +297,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 					parent.replaceChild(frag, textNode);
 				}
+
 
 				matches = newMatches;
 				if (matches.length > 0) {
@@ -389,7 +397,9 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : modalTrigger;
 				dialog.showModal();
 				document.body.setAttribute('data-search-modal-open', '');
-				this.querySelector<HTMLInputElement>('#starlight__search input')?.focus();
+				void ensurePagefind().then(() => {
+					if (dialog.open && initState === 'ready') searchRoot.querySelector<HTMLInputElement>('input')?.focus();
+				});
 				window.addEventListener('click', onClick);
 			};
 
@@ -443,22 +453,63 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				}
 			});
 
-			let translations = {};
+			let translations: Record<string, string> = {};
+			let copy: Record<string, string> = {};
 			try {
 				translations = JSON.parse(this.dataset.translations || '{}');
+				copy = JSON.parse(this.dataset.searchCopy || '{}');
 			} catch {}
 
+			const searchRoot = this.querySelector<HTMLElement>('#starlight__search')!;
+			const searchContainer = this.querySelector<HTMLElement>('.search-container')!;
+			const status = this.querySelector<HTMLElement>('#epo-search-status')!;
+			const retryBtn = this.querySelector<HTMLButtonElement>('[data-retry-search]')!;
+			retryBtn.textContent = copy.retry || retryBtn.textContent;
+			let initState: 'idle' | 'loading' | 'ready' | 'error' | 'development' = 'idle';
+			let initPromise: Promise<void> | null = null;
+			let pagefindUI: { destroy: () => void } | undefined;
+			const announce = (state: string, message: string) => {
+				this.dataset.searchState = state;
+				if (status.textContent !== message) status.textContent = message;
+				searchContainer.setAttribute('aria-busy', String(state === 'loading' || state === 'searching'));
+			};
+
+			// Pagefind 默认 UI 无公开错误事件。这里只观察已渲染的消息和列表，
+			// 不把搜索网络错误伪装成可捕获的初始化错误。
+			const syncResults = () => {
+				if (initState !== 'ready') return;
+				const input = searchRoot.querySelector<HTMLInputElement>('input');
+				input?.setAttribute('aria-label', translations.search_label || dialog.getAttribute('aria-label') || '');
+				const drawer = searchRoot.querySelector('.pagefind-ui__drawer:not(.pagefind-ui__hidden)');
+				const message = drawer?.querySelector('.pagefind-ui__message')?.textContent?.trim() || '';
+				if (!input?.value.trim() || !message) {
+					announce('ready', '');
+					return;
+				}
+				const results = drawer?.querySelector('.pagefind-ui__results');
+				announce(!results ? 'searching' : results.children.length ? 'results' : 'zero', message);
+			};
+			const resultsObserver = new MutationObserver(syncResults);
 			const shouldStrip = this.dataset.stripTrailingSlash !== undefined;
 			const stripTrailingSlash = (path: string) => path.replace(/(.)\/(#.*)?$/, '$1$2');
 			const formatURL = shouldStrip ? stripTrailingSlash : (path: string) => path;
 
-				const initPagefind = () => {
-					if (import.meta.env.DEV) return;
-					const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-					onIdle(async () => {
+			const ensurePagefind = (): Promise<void> => {
+				if (initState === 'ready') return Promise.resolve();
+				if (initPromise) return initPromise;
+				if (import.meta.env.DEV) {
+					initState = 'development';
+					announce('development', copy.development);
+					return Promise.resolve();
+				}
+				initState = 'loading';
+				retryBtn.hidden = true;
+				announce('loading', copy.loading);
+				initPromise = (async () => {
+					try {
 						// @ts-expect-error — Missing types for @pagefind/default-ui package.
 						const { PagefindUI } = await import('@pagefind/default-ui');
-						new PagefindUI({
+						pagefindUI = new PagefindUI({
 							...pagefindUserConfig,
 							element: '#starlight__search',
 							baseUrl: import.meta.env.BASE_URL,
@@ -466,25 +517,48 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 							showImages: false,
 							translations,
 							showSubResults: true,
+							autofocus: false,
+							focusOnSlash: false,
 							processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
 								result.url = formatURL(result.url);
 								result.sub_results = result.sub_results.map((sub_result) => {
 									sub_result.url = formatURL(sub_result.url);
 									return sub_result;
 								});
+								return result;
 							},
 						});
-					});
-				};
-
-				if (document.readyState === 'loading') {
-					window.addEventListener('DOMContentLoaded', initPagefind);
-				} else {
-					initPagefind();
+						if (!searchRoot.querySelector('input')) throw new Error('Pagefind UI did not mount');
+						initState = 'ready';
+						resultsObserver.observe(searchRoot, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class'] });
+						syncResults();
+					} catch (error) {
+						resultsObserver.disconnect();
+						pagefindUI?.destroy();
+						pagefindUI = undefined;
+						searchRoot.replaceChildren();
+						initState = 'error';
+						announce('error', copy.error);
+						retryBtn.hidden = false;
+						console.error('Pagefind UI initialization failed', error);
+					}
+				})().finally(() => { initPromise = null; });
+				return initPromise;
+			};
+			retryBtn.addEventListener('click', async () => {
+				await ensurePagefind();
+				if (dialog.open && initState === 'ready') searchRoot.querySelector<HTMLInputElement>('input')?.focus();
+			});
+			window.addEventListener('pagehide', () => resultsObserver.disconnect());
+			window.addEventListener('pageshow', () => {
+				if (initState === 'ready') {
+					resultsObserver.observe(searchRoot, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class'] });
+					syncResults();
 				}
-			}
+			});
 		}
-		customElements.define('site-search', SiteSearch);
+	}
+	customElements.define('site-search', SiteSearch);
 </script>
 
 <style>
@@ -926,4 +1000,34 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				transition: none !important;
 			}
 		}
+	.search-status:empty { display: none; }
+	.search-status { margin: 0 0 0.75rem; }
+	.search-retry {
+		min-height: 44px;
+		margin-bottom: 0.75rem;
+		padding: 0.4rem 0.85rem;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: 6px;
+		background: var(--sl-color-bg);
+		color: var(--sl-color-white);
+		cursor: pointer;
+	}
+	/* Pagefind 自带可视消息；live region 镜像相同文本，避免视觉上重复。 */
+	site-search[data-search-state='searching'] .search-status,
+	site-search[data-search-state='results'] .search-status,
+	site-search[data-search-state='zero'] .search-status {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	@media (max-height: 30rem) {
+		.epo-search-dialog { padding: 0.5rem; }
+		.epo-search-modal-frame { max-height: calc(100dvh - 1rem); }
+		.modal-header { flex-shrink: 0; padding-block: 0.25rem; }
+		.modal-body { min-height: 0; max-height: none; padding: 0.75rem; }
+		.modal-footer { display: none; }
+	}
 </style>

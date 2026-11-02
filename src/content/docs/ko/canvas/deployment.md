@@ -61,11 +61,11 @@ description: EpoCanvas Docs 로컬 환경 준비, 의존성 설치, 로컬 개�
 
 | 도구 | 필수 버전 | 확인 명령어 | 설명 |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | JavaScript 실행과 정적 페이지 빌드에 사용하는 환경 |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | JavaScript 실행과 정적 페이지 빌드에 사용하는 환경 |
 | **pnpm** | `10.34.5` | `pnpm -v` | 프로젝트에서 고정한 패키지 관리자 버전 |
 | **Git** | 최신 안정 버전 | `git --version` | 코드 가져오기와 버전 관리에 사용 |
 
-CI는 `.node-version`에 고정된 Node.js 22.20.0을 사용합니다.
+CI는 `.node-version`에 고정된 Node.js 22.23.4을 사용합니다. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 컴퓨터에 `pnpm`이 아직 설치되어 있지 않다면, Node.js에 내장된 npm으로 빠르게 전역 설치할 수 있습니다:
@@ -113,7 +113,7 @@ pnpm run dev
 터미널에 아래와 비슷한 정보가 출력됩니다(첫 시작 시 의존성 사전 컴파일 때문에 몇 초가 걸립니다):
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

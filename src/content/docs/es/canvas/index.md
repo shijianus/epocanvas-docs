@@ -3,7 +3,7 @@ title: Descripción del producto y valor clave
 description: "Manual de producto oficial de EpoCanvas Docs: un sitio de documentación estático de alto rendimiento diseñado para proyectos de código abierto; posicionamiento del producto, ventajas principales y problemas que resuelve."
 ---
 
-**EpoCanvas Docs** es el sistema oficial de sitio de documentación técnica creado específicamente para el ecosistema de código abierto EpoCanvas. Está construido sobre el framework moderno de sitios estáticos **Astro 5** y **Starlight**, y su objetivo es ofrecer a los desarrolladores una plataforma de documentación con una maquetación profesional, carga rápida, búsqueda cómoda y fácil mantenimiento.
+**EpoCanvas Docs** es el sistema oficial de sitio de documentación técnica creado específicamente para el ecosistema de código abierto EpoCanvas. Está construido sobre el framework moderno de sitios estáticos **Astro 7** y **Starlight**, y su objetivo es ofrecer a los desarrolladores una plataforma de documentación con una maquetación profesional, carga rápida, búsqueda cómoda y fácil mantenimiento.
 
 Tanto si se trata de escribir el manual de usuario de un producto, la especificación de una API o la documentación del diseño de la arquitectura de un sistema, EpoCanvas Docs permite al autor concentrarse en escribir buen contenido en Markdown, mientras ofrece al lector una experiencia de navegación cómoda y natural.
 
@@ -36,7 +36,7 @@ EpoCanvas Docs se diseñó precisamente para resolver estos problemas reales.
 
 ### 2. Búsqueda de doble modo: búsqueda en la página + búsqueda en todo el sitio
 
-- **Búsqueda en la página actual**: escriba palabras clave directamente en el cuadro de búsqueda de la parte superior; todo el texto coincidente de la página se resalta al instante, con un contador de progreso como `3/9`, y Enter salta de una coincidencia a la siguiente.
+- **Búsqueda en la página actual**: escriba palabras clave directamente en el cuadro de búsqueda de la parte superior; todo el texto coincidente de la página se resalta al instante, con un contador de progreso como `3/9`, y Enter salta de una coincidencia a la siguiente. El campo de búsqueda en la página solo aparece desde `64rem`; por debajo queda el botón global. Use Buscar en la página del navegador para el artículo actual. Si las capturas difieren, prevalece la interfaz actual.
 - **Ventana emergente de búsqueda en todo el sitio**: pulse `Ctrl + K` (`Cmd + K` en Mac) para abrir la ventana de búsqueda global, basada en el índice estático de Pagefind, que muestra todos los documentos y fragmentos coincidentes.
 - Toda la capacidad de búsqueda se ejecuta localmente en el navegador, sin depender de ningún servicio de backend, y funciona incluso alojada en una intranet.
 
@@ -44,7 +44,7 @@ EpoCanvas Docs se diseñó precisamente para resolver estos problemas reales.
 
 - Admite 10 idiomas: chino simplificado, chino tradicional, inglés, japonés, coreano, español, francés, alemán, ruso y portugués; la navegación, la barra lateral y el cuerpo de todos los documentos están completamente traducidos en cada idioma.
 - Al hacer clic en el botón de idioma de la esquina superior derecha se salta a la versión del mismo artículo en el idioma elegido; la URL lleva el prefijo del idioma (por ejemplo, `/en/canvas/`), de modo que se puede guardar en favoritos o compartir con compañeros que usen otros idiomas.
-- Cuando a una página concreta aún le falta la traducción a algún idioma, esa página muestra automáticamente como fallback el contenido chino predeterminado, sin generar ningún error 404.
+- El fallback al idioma predeterminado es solo una protección. Complete los 10 idiomas antes de publicar; las traducciones ausentes hacen fallar `audit-i18n` y CI.
 
 ### 4. Maquetación profesional de Markdown y código
 
@@ -54,7 +54,7 @@ EpoCanvas Docs se diseñó precisamente para resolver estos problemas reales.
 
 ### 5. Compilación rápida y alojamiento gratuito
 
-- Compilación estática basada en Astro 5: el resultado son HTML y CSS puros con un poco de JS cargado bajo demanda; todo el sitio, con sus 10 idiomas y unas 180 páginas, se compila por completo en unos 25 segundos.
+- Compilación estática basada en Astro 7: el resultado son HTML y CSS puros con un poco de JS cargado bajo demanda; todo el sitio, con sus 10 idiomas y unas 180 páginas, se compila por completo en unos 25 segundos.
 - Incluye el comando de despliegue para Cloudflare Pages preconfigurado: con una sola instrucción se publica la documentación en línea y se obtiene automáticamente el certificado HTTPS.
 
 ---
@@ -67,7 +67,7 @@ Para que la documentación se mantenga ligera y fácil de mantener, el sistema s
 
 *Figura: arquitectura del sistema. Quien escribe solo necesita mantener el contenido fuente en Markdown; todo lo demás se hace automáticamente.*
 
-- **Base y estilos**: núcleo estático basado en Astro 5; las variables de diseño se definen en `src/styles/custom.css`, y los modos claro y oscuro comparten los mismos nombres de variables.
+- **Base y estilos**: núcleo estático basado en Astro 7; las variables de diseño se definen en `src/styles/custom.css`, y los modos claro y oscuro comparten los mismos nombres de variables.
 - **Gestión del contenido fuente**: toda la documentación se guarda en el directorio `src/content/docs/`, escrita en Markdown puro (`.md`) o en MDX (`.mdx`) con posibilidad de incrustar componentes.
 - **Componentes de interfaz**: sobrescribiendo los componentes nativos de Starlight se han personalizado la barra superior, la barra lateral, el índice de la página y la ventana de búsqueda.
 - **Distribución y acceso**: el resultado de la compilación se guarda en el directorio `dist/` y se aloja en Cloudflare Pages, que responde desde el nodo CDN global más cercano.
@@ -90,7 +90,7 @@ EpoCanvas Docs es adecuado para los siguientes escenarios:
 
 | Característica | EpoCanvas Docs | Docusaurus | VitePress | GitBook comercial |
 | :--- | :--- | :--- | :--- | :--- |
-| **Tecnología base** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Plataforma SaaS de código cerrado |
+| **Tecnología base** | Astro 7 + Starlight | React 18 | Vue 3 + Vite | Plataforma SaaS de código cerrado |
 | **Mecanismo de búsqueda** | Índice estático local de Pagefind | Puede usar Algolia u otro proveedor configurado | Búsqueda en memoria con Minisearch | Motor de búsqueda de backend propio |
 | **Diseño del layout** | Tres columnas (menú a la izquierda + cuerpo en el centro + índice a la derecha) | Requiere configurar plugins para modificarlo | Dos/tres columnas predeterminadas | Dos columnas fijas |
 | **Método de despliegue** | Subida directa a Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Alojamiento privado de la plataforma |
@@ -104,12 +104,12 @@ Stack tecnológico realmente usado en la versión actual (según el resultado de
 
 | Componente | Versión | Función |
 | :--- | :--- | :--- |
-| **Astro** | v5.18.2 | Núcleo del sitio estático, encargado de la compilación y el enrutado |
-| **Starlight** | v0.32.6 | Framework del sitio de documentación, aporta el esqueleto del layout y el procesado del contenido |
+| **Astro** | v7.4.4 | Núcleo del sitio estático, encargado de la compilación y el enrutado |
+| **Starlight** | v0.41.11 | Framework del sitio de documentación, aporta el esqueleto del layout y el procesado del contenido |
 | **Expressive Code** | Integrado con Starlight | Resaltado de bloques de código, barra de título y resaltado de líneas |
-| **Pagefind** | Integrado vía `@pagefind/default-ui` 1.5.2 | Genera el índice de búsqueda estático durante la compilación |
-| **Wrangler** | v4.131.0 | CLI oficial de Cloudflare, ejecuta el despliegue |
-| **Entorno de ejecución** | Node.js 22.20+ (22.x) o Node.js 24.12+, pnpm 10.34.5 | Requisitos para desarrollo, compilación y despliegue |
+| **Pagefind** | Integrado vía `@pagefind/default-ui` 1.6.0 | Genera el índice de búsqueda estático durante la compilación |
+| **Wrangler** | v4.156.1 | CLI oficial de Cloudflare, ejecuta el despliegue |
+| **Entorno de ejecución** | Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0, pnpm 10.34.5 | Requisitos para desarrollo, compilación y despliegue |
 
 Al actualizar las dependencias, lea también las precauciones sobre pruebas de regresión de [Componentes de interfaz y desarrollo a medida](/canvas/components/).
 

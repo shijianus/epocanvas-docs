@@ -27,7 +27,7 @@ src/content/docs/
 - **Exigences sur les noms de fichiers** : utilisez des lettres minuscules et des tirets (par exemple `quickstart-guide.md`), sans caractères chinois ni espaces. Le nom de fichier détermine l'URL d'accès : `canvas/deployment.md` correspond à `/canvas/deployment/`.
 - **Extension** : en général, un fichier `.md` en texte brut suffit ; si vous devez intégrer des composants interactifs dans l'article (comme la grille de cartes de la page d'accueil), utilisez le format `.mdx`.
 - **Enregistrement dans la barre latérale** : après création d'un fichier, il faut l'enregistrer dans le tableau `sidebar` de `astro.config.mjs`, sinon il n'apparaîtra pas dans le catalogue à gauche.
-- **Traductions multilingues** : les traductions dans les autres langues sont placées dans le répertoire `src/content/docs/<langue>/`, avec une structure de sous-répertoires identique à la version chinoise (par exemple `en/canvas/deployment.md` correspond à la version anglaise du démarrage rapide) ; les pages dont la traduction n'existe pas encore affichent automatiquement le contenu chinois en repli.
+- **Traductions multilingues** : lors de l’ajout ou de la modification d’un document, mettez à jour ses équivalents dans `src/content/docs/<locale>/` pour les 9 autres langues, en conservant la structure chinoise (par exemple `en/canvas/deployment.md`). Complétez aussi les `translations` de la barre latérale et les images à traduire dans `public/images/canvas/<locale>/`. Les 10 langues doivent être complètes avant publication ; les traductions manquantes font échouer `pnpm run verify` et la CI. Le repli vers le chinois est seulement une protection du framework, pas une autorisation de publier des traductions incomplètes.
 
 ---
 

@@ -25,9 +25,11 @@ This page organizes the most common customization needs into a quick reference y
    { label: 'User Guide', link: '/canvas/user-guide/' }
    ```
 
-4. Save and confirm in local preview that it appears in the left sidebar, then run `pnpm run deploy` to publish.
+4. Complete the matching `src/content/docs/<locale>/canvas/user-guide.md` in the other 9 language directories, along with sidebar `translations` and any images that need translation. Missing translations fail the publication checks.
+5. Check the navigation and content locally, run `pnpm run verify`, then inspect the build with `pnpm run preview`.
+6. After review and merging, a maintainer publishes from a clean `main` branch that tracks `origin/main`, with HEAD matching the remote commit. Authorize with `pnpm exec wrangler login`, then run `pnpm run deploy`. For your own fork, first configure your target project as described in the [deployment guide](/canvas/cloudflare/); do not reuse the maintainer's deployment settings unchanged.
 
-:::warning
+:::caution
 If you create the file without registering it in `sidebar`, the page is accessible but does not appear in the left sidebar — the most common beginner mistake.
 :::
 
@@ -128,7 +130,7 @@ export const UI_TRANSLATIONS = {
 };
 ```
 
-Languages you miss automatically fall back to the Chinese default without errors. After saving, local hot reload shows the change immediately; no build required.
+`getTranslation` first uses the current language's existing non-empty value. It falls back to Chinese only if the key is missing or empty, and to the key name if Chinese is missing too. An existing translation that you do not update keeps its old value, so synchronize changes across all 10 languages. Local hot reload shows saved changes without a build.
 
 ---
 

@@ -61,11 +61,11 @@ Die Ein-Klick-Bereitstellung eignet sich, um die Site zunächst zu veröffentlic
 
 | Werkzeug | Erforderliche Version | Prüf-Befehl | Erläuterung |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Umgebung zum Ausführen von JavaScript und Bauen statischer Seiten |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | Umgebung zum Ausführen von JavaScript und Bauen statischer Seiten |
 | **pnpm** | `10.34.5` | `pnpm -v` | Vom Projekt festgelegte Paketmanager-Version |
 | **Git** | neueste stabile Version | `git --version` | Für das Abrufen des Codes und die Versionsverwaltung |
 
-Die CI verwendet Node.js 22.20.0, festgelegt in `.node-version`.
+Die CI verwendet Node.js 22.23.4, festgelegt in `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 Falls `pnpm` auf Ihrem Rechner noch nicht installiert ist, können Sie es schnell global über das in Node.js enthaltene npm installieren:
@@ -113,7 +113,7 @@ pnpm run dev
 Das Terminal gibt eine Ausgabe ähnlich der folgenden aus (beim ersten Start müssen Abhängigkeiten vorkompiliert werden, was einige Sekunden dauert):
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

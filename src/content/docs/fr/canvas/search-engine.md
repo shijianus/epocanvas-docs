@@ -3,7 +3,7 @@ title: Recherche plein texte et raccourcis clavier
 description: "Mode d'emploi de la recherche bimodale d'EpoCanvas Docs : recherche dans la page depuis la barre supérieure et fenêtre de recherche site-wide via Ctrl+K, avec mécanisme d'index statique local."
 ---
 
-Lors de la consultation d'une grande quantité de documentation technique, retrouver rapidement l'option de configuration ou le paramètre recherché est essentiel. **EpoCanvas Docs** intègre une **recherche bimodale** : le champ de recherche de la barre supérieure assure un repérage rapide dans la page courante, tandis que la fenêtre `Ctrl+K` permet d'interroger l'ensemble des documents du site. Les deux recherches s'effectuent entièrement en local dans le navigateur, sans aucun service backend ; le site reste donc utilisable même hébergé sur un intranet sans accès à Internet.
+**EpoCanvas Docs** propose une recherche dans la page et une recherche globale. À partir de `64rem` de largeur, le champ apparaît dans l’en-tête ; en dessous, seul le bouton de recherche globale reste visible. Cette recherche utilise l’index statique Pagefind, sans backend de recherche.
 
 ---
 
@@ -11,58 +11,58 @@ Lors de la consultation d'une grande quantité de documentation technique, retro
 
 | Situation | Recherche à utiliser | Comment procéder |
 | :--- | :--- | :--- |
-| Vous vous souvenez qu'un passage se trouve dans **l'article courant** | Recherche dans la page | Cliquez directement sur le champ de recherche de la barre supérieure et saisissez les mots-clés |
-| Vous ne savez pas dans **quel article** se trouve le contenu et devez chercher sur tout le site | Recherche site-wide | Appuyez sur `Ctrl + K` (`Cmd + K` sur Mac) |
+| Le texte se trouve dans **l’article courant** | Recherche dans la page | Champ supérieur à partir de `64rem` ; sinon, Rechercher dans la page du navigateur |
+| Vous ignorez **dans quel article** chercher | Recherche globale | Bouton de l’en-tête ou `Ctrl + K` (`Cmd + K` sur Mac) |
 
 ---
 
 ## Recherche dans la page : le champ de recherche de la barre supérieure
 
-Cliquez sur le champ de recherche au centre de la barre supérieure (icône en forme de loupe) et saisissez directement les mots-clés :
+Ces instructions s’appliquent à une largeur d’au moins `64rem`. Saisissez les mots-clés dans le champ supérieur. En dessous, le champ, le compteur et les commandes sont masqués ; seule la loupe ouvrant la recherche globale reste visible. Pour l’article courant, utilisez la recherche intégrée au navigateur.
 
 ![Image annotée de la recherche dans la page depuis la barre supérieure : ① champ de saisie ② compteur de correspondances ③ navigation précédent/suivant ④ effacement ⑤ surlignage dans la page](/images/canvas/ui-inpage-search.png)
 
-*Figure : rendu annoté réel après saisie de « déploiement » dans le champ de recherche de la barre supérieure. ① champ de saisie de la barre supérieure ; ② compteur de correspondances (N-ième correspondance sur M au total) ; ③ boutons de navigation précédent / suivant ; ④ bouton d'effacement ; ⑤ surlignage automatique de toutes les occurrences dans la page courante.*
+*Figure : capture existante fournie à titre de repère. Le compteur et les commandes précédent/suivant et effacer se trouvent maintenant sous le champ, pas à l’intérieur, et sont masqués sur écran étroit. Si leur position, les nombres ou la disposition diffèrent, fiez-vous à l’interface réelle.*
 
 ### Saisir les mots-clés
 
-Les recherches acceptent les expressions en français ou en anglais (par exemple « déploiement », « composant »), les mots anglais ainsi que des extraits de code (par exemple `pnpm`, `astro.config.mjs`). Pendant la saisie, tous les textes correspondants de la page courante sont immédiatement surlignés et la page défile automatiquement jusqu'à la première correspondance.
+Saisissez des mots ou du code comme `pnpm` et `astro.config.mjs`. Les correspondances visibles du corps sont surlignées et la première est affichée. La navigation et le contenu masqué sont exclus.
 
 ### Naviguer entre les correspondances
 
-- <kbd>Entrée</kbd> ou la flèche vers le bas : passer à la correspondance suivante ;
-- <kbd>Maj + Entrée</kbd> ou la flèche vers le haut : revenir à la correspondance précédente ;
-- Le champ de recherche affiche en temps réel le compteur de progression `N-ième correspondance sur M au total`, pour savoir où vous en êtes à tout moment.
+- Avec le champ actif, <kbd>Entrée</kbd> ou le bouton flèche bas : correspondance suivante ;
+- Avec le champ actif, <kbd>Maj + Entrée</kbd> ou le bouton flèche haut : correspondance précédente ;
+- Sous le champ, le compteur `N/M` (par exemple `3/9`) indique la correspondance courante et le total.
 
 ### Effacer la recherche et restaurer la page
 
-Appuyez sur <kbd>Échap</kbd> ou cliquez sur le bouton `×` pour effacer tout le surlignage et restaurer l'état initial de la page.
+Avec le focus dans le champ, appuyez sur <kbd>Échap</kbd>, ou cliquez sur `×`, pour effacer la requête et le surlignage.
 
 ---
 
 ## Recherche site-wide : la fenêtre Ctrl+K
 
-Où que vous soyez sur le site, appuyez sur le raccourci clavier <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd</kbd> + <kbd>K</kbd> sur Mac), ou cliquez sur le badge `Ctrl K` situé à droite du champ de recherche : une fenêtre de recherche globale apparaît au centre de l'écran :
+Appuyez sur <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>Cmd</kbd> + <kbd>K</kbd> sur Mac), ou sur le bouton de l’en-tête. Il affiche le raccourci sur écran large et une loupe sous `64rem`. Les deux ouvrent la recherche globale, pas un champ de recherche dans la page.
 
 ![Image annotée de la fenêtre de recherche site-wide : ① badge de déclenchement ② champ de recherche ③ liste de résultats ④ barre des raccourcis clavier](/images/canvas/ui-search-modal.png)
 
-*Figure : rendu annoté réel après saisie de « déploiement » dans la fenêtre. ① le badge `Ctrl K` à droite du champ de recherche (un clic ouvre également la fenêtre) ; ② champ de saisie de la recherche ; ③ liste de résultats groupés par document, les correspondances surlignées ; ④ barre d'aide aux raccourcis clavier en bas.*
+*Figure : capture existante du champ et des résultats. Si les boutons ou les raccourcis indiqués diffèrent de la disposition actuelle, suivez l’interface réelle et les instructions ci-dessous. Aujourd’hui, Tab place le focus sur les liens ; les indications du bas peuvent être masquées sur écran étroit.*
 
 ### Saisir les mots-clés
 
-Les recherches acceptent les expressions en français ou en anglais (par exemple « déploiement », « composant »), les mots anglais ainsi que des extraits de code (par exemple `pnpm`, `astro.config.mjs`). Les résultats dont le titre correspond apparaissent en premier.
+Saisissez des mots dans la langue de la page ou du code comme `pnpm` et `astro.config.mjs`. Pagefind classe par pertinence ; une correspondance dans le titre ne garantit pas la première position.
 
 ### Parcourir la liste de résultats
 
-Les résultats sont groupés par document ; chaque entrée affiche le titre du document, la section concernée et un extrait contextuel contenant les mots-clés, avec les correspondances surlignées. Un clic sur le titre d'un groupe déploie ou replie les passages trouvés dans ce document.
+Les résultats sont regroupés par document, avec titre, extrait et sous-résultats de sections disponibles. Titres et sous-résultats sont des liens : le titre ouvre le document et un lien de section suit son ancre. Le titre n’est pas une commande de dépliage ou de repliage.
 
 ### Réaliser tout le processus au clavier
 
-- <kbd>↑</kbd> <kbd>↓</kbd> : déplacer la sélection entre les résultats ;
-- <kbd>Entrée</kbd> : ouvrir le résultat sélectionné et aller au paragraphe correspondant ;
+- <kbd>Tab</kbd> / <kbd>Maj + Tab</kbd> : déplacer le focus entre champs, boutons et liens de résultats ;
+- Sur un lien de résultat actif, <kbd>Entrée</kbd> : ouvrir le lien ; les liens de section suivent leur ancre ;
 - <kbd>Échap</kbd> : fermer la fenêtre.
 
-Aucune souris n'est nécessaire.
+L’interface Pagefind actuelle ne sélectionne pas les résultats avec <kbd>↑</kbd> / <kbd>↓</kbd> et ne déplie pas les passages lors d’un clic sur le titre d’un document.
 
 ---
 
@@ -77,13 +77,13 @@ Sur de nombreux sites, la recherche documentaire envoie les requêtes vers une b
 EpoCanvas Docs utilise la solution de recherche statique locale **Pagefind** :
 
 1. **Extraction de l'index lors du build** : lors de l'exécution de `pnpm run build`, le système extrait automatiquement le contenu de chaque document et génère un ensemble de fragments d'index statiques compressés.
-2. **Téléchargement léger à la demande** : lors de la saisie dans le champ de recherche, le navigateur ne récupère que les fragments d'index correspondant aux caractères saisis (quelques Ko à quelques dizaines de Ko seulement).
-3. **Correspondance instantanée en local** : la correspondance et le tri s'effectuent entièrement en local dans le navigateur, sans latence de requête réseau ; la recherche fonctionne intégralement même sur un intranet sans accès à Internet.
+2. **Téléchargement à la demande** : le navigateur charge depuis le site le programme de recherche et les fragments d’index nécessaires. Le chargement initial ou l’absence de cache implique encore des requêtes réseau.
+3. **Calcul dans le navigateur** : une fois l’index chargé, recherche et classement sont locaux. Un intranet doit aussi servir les fichiers de recherche ; cela ne signifie pas qu’une première visite fonctionne sans réseau.
 
 ---
 
 ## Conseils pratiques pour la recherche
 
 - **Découper en plusieurs mots** : pour obtenir des résultats plus précis, saisissez plusieurs mots séparés par des espaces (par exemple `Cloudflare domaine`).
-- **Privilégier les titres** : les titres de documents et de sections ont le poids le plus élevé dans le tri ; les résultats dont le titre contient les mots-clés apparaissent en premier.
+- **Utiliser des termes précis** : titres et noms de sections aident à cibler la recherche, mais Pagefind décide de l’ordre par pertinence.
 - **Limites du mode développement** : l'index du site n'est généré qu'à la compilation ; dans le serveur de développement lancé par `pnpm run dev`, la fenêtre `Ctrl+K` ne charge pas l'index et la recherche globale y est donc indisponible. Pour la tester, exécutez `pnpm run build` puis `pnpm run preview`. La recherche dans la page n'est pas concernée.

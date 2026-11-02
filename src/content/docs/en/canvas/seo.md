@@ -38,7 +38,7 @@ The build output is pure HTML + CSS. Page navigation, reading, and TOC scroll hi
 
 ### Image Size Control at the Source
 
-This site does not run image processing at build time: `astro.config.mjs` sets `image.service` to `passthroughImageService()`, so files under `public/` are copied into `dist/` unchanged — no compression, no resizing. sharp is deliberately not used: under pnpm's isolated layout it cannot resolve its native dependency, and with a cold cache (CI, first build) the build fails outright with `MissingSharp`. Sizes are controlled before committing instead — interface screenshots are 1440 pixels wide and compressed offline, and architecture diagrams are always SVG.
+This site does not run image processing at build time: `astro.config.mjs` sets `image.service` to `passthroughImageService()`, so files under `public/` are copied into `dist/` unchanged — no compression, no resizing. The site does not optimize images at runtime. Sizes are controlled before committing instead — interface screenshots are 1440 pixels wide and compressed offline, and architecture diagrams are always SVG.
 
 ### Search Index Loaded On Demand
 

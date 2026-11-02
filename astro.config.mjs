@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import starlight from '@astrojs/starlight';
+import { unified } from '@astrojs/markdown-remark';
+import buildMetadata from './scripts/build-metadata.mjs';
 
 // 站点来源。hreflang/alternate 链接必须是绝对地址，且必须与 Astro 的 site 配置完全一致，
 // 因此两处共用这一个常量；换域名只需改这一行（public/robots.txt 里的 Sitemap 行需同步改）。
@@ -403,9 +405,13 @@ export default defineConfig({
 		enabled: false,
 	},
 	markdown: {
-		rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+			processor: unified({
+				rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+			}),
+
 	},
 	integrations: [
+		buildMetadata(),
 		cloudflareRedirectsFile(),
 		hreflangXDefault(),
 		starlight({
@@ -474,22 +480,24 @@ export default defineConfig({
 					},
 				},
 			],
-			social: {
-				github: 'https://github.com/shijianus/epocanvas-docs',
-			},
+				social: [
+					{ icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+				],
 			// 页面"最后更新于"时间戳取自构建时的 Git 提交历史
 			lastUpdated: true,
 			customCss: ['./src/styles/custom.css'],
 			// Local Component Overrides for Clean Documentation Theme
 			components: {
-				Header: './src/components/starlight/Header.astro',
+					Header: './src/components/starlight/Header.astro',
+					ThemeProvider: './src/components/starlight/ThemeProvider.astro',
+				MobileMenuToggle: './src/components/starlight/MobileMenuToggle.astro',
 				Sidebar: './src/components/starlight/Sidebar.astro',
 				TableOfContents: './src/components/starlight/TableOfContents.astro',
 				PageTitle: './src/components/starlight/PageTitle.astro',
 				TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
 				Search: './src/components/starlight/Search.astro',
 				Pagination: './src/components/starlight/Pagination.astro',
-				// 覆写 SkipLink：移除「跳转到内容」快捷跳转
+				// 覆写 SkipLink：提供键盘跳转与正文焦点。
 				SkipLink: './src/components/starlight/SkipLink.astro',
 			},
 			// 侧边栏分组与条目的多语言文案，键为各语言的 BCP-47 代码；

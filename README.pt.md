@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-O EpoCanvas Docs é o site de documentação oficial do projeto EpoCanvas. É construído com Astro 5 e Starlight e traz de origem uma disposição de leitura em três colunas, pesquisa de dois modos e conteúdo multilingue completo. Todo o conteúdo é escrito em Markdown normal e publicado no Cloudflare Pages.
+O EpoCanvas Docs é o site de documentação oficial do projeto EpoCanvas. É construído com Astro 7 e Starlight e traz de origem uma disposição de leitura em três colunas, pesquisa de dois modos e conteúdo multilingue completo. Todo o conteúdo é escrito em Markdown ou MDX e publicado no Cloudflare Pages.
 
 **Site online**: [https://docs.epocanvas.com](https://docs.epocanvas.com) (réplica: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
 
@@ -15,7 +15,9 @@ O EpoCanvas Docs é o site de documentação oficial do projeto EpoCanvas. É co
 
 ![Página inicial da documentação do EpoCanvas Docs](./public/images/canvas/ui-home-landing.png)
 
-O site usa uma disposição de três colunas: navegação por categorias à esquerda, conteúdo do artigo ao centro e índice da página atual à direita. O tema escuro é o predefinido, segue a preferência do sistema e pode ser alternado manualmente na barra superior.
+*Exemplo histórico da interface: esta captura comum da página inicial em chinês mostra v1.2.0 e Astro 5, não a candidata atual. O texto sobre a mudança de idioma e as posições dos controlos pertencem à versão antiga; siga a documentação atual. Não é uma captura dos testes de aceitação desta candidata.*
+
+O site usa uma disposição de três colunas: navegação por categorias à esquerda, conteúdo do artigo ao centro e índice da página atual à direita. Na primeira visita, o tema segue a preferência do sistema; uma escolha manual passa a ter prioridade.
 
 ## Funcionalidades
 
@@ -27,10 +29,10 @@ O site usa uma disposição de três colunas: navegação por categorias à esqu
 
 ## Requisitos
 
-- Node.js 22.20+ (22.x) ou Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (versão exata)
 
-O CI usa Node.js 22.20.0, fixado em `.node-version`.
+O CI usa Node.js 22.23.4, fixado em `.node-version`.
 
 ## Início rápido
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![texto alternativo](/images/canvas/a-sua-imagem.png)
    ```
+
+5. Complete as páginas correspondentes em `src/content/docs/<locale>/canvas/` para os outros 9 idiomas, as `translations` da barra lateral e as imagens que precisem de tradução em `public/images/canvas/<locale>/`. Os 10 idiomas têm de estar completos antes da publicação; o fallback para chinês é apenas uma proteção do framework. Traduções em falta fazem falhar `pnpm run verify` e o CI.
 
 Execute `pnpm run verify` antes de submeter e confirme que todas as verificações passam.
 

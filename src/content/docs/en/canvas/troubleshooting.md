@@ -3,7 +3,7 @@ title: FAQ & Troubleshooting
 description: A troubleshooting checklist for EpoCanvas Docs covering local run errors, documents not showing, aside rendering problems, broken search, and Cloudflare Pages deployment.
 ---
 
-When something goes wrong while using, writing, or deploying **EpoCanvas Docs**, look for your symptom here. Problems are ordered by "local startup → documentation authoring → search → deployment", and each one comes with the cause and a verified fix.
+When something goes wrong while using, writing, or deploying **EpoCanvas Docs**, look for your symptom here. Problems are ordered by "local startup → documentation authoring → search → deployment" and list common causes and diagnostic steps. Judge them against the actual error and check results; this page is not a record of every fix being tested successfully on the current candidate.
 
 ---
 
@@ -15,12 +15,12 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 - **Fix**: Start on a different port:
 
   ```bash
-  pnpm run dev -- --port 4322
+  pnpm run dev --port 4322
   ```
 
 ### Q2: An error appears while installing dependencies
-- **Cause**: This project uses the passthrough image service and does not depend on Sharp. Read the exact terminal error first; a common cause is a Node.js or pnpm version outside the project baseline.
-- **Fix**: Use Node.js 22.20+ (22.x) or Node.js 24.12+ and pnpm 10.34.5, keep `pnpm-lock.yaml`, and install reproducibly:
+- **Cause**: This site uses the passthrough image service and does not optimize images at runtime. Read the exact terminal error first; a common cause is a Node.js or pnpm version outside the project baseline.
+- **Fix**: Use Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 and pnpm 10.34.5, keep `pnpm-lock.yaml`, and install reproducibly:
   ```bash
   pnpm install --frozen-lockfile
   ```
@@ -110,8 +110,8 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 
 ### Q11: A freshly bound custom domain reports an SSL handshake failure (Error 525)
 
-- **Cause**: Issuing a Universal SSL certificate for a new domain takes Cloudflare 2–5 minutes to propagate globally.
-- **Fix**: Wait a few minutes and hard-refresh (`Ctrl+F5` / `Cmd+Shift+R`); in the meantime, use the default `<project-name>.pages.dev` domain, which is always available.
+- **Cause**: Error 525 alone does not establish that a certificate is still being issued. Check domain validation, certificate status, DNS records, proxy settings, and the error details.
+- **Fix**: Inspect domain validation and certificate status under **Custom domains**, then check DNS and proxy settings and compare with the default `pages.dev` domain. Do not rely on waiting a fixed number of minutes; verify both domains with actual requests. See [deployment troubleshooting](/canvas/cloudflare/).
 
 ### Q12: `pnpm run deploy` fails with `Project not found`
 

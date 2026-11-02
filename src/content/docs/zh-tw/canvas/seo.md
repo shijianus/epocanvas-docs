@@ -38,7 +38,7 @@ Frontmatter 的 `title` 和 `description` 是搜尋引擎展示的主要素材�
 
 ### 圖片體積在源頭控制
 
-本站沒有啟用建置期圖片處理：`astro.config.mjs` 將 `image.service` 設為 `passthroughImageService()`，`public/` 下的圖片原樣拷貝進 `dist/`，既不壓縮也不改尺寸。之所以不用 sharp，是因為它在 pnpm 的隔離目錄結構下解析不到原生相依，冷快取環境（CI、首次建置）會直接報 `MissingSharp` 中斷建置。體積因此在提交前控制：介面截圖統一 1440 像素寬並先離線壓好，架構圖一律使用 SVG 向量圖。
+本站沒有啟用建置期圖片處理：`astro.config.mjs` 將 `image.service` 設為 `passthroughImageService()`，`public/` 下的圖片原樣拷貝進 `dist/`，既不壓縮也不改尺寸。站點不在執行階段做圖片最佳化。體積因此在提交前控制：介面截圖統一 1440 像素寬並先離線壓好，架構圖一律使用 SVG 向量圖。
 
 ### 搜尋索引視需要載入
 

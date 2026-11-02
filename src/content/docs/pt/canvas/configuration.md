@@ -12,9 +12,21 @@ Se quiser usar o **EpoCanvas Docs** como site de documentação da sua equipa, o
 O ficheiro `astro.config.mjs` na raiz do projeto é o ficheiro de configuração principal de todo o site de documentação. As opções diretamente relacionadas com as informações do site são as seguintes (os comentários indicam quando devem ser alteradas):
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// Altere o SITE_ORIGIN existente e o URL Sitemap de public/robots.txt em conjunto.
+// site e hreflangXDefault() partilham este valor; não altere apenas site.
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // Domínio de produção do site, afeta os links de SEO e a geração do sitemap
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // ao definir como true, mostra apenas o logótipo e oculta o texto do título
       },
 
-      // Link do repositório GitHub no canto superior direito
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Links sociais na barra lateral do Starlight.
+      // Os URL GitHub/Telegram do cabeçalho estão definidos à parte em src/components/starlight/Header.astro.
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // Entrada da folha de estilos personalizada
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+No Astro 7, este site configura `markdown.processor` com `unified()` de `@astrojs/markdown-remark` 7.3.5. Os `rehypePlugins` acima reutilizam os plugins existentes em `astro.config.mjs`; mantenha as respetivas definições de funções ao alterar a configuração.
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: nome da categoria ou do artigo exibido na barra lateral; pode diferir do `title` do Frontmatter (por exemplo, usando um nome de exibição mais curto);
 - **`link`**: caminho de acesso ao artigo, correspondente à localização do ficheiro em `src/content/docs/`.
 
-:::warning
+:::caution
 Um novo ficheiro `.md` só aparece no menu de diretórios da esquerda se for registado no array `sidebar`; criar o ficheiro sem o registar é o erro mais comum entre iniciantes.
 :::
 
@@ -125,9 +140,9 @@ As dimensões do layout também são definidas de forma centralizada no topo des
 
 ## 4. Substituir o logótipo do site
 
-1. Prepare uma imagem vetorial do logótipo da marca (recomenda-se `.svg`, mas também pode usar um `.png` nítido);
-2. Substitua e guarde como `public/images/logo.svg` (a imagem grande da página inicial está em `src/assets/logo.svg`);
-3. Atualize o navegador e os ícones da barra superior e da página inicial são substituídos automaticamente.
+1. Prepare um logótipo vetorial `.svg` válido. Estes passos aplicam-se apenas a SVG; não mude a extensão de um PNG para `.svg`.
+2. Substitua separadamente `public/images/logo.svg` para a barra superior e `src/assets/logo.svg` para a imagem da página inicial.
+3. Atualize o navegador no servidor de desenvolvimento local e verifique os dois logótipos. O site publicado só muda após um novo build e uma implantação.
 
 :::tip
 Os dois logótipos têm utilizações diferentes: `public/images/logo.svg` é usado na barra superior e `src/assets/logo.svg` é usado na imagem decorativa grande à direita da página inicial; recomenda-se substituir ambos.

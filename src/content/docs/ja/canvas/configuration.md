@@ -12,9 +12,21 @@ description: EpoCanvas Docs の主要設定ファイルの変更ガイド、サ�
 ルートディレクトリにある `astro.config.mjs` は、ドキュメントサイト全体のメイン設定ファイルです。サイト情報に直接関係するオプションは以下のとおりです（コメントに変更のタイミングを記載しています）:
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// ドメイン変更時は既存の SITE_ORIGIN と public/robots.txt の Sitemap URL を更新します。
+// site と hreflangXDefault() はこの値を共有するため、site だけを変更しないでください。
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // サイトの本番環境ドメイン。SEO のリンクと Sitemap 生成に影響します
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // true にするとロゴのみ表示し、タイトル文字を非表示にします
       },
 
-      // 右上の GitHub リポジトリへのリンク
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Starlight サイドバーのソーシャルリンク。
+      // トップバーの GitHub/Telegram URL は src/components/starlight/Header.astro に別途定義。
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // カスタムスタイルシートのエントリ
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+Astro 7 では、このサイトは `@astrojs/markdown-remark` 7.3.5 の `unified()` で `markdown.processor` を設定します。上記の `rehypePlugins` は `astro.config.mjs` の既存プラグインを使用するため、設定変更時も各プラグインの関数定義を保持してください。
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: サイドバーに表示されるカテゴリ名や記事名。Frontmatter の `title` と異なる名前（たとえばより短い表示名）にできます。
 - **`link`**: 記事のアクセスパス。`src/content/docs/` 配下のファイル位置に対応します。
 
-:::warning
+:::caution
 新しく作成した `.md` ファイルは、`sidebar` 配列に登録しないと左側のカタログに表示されません。ファイルだけ作って登録しないのは、初心者が最もよく踏む落とし穴です。
 :::
 
@@ -125,9 +140,9 @@ sidebar: [
 
 ## 4. サイトのロゴを差し替える
 
-1. ブランドのロゴベクター画像を用意します（`.svg` 推奨、鮮明な `.png` でも可）。
-2. `public/images/logo.svg` として上書き保存します（トップページの大きな画像は `src/assets/logo.svg`）。
-3. ブラウザを更新すると、トップバーとトップページのアイコンが自動的に差し替わります。
+1. 有効な `.svg` のベクターロゴを用意します。この手順は SVG 専用です。PNG の拡張子を `.svg` に変えないでください。
+2. トップバー用の `public/images/logo.svg` と、トップページ画像用の `src/assets/logo.svg` をそれぞれ差し替えます。
+3. ローカル開発サーバーでブラウザを更新し、両方のロゴを確認します。公開サイトには再ビルドとデプロイ後に反映されます。
 
 :::tip
 2 つのロゴは用途が異なります: `public/images/logo.svg` はトップバー用、`src/assets/logo.svg` はトップページ右側の装飾用の大きな画像です。両方を同時に差し替えることをおすすめします。

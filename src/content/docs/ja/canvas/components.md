@@ -1,6 +1,6 @@
 ---
 title: UI コンポーネントとカスタム開発
-description: EpoCanvas Docs の UI コンポーネントアーキテクチャ。Starlight コンポーネントのオーバーライド機構、7 つのカスタムコンポーネントの役割とデータフロー、カスタマイズ時の注意点。
+description: EpoCanvas Docs の UI コンポーネントアーキテクチャ。Starlight コンポーネントのオーバーライド機構、カスタムコンポーネントの役割とデータフロー、カスタマイズ時の注意点。
 ---
 
 **EpoCanvas Docs** の UI はゼロから作ったものではなく、Starlight のネイティブコンポーネントをベースに**ピンポイントでオーバーライド**したものです。Starlight のページ骨格とコンテンツ処理の能力を残しつつ、トップバー・サイドバー・目次・検索などの表示コンポーネントを差し替えることで、狙いどおりの 3 カラムレイアウトとインタラクションを実現しています。このページでは、このコンポーネント体系の構造と変更方法を説明します。
@@ -9,38 +9,42 @@ description: EpoCanvas Docs の UI コンポーネントアーキテクチャ。
 
 ## コンポーネントのオーバーライド機構
 
-Starlight では、`astro.config.mjs` の `components` フィールドで任意のネイティブコンポーネントをカスタム実装に置き換えられます。このプロジェクトでは 7 つのコンポーネントをオーバーライドしています:
+以下のように `astro.config.mjs` の `components` に登録します。完全な一覧は現在の設定を参照してください。
 
 ```javascript
 // astro.config.mjs（抜粋）
 components: {
   Header: './src/components/starlight/Header.astro',
+  MobileMenuToggle: './src/components/starlight/MobileMenuToggle.astro',
   Sidebar: './src/components/starlight/Sidebar.astro',
   TableOfContents: './src/components/starlight/TableOfContents.astro',
   PageTitle: './src/components/starlight/PageTitle.astro',
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
 
-ビルド時、Starlight がページをレンダリングする各位置では、ここで指定されたファイルが優先的に使われます。オーバーライドしていないコンポーネント（フッターの Footer やモバイルメニューなど）は引き続きネイティブ実装が使われます。
+ビルド時は登録したカスタム実装を優先します。未登録のコンポーネントは Starlight の標準実装を使います。
 
 ---
 
-## 7 つのカスタムコンポーネントの役割
+## カスタムオーバーライドの役割
 
-ソースコードはすべて `src/components/starlight/` にあり、規模と役割は次のとおりです:
+ソースは `src/components/starlight/` にあり、主な役割は以下のとおりです。
 
-| コンポーネントファイル | 規模 | 役割 |
-| :--- | :--- | :--- |
-| `Header.astro` | 約 646 行 | トップバーの全内容: ロゴ、検索ボックス、メインナビ、バージョン バッジ、言語切替、テーマ切替、GitHub と Telegram への入口 |
-| `Search.astro` | 約 837 行 | 2 モード検索: トップバーのページ内検索（ハイライトとカウント）+ `Ctrl+K` のサイト全体検索ポップアップ（Pagefind UI） |
-| `Pagination.astro` | 約 123 行 | 下部の「前のページ / 次のページ」カード。フラットな細枠、テーマカラーのタイトル、↙/↘ の斜め矢印でページ送りの方向を表示 |
-| `TwoColumnContent.astro` | 約 77 行 | 本文と右側目次の 2 カラム骨格。右カラムの固定幅とスクロールを制御 |
-| `TableOfContents.astro` | 約 65 行 | 「目次」の見出し、アイコンと目次リスト。ページ自身のタイトルは除外 |
-| `PageTitle.astro` | 約 65 行 | ページの大きな見出し（Frontmatter の `title` を使用）と「最終更新」タイムスタンプ |
-| `Sidebar.astro` | 約 22 行 | 薄いラッパー。Starlight 公式の `SidebarPersister` を再利用し、ページ移動時にサイドバーのスクロール位置を維持 |
+| コンポーネントファイル | 役割 |
+| :--- | :--- |
+| `Header.astro` | トップバーの全内容: ロゴ、検索ボックス、メインナビ、バージョン バッジ、言語切替、テーマ切替、GitHub と Telegram への入口 |
+| `Search.astro` | 2 モード検索: トップバーのページ内検索（ハイライトとカウント）+ `Ctrl+K` のサイト全体検索ポップアップ（Pagefind UI） |
+| `Pagination.astro` | 下部の「前のページ / 次のページ」カード。フラットな細枠、テーマカラーのタイトル、↙/↘ の斜め矢印でページ送りの方向を表示 |
+| `TwoColumnContent.astro` | 本文と右側目次の 2 カラム骨格。右カラムの固定幅とスクロールを制御 |
+| `TableOfContents.astro` | 「目次」の見出し、アイコンと目次リスト。ページ自身のタイトルは除外 |
+| `PageTitle.astro` | ページの大きな見出し（Frontmatter の `title` を使用）と「最終更新」タイムスタンプ |
+| `Sidebar.astro` | 薄いラッパー。Starlight 公式の `SidebarPersister` を再利用し、ページ移動時にサイドバーのスクロール位置を維持 |
+| `SkipLink.astro` | キーボードフォーカス時にスキップリンクを表示し、本文タイトル `_top` にフォーカスを移す |
+| `MobileMenuToggle.astro` | モバイルのサイドバー開閉と状態同期。Esc で閉じてボタンへフォーカスを戻す |
 
 ---
 
@@ -66,15 +70,15 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 辞書 ──→ 各コンポーネ�
 
 ### PageTitle: ページタイトルと実際の更新日時
 
-ページの大きな見出しは Frontmatter の `title` をそのまま読み込むため、**本文中に `#` の見出し（レベル 1）を書かないでください**。「最終更新」のタイムスタンプはビルド時の Git コミット履歴から取得されます（`astro.config.mjs` で `lastUpdated: true` が有効）。コミットのたびに自動更新されるため、手動での管理は不要です。
+ページの大見出しは Frontmatter の `title` を直接読むため、**本文に `#` のレベル 1 見出しを書かないでください**。`astro.config.mjs` の `lastUpdated: true` が有効で、Frontmatter の日付で上書きしていない場合、ビルド時にそのファイルを最後に変更した Git コミットの時刻を読み込みます。リポジトリのすべてのコミットやビルドの時刻ではなく、他のファイルだけを変更しても本ページの日付は変わりません。
 
 :::caution
-更新日時はビルド時に Git 履歴から読み込まれるため、**まだコミットしていない新規ドキュメントには日付が表示されません**（見出しの下には規定の署名のみ表示されます）。コミット後に再ビルドすれば表示されます。また、ビルド環境がシャロークローン（CI での `fetch-depth: 1` など）の場合は Git 履歴が不完全なため、タイムスタンプが欠落します。どちらの場合もビルドには影響しません。
+未コミットの新規ドキュメントには読める Git 履歴がないため、日付は表示されません。既存ファイルの未コミットの変更も、コミット日時を変えません。シャロークローン（`fetch-depth: 1` など）では、履歴が切れた境界のコミット日時が表示されたり、日付を取得できなかったりするため、完全な履歴として扱えません。正確な日付が必要なら完全な Git 履歴を使用してください（CI では `fetch-depth: 0`）。日付の取得失敗でビルドが失敗することはありません。
 :::
 
 ### Sidebar: スクロール位置記憶の仕組み
 
-`Sidebar.astro` は 20 行余りしかなく、核心は Starlight 公式の `SidebarPersister` コンポーネントを再利用している点です。ページ切替時にサイドバーの DOM を再構築しないため、スクロール位置が保たれます。これが左側カタログが「ページを移動してもガタつかない」仕組みです。
+`Sidebar.astro` は Starlight の `SidebarPersister` を再利用し、ページ移動後のサイドバーのスクロール位置を復元します。モバイルメニューの開閉とフォーカスは `MobileMenuToggle.astro` が扱います。
 
 ### TableOfContents: 目次の生成
 
@@ -98,6 +102,8 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 辞書 ──→ 各コンポーネ�
 1. **ページ内検索**: トップバーの入力ボックス。Enter キーで現在ページ内の一致文字列間を移動し、ハイライトはスクリプトがマークを打つことで実現します。
 2. **サイト全体検索**: `<dialog>` ポップアップ + Pagefind のデフォルト UI。index は `pnpm run build` の段階で生成されます。
 
+ページ内入力欄は表示幅 `64rem` 以上のみです。それ未満ではサイト全体検索ボタンだけが残ります。現在の記事にはブラウザーのページ内検索を使えます。画像と異なる場合は現在の画面を優先してください。
+
 ### Pagination: ページ送りカード
 
 前 / 次のページのデータは、Starlight がビルド時に `sidebar` の順序に基づいて計算済みで（`Astro.locals.starlightRoute.pagination`）、コンポーネントはレンダリングだけを担当します。同幅の 2 枚のカード、細枠で影なし、タイトルはテーマカラー、↙ / ↘ の斜め矢印はホバー時にページ送りの方向へ移動します。矢印はインライン SVG パスで、サイトを RTL 言語で使う場合は自動的に方向が反転します。
@@ -107,11 +113,11 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 辞書 ──→ 各コンポーネ�
 ## カスタマイズ時の注意点
 
 :::caution
-コンポーネントをオーバーライドすると、Starlight ネイティブコンポーネントの今後の更新を取り込めなくなります。Starlight をバージョンアップする際は、コンポーネントの props や `Astro.locals.starlightRoute` の構造が変わる可能性があるため、アップグレード後はオーバーライドした 7 つのコンポーネントすべてでリグレッションテストを行う必要があります。
+コンポーネントをオーバーライドすると、Starlight ネイティブコンポーネントの今後の更新を取り込めなくなります。Starlight をバージョンアップする際は、コンポーネントの props や `Astro.locals.starlightRoute` の構造が変わる可能性があるため、アップグレード後はオーバーライドした コンポーネントすべてでリグレッションテストを行う必要があります。
 :::
 
 - **スタイル変更はまず CSS 変数で**: 色・フォント・レイアウトサイズは `src/styles/custom.css` の `:root` 変数に集約されています。[サイト全体の設定とスタイルのカスタマイズ](/canvas/configuration/)を参照してください。多くのカスタマイズはコンポーネントを触る必要がありません。
 - **インタラクションを変えるときだけコンポーネントを触る**: ボタンの追加や構造の調整の際は、UI 文言を `getTranslation(key, lang)` で取得し、`i18n.ts` に 10 言語分の語句を追加します。漏れた言語は fallback で中国語が表示されます。
-- **変更後は必ずローカルで検証**: `pnpm run dev` でインタラクションを確認し、`pnpm run build` で型チェックとビルドの通過を確認します（ローカル用コマンドは[よくある質問とトラブルシューティング](/canvas/troubleshooting/)を参照）。
+- **変更後は必ずローカルで検証**: `pnpm run dev` でインタラクションを確認し、`pnpm run verify` で型チェックとビルドの通過を確認します（ローカル用コマンドは[よくある質問とトラブルシューティング](/canvas/troubleshooting/)を参照）。
 
 具体的なカスタマイズ手順は、[よくあるカスタマイズ早見表](/canvas/recipes/)を参照してください。

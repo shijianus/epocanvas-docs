@@ -15,7 +15,7 @@ const currentLang = SUPPORTED_LANGUAGES.find((item) => item.code === lang) ?? SU
 const matchPath = localizedHref(pathname, 'zh-CN');
 // 全站只有一份 404.html（Astro 不为各语言生成 /en/404/ 这类路由），
 // 所以在 404 页上按当前路径拼语言链接会得到 10 条死链，这里改为指向各语言首页。
-const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
+const langMenuPath = /^\/404(?:\.html)?\/?$/.test(pathname) ? '/' : pathname;
 ---
 
 <div class="header sl-flex">
@@ -62,6 +62,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 								rel="noopener noreferrer"
 								class="nav-btn nav-btn-version"
 								title={getTranslation('nav.releases', lang)}
+								data-404-label="nav.releases"
 							>
 								<span class="release-version">{item.badge || item.defaultLabel}</span>
 								<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ext-icon" aria-hidden="true">
@@ -127,13 +128,14 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		</div>
 
 		{/* High-Contrast Appearance Switch Toggle */}
-		<div class="theme-switch-wrapper" title={getTranslation('theme.toggle', lang)}>
+			<div class="theme-switch-wrapper" title={getTranslation('theme.toggle', lang)} data-404-title="theme.toggle">
 			<button
 				id="vp-theme-toggle"
 				class="vp-theme-toggle"
 				type="button"
-				role="switch"
-				aria-label={getTranslation('theme.toggle', lang)}
+					role="switch"
+					aria-checked="false"
+					aria-label={getTranslation('theme.toggle', lang)}
 			>
 				<span class="toggle-track">
 						<span class="toggle-thumb">
@@ -168,7 +170,8 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 				rel="noopener noreferrer"
 				class="social-link"
 				title={getTranslation('social.github', lang)}
-				aria-label={getTranslation('social.github', lang)}
+					aria-label={getTranslation('social.github', lang)}
+					data-404-label="social.github"
 			>
 				<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
 					<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -181,7 +184,8 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 				rel="noopener noreferrer"
 				class="social-link"
 				title={getTranslation('social.telegram', lang)}
-				aria-label={getTranslation('social.telegram', lang)}
+					aria-label={getTranslation('social.telegram', lang)}
+					data-404-label="social.telegram"
 			>
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="m22 2-7 20-4-9-9-4Z" />
@@ -239,29 +243,55 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 			});
 		}
 
-		// Theme Toggle Setup
-
-	const themeBtn = document.getElementById('vp-theme-toggle');
-	if (themeBtn) {
-			const updateTheme = (theme: string) => {
-				document.documentElement.dataset.theme = theme;
-				themeBtn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
-				try {
-					localStorage.setItem('starlight-theme', theme);
-				} catch {
-					// 浏览器拒绝存储时，主题和 ARIA 状态仍保持同步。
-				}
-			};
-
-		themeBtn.addEventListener('click', () => {
-			const current = document.documentElement.dataset.theme || 'light';
-			const next = current === 'dark' ? 'light' : 'dark';
-			updateTheme(next);
+		// 单一偏好同时驱动桌面开关、移动选择器和系统配色变化。
+		type Theme = 'auto' | 'light' | 'dark';
+		const storageKey = 'starlight-theme';
+		const themeBtn = document.getElementById('vp-theme-toggle');
+		const themeSelects = document.querySelectorAll<HTMLSelectElement>('[data-theme-select]');
+		const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
+		const parseTheme = (value: unknown): Theme => value === 'light' || value === 'dark' ? value : 'auto';
+		const readTheme = (): Theme | undefined => {
+			try {
+				return parseTheme(localStorage.getItem(storageKey));
+			} catch {
+				return undefined;
+			}
+		};
+		let preference = readTheme() ?? 'auto';
+		const applyTheme = () => {
+			const theme = preference === 'auto' ? (systemTheme.matches ? 'light' : 'dark') : preference;
+			document.documentElement.dataset.theme = theme;
+			themeBtn?.setAttribute('aria-checked', String(theme === 'dark'));
+			themeSelects.forEach((select) => { select.value = preference; });
+		};
+		const chooseTheme = (theme: Theme) => {
+			preference = theme;
+			applyTheme();
+			try {
+				localStorage.setItem(storageKey, theme === 'auto' ? '' : theme);
+			} catch {
+				// 存储被禁用时保留本页内存偏好，控件仍然可用。
+			}
+		};
+		themeBtn?.addEventListener('click', () => {
+			chooseTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
 		});
-
-		const current = document.documentElement.dataset.theme || 'light';
-		themeBtn.setAttribute('aria-checked', current === 'dark' ? 'true' : 'false');
-	}
+		themeSelects.forEach((select) => {
+			select.addEventListener('change', () => chooseTheme(parseTheme(select.value)));
+		});
+		systemTheme.addEventListener('change', () => {
+			if (preference === 'auto') applyTheme();
+		});
+		window.addEventListener('storage', (event) => {
+			if (event.key !== storageKey && event.key !== null) return;
+			preference = parseTheme(event.newValue);
+			applyTheme();
+		});
+		window.addEventListener('pageshow', () => {
+			preference = readTheme() ?? preference;
+			applyTheme();
+		});
+		applyTheme();
 </script>
 
 <style>
@@ -471,10 +501,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		background: #1e293b;
 	}
 
-	/* 顶栏元素按宽度分三档渐进显示（实测德/俄导航一排约 590-660px、社交图标约 105px）：
-	   50-80rem：搜索框 + 语言 + 主题（导航收起，由左侧边栏承担，搜索框保住 180px 下限）；
-	   80-90rem：导航按钮回归，社交图标让位（GitHub 仍可从版本徽章进入）；
-	   ≥90rem（1440px）：全部显示。实测 10 语言 × 1024/1152/1280/1366/1440 全部无重叠、无溢出。 */
+		/* 50–80rem 收起导航，80–90rem 收起社交图标，90rem 起显示全部入口。 */
 	@media (min-width: 50rem) {
 		.header-right .nav-links,
 		.header-right .nav-divider-menu {
@@ -592,9 +619,10 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		display: block;
 	}
 
-	.lang-menu-scroll {
-		max-height: 280px;
-		overflow-y: auto;
+		.lang-menu-scroll {
+			max-height: min(280px, calc(100dvh - var(--sl-nav-height) - 1rem));
+			overflow-y: auto;
+			overscroll-behavior: contain;
 		scrollbar-width: thin;
 		scrollbar-color: var(--sl-color-hairline) transparent;
 	}

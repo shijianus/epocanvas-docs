@@ -12,9 +12,11 @@ description: "Lisez d'abord cet article : EpoCanvas Docs est le projet de docume
 Cette expression a deux sens, tous deux vrais en même temps :
 
 1. **C'est un manuel.** Le contenu s'organise autour de « ce que c'est, comment l'utiliser, comment le modifier, comment le mettre en ligne » : comment utiliser l'interface de lecture, comment rédiger un nouveau document, où modifier la configuration, quelles sont les commandes de déploiement. Il n'a qu'un seul objectif : permettre à quiconque récupère EpoCanvas de réaliser ce qu'il veut en suivant la documentation, sans avoir à demander de l'aide de-ci de-là.
-2. **C'est aussi, en lui-même, un système de site directement exécutable.** Clonez le dépôt en local et exécutez les deux commandes `pnpm install` et `pnpm run dev` : vous obtenez un site identique à celui que vous avez sous les yeux. L'ensemble du code est basé sur Astro 5 et Starlight, sous licence MIT ; il peut être repris en bloc et transformé en site de documentation pour votre propre projet.
+2. **C'est aussi, en lui-même, un système de site directement exécutable.** Clonez le dépôt en local et exécutez les deux commandes `pnpm install` et `pnpm run dev` : vous obtenez un site identique à celui que vous avez sous les yeux. L'ensemble du code est basé sur Astro 7 et Starlight, sous licence MIT ; il peut être repris en bloc et transformé en site de documentation pour votre propre projet.
 
 Il y a aussi une caractéristique facile à ignorer : **chaque fonctionnalité présentée par cette documentation, vous l'utilisez en ce moment même**. La mise en page de lecture en trois colonnes, la recherche sur l'ensemble du site via `Ctrl + K`, le changement de langue sur place parmi 10 langues en haut à droite — ce que la documentation décrit, ce sont précisément les capacités que ce site implémente lui-même ; lisez et essayez au fur et à mesure pour le vérifier.
+
+Lors de la première visite sans choix enregistré, l’interface suit la préférence claire ou sombre du système ; le thème sombre n’est pas imposé par défaut. Un choix manuel enregistré est prioritaire.
 
 ---
 

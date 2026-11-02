@@ -3,7 +3,7 @@ title: FAQ e solução de problemas
 description: Lista de verificação do EpoCanvas Docs para erros de execução local, documentos que não aparecem, renderização anormal dos blocos de aviso, pesquisa avariada e implantação no Cloudflare Pages.
 ---
 
-Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, comece por identificar aqui o seu caso. Os problemas estão ordenados por "arranque local → escrita de documentos → pesquisa → implantação" e cada um apresenta a causa e uma solução verificada.
+Se surgir um problema ao usar, escrever ou implantar o **EpoCanvas Docs**, procure aqui o caso correspondente. Os problemas seguem a ordem "arranque local → escrita de documentos → pesquisa → implantação" e apresentam causas comuns e passos de diagnóstico. Considere o erro real e os resultados das verificações; esta página não é um registo de testes bem-sucedidos de todas as soluções na candidata atual.
 
 ---
 
@@ -15,12 +15,12 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 - **Solução**: arranque com outra porta:
 
   ```bash
-  pnpm run dev -- --port 4322
+  pnpm run dev --port 4322
   ```
 
 ### Q2: aparece um erro ao instalar as dependências
-- **Causa**: este projeto usa o serviço de imagens passthrough e não depende do Sharp. Primeiro leia o erro exato no terminal; uma versão de Node.js ou pnpm fora da base do projeto é uma causa comum.
-- **Solução**: use Node.js 22.20+ (22.x) ou Node.js 24.12+ e pnpm 10.34.5, mantenha `pnpm-lock.yaml` e faça uma instalação reproduzível:
+- **Causa**: este site usa o serviço de imagens passthrough e não otimiza imagens em tempo de execução. Primeiro leia o erro exato no terminal; uma versão de Node.js ou pnpm fora da base do projeto é uma causa comum.
+- **Solução**: use Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 e pnpm 10.34.5, mantenha `pnpm-lock.yaml` e faça uma instalação reproduzível:
   ```bash
   pnpm install --frozen-lockfile
   ```
@@ -110,8 +110,8 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 
 ### Q11: O domínio personalizado recém-associado indica falha no handshake SSL (Error 525)
 
-- **Causa**: a emissão do certificado Universal SSL pelo Cloudflare para um domínio novo precisa de 2 a 5 minutos para ficar ativa a nível global.
-- **Solução**: espere alguns minutos e force a atualização (`Ctrl+F5` / `Cmd+Shift+R`); entretanto pode aceder ao domínio predefinido `<nome-do-projeto>.pages.dev`, que está sempre disponível.
+- **Causa**: Error 525, por si só, não confirma que o certificado ainda esteja a ser emitido. Verifique a validação do domínio, o estado do certificado, os registos DNS, as definições do proxy e os detalhes do erro.
+- **Solução**: Consulte a validação e o certificado em **Custom domains**, depois verifique DNS e proxy e compare com o domínio predefinido `pages.dev`. Não se limite a esperar um número fixo de minutos; confirme ambos os domínios com pedidos reais. Consulte o [diagnóstico de implantação](/canvas/cloudflare/).
 
 ### Q12: O comando `pnpm run deploy` devolve o erro `Project not found`
 

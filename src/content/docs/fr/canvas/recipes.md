@@ -25,9 +25,11 @@ Cette page rassemble les besoins de personnalisation les plus courants sous form
    { label: 'Guide d’utilisation', link: '/canvas/user-guide/' }
    ```
 
-4. Après enregistrement, vérifiez dans l'aperçu local que le document apparaît bien dans le sommaire à gauche, puis exécutez `pnpm run deploy` pour publier.
+4. Complétez la traduction correspondante dans `src/content/docs/<locale>/canvas/user-guide.md` pour les 9 autres langues, ainsi que les `translations` de la barre latérale et les images à traduire. Toute traduction manquante fait échouer les contrôles de publication.
+5. Vérifiez la navigation et le contenu localement, exécutez `pnpm run verify`, puis examinez le build avec `pnpm run preview`.
+6. Après revue et fusion, un mainteneur publie depuis une branche `main` propre, suivant `origin/main`, dont HEAD correspond au commit distant. Autorisez l’accès avec `pnpm exec wrangler login`, puis exécutez `pnpm run deploy`. Pour votre propre fork, configurez d’abord le projet cible selon le [guide de déploiement](/canvas/cloudflare/) ; ne réutilisez pas les paramètres du mainteneur sans les adapter.
 
-:::warning
+:::caution
 Si vous créez le fichier sans l'enregistrer dans la `sidebar`, la page reste accessible mais n'apparaît pas dans le sommaire à gauche — c'est l'erreur la plus courante des débutants.
 :::
 
@@ -128,7 +130,7 @@ export const UI_TRANSLATIONS = {
 };
 ```
 
-Les langues non modifiées se rabattent automatiquement sur la valeur par défaut en chinois, sans erreur. Après enregistrement, le rechargement à chaud local rend le changement immédiatement visible, sans build.
+`getTranslation` utilise d’abord la valeur existante et non vide de la langue courante. Le repli vers le chinois ne s’applique que si la clé manque ou si sa valeur est vide ; si le chinois manque aussi, le nom de la clé est affiché. Une traduction existante non modifiée conserve son ancienne valeur : synchronisez donc les changements dans les 10 langues. Le rechargement à chaud local affiche les modifications enregistrées sans build.
 
 ---
 

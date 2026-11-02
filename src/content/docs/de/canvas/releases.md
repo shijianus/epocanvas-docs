@@ -9,7 +9,7 @@ Damit Leser jederzeit wissen, welcher Produktversion das aktuelle Dokument entsp
 
 ## 1. Regeln für semantische Versionsnummern (SemVer)
 
-Die Versionsnummer folgt dem Format `vHauptversion.Nebenversion.Revision` (aktuell `v1.3.1`):
+Stabile Versionen verwenden `vMAJOR.MINOR.PATCH`; Vorabversionen ergänzen eine Kennung, wie der aktuelle Kandidat `v1.3.2-beta.1`. Das bestätigt weder eine veröffentlichte Release noch ein Produktionsdeployment.
 
 | Änderungsart | Beispiel | Auslösender Anlass |
 | :--- | :--- | :--- |
@@ -23,10 +23,12 @@ Die Versionsnummer folgt dem Format `vHauptversion.Nebenversion.Revision` (aktue
 
 ### Schritt 1: Änderungsprotokoll festhalten (`RELEASE_NOTES.md`)
 
-Beschreiben Sie in `RELEASE_NOTES.md` im Projektstammverzeichnis den Inhalt dieses Updates; diese Datei dient als Release-Beschreibung des GitHub Release:
+Beschreiben Sie das Update in `RELEASE_NOTES.md` im Projektstamm; diese Datei wird zum Text des GitHub Release. Die erste Zeile muss exakt `# EpoCanvas Docs v<Version>` lauten und zur Version in `package.json` passen; `verify:config` prüft dieses Format. Das folgende Beispiel zeigt nur das Format: Verwenden Sie für eine echte Veröffentlichung eine noch unbenutzte Version. Vorabversionen müssen im Text zusätzlich als `candidate` oder `prerelease` gekennzeichnet werden.
 
 ```markdown
-## [v1.2.1] - 2026-09-14
+# EpoCanvas Docs v1.2.1
+
+2026-09-14
 
 ### Behoben
 - Tippfehler in einem Befehl des Bereitstellungskapitels korrigiert.
@@ -35,7 +37,7 @@ Beschreiben Sie in `RELEASE_NOTES.md` im Projektstammverzeichnis den Inhalt dies
 
 ### Schritt 2: Versionsnummer in package.json aktualisieren
 
-Das Versionsabzeichen in der Navigationsleiste ist bereits automatisch mit dem `version`-Feld in `package.json` verknüpft und bildet als Single Source of Truth die sitewide Versionsquelle ab. Aktualisieren Sie die Versionsnummer in `package.json` (oder führen Sie `pnpm version patch` aus), und das Abzeichen in der Kopfzeile gleicht sich automatisch an die neueste Version an – ein manuelles Nachpflegen an mehreren Stellen entfällt:
+Das Versionsabzeichen in der Navigationsleiste ist bereits automatisch mit dem `version`-Feld in `package.json` verknüpft und bildet als Single Source of Truth die sitewide Versionsquelle ab. Aktualisieren Sie die Versionsnummer in `package.json` (oder führen Sie `pnpm version patch --no-git-tag-version` aus), und das Abzeichen in der Kopfzeile gleicht sich automatisch an die neueste Version an – ein manuelles Nachpflegen an mehreren Stellen entfällt:
 
 ```json
 {
@@ -113,7 +115,7 @@ Die CI (`build.yml`) führt `pnpm run verify` aus: Tests, Konfigurationsprüfung
 
 ## 5. CI-Build-Prüfung
 
-`.github/workflows/build.yml` führt bei Pushes nach `main` und bei Pull Requests die vollständige Prüfung aus. Die CI verwendet Node.js 22.20.0 aus `.node-version` und pnpm 10.34.5. Führen Sie vor dem Commit lokal dieselbe Selbstprüfung aus:
+`.github/workflows/build.yml` führt bei Pushes nach `main` und bei Pull Requests die vollständige Prüfung aus. Die CI verwendet Node.js 22.23.4 aus `.node-version` und pnpm 10.34.5. Führen Sie vor dem Commit lokal dieselbe Selbstprüfung aus:
 
 ```bash
 pnpm run verify

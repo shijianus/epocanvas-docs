@@ -3,7 +3,7 @@ title: 常见问题与故障排查 FAQ
 description: EpoCanvas Docs 本地运行报错、文档不显示、提示框渲染异常、搜索失效与 Cloudflare Pages 部署的排查清单。
 ---
 
-在使用、编写或部署 **EpoCanvas Docs** 的过程中遇到异常时，先在这里对号入座。问题按"本地启动 → 文档编写 → 搜索 → 部署"的顺序排列，每个问题都给出原因和验证过的解决办法。
+在使用、编写或部署 **EpoCanvas Docs** 的过程中遇到异常时，先在这里查找对应问题。问题按“本地启动 → 文档编写 → 搜索 → 部署”的顺序排列，列出常见原因与排查步骤；请结合实际报错和检查结果判断，本文不是本次候选版本逐项实测通过的记录。
 
 ---
 
@@ -15,12 +15,12 @@ description: EpoCanvas Docs 本地运行报错、文档不显示、提示框渲�
 - **解决办法**：换一个端口启动：
 
   ```bash
-  pnpm run dev -- --port 4322
+  pnpm run dev --port 4322
   ```
 
 ### Q2：安装依赖时出现错误
-- **原因**：当前项目使用 passthrough 图片服务，不依赖 Sharp。先查看终端输出的具体错误，常见原因是 Node.js 或 pnpm 版本不符合项目要求。
-- **解决办法**：确认 Node.js 22.20+ (22.x) 或 Node.js 24.12+ 和 pnpm 10.34.5，保留 `pnpm-lock.yaml` 执行可复现安装：
+- **原因**：当前站点使用 passthrough 图片服务，不在运行时做图片优化。先查看终端输出的具体错误，常见原因是 Node.js 或 pnpm 版本不符合项目要求。
+- **解决办法**：确认 Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 和 pnpm 10.34.5，保留 `pnpm-lock.yaml` 执行可复现安装：
   ```bash
   pnpm install --frozen-lockfile
   ```
@@ -110,8 +110,8 @@ description: EpoCanvas Docs 本地运行报错、文档不显示、提示框渲�
 
 ### Q11：刚绑定的自定义域名提示 SSL 握手失败 (Error 525)
 
-- **原因**：Cloudflare 为新域名签发 Universal SSL 证书需要 2~5 分钟的全球生效时间。
-- **解决办法**：等待几分钟后强制刷新（`Ctrl+F5` / `Cmd+Shift+R`）；期间可先访问 `<项目名>.pages.dev` 默认域名，它始终可用。
+- **原因**：不能仅凭 Error 525 就判断为证书正在签发；应结合域名验证、证书状态、DNS 记录、代理配置与错误详情排查。
+- **解决办法**：先查看 **Custom domains** 中的域名验证与证书状态，再检查 DNS 和代理配置，并用默认 `pages.dev` 域名对比。不要只等待固定几分钟；两个域名是否可用都应以实际请求结果为准，参见[部署排查](/canvas/cloudflare/)。
 
 ### Q12：运行 `pnpm run deploy` 报错 `Project not found`
 

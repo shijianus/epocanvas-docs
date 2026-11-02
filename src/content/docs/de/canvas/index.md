@@ -3,7 +3,7 @@ title: Produktüberblick & Kernwerte
 description: "Offizielles Produkthandbuch von EpoCanvas Docs – eine leistungsstarke statische Dokumentations-Site für Open-Source-Projekte: Produktpositionierung, Kernvorteile und die gelösten Probleme."
 ---
 
-**EpoCanvas Docs** ist das offizielle technische Dokumentationssystem für das EpoCanvas-Open-Source-Ökosystem. Es basiert auf dem modernen Framework für statische Websites **Astro 5** und **Starlight** und soll Entwicklern eine Dokumentationsplattform bieten, die professionell gesetzt ist, schnell lädt, eine praktische Suche mitbringt und leicht zu pflegen ist.
+**EpoCanvas Docs** ist das offizielle technische Dokumentationssystem für das EpoCanvas-Open-Source-Ökosystem. Es basiert auf dem modernen Framework für statische Websites **Astro 7** und **Starlight** und soll Entwicklern eine Dokumentationsplattform bieten, die professionell gesetzt ist, schnell lädt, eine praktische Suche mitbringt und leicht zu pflegen ist.
 
 Ob Benutzerhandbuch eines Produkts, API-Spezifikation oder Dokumentation einer Systemarchitektur – mit EpoCanvas Docs können sich Autorinnen und Autoren ganz auf das Schreiben von Markdown konzentrieren, während Leserinnen und Leser ein komfortables, natürliches Leseerlebnis erhalten.
 
@@ -36,7 +36,7 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 
 ### 2. Zwei Suchmodi: Seite durchsuchen + Site-weite Suche
 
-- **Aktuelle Seite durchsuchen**: Suchbegriff einfach ins Suchfeld oben eingeben – alle Treffer auf der Seite werden sofort hervorgehoben, mit einer Fortschrittsanzeige wie `3/9`; mit Enter springen Sie einzeln durch die Treffer.
+- **Aktuelle Seite durchsuchen**: Suchbegriff einfach ins Suchfeld oben eingeben – alle Treffer auf der Seite werden sofort hervorgehoben, mit einer Fortschrittsanzeige wie `3/9`; mit Enter springen Sie einzeln durch die Treffer. Das Seiten-Suchfeld erscheint erst ab `64rem`; darunter bleibt nur die websiteweite Suchschaltfläche. Für den aktuellen Artikel steht die Seitensuche des Browsers bereit. Bei abweichenden Screenshots gilt die aktuelle Oberfläche.
 - **Site-weites Suchfenster**: Mit `Strg + K` (auf dem Mac `Cmd + K`) öffnen Sie das globale Suchfenster, das auf dem statischen Pagefind-Index alle passenden Dokumente und Abschnittsvorschauen auflistet.
 - Die gesamte Suchfunktion läuft lokal im Browser und hängt von keinem Backend-Dienst ab – sie funktioniert auch, wenn die Site in einem Intranet gehostet wird.
 
@@ -44,7 +44,7 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 
 - Unterstützt werden 10 Sprachen: vereinfachtes Chinesisch, traditionelles Chinesisch, Englisch, Japanisch, Koreanisch, Spanisch, Französisch, Deutsch, Russisch und Portugiesisch. Navigation, Seitenleiste und der gesamte Dokumenttext liegen in jeder Sprache vollständig übersetzt vor.
 - Über den Sprach-Button oben rechts gelangen Sie zur Sprachversion desselben Artikels; die URL trägt ein Sprachpräfix (z. B. `/en/canvas/`) und lässt sich direkt als Lesezeichen speichern oder an Kolleginnen und Kollegen in anderen Sprachen weitergeben.
-- Fehlt für eine einzelne Seite die Übersetzung in einer Sprache, zeigt diese Seite automatisch den Standardinhalt auf Chinesisch an – es tritt kein 404-Fehler auf.
+- Der Sprach-Fallback ist nur eine Schutzfunktion. Vor der Veröffentlichung müssen alle 10 Übersetzungen vorliegen; fehlende Übersetzungen lassen `audit-i18n` und CI fehlschlagen.
 
 ### 4. Professionelle Markdown- und Code-Formatierung
 
@@ -54,7 +54,7 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 
 ### 5. Schneller Build, kostenloses Hosting
 
-- Statische Kompilierung auf Basis von Astro 5; das Build-Ergebnis besteht aus reinem HTML, CSS und nur wenig bedarfsgeladenem JavaScript. Der vollständige Build aller rund 180 Seiten in 10 Sprachen dauert etwa 25 Sekunden.
+- Statische Kompilierung auf Basis von Astro 7; das Build-Ergebnis besteht aus reinem HTML, CSS und nur wenig bedarfsgeladenem JavaScript. Der vollständige Build aller rund 180 Seiten in 10 Sprachen dauert etwa 25 Sekunden.
 - Bereitstellungsbefehl für Cloudflare Pages ist vorbereitet: Mit einem einzigen Befehl veröffentlichen Sie die Dokumentation online und erhalten automatisch ein HTTPS-Zertifikat.
 
 ---
@@ -67,7 +67,7 @@ Damit die Dokumentation leichtgewichtig und pflegeleicht bleibt, ist das System 
 
 *Abbildung: Systemarchitektur. Autorinnen und Autoren pflegen nur die Markdown-Inhaltsquellen; alle weiteren Schritte laufen automatisch ab.*
 
-- **Fundament und Styles**: Basiert auf dem statischen Kern von Astro 5; die Design-Variablen werden in `src/styles/custom.css` definiert, helles und dunkles Design teilen sich dieselben Variablennamen.
+- **Fundament und Styles**: Basiert auf dem statischen Kern von Astro 7; die Design-Variablen werden in `src/styles/custom.css` definiert, helles und dunkles Design teilen sich dieselben Variablennamen.
 - **Verwaltung der Inhaltsquellen**: Alle Dokumente liegen im Verzeichnis `src/content/docs/` und werden in reinem Markdown (`.md`) oder in MDX (`.mdx`) mit einbettbaren Komponenten geschrieben.
 - **Oberflächenkomponenten**: Durch Überschreiben der Starlight-Standardkomponenten sind Kopfleiste, Seitenleiste, Inhaltsverzeichnis der Seite und das Suchfenster angepasst.
 - **Auslieferung und Zugriff**: Das Build-Ergebnis liegt im Verzeichnis `dist/` und wird auf Cloudflare Pages gehostet; globale CDN-Knoten antworten aus der Nähe.
@@ -90,7 +90,7 @@ EpoCanvas Docs eignet sich für folgende Szenarien:
 
 | Funktion | EpoCanvas Docs | Docusaurus | VitePress | GitBook Business |
 | :--- | :--- | :--- | :--- | :--- |
-| **Grundtechnologie** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Closed-Source-SaaS-Plattform |
+| **Grundtechnologie** | Astro 7 + Starlight | React 18 | Vue 3 + Vite | Closed-Source-SaaS-Plattform |
 | **Suchmechanismus** | Lokaler statischer Pagefind-Index | Algolia oder ein anderer konfigurierte Suchdienst | Minisearch-In-Memory-Suche | Integrierte Backend-Suche |
 | **Layout** | Drei Spalten (Menü links + Haupttext Mitte + Inhaltsverzeichnis rechts) | Umrüstung über Plugins erforderlich | Standardmäßig zwei/drei Spalten | Feste zwei Spalten |
 | **Bereitstellung** | Direktupload zu Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Plattform-eigenes Hosting |
@@ -104,12 +104,12 @@ Der tatsächlich verwendete Technologie-Stack der aktuellen Version (maßgeblich
 
 | Komponente | Version | Aufgabe |
 | :--- | :--- | :--- |
-| **Astro** | v5.18.2 | Statischer Site-Kern, zuständig für Build und Routing |
-| **Starlight** | v0.32.6 | Dokumentations-Framework, liefert Layoutgerüst und Inhaltsverarbeitung |
+| **Astro** | v7.4.4 | Statischer Site-Kern, zuständig für Build und Routing |
+| **Starlight** | v0.41.11 | Dokumentations-Framework, liefert Layoutgerüst und Inhaltsverarbeitung |
 | **Expressive Code** | mit Starlight integriert | Code-Highlighting, Titelleisten, Zeilenhervorhebung |
-| **Pagefind** | integriert über `@pagefind/default-ui` 1.5.2 | Erzeugt beim Build den statischen Suchindex |
-| **Wrangler** | v4.131.0 | Offizielle Cloudflare-CLI für die Bereitstellung |
-| **Laufzeitumgebung** | Node.js 22.20+ (22.x) oder Node.js 24.12+, pnpm 10.34.5 | Anforderungen für lokale Entwicklung, Builds und Deployment |
+| **Pagefind** | integriert über `@pagefind/default-ui` 1.6.0 | Erzeugt beim Build den statischen Suchindex |
+| **Wrangler** | v4.156.1 | Offizielle Cloudflare-CLI für die Bereitstellung |
+| **Laufzeitumgebung** | Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0, pnpm 10.34.5 | Anforderungen für lokale Entwicklung, Builds und Deployment |
 
 Lesen Sie beim Aktualisieren von Abhängigkeiten bitte auch die Hinweise zu Regressionstests unter [UI-Komponenten & eigene Anpassungen](/canvas/components/).
 

@@ -1,9 +1,9 @@
 ---
 title: Despliegue en Cloudflare Pages
-description: "Tutorial ilustrado completo para publicar EpoCanvas Docs: subida directa con la línea de comandos de Wrangler, compilación automática desde Git y vinculación de dominio propio, con capturas de pantalla reales de la consola en cada paso."
+description: "Guía de Cloudflare Pages: subida con Wrangler, Git opcional, dominios y comprobaciones tras publicar."
 ---
 
-Una vez redactada la documentación, hay que publicarla en Internet para que el equipo y los usuarios puedan acceder a ella. **EpoCanvas Docs** recomienda alojarlo en **Cloudflare Pages**: no hace falta comprar un servidor ni configurar Nginx; basta con subir los archivos estáticos y se obtiene automáticamente el certificado HTTPS. Este propio sitio (`docs.epocanvas.com`) se publicó con el método de este artículo, y todas las capturas de pantalla de la consola siguientes provienen de un despliegue real.
+Esta página explica cómo desplegar documentación estática en **Cloudflare Pages** según los scripts del repositorio. Las capturas son ejemplos existentes, no registros de despliegue o pruebas de esta candidata. Si difieren, siga la consola actual. El éxito de la verificación y del despliegue debe confirmarse en los registros y estados reales, no deducirse de esta guía.
 
 ---
 
@@ -19,19 +19,19 @@ Una vez redactada la documentación, hay que publicarla en Internet para que el 
 
 ### Cómo elegir entre los dos métodos de despliegue
 
-![Diagrama comparativo de las dos vías de despliegue en Cloudflare Pages: a la izquierda subida directa local desde la línea de comandos (la que usa este sitio), a la derecha compilación automática desde el repositorio Git (recomendada para trabajo en equipo)](/images/canvas/docs-deploy-compare.svg)
+![Rutas de subida local con Wrangler y compilación integrada con Git](/images/canvas/docs-deploy-compare.svg)
 
-*Figura: comparación de las dos rutas de despliegue en Cloudflare Pages. A la izquierda, compilación en la propia máquina y subida directa al edge con Wrangler (la realmente adoptada por este sitio); a la derecha, compilación automática en la nube activada por un Webhook de GitHub.*
+*Figura: compilación local y subida con Wrangler a la izquierda; compilación en la nube mediante Git a la derecha. El diagrama no acredita pruebas de estas rutas durante esta revisión.*
 
 | Aspecto | Método 1: subida directa por línea de comandos | Método 2: compilación automática desde Git |
 | :--- | :--- | :--- |
 | Modo de operación | Ejecutar `pnpm run deploy` en local | El push de código a GitHub lo activa automáticamente |
 | Dificultad de arranque | Baja, dos comandos | Media, requiere completar una configuración en la consola |
 | Escenario adecuado | Primera publicación, mantenimiento por una sola persona, actualizaciones rápidas | Colaboración de varias personas, cuando se quiere "commit igual a publicación" |
-| Adoptado por este sitio | ✅ Sí (se puede verificar en la consola) | No activado; se puede añadir en cualquier momento |
+| Comprobaciones | Verify completo antes de subir | Configurar verify completo en el comando de la nube |
 
 :::tip
-Ambos métodos pueden coexistir: usar la compilación automática desde Git en el día a día y, para corregir errores con urgencia, usar `pnpm run deploy` en local para sobrescribir y publicar directamente.
+Elija Direct Upload o integración Git al crear el proyecto. No suponga que un proyecto de subida directa puede convertirse en uno integrado con Git; cree el proyecto adecuado al cambiar de ruta. Las subidas urgentes con Wrangler también deben superar las comprobaciones.
 :::
 
 :::tip[¿No quiere escribir comandos en absoluto?]
@@ -42,44 +42,43 @@ La página de [Inicio rápido](/canvas/deployment/) ofrece botones de despliegue
 
 ## Método 1: subida directa desde la línea de comandos local (recomendado la primera vez)
 
-En este método la compilación se hace en local y se sube directamente a Cloudflare; es el método de despliegue **que este sitio utiliza realmente**.
+Esta ruta compila en local y sube con Wrangler. `pnpm run deploy` apunta al proyecto `epocanvas-docs` de los mantenedores; no es un botón genérico que cualquier fork pueda reutilizar sin configuración.
 
 ### Paso 1: iniciar sesión en la cuenta de Cloudflare
 
 El proyecto ya incluye Wrangler (la herramienta de línea de comandos oficial de Cloudflare); el primer uso requiere autorizar el inicio de sesión desde el navegador:
 
 ```bash
-npx wrangler login
+pnpm exec wrangler login
 ```
 
 Al ejecutarlo, la terminal muestra `Opening a link in your default browser...`, el navegador abre la página de autorización de Cloudflare y, tras hacer clic en **Allow**, la terminal indica que el inicio de sesión fue correcto. Confirma el estado de la sesión con el siguiente comando:
 
 ```bash
-npx wrangler whoami
+pnpm exec wrangler whoami
 ```
 
 :::caution
-Si ejecuta el despliegue sin iniciar sesión, la terminal mostrará `You are not authenticated. Please run 'wrangler login'.` y no se realizará ningún despliegue.
+Se requiere una sesión o un token de Cloudflare con permisos válidos. Si falla la autenticación, compruebe `wrangler whoami`, la cuenta y los permisos. El texto del error puede variar según la versión.
 :::
 
 ### Paso 2: compilar y subir con un solo comando
 
 El proyecto incluye en `scripts/verify-release.mjs` un comando de publicación listo para usar:
 
-ejecute una vez `npx wrangler login` y después `pnpm run deploy`. El despliegue lo ejecuta `scripts/verify-release.mjs`, que rechaza ramas distintas de `main`, un árbol de trabajo con cambios o un HEAD que no coincida con el commit real de `origin/main` en el remoto. Ejecuta `pnpm run verify` antes de Wrangler. El nombre del proyecto está definido en este script, no en `package.json`.
+Autorice con `pnpm exec wrangler login`. `scripts/verify-release.mjs` exige `main`, árbol limpio incluidos archivos sin seguimiento, upstream `origin/main` y HEAD igual al commit remoto real. `pnpm run deploy` ejecuta `pnpm run verify` completo, vuelve a comprobar Git y llama a Wrangler. El proyecto se define en el script; configure su propio destino antes de reutilizarlo.
 
 ```bash
 pnpm run deploy
 ```
 
-Tras comprobar los requisitos, el script ejecuta `pnpm run verify`: pruebas, comprobaciones de configuración y tipos de Astro, compilación y comprobaciones de contenido y artefactos. Solo si todo pasa ejecuta `wrangler pages deploy dist` para subir directamente a Cloudflare Pages. El siguiente fragmento es un ejemplo; el número de páginas y los tiempos dependen de cada ejecución:
+`pnpm run deploy` ejecuta configuración, tipos Astro, compilación, pruebas y comprobaciones de contenido/artefactos antes de subir. Para comprobar solo los requisitos use lo siguiente. Lee referencias Git remotas, pero no ejecuta la verificación completa, compilación ni subida. Un dry-run correcto no significa que las pruebas hayan pasado.
 
-```text
-23:54:01 [build] 181 page(s) built in 20.78s
-23:54:01 [build] Complete!
+```bash
+pnpm run deploy --dry-run
 ```
 
-Al terminar la subida, Wrangler muestra la dirección de vista previa de ese despliegue. El nombre del proyecto lo fija de antemano el script `scripts/verify-release.mjs` (`--project-name epocanvas-docs`), por lo que no se pregunta de forma interactiva.
+Wrangler muestra la URL tras una subida correcta. El script fija `--project-name epocanvas-docs --branch main`; compruebe que el proyecto existe en su cuenta y que la rama de producción es correcta.
 
 ### Paso 3: localizar su proyecto en la consola
 
@@ -96,7 +95,7 @@ Haga clic en el nombre del proyecto para entrar en sus detalles; la pestaña **D
 *Figura: página de historial de despliegues. ① Nombre del proyecto; ② pestaña Deployments; ③ el dominio de producción tiene vinculados a la vez `docs.epocanvas.com` (dominio propio) y `epocanvas-docs.pages.dev` (dominio predeterminado); ④ cada registro de despliegue indica la rama y la información del commit; ⑤ estado y hora del despliegue.*
 
 :::note
-Cada vez que ejecuta `pnpm run deploy` se añade un registro al inicio de la lista, que se convierte automáticamente en la versión de producción actual. El historial se conserva en la lista, de modo que ante cualquier problema se puede volver atrás en cualquier momento.
+Solo una subida correcta genera un registro. Compruebe estado, rama, commit y dominio en Deployments. Un comando rechazado o una verificación fallida no actualiza el sitio.
 :::
 
 ---
@@ -110,14 +109,14 @@ Entra en la pestaña **Settings** para ver la diferencia entre un proyecto de su
 *Figura: pestaña Settings. ① Acceso a Settings; ② la sección Git repository muestra Connect (sin conectar); los proyectos de subida directa no necesitan configuración de compilación desde Git, la compilación se realiza íntegramente en tu máquina local.*
 
 :::tip
-Esto explica también la ventaja de la subida directa: el entorno de compilación es su propio ordenador y no depende de la cola de compilación de Cloudflare; la contrapartida es que cada actualización debe ejecutarse desde el ordenador donde se hace el despliegue.
+La subida directa evita la cola de compilación en la nube. La máquina necesita Node, pnpm, Git y credenciales adecuados; no tiene que ser siempre el mismo ordenador.
 :::
 
 ---
 
 ## Método 2: conectar un repositorio Git para compilación automática (opcional)
 
-Si quiere que "hacer commit equivalga a publicar automáticamente", puede conectar el proyecto a un repositorio de GitHub para que Cloudflare lo compile automáticamente en la nube.
+Para compilar al hacer push, cree un proyecto Pages integrado con Git y conecte el repositorio. Lo siguiente es una guía de configuración, no una afirmación de que esta ruta esté activada o se haya probado ahora.
 
 ### Paso 1: entrar en el flujo de creación
 
@@ -137,12 +136,14 @@ En "Configurar compilación y despliegue", rellene la siguiente configuración:
 | Parámetro | Valor |
 | :--- | :--- |
 | Preset de framework | `Astro` |
-| Comando de compilación | `pnpm run build` |
-| Directorio de salida de la compilación | `dist` |
+| Comando de compilación | `pnpm install --frozen-lockfile && pnpm run verify` |
+| Directorio de salida | `dist` |
+| Node.js | `22.23.4`, como en `.node-version` |
+| pnpm | `10.34.5`, como en `packageManager` |
 
 ### Paso 4: verificar la compilación automática
 
-Haga clic en **Guardar y desplegar** y Cloudflare completará automáticamente la primera compilación. A partir de entonces, cada push de código a la rama `main` hará que Cloudflare descargue, compile y publique automáticamente. El registro de compilación de cada despliegue se puede consultar haciendo clic en el despliegue correspondiente en la pestaña **Deployments** del proyecto.
+Compruebe Node y pnpm en la nube, elija **Guardar y desplegar** y revise los registros de Deployments. Instalación, verificación completa y subida deben terminar correctamente. Los pushes posteriores dependen de la rama de producción y de la automatización configuradas. El éxito de GitHub CI por sí solo no despliega Pages.
 
 :::caution
 La página Settings de un proyecto con integración Git muestra además un bloque de configuración de compilación (preset de framework, comando de compilación, etc.), distinto de la interfaz de los [proyectos de subida directa](#conocer-la-configuración-de-compilación-de-los-proyectos-de-subida-directa); si no encuentra la configuración de compilación en Settings, significa que el proyecto actual es de subida directa, lo cual es normal.
@@ -152,7 +153,7 @@ La página Settings de un proyecto con integración Git muestra además un bloqu
 
 ## Vincular un dominio propio
 
-El dominio `epocanvas-docs.pages.dev` que Cloudflare asigna por defecto se puede usar directamente; vincular su propio dominio (por ejemplo `docs.epocanvas.com`) solo lleva unos minutos.
+Cloudflare ofrece `<project-name>.pages.dev` y permite asociar un dominio propio. Los siguientes dominios son ejemplos; los plazos de DNS y certificados dependen del estado real.
 
 ### Paso 1: abrir la configuración de dominio propio
 
@@ -166,7 +167,7 @@ En la página de detalles del proyecto, haga clic en la pestaña **Custom domain
 
 1. Haga clic en **Set up a custom domain** e introduzca su subdominio (por ejemplo `docs.epocanvas.com`);
 2. Si el DNS del dominio ya está gestionado en Cloudflare, el sistema añade automáticamente el registro CNAME; si el dominio está gestionado en otro proveedor, hay que añadir manualmente un registro CNAME que apunte a `<nombre-del-proyecto>.pages.dev`;
-3. Espere a que se emita el certificado (normalmente entre 2 y 5 minutos); cuando el estado cambie a **Active** (como en el punto ③ de la imagen anterior), el sitio ya será accesible con el nuevo dominio.
+3. Espere la validación DNS y el certificado; pruebe el dominio cuando esté **Active**. Un número fijo de minutos no garantiza la finalización.
 
 El certificado HTTPS lo emite y renueva Cloudflare automáticamente; no requiere solicitud ni configuración manual.
 
@@ -188,7 +189,7 @@ date: Fri, 11 Sep 2026 15:32:39 GMT
 content-type: text/html; charset=utf-8
 ```
 
-Ver `200` significa que el sitio está en buen estado. Tras vincular el dominio propio, repita la prueba con la URL de su propio dominio.
+`200` solo confirma que esta URL respondió correctamente; no valida traducciones, recursos, búsqueda ni contenido reciente. Complete las comprobaciones siguientes en ambos dominios.
 
 ### Comprobación punto por punto en el navegador
 
@@ -209,10 +210,10 @@ Recarga forzada en el navegador (`Ctrl+F5` / `Cmd+Shift+R`) para descartar la ca
 
 ### ¿El dominio propio muestra un error de handshake SSL (Error 525)?
 
-La emisión del certificado necesita entre 2 y 5 minutos para hacerse efectiva globalmente; espera y recarga forzada. Mientras tanto, se puede acceder primero con el dominio predeterminado `epocanvas-docs.pages.dev`.
+Revise la validación y el certificado en Custom domains; después DNS, proxy y detalles del error. No se limite a esperar unos minutos. Compare con el dominio `pages.dev`.
 
 ### ¿`pnpm run deploy` falla con `Project not found`?
 
-Primero ejecuta `npx wrangler whoami` para confirmar que la sesión está iniciada; después verifica que el `--project-name` en `scripts/verify-release.mjs` coincida con el nombre del proyecto en la consola.
+Primero ejecuta `pnpm exec wrangler whoami` para confirmar que la sesión está iniciada; después verifica que el `--project-name` en `scripts/verify-release.mjs` coincida con el nombre del proyecto en la consola.
 
 Para más comprobaciones, ver [Preguntas frecuentes y solución de problemas](/canvas/troubleshooting/).

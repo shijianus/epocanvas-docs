@@ -10,8 +10,8 @@ const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/;
 export function supportedNodeVersion(version) {
   if (!/^\d+\.\d+\.\d+$/.test(version)) return false;
-  const [major, minor] = version.split('.').map(Number);
-  return (major === 22 && minor >= 20) || (major === 24 && minor >= 12);
+  const [major, minor, patch] = version.split('.').map(Number);
+  return (major === 22 && (minor > 23 || (minor === 23 && patch >= 4))) || (major === 24 && minor >= 12);
 }
 
 export function releaseMetadata(tag, version) {
@@ -21,6 +21,18 @@ export function releaseMetadata(tag, version) {
     throw new Error(`TAG_NAME 必须与 package.json 一致：v${version}。`);
   }
   return { tag, prerelease: Boolean(parsed[4]), latest: !parsed[4] };
+}
+
+export function checkReleaseNotes(notes, version) {
+  const meta = releaseMetadata(`v${version}`, version);
+  const heading = notes.split(/\r?\n/, 1)[0].trim();
+  if (heading !== `# EpoCanvas Docs ${meta.tag}`) {
+    throw new Error(`RELEASE_NOTES.md 标题必须为 # EpoCanvas Docs ${meta.tag}`);
+  }
+  if (meta.prerelease && !/candidate|prerelease|公测|候选/i.test(notes)) {
+    throw new Error('预发布说明必须明确标注为候选版本。');
+  }
+  return meta;
 }
 
 function run(command, args, capture = false) {
@@ -45,19 +57,19 @@ function git(...args) {
 
 function checkConfig() {
   const pkg = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  releaseMetadata(`v${pkg.version}`, pkg.version);
-  if (pkg.engines?.node !== '^22.20.0 || ^24.12.0' || pkg.engines?.pnpm !== '>=10.0.0 <11.0.0') {
-    throw new Error('engines 必须声明 Node ^22.20.0 || ^24.12.0 与 pnpm >=10.0.0 <11.0.0。');
+  checkReleaseNotes(readFileSync(path.join(ROOT, 'RELEASE_NOTES.md'), 'utf8'), pkg.version);
+  if (pkg.engines?.node !== '^22.23.4 || ^24.12.0' || pkg.engines?.pnpm !== '>=10.0.0 <11.0.0') {
+    throw new Error('engines 必须声明 Node ^22.23.4 || ^24.12.0 与 pnpm >=10.0.0 <11.0.0。');
   }
   if (!/^pnpm@10\.\d+\.\d+$/.test(pkg.packageManager ?? '')) {
     throw new Error('packageManager 必须固定为 pnpm@10.x.y。');
   }
   const nodeVersion = readFileSync(path.join(ROOT, '.node-version'), 'utf8').trim();
-  if (nodeVersion !== '22.20.0') {
-    throw new Error('.node-version 必须固定为 22.20.0。');
+  if (!/^22\.23\.4$/.test(nodeVersion)) {
+    throw new Error('.node-version 必须固定为 22.23.4。');
   }
   if (!supportedNodeVersion(process.versions.node)) {
-    throw new Error(`需要 Node 22.20+ (22.x) 或 24.12+ (24.x)；当前为 ${process.versions.node}。`);
+    throw new Error(`需要 Node 22.23.4+ (22.x) 或 24.12+ (24.x)；当前为 ${process.versions.node}。`);
   }
   const pnpmVersion = process.env.npm_config_user_agent?.match(/^pnpm\/(\S+)/)?.[1];
   if (pnpmVersion && `pnpm@${pnpmVersion}` !== pkg.packageManager) {

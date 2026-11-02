@@ -9,7 +9,7 @@ description: EpoCanvas Docs 完整渲染規則：從 Markdown 檔案到最終頁
 
 ## 渲染管線：從 .md 檔案到線上頁面
 
-![EpoCanvas Docs Markdown 渲染流水線示意圖：展示從 Markdown 原始碼掃描、GFM AST 解析、程式碼高亮、7 個客製化元件佈局裝配到靜態 HTML 與 Pagefind 索引產生的完整 5 步流程](/images/canvas/docs-render-pipeline.svg)
+![EpoCanvas Docs Markdown 渲染流水線示意圖：展示從 Markdown 原始碼掃描、GFM AST 解析、程式碼高亮、客製化元件佈局裝配到靜態 HTML 與 Pagefind 索引產生的完整 5 步流程](/images/canvas/docs-render-pipeline.svg)
 
 *圖：Markdown 渲染管線 5 步流程。各步驟在建置期按順序執行，建置產物為純靜態檔案，用戶端零執行時框架開銷。*
 

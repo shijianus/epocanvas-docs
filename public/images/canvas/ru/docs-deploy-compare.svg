@@ -22,8 +22,8 @@
 
   <!-- Header -->
   <g transform="translate(45, 36)">
-    <text x="0" y="24" fill="#f8fafc" font-size="19.1" font-weight="700" letter-spacing="-0.4">Cloudflare Pages: два пути развёртывания (Deployment Architecture)</text>
-    <text x="0" y="48" fill="#94a3b8" font-size="8.06">Прямая загрузка из локальной консоли (наш сайт) vs автоматическая сборка из Git (для команд)</text>
+    <text x="0" y="24" fill="#f8fafc" font-size="16.1" font-weight="700" letter-spacing="-0.4">Способы развёртывания Cloudflare Pages</text>
+    <text x="0" y="48" fill="#94a3b8" font-size="9.5">Локальная загрузка или интеграция Git: полная проверка обязательна</text>
   </g>
 
   <!-- Left Column: CLI Direct Deploy -->
@@ -36,7 +36,7 @@
       <rect width="90" height="22" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="0.8" />
       <text x="45" y="15" fill="#fbbf24" font-size="6.82" font-weight="700" text-anchor="middle">Способ 1 · рекомендуется</text>
       <text x="102" y="17" fill="#f8fafc" font-size="10.8" font-weight="700">Прямая загрузка из консоли (Wrangler CLI)</text>
-      <text x="0" y="38" fill="#94a3b8" font-size="6.82">Так публикуется этот сайт: сборка локально, загрузка прямо на edge</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="7.9">Скрипты проверяют условия публикации до загрузки</text>
     </g>
 
     <!-- Steps -->
@@ -46,15 +46,15 @@
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
         <text x="32" y="14" fill="#e2e8f0" font-size="9.7" font-weight="600">Одна локальная команда: pnpm run deploy</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.8">Готовый скрипт объединяет локальную сборку и загрузку</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="8.8">Чистая main; коммит совпадает с удалённой origin/main</text>
       </g>
 
       <!-- Step 2 -->
       <g transform="translate(0, 48)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="8.5" font-weight="600">Astro 5 локально собирает результат в dist/</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.8">Минификация HTML/CSS и индекс Pagefind WASM создаются локально</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.9" font-weight="600">Astro 7 создаёт dist/ и поисковый индекс локально</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="8.7">pnpm run verify: типы, сборка, тесты и контент</text>
       </g>
 
       <!-- Step 3 -->
@@ -62,29 +62,29 @@
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
         <text x="32" y="14" fill="#e2e8f0" font-size="7.5" font-weight="600">Wrangler читает учётные данные и грузит на Cloudflare Pages</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="8.6">Читает локальный API-токен, загружает только изменённые файлы</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.2">После проверок загрузка с действующими данными Cloudflare</text>
       </g>
 
       <!-- Step 4 -->
       <g transform="translate(0, 144)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">В сети за секунды, сразу выдаёт адрес превью</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="6.3">Вступает в силу сразу после загрузки — без облачных очередей и контейнеров</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.8" font-weight="600">После загрузки проверьте статус и адрес</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.5">Проверьте ветку и коммит в панели, затем ответ домена</text>
       </g>
 
       <!-- Step 5 -->
       <g transform="translate(0, 192)">
         <circle cx="12" cy="14" r="10" fill="#d97706" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Основной домен docs.epocanvas.com обновляется синхронно</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="6.3">Продакшен-псевдоним привязывается сам; кеш CDN по всему миру готов за секунды</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="9.4" font-weight="600">Отдельное превью: pnpm run deploy:preview</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="9.5">После полного verify: pnpm run verify:preview</text>
       </g>
     </g>
 
     <!-- Bottom Feature Tag -->
     <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#f59e0b" stroke-opacity="0.3" stroke-width="0.8" />
-    <text x="36" y="340" fill="#fbbf24" font-size="7.5">Подходит для: первый деплой · работа в одиночку · срочные правки · без квот сборки</text>
+    <text x="36" y="340" fill="#fbbf24" font-size="7.9">Первый деплой, личная работа, ревью превью; проверки обязательны</text>
   </g>
 
   <!-- Right Column: Git Webhook Deploy -->
@@ -95,9 +95,9 @@
     <!-- Mode Badge -->
     <g transform="translate(24, 22)">
       <rect width="90" height="22" rx="4" fill="#3b82f6" fill-opacity="0.2" stroke="#3b82f6" stroke-width="0.8" />
-      <text x="45" y="15" fill="#60a5fa" font-size="6.82" font-weight="700" text-anchor="middle">Способ 2 · командная работа</text>
+      <text x="45" y="15" fill="#60a5fa" font-size="8.3" font-weight="700" text-anchor="middle">Способ 2 · опция</text>
       <text x="102" y="17" fill="#f8fafc" font-size="13.3" font-weight="700">Автосборка из Git (Connect to Git)</text>
-      <text x="0" y="38" fill="#94a3b8" font-size="6.82">Подключите репозиторий GitHub — каждый push собирается в облачном контейнере</text>
+      <text x="0" y="38" fill="#94a3b8" font-size="6.82">Создайте проект с интеграцией Git и подключите репозиторий</text>
     </g>
 
     <!-- Steps -->
@@ -106,52 +106,52 @@
       <g transform="translate(0, 0)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">1</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="10.6" font-weight="600">Разработчик пушит: git push origin main</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">Push запускает webhook-уведомление GitHub</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.5" font-weight="600">Push в рабочую ветку (например, main)</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.1">Включите автодеплой; успешный GitHub CI сам не публикует</text>
       </g>
 
       <!-- Step 2 -->
       <g transform="translate(0, 48)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">2</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Cloudflare автоматически выделяет контейнер сборки</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7">Pages находит свободный узел и клонирует ветку в чистое окружение</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="8.3" font-weight="600">Pages получает настроенную ветку</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Установите Node.js и pnpm по настройкам проекта</text>
       </g>
 
       <!-- Step 3 -->
       <g transform="translate(0, 96)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">3</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="11.6" font-weight="600">В облаке: pnpm run build</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="7.2">Контейнер ставит зависимости, собирает сайт и создаёт индекс Pagefind</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="12" font-weight="600">В облаке: pnpm run verify</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="8.5">Сначала установка: pnpm install --frozen-lockfile</text>
       </g>
 
       <!-- Step 4 -->
       <g transform="translate(0, 144)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">4</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Отдельный адрес превью для каждой ветки PR</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="8">Каждый pull request получает свой URL превью для ревью командой</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Адреса превью зависят от настроек проекта</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="6.2">Отдельный адрес лишь для веток или PR с включённым превью</text>
       </g>
 
       <!-- Step 5 -->
       <g transform="translate(0, 192)">
         <circle cx="12" cy="14" r="10" fill="#2563eb" />
         <text x="12" y="18" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">5</text>
-        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">Полные логи сборки и история развёртываний</text>
-        <text x="32" y="28" fill="#94a3b8" font-size="10">Полные логи в панели Cloudflare, откат в один клик</text>
+        <text x="32" y="14" fill="#e2e8f0" font-size="7.4399999999999995" font-weight="600">После проверок и успешного деплоя изучите журнал</text>
+        <text x="32" y="28" fill="#94a3b8" font-size="7.5">Сверьте статус, ветку, коммит и домен в панели</text>
       </g>
     </g>
 
     <!-- Bottom Feature Tag -->
     <rect x="24" y="322" width="387" height="28" rx="6" fill="#0b0f19" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="0.8" />
-    <text x="36" y="340" fill="#60a5fa" font-size="8.6">Подходит для: команды · push = публикация · без личных ключей · превью PR</text>
+    <text x="36" y="340" fill="#60a5fa" font-size="9">Для команд: деплой по веткам и настраиваемые превью PR</text>
   </g>
 
   <!-- Bottom Common Info Banner -->
   <g transform="translate(45, 492)">
     <rect width="910" height="46" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
-    <text x="30" y="28" fill="#10b981" font-size="11" font-weight="700">✓ Сосуществуют</text>
-    <text x="145" y="28" fill="#94a3b8" font-size="8.6">Оба пути мирно сосуществуют: в повседневной работе — автоматизация Git, а срочную правку всегда можно опубликовать локально командой pnpm run deploy.</text>
+    <text x="20" y="18" fill="#10b981" font-size="7.4399999999999995" font-weight="700">Тип проекта выбирается при создании; оба пути требуют полной проверки</text>
+    <text x="20" y="35" fill="#94a3b8" font-size="6.9">Переход с Direct Upload на Git требует нового проекта; Wrangler тоже требует проверок. Схема не доказывает факт деплоя.</text>
   </g>
 </svg>

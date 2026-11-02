@@ -27,7 +27,7 @@ src/content/docs/
 - **Filename rules**: use lowercase English letters and hyphens (for example `quickstart-guide.md`); do not use Chinese characters or spaces. The filename determines the access path: `canvas/deployment.md` maps to `/canvas/deployment/`.
 - **File extension**: a plain `.md` file is enough in most cases; if you need to embed interactive components in an article (such as the card grid on the home page), use the `.mdx` format.
 - **Register in the sidebar**: after creating a new file, you must register it in the `sidebar` array of `astro.config.mjs`; otherwise it will not appear in the left-side TOC.
-- **Multilingual translations**: translations for other languages go under `src/content/docs/<language>/` with a subdirectory structure identical to the Chinese version (for example, `en/canvas/deployment.md` is the English quickstart); pages that do not have a translation yet automatically fall back to Chinese.
+- **Multilingual translations**: when adding or editing a document, update its counterparts in `src/content/docs/<locale>/` for the other 9 languages, preserving the Chinese directory structure (for example `en/canvas/deployment.md`). Complete the sidebar `translations` and any translated images in `public/images/canvas/<locale>/` as well. All 10 languages are required before publication; missing translations fail `pnpm run verify` and CI. Chinese fallback is only a framework safeguard, not permission to publish incomplete translations.
 
 ---
 

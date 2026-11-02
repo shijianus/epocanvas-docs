@@ -43,7 +43,7 @@
 
       <!-- Center Search Bar -->
       <rect x="230" y="11" width="320" height="30" rx="6" fill="#0b0f19" stroke="#475569" stroke-width="1" />
-      <text x="245" y="30" fill="#64748b" font-size="12">🔍 문서·코드 빠른 검색 (Cmd + K)</text>
+      <text x="245" y="30" fill="#64748b" font-size="12">페이지 내 찾기 · 전체 검색 Cmd+K</text>
       <rect x="510" y="16" width="30" height="20" rx="4" fill="#1e293b" />
       <text x="515" y="30" fill="#94a3b8" font-size="10">⌘K</text>
 
@@ -51,13 +51,13 @@
       <text x="585" y="30" fill="#f8fafc" font-size="12" font-weight="600">개요</text>
       <text x="630" y="30" fill="#94a3b8" font-size="10.9">컴포넌트</text>
       <text x="675" y="30" fill="#94a3b8" font-size="12">배포</text>
-      <rect x="715" y="17" width="55" height="20" rx="10" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="0.8" />
-      <text x="725" y="31" fill="#34d399" font-size="10" font-weight="600">v1.2.0 ↗</text>
+      <rect x="715" y="17" width="106" height="20" rx="10" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="0.8" />
+      <text x="723" y="31" fill="#34d399" font-size="10" font-weight="600">v1.3.2-beta.1 ↗</text>
 
       <!-- Language Selector -->
-      <rect x="785" y="14" width="55" height="24" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
-      <text x="793" y="30" fill="#f8fafc" font-size="11">🌐 ZH ▾</text>
-      <circle cx="865" cy="26" r="10" fill="#334155" />
+      <rect x="835" y="14" width="40" height="24" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.8" />
+      <text x="840" y="30" fill="#f8fafc" font-size="9">🌐 ZH ▾</text>
+      <circle cx="885" cy="26" r="10" fill="#334155" />
     </g>
 
     <!-- 3-Tier Body Layout -->
@@ -81,7 +81,7 @@
 
       <text x="20" y="280" fill="#64748b" font-size="10" font-weight="700" text-transform="uppercase" letter-spacing="0.5">배포와 자동 릴리스</text>
       <text x="28" y="304" fill="#94a3b8" font-size="12">Cloudflare 엣지 배포</text>
-      <text x="28" y="334" fill="#94a3b8" font-size="12">GitHub Actions CI/CD</text>
+      <text x="28" y="334" fill="#94a3b8" font-size="12">GitHub Actions CI</text>
 
       <!-- Tier 2: Central Main Article Pane (490px) -->
       <g transform="translate(210, 0)">
@@ -106,7 +106,7 @@
         <text x="30" y="215" fill="#e2e8f0" font-size="14" font-weight="600">사이트 전체 아키텍처</text>
         <rect x="30" y="228" width="420" height="70" rx="6" fill="#0b0f19" stroke="#1e293b" stroke-width="1" />
         <text x="45" y="250" fill="#38bdf8" font-size="11" font-family="monospace">const config = defineConfig({ site: 'docs.epocanvas.com' });</text>
-        <text x="45" y="270" fill="#64748b" font-size="11" font-family="monospace">// Starlight 컴포넌트 재정의(7개, astro.config.mjs 참조)</text>
+        <text x="45" y="270" fill="#64748b" font-size="11" font-family="monospace">// Starlight 재정의: astro.config.mjs 참조</text>
 
         <!-- Bottom Pagination -->
         <rect x="30" y="312" width="160" height="26" rx="4" fill="#1e293b" />
@@ -125,7 +125,7 @@
         <text x="26" y="58" fill="#60a5fa" font-size="11" font-weight="600">제품 포지셔닝과 설계 비전</text>
 
         <text x="26" y="85" fill="#94a3b8" font-size="11">핵심 기술 스택과 내부</text>
-        <text x="36" y="105" fill="#64748b" font-size="10">Astro 5 + Starlight</text>
+        <text x="36" y="105" fill="#64748b" font-size="10">Astro 7 + Starlight</text>
         <text x="36" y="125" fill="#64748b" font-size="10">Pagefind 로컬 검색</text>
 
         <text x="26" y="152" fill="#94a3b8" font-size="11">사이트 전체 아키텍처</text>

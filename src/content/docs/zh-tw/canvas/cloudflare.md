@@ -1,9 +1,9 @@
 ---
 title: Cloudflare Pages 部署上線
-description: EpoCanvas Docs 發布上線的完整圖示教學：Wrangler 命令列直傳、Git 自動建置、自訂網域綁定，每一步附真實主控台截圖。
+description: Cloudflare Pages 部署指南：Wrangler 直傳、選用 Git 整合、自訂網域與發布後檢查。
 ---
 
-文件撰寫完成後，需要發布到公網供團隊和使用者存取。**EpoCanvas Docs** 推薦託管在 **Cloudflare Pages** 上：不需要購買伺服器、不需要設定 Nginx，靜態檔案直傳即可，並自動取得 HTTPS 憑證。本站自身（`docs.epocanvas.com`）就是用本文的方法發布的，以下所有主控台截圖均來自真實部署過程。
+本頁介紹如何將靜態文件部署至 **Cloudflare Pages**。步驟依儲存庫腳本撰寫；主控台截圖是既有範例，不是本次候選版本的部署或測試紀錄。介面若有差異，以目前主控台為準。建置及上線是否成功，須查看實際指令輸出與部署狀態，不能由本文推斷。
 
 ---
 
@@ -19,19 +19,19 @@ description: EpoCanvas Docs 發布上線的完整圖示教學：Wrangler 命令�
 
 ### 兩種部署方式怎麼選
 
-![Cloudflare Pages 部署雙軌對比圖：左側命令列本機直傳（本站採用），右側 Git 儲存庫自動建置（團隊協作推薦）](/images/canvas/docs-deploy-compare.svg)
+![Wrangler 本機直傳與 Git 整合建置的部署路徑示意](/images/canvas/docs-deploy-compare.svg)
 
-*圖：Cloudflare Pages 兩種部署路徑對比。左側透過本機建置後用 Wrangler 直傳邊緣（本站實際採用），右側透過 GitHub Webhook 觸發雲端自動建置。*
+*圖：左側在本機建置並用 Wrangler 上傳，右側由 Git 整合觸發雲端建置。圖示不代表兩條路徑已於本次修訂中實測。*
 
 | 對比項 | 方式一：命令列直傳 | 方式二：Git 自動建置 |
 | :--- | :--- | :--- |
 | 操作方式 | 本機執行 `pnpm run deploy` | 推送程式碼到 GitHub 自動觸發 |
 | 上手難度 | 低，兩條指令 | 中，需要在主控台完成一次設定 |
 | 適合場景 | 首次上線、單人維護、快速更新 | 多人協作、希望「提交即上線」 |
-| 本站採用 | ✅ 是（可在主控台驗證） | 未啟用，可隨時補充 |
+| 發布檢查 | 通過完整 verify 後才上傳 | 須在雲端建置指令配置完整 verify |
 
 :::tip
-兩種方式可以並存：日常用 Git 自動建置，緊急修錯時用本機 `pnpm run deploy` 直接覆蓋上線。
+建立專案時先選擇 Direct Upload 或 Git 整合。不能假設直傳專案可直接改為 Git 專案；改用 Git 整合時應建立對應專案。緊急使用 Wrangler 發布也不能略過發布檢查。
 :::
 
 :::tip[完全不想敲指令？]
@@ -42,44 +42,43 @@ description: EpoCanvas Docs 發布上線的完整圖示教學：Wrangler 命令�
 
 ## 方式一：本機命令列直傳（首次推薦）
 
-這種方式由本機建置後直接上傳到 Cloudflare，是**本站實際採用**的部署方式。
+此方式在本機建置後用 Wrangler 上傳。`pnpm run deploy` 面向維護者的 `epocanvas-docs` 專案，不是任意 fork 可直接使用的通用部署按鈕。
 
 ### 第 1 步：登入 Cloudflare 帳號
 
 專案已預置 Wrangler（Cloudflare 官方命令列工具），首次使用需要瀏覽器授權登入：
 
 ```bash
-npx wrangler login
+pnpm exec wrangler login
 ```
 
 執行後終端機提示 `Opening a link in your default browser...`，瀏覽器會開啟 Cloudflare 授權頁，點擊 **Allow** 後終端機顯示登入成功。用以下指令確認登入狀態：
 
 ```bash
-npx wrangler whoami
+pnpm exec wrangler whoami
 ```
 
 :::caution
-如果跳過登入直接執行部署，終端機會提示 `You are not authenticated. Please run 'wrangler login'.`，不會產生任何部署。
+需要有效的 Cloudflare 登入或權杖權限。認證失敗時先檢查 `wrangler whoami`、帳號與專案權限；錯誤文字可能隨版本變化。
 :::
 
 ### 第 2 步：一鍵建置並上傳
 
 專案在 `scripts/verify-release.mjs` 中預置了一鍵發布指令：
 
-先執行一次 `npx wrangler login` 完成授權，再執行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 執行；非 `main` 分支、工作區不乾淨，或 HEAD 與遠端 `origin/main` 的實際提交不一致時會被拒絕。腳本先執行 `pnpm run verify`，通過後才呼叫 Wrangler。專案名定義在此腳本中，不在 `package.json`。
+先執行 `pnpm exec wrangler login` 授權。`scripts/verify-release.mjs` 要求位於 `main`、工作區乾淨（包含未追蹤檔案）、上游為 `origin/main`，且 HEAD 與遠端實際提交相同。`pnpm run deploy` 通過完整 `pnpm run verify` 後會再次檢查 Git，再呼叫 Wrangler。專案名定義在腳本中，使用自己的專案須先調整發布設定。
 
 ```bash
 pnpm run deploy
 ```
 
-前置條件通過後，腳本先執行 `pnpm run verify`，涵蓋測試、設定檢查、Astro 型別檢查、建置及內容/產物檢查；全部通過後才呼叫 `wrangler pages deploy dist` 直傳至 Cloudflare Pages。以下只是建置輸出片段範例，頁數與耗時以實際執行結果為準：
+`pnpm run deploy` 會執行設定檢查、Astro 型別檢查、建置、測試及內容/產物檢查，全部通過才上傳。僅檢查部署前置條件可用下列指令；它仍會讀取遠端 Git 參照，但不執行完整驗證、建置或上傳，dry-run 成功不等於測試通過。
 
-```text
-23:54:01 [build] 181 page(s) built in 20.78s
-23:54:01 [build] Complete!
+```bash
+pnpm run deploy --dry-run
 ```
 
-上傳完成後，Wrangler 會輸出本次部署的預覽位址。專案名稱已由 `scripts/verify-release.mjs` 腳本透過 `--project-name epocanvas-docs` 預先指定，部署過程中不會再以互動方式詢問。
+上傳成功後 Wrangler 才輸出部署網址。目前腳本指定 `--project-name epocanvas-docs --branch main`，須確認帳號內存在該專案且正式分支設定正確。
 
 ### 第 3 步：在主控台找到你的專案
 
@@ -96,7 +95,7 @@ pnpm run deploy
 *圖：部署歷史頁面。① 專案名；② Deployments 標籤頁；③ 正式網域同時綁定了 `docs.epocanvas.com`（自訂網域）和 `epocanvas-docs.pages.dev`（預設網域）；④ 每條部署紀錄標註了分支與提交資訊；⑤ 狀態與部署時間。*
 
 :::note
-每次執行 `pnpm run deploy` 都會在列表頂部新增一條部署紀錄，並自動成為目前正式版本。歷史紀錄保留在列表中，出問題時可以隨時回滾。
+只有上傳成功才會新增部署紀錄。請在 Deployments 核對狀態、分支、提交與正式網域；指令被拒絕或驗證失敗不代表線上已更新。
 :::
 
 ---
@@ -110,14 +109,14 @@ pnpm run deploy
 *圖：Settings 標籤頁。① Settings 入口；② Git repository 一欄顯示 Connect（未連接）——直傳專案不需要 Git 建置設定，建置完全在你本機完成。*
 
 :::tip
-這也解釋了直傳方式的優勢：建置環境就是你的本機電腦，不受 Cloudflare 建置佇列影響；代價是每次更新都必須在部署那台電腦上執行指令。
+直傳不依賴雲端建置佇列，但部署機器須符合 Node、pnpm、Git 與認證要求，不限於特定電腦。
 :::
 
 ---
 
 ## 方式二：連接 Git 儲存庫自動建置（可選）
 
-如果希望「提交程式碼即自動上線」，可以把專案連接到 GitHub 儲存庫，由 Cloudflare 在雲端自動建置。
+若需要推送觸發建置，請建立 Git 整合 Pages 專案並連接儲存庫。以下為設定指南，不代表此路徑已啟用或已於本次驗證。
 
 ### 第 1 步：進入建立流程
 
@@ -137,12 +136,14 @@ pnpm run deploy
 | 設定項 | 填寫值 |
 | :--- | :--- |
 | 框架預設 | `Astro` |
-| 建置指令 | `pnpm run build` |
+| 建置指令 | `pnpm install --frozen-lockfile && pnpm run verify` |
 | 建置輸出目錄 | `dist` |
+| Node.js | `22.23.4`，與 `.node-version` 一致 |
+| pnpm | `10.34.5`，與 `packageManager` 一致 |
 
 ### 第 4 步：驗證自動建置
 
-點擊 **儲存並部署**，Cloudflare 自動完成首次建置。之後每次向 `main` 分支推送程式碼，Cloudflare 都會自動拉取、建置並上線。每次部署的建置日誌可以在專案的 **Deployments** 標籤頁中點擊對應部署查看。
+先確認雲端環境安裝所需 Node 與 pnpm，再按 **儲存並部署** 並查看 Deployments 日誌。安裝、完整驗證與上傳都成功才算部署成功。後續 `main` 推送是否觸發，依專案的正式分支與自動部署開關而定；GitHub CI 成功不會自動替你部署 Pages。
 
 :::caution
 Git 整合專案的 Settings 頁會多出建置設定區塊（框架預設、建置指令等），這與[直傳專案](#認識直傳專案的建置設定)的介面不同——如果你在 Settings 裡找不到建置設定，說明目前專案是直傳專案，屬於正常現象。
@@ -152,7 +153,7 @@ Git 整合專案的 Settings 頁會多出建置設定區塊（框架預設、建
 
 ## 綁定自訂網域
 
-Cloudflare 預設分配的 `epocanvas-docs.pages.dev` 網域可以直接使用；綁定自己的網域（例如 `docs.epocanvas.com`）只需幾分鐘。
+Cloudflare 提供 `<專案名>.pages.dev` 網域，也可綁定自訂網域。以下為範例，DNS 與憑證生效時間以實際狀態為準。
 
 ### 第 1 步：開啟自訂網域設定
 
@@ -166,7 +167,7 @@ Cloudflare 預設分配的 `epocanvas-docs.pages.dev` 網域可以直接使用�
 
 1. 點擊 **Set up a custom domain**，輸入你的二級網域（如 `docs.epocanvas.com`）；
 2. 如果網域 DNS 已託管在 Cloudflare，系統自動新增 CNAME 記錄；託管在別處的網域需要手動加一條 CNAME 記錄指向 `<專案名>.pages.dev`；
-3. 等待憑證簽發（通常 2~5 分鐘），狀態變為 **Active**（如上圖 ③）後即可透過新網域存取。
+3. 等待 DNS 驗證與憑證簽發，狀態為 **Active** 後再測試新網域；不保證固定幾分鐘內完成。
 
 HTTPS 憑證由 Cloudflare 自動簽發和續期，不需要手動申請或設定。
 
@@ -188,7 +189,7 @@ date: Fri, 11 Sep 2026 15:32:39 GMT
 content-type: text/html; charset=utf-8
 ```
 
-看到 `200` 即說明站點健康。綁定了自訂網域後，把 URL 換成自己的網域再測一次。
+`200` 只代表此 URL 回應成功，不代表譯文、資源、搜尋與最新內容正確。請繼續完成下表檢查，並分別檢查預設與自訂網域。
 
 ### 瀏覽器逐項確認
 
@@ -209,10 +210,10 @@ content-type: text/html; charset=utf-8
 
 ### 自訂網域提示 SSL 交握失敗 (Error 525)？
 
-憑證簽發需要 2~5 分鐘全球生效時間，等待後強制重新整理即可；期間可先存取 `epocanvas-docs.pages.dev` 預設網域。
+先檢查 Custom domains 的驗證與憑證狀態，再核對 DNS、代理設定與錯誤詳情。不要只等待固定幾分鐘；可用預設 `pages.dev` 網域對照排查。
 
 ### 執行 `pnpm run deploy` 報錯 `Project not found`？
 
-先執行 `npx wrangler whoami` 確認已登入；再核對 `scripts/verify-release.mjs` 中的 `--project-name` 與主控台專案名是否一致。
+先執行 `pnpm exec wrangler whoami` 確認已登入；再核對 `scripts/verify-release.mjs` 中的 `--project-name` 與主控台專案名是否一致。
 
 更多排查項見[常見問題與故障排查 FAQ](/canvas/troubleshooting/)。

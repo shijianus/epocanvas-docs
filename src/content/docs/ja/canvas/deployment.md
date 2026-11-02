@@ -61,11 +61,11 @@ description: EpoCanvas Docs のローカル環境の準備、依存関係のイ�
 
 | ツール | 必要バージョン | 確認コマンド | 説明 |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | JavaScript の実行と静的ページのビルドに使う環境 |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | JavaScript の実行と静的ページのビルドに使う環境 |
 | **pnpm** | `10.34.5` | `pnpm -v` | プロジェクトが固定しているパッケージマネージャーのバージョン |
 | **Git** | 最新安定版 | `git --version` | コードの取得とバージョン管理に使用 |
 
-CI は `.node-version` で固定した Node.js 22.20.0 を使用します。
+CI は `.node-version` で固定した Node.js 22.23.4 を使用します。 Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 PC に `pnpm` がまだインストールされていない場合は、Node.js 同梱の npm で素早くグローバルインストールできます:
@@ -113,7 +113,7 @@ pnpm run dev
 ターミナルには次のような出力が表示されます（初回起動は依存関係の事前コンパイルが必要なため、数秒かかります）:
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

@@ -44,7 +44,7 @@
 
     <rect x="245" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
     <text x="257" y="68" fill="#f8fafc" font-size="12" font-weight="600">Wrangler CLI 直傳發布</text>
-    <text x="257" y="80" fill="#94a3b8" font-size="10">pnpm run deploy，秒級完成</text>
+    <text x="257" y="80" fill="#94a3b8" font-size="10">pnpm run deploy，先完整驗證</text>
 
     <rect x="470" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
     <text x="482" y="68" fill="#f8fafc" font-size="12" font-weight="600">自訂網域與 SSL</text>
@@ -59,7 +59,7 @@
   <g transform="translate(50, 225)" filter="url(#drop-shadow)">
     <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
     <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-accent)" />
-    <text x="30" y="30" fill="#818cf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">② 介面元件 · 覆蓋 Starlight 的 7 個原生元件</text>
+    <text x="30" y="30" fill="#818cf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">② 介面元件 · Starlight 元件覆蓋範例</text>
 
     <!-- 7 Component Cards -->
     <rect x="30" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
@@ -122,10 +122,10 @@
   <g transform="translate(50, 485)" filter="url(#drop-shadow)">
     <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
     <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-emerald)" />
-    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">④ 基礎底座 · Astro 5 + Starlight 0.32</text>
+    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">④ 基礎底座 · Astro 7.4.4 + Starlight 0.41.11</text>
 
     <rect x="30" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
-    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 5 靜態輸出</text>
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 7.4.4 靜態輸出</text>
     <text x="42" y="79" fill="#94a3b8" font-size="9.2">預設無需用戶端框架執行環境</text>
 
     <rect x="250" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />

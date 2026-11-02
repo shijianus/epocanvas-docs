@@ -12,9 +12,21 @@ description: EpoCanvas Docs 핵심 설정 파일 수정 가이드, 사이드바 
 루트 디렉터리의 `astro.config.mjs`는 문서 사이트 전체의 기본 설정 파일입니다. 사이트 정보와 직접 관련된 옵션은 다음과 같습니다(주석에 수정 시점이 표시되어 있습니다):
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// 도메인 변경 시 기존 SITE_ORIGIN과 public/robots.txt의 Sitemap URL을 함께 수정합니다.
+// site와 hreflangXDefault()가 이 값을 공유하므로 site만 바꾸지 마세요.
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // 사이트의 프로덕션 도메인. SEO 링크와 Sitemap 생성에 영향을 줍니다
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // true로 설정하면 로고만 표시하고 제목 텍스트는 숨깁니다
       },
 
-      // 오른쪽 위의 GitHub 저장소 링크
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Starlight 사이드바의 소셜 링크.
+      // 상단 바 GitHub/Telegram URL은 src/components/starlight/Header.astro에 별도로 정의합니다.
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // 커스텀 스타일시트 진입점
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+Astro 7에서 이 사이트는 `@astrojs/markdown-remark` 7.3.5의 `unified()`로 `markdown.processor`를 설정합니다. 위의 `rehypePlugins`는 `astro.config.mjs`의 기존 플러그인을 사용하므로 설정을 변경할 때 해당 함수 정의를 유지하세요.
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: 사이드바에 표시되는 분류명 또는 문서 제목으로, Frontmatter의 `title`과 달라도 됩니다(예: 더 짧은 표시 이름 사용);
 - **`link`**: 문서의 접속 경로로, `src/content/docs/` 아래의 파일 위치에 해당합니다.
 
-:::warning
+:::caution
 새로 만든 `.md` 파일은 `sidebar` 배열에 등록해야 왼쪽 목차에 나타납니다. 파일만 만들고 등록하지 않는 것이 초보자가 가장 자주 겪는 함정입니다.
 :::
 
@@ -125,9 +140,9 @@ sidebar: [
 
 ## 4. 사이트 로고 교체
 
-1. 브랜드 로고 벡터 이미지를 준비합니다(`.svg` 권장, 선명한 `.png`도 가능);
-2. `public/images/logo.svg`로 덮어써서 저장합니다(홈페이지 대형 이미지는 `src/assets/logo.svg`);
-3. 브라우저를 새로 고치면 상단 바와 홈페이지의 아이콘이 자동으로 교체됩니다.
+1. 유효한 `.svg` 벡터 로고를 준비합니다. 이 절차는 SVG 전용이며 PNG의 확장자를 `.svg`로 바꾸면 안 됩니다.
+2. 상단 바의 `public/images/logo.svg`와 홈페이지 이미지의 `src/assets/logo.svg`를 각각 교체합니다.
+3. 로컬 개발 서버에서 브라우저를 새로 고쳐 두 로고를 확인합니다. 운영 사이트는 다시 빌드하고 배포한 뒤에 갱신됩니다.
 
 :::tip
 두 로고의 용도는 서로 다릅니다: `public/images/logo.svg`는 상단 바에 사용되고, `src/assets/logo.svg`는 홈페이지 오른쪽의 장식용 대형 이미지에 사용됩니다. 함께 교체하는 것을 권장합니다.

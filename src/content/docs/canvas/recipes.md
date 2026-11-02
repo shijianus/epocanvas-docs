@@ -25,9 +25,11 @@ description: EpoCanvas Docs 高频定制操作速查：新增文档、导航按�
    { label: '用户使用指南', link: '/canvas/user-guide/' }
    ```
 
-4. 保存后本地预览确认出现在左侧目录，再执行 `pnpm run deploy` 发布。
+4. 在其余 9 个语言目录的 `src/content/docs/<locale>/canvas/user-guide.md` 中完成对应译文，并补齐侧边栏的 `translations` 与需要翻译的图片；缺译会使发布检查失败。
+5. 本地确认导航与正文后运行 `pnpm run verify`，再用 `pnpm run preview` 检查构建产物。
+6. 审查并合并改动后，由维护者从干净的 `main` 发布：该分支须跟踪 `origin/main`，HEAD 须与远端提交一致。先用 `pnpm exec wrangler login` 授权，再运行 `pnpm run deploy`。自己的 fork 须先按[部署指南](/canvas/cloudflare/)调整目标项目，不能直接复用维护者的发布配置。
 
-:::warning
+:::caution
 只建文件不登记 `sidebar`，页面可以访问但不会出现在左侧目录里——这是新手最常踩的坑。
 :::
 
@@ -128,7 +130,7 @@ export const UI_TRANSLATIONS = {
 };
 ```
 
-漏改的语言会自动回退显示中文默认值，不会报错。保存后本地热更新立即可见，无需构建。
+`getTranslation` 优先使用当前语言已有的非空值；只有缺少该键或值为空时才回退中文，中文也缺失时显示键名。未同步修改的已有译文仍显示旧值，因此改词条时须同步全部 10 种语言。保存后本地热更新可见，无需构建。
 
 ---
 

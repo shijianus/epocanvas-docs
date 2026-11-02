@@ -28,9 +28,9 @@ Située tout en haut de la page, elle est fixe et reste toujours visible lors du
 *Figure : gros plan annoté des éléments de la barre supérieure. ① Logo et nom du site ; ② champ de recherche global ; ③ groupe de boutons de la navigation principale ; ④ badge de version ; ⑤ sélecteur de langue ; ⑥ bascule du thème clair/sombre ; ⑦ accès au dépôt GitHub ; ⑧ accès à la communauté Telegram.*
 
 - **Logo et titre du site (①)** : à gauche, l'icône EpoCanvas et le nom du projet sont affichés ; un clic permet de revenir rapidement à la page d'accueil de la documentation.
-- **Champ de recherche global (②)** : saisissez des mots-clés dans le champ pour rechercher directement dans le contenu de la page courante ; `Ctrl+K` / `Cmd+K` ouvre la fenêtre de recherche site-wide, voir [Recherche plein texte et raccourcis clavier](/canvas/search-engine/).
+- **Champ de recherche global (②)** : saisissez des mots-clés dans le champ pour rechercher directement dans le contenu de la page courante ; `Ctrl+K` / `Cmd+K` ouvre la fenêtre de recherche site-wide, voir [Recherche plein texte et raccourcis clavier](/canvas/search-engine/). Le champ de recherche dans la page apparaît uniquement à partir de `64rem` ; en dessous reste le bouton global. Utilisez la recherche du navigateur pour l’article courant. En cas de différence avec les captures, fiez-vous à l’interface actuelle.
 - **Boutons de navigation principale (③)** : ils fournissent des liens de saut rapide vers les fonctions courantes telles que « Accueil », « Présentation du produit », « Prise en main » ; la section courante est mise en surbrillance automatiquement.
-- **Badge de version (④)** : il affiche le numéro de la version publiée correspondant à la documentation courante (par exemple `v1.3.1`) ; un clic permet de consulter l'historique détaillé des mises à jour sur GitHub.
+- **Badge de version (④)** : affiche les métadonnées du dépôt, actuellement la candidate `v1.3.2-beta.1`, et mène à l’historique GitHub. Il ne confirme pas un déploiement en production.
 - **Sélecteur multilingue (⑤)** : un clic sur le bouton de langue déploie une liste de 10 langues disponibles ; après sélection, vous êtes redirigé vers la version de l'article courant dans la langue cible, avec bascule simultanée de la navigation, de la barre latérale et du corps du texte.
 - **Bascule du thème clair/sombre (⑥)** : une icône soleil/lune permet de passer du mode clair au mode sombre.
 - **GitHub et Telegram (⑦⑧)** : les icônes à droite mènent respectivement au dépôt open source et à la communauté technique.
@@ -66,7 +66,7 @@ Situé à droite du corps du texte :
 
 EpoCanvas Docs propose à la fois un thème clair et un thème sombre ; les deux palettes sont entièrement définies par les variables CSS du fichier `src/styles/custom.css` :
 
-- **Suivi des préférences système** : à la première ouverture du site, celui-ci détecte le réglage clair/sombre du système d'exploitation et affiche le thème correspondant.
+- Lors de la première visite sans choix enregistré, l’interface suit la préférence claire ou sombre du système ; le thème sombre n’est pas imposé par défaut. Un choix manuel enregistré est prioritaire.
 - **Bascule manuelle et mémorisation** : un clic sur le bouton de bascule du thème dans la barre supérieure permet de changer manuellement ; le choix est enregistré dans le LocalStorage du navigateur et reste effectif à la prochaine ouverture.
 
 ![Effet de l'interface de lecture en mode clair](/images/canvas/ui-theme-light.png)

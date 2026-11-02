@@ -9,7 +9,7 @@ description: EpoCanvas Docs의 버전 번호 명명 규칙, 버전 업데이트�
 
 ## 1. 유의적 버전 번호 규칙 (SemVer)
 
-버전 번호는 `v주버전.부버전.수버전` 형식을 사용합니다(현재 `v1.3.1`):
+안정 버전은 `vMAJOR.MINOR.PATCH`이며 사전 릴리스에는 식별자를 붙입니다. 현재 후보는 `v1.3.2-beta.1`로, Release 게시나 운영 배포가 완료되었다는 뜻이 아닙니다.
 
 | 변경 유형 | 예시 | 발생 시나리오 |
 | :--- | :--- | :--- |
@@ -23,10 +23,12 @@ description: EpoCanvas Docs의 버전 번호 명명 규칙, 버전 업데이트�
 
 ### 첫 번째 단계: 업데이트 설명 기록 (`RELEASE_NOTES.md`)
 
-프로젝트 루트의 `RELEASE_NOTES.md`에 이번 업데이트 내용을 분명히 적습니다. 이 파일은 GitHub Release의 설명 텍스트로 사용됩니다:
+프로젝트 루트의 `RELEASE_NOTES.md`에 업데이트 내용을 작성합니다. 이 파일은 GitHub Release의 본문이 됩니다. 첫 줄은 정확히 `# EpoCanvas Docs v<버전>`이어야 하며 `package.json`의 버전과 일치해야 합니다. `verify:config`가 이 형식을 검사합니다. 아래는 형식 예시이므로 실제 릴리스에는 아직 사용하지 않은 버전으로 바꾸세요. 사전 릴리스 본문에는 `candidate` 또는 `prerelease`도 명시해야 합니다.
 
 ```markdown
-## [v1.2.1] - 2026-09-14
+# EpoCanvas Docs v1.2.1
+
+2026-09-14
 
 ### 수정
 - 배포 챕터의 명령어 오탈자를 수정했습니다.
@@ -35,7 +37,7 @@ description: EpoCanvas Docs의 버전 번호 명명 규칙, 버전 업데이트�
 
 ### 두 번째 단계: package.json 버전 번호 업데이트
 
-내비게이션 바의 버전 배지는 이미 `package.json`의 `version` 필드와 자동으로 연동되어 사이트 전체 버전의 단일 데이터 원천(Single Source of Truth)으로 동작합니다. `package.json`에서 버전 번호를 업데이트하면(또는 `pnpm version patch` 실행) 상단 바 배지가 자동으로 최신 버전 번호로 동기화되므로 여러 곳을 수동으로 고칠 필요가 없습니다:
+내비게이션 바의 버전 배지는 이미 `package.json`의 `version` 필드와 자동으로 연동되어 사이트 전체 버전의 단일 데이터 원천(Single Source of Truth)으로 동작합니다. `package.json`에서 버전 번호를 업데이트하면(또는 `pnpm version patch --no-git-tag-version` 실행) 상단 바 배지가 자동으로 최신 버전 번호로 동기화되므로 여러 곳을 수동으로 고칠 필요가 없습니다:
 
 ```json
 {
@@ -113,7 +115,7 @@ CI(`build.yml`)는 `pnpm run verify`로 테스트, 설정 검사, Astro 타입 �
 
 ## 5. CI 빌드 검사
 
-`.github/workflows/build.yml`은 `main` 푸시와 Pull Request에서 전체 검증을 실행합니다. CI는 `.node-version`에 고정된 Node.js 22.20.0과 pnpm 10.34.5를 사용합니다. 커밋 전에 로컬에서 같은 자가 점검을 실행하세요.
+`.github/workflows/build.yml`은 `main` 푸시와 Pull Request에서 전체 검증을 실행합니다. CI는 `.node-version`에 고정된 Node.js 22.23.4과 pnpm 10.34.5를 사용합니다. 커밋 전에 로컬에서 같은 자가 점검을 실행하세요.
 
 ```bash
 pnpm run verify

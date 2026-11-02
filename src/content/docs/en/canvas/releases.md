@@ -9,7 +9,7 @@ So that readers know which version of the product the current documentation corr
 
 ## 1. Semantic Versioning Rules (SemVer)
 
-Versions use the `vMAJOR.MINOR.PATCH` format (currently `v1.3.1`):
+Stable releases use `vMAJOR.MINOR.PATCH`; prereleases add an identifier, as in the current candidate `v1.3.2-beta.1`. A candidate version does not mean a Release has been published or production deployed.
 
 | Change type | Example | When it applies |
 | :--- | :--- | :--- |
@@ -23,10 +23,12 @@ Versions use the `vMAJOR.MINOR.PATCH` format (currently `v1.3.1`):
 
 ### Step 1: Write the Release Notes (`RELEASE_NOTES.md`)
 
-Describe the update in `RELEASE_NOTES.md` in the project root; this file becomes the body text of the GitHub Release:
+Describe the update in `RELEASE_NOTES.md` in the project root; this file becomes the GitHub Release body. Its first line must be exactly `# EpoCanvas Docs v<version>`, matching `package.json`; `verify:config` checks this format. The example below illustrates the format only: use an unused version for an actual release. Prerelease notes must also identify the build as a `candidate` or `prerelease`.
 
 ```markdown
-## [v1.2.1] - 2026-09-14
+# EpoCanvas Docs v1.2.1
+
+2026-09-14
 
 ### Fixes
 - Fixed a command typo in the deployment chapter.
@@ -35,7 +37,7 @@ Describe the update in `RELEASE_NOTES.md` in the project root; this file becomes
 
 ### Step 2: Update the Version in package.json
 
-The version badge in the navigation bar is automatically linked to the `version` field in `package.json`, which is the single source of truth for the site-wide version. Update the version in `package.json` (or run `pnpm version patch`), and the header badge syncs to the latest version automatically — no need to change it in several places by hand:
+The version badge in the navigation bar is automatically linked to the `version` field in `package.json`, which is the single source of truth for the site-wide version. Update the version in `package.json` (or run `pnpm version patch --no-git-tag-version`), and the header badge syncs to the latest version automatically — no need to change it in several places by hand:
 
 ```json
 {
@@ -113,7 +115,7 @@ CI (`build.yml`) runs `pnpm run verify`: tests, configuration checks, Astro type
 
 ## 5. CI Build Checks
 
-`.github/workflows/build.yml` runs full validation on pushes to `main` and on Pull Requests. CI uses Node.js 22.20.0 pinned in `.node-version` and pnpm 10.34.5. Run the same self-check locally before committing:
+`.github/workflows/build.yml` runs full validation on pushes to `main` and on Pull Requests. CI uses Node.js 22.23.4 pinned in `.node-version` and pnpm 10.34.5. Run the same self-check locally before committing:
 
 ```bash
 pnpm run verify

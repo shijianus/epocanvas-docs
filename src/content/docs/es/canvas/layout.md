@@ -28,9 +28,9 @@ Se sitúa en la parte superior de la página, fija y flotante; permanece visible
 *Figura: primer plano anotado de los elementos de la barra superior. ① logo y nombre del sitio; ② cuadro de búsqueda global; ③ grupo de botones de navegación principal; ④ insignia de versión; ⑤ selector de idioma; ⑥ conmutador de theme claro y oscuro; ⑦ acceso al repositorio de GitHub; ⑧ acceso a la comunidad de Telegram.*
 
 - **Logo y título del sitio (①)**: a la izquierda se muestran el icono de EpoCanvas y el nombre del proyecto; al hacer clic se vuelve rápidamente a la portada del sitio de documentación.
-- **Cuadro de búsqueda global (②)**: escriba palabras clave en el cuadro para buscar directamente en el contenido de la página actual; pulse `Ctrl+K` / `Cmd+K` para abrir la ventana de búsqueda de todo el sitio; véase [Búsqueda de texto completo y atajos de teclado](/canvas/search-engine/).
+- **Cuadro de búsqueda global (②)**: escriba palabras clave en el cuadro para buscar directamente en el contenido de la página actual; pulse `Ctrl+K` / `Cmd+K` para abrir la ventana de búsqueda de todo el sitio; véase [Búsqueda de texto completo y atajos de teclado](/canvas/search-engine/). El campo de búsqueda en la página solo aparece desde `64rem`; por debajo queda el botón global. Use Buscar en la página del navegador para el artículo actual. Si las capturas difieren, prevalece la interfaz actual.
 - **Botones de navegación principal (③)**: ofrecen enlaces de acceso rápido a funciones habituales como "Portada", "Descripción del producto" e "Inicio rápido"; la sección actual se resalta automáticamente.
-- **Insignia de versión (④)**: muestra el número de versión de publicación correspondiente a la documentación actual (por ejemplo, `v1.3.1`); al hacer clic se puede consultar el registro detallado de cambios en GitHub.
+- **Insignia de versión (④)**: muestra los metadatos del repositorio, actualmente la candidata `v1.3.2-beta.1`, y enlaza al historial de GitHub. No acredita un despliegue en producción.
 - **Selector de idioma (⑤)**: al hacer clic en el botón de idioma se despliegan 10 idiomas disponibles; al elegir uno se salta a la versión del mismo artículo en el idioma de destino, cambiando a la vez la navegación, la barra lateral y el cuerpo del texto.
 - **Conmutador de theme claro y oscuro (⑥)**: ofrece un icono de sol/luna para alternar entre el modo claro y el modo oscuro.
 - **GitHub y Telegram (⑦⑧)**: los iconos de la derecha enlazan respectivamente al repositorio de código abierto y a la comunidad técnica.
@@ -66,7 +66,7 @@ Se sitúa a la derecha del cuerpo del texto:
 
 EpoCanvas Docs ofrece dos themes, claro y oscuro; ambas paletas se definen íntegramente mediante variables CSS en `src/styles/custom.css`:
 
-- **Según la preferencia del sistema**: al abrir la página por primera vez, el sitio detecta la configuración de claro/oscuro del sistema operativo y muestra el theme correspondiente.
+- En la primera visita, si no hay un tema guardado, la interfaz sigue la preferencia clara u oscura del sistema; el modo oscuro no es un valor fijo. Una elección manual guardada tiene prioridad.
 - **Cambio manual con memoria**: el botón de cambio de theme de la barra superior permite alternar manualmente; la elección se guarda en el LocalStorage del navegador y sigue vigente la próxima vez que se abra.
 
 ![Aspecto de la interfaz de lectura en modo claro](/images/canvas/ui-theme-light.png)

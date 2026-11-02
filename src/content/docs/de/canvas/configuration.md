@@ -12,9 +12,21 @@ Wenn Sie **EpoCanvas Docs** als Dokumentationsseite für Ihr eigenes Team verwen
 Die Datei `astro.config.mjs` im Projektstammverzeichnis ist die Hauptkonfigurationsdatei der gesamten Dokumentationsseite. Die Optionen mit direktem Bezug zu den Site-Informationen sind unten aufgeführt (die Kommentare geben an, wann eine Änderung sinnvoll ist):
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// Bestehenden SITE_ORIGIN und die Sitemap-URL in public/robots.txt zusammen ändern.
+// site und hreflangXDefault() teilen diesen Wert; nicht nur site ändern.
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // Produktions-Domain der Site, wirkt sich auf SEO-Links und die Sitemap-Generierung aus
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // auf true setzen, um nur das Logo anzuzeigen und den Titeltext auszublenden
       },
 
-      // Link zum GitHub-Repository oben rechts
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Social-Links in der Starlight-Seitenleiste.
+      // GitHub/Telegram-URLs im Header stehen separat in src/components/starlight/Header.astro.
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // Einstiegspunkt für das eigene Stylesheet
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+Unter Astro 7 setzt diese Site `markdown.processor` mit `unified()` aus `@astrojs/markdown-remark` 7.3.5. Die oben gezeigten `rehypePlugins` verwenden die vorhandenen Plugins aus `astro.config.mjs`; deren Funktionsdefinitionen müssen bei Konfigurationsänderungen erhalten bleiben.
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: Der in der Seitenleiste angezeigte Kategorien- oder Artikelname; er darf vom `title` im Frontmatter abweichen (z. B. mit einer kürzeren Anzeigebezeichnung);
 - **`link`**: Der Zugriffspfad des Artikels, entsprechend der Dateiposition unter `src/content/docs/`.
 
-:::warning
+:::caution
 Eine neu angelegte `.md`-Datei erscheint erst im linken Verzeichnis, wenn sie im `sidebar`-Array registriert wurde. Dateien nur anzulegen, ohne sie zu registrieren, ist der häufigste Anfängerfehler.
 :::
 
@@ -125,9 +140,9 @@ Auch die Layoutmaße sind zentral am Anfang dieser Datei definiert:
 
 ## 4. Logo der Site austauschen
 
-1. Bereiten Sie eine Vektorgrafik Ihres Markenlogos vor (empfohlen wird `.svg`, ein sauberes `.png` ist ebenfalls möglich);
-2. Speichern Sie sie überschreibend als `public/images/logo.svg` (das große Bild auf der Startseite liegt in `src/assets/logo.svg`);
-3. Laden Sie den Browser neu; das Symbol in der oberen Leiste und auf der Startseite wird automatisch ausgetauscht.
+1. Bereiten Sie ein gültiges `.svg`-Vektorlogo vor. Diese Schritte gelten nur für SVG; benennen Sie keine PNG-Datei in `.svg` um.
+2. Ersetzen Sie `public/images/logo.svg` für die obere Leiste und `src/assets/logo.svg` für das Startseitenbild getrennt.
+3. Laden Sie die Seite auf dem lokalen Entwicklungsserver neu und prüfen Sie beide Logos. Die Live-Website ändert sich erst nach erneutem Build und Deployment.
 
 :::tip
 Die beiden Logos haben unterschiedliche Zwecke: `public/images/logo.svg` wird in der oberen Leiste verwendet, `src/assets/logo.svg` als großes Dekorationsbild rechts auf der Startseite. Ein gleichzeitiger Austausch wird empfohlen.

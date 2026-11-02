@@ -1,6 +1,6 @@
 ---
 title: UI-Komponenten & eigene Anpassungen
-description: "Die Architektur der UI-Komponenten von EpoCanvas Docs: der Override-Mechanismus für Starlight-Komponenten, die Aufgaben und Datenflüsse der sieben angepassten Komponenten sowie Hinweise zur Weiterentwicklung."
+description: "Die Architektur der UI-Komponenten von EpoCanvas Docs: der Override-Mechanismus für Starlight-Komponenten, die Aufgaben und Datenflüsse der angepassten Komponenten sowie Hinweise zur Weiterentwicklung."
 ---
 
 Die Oberfläche von **EpoCanvas Docs** erfindet das Rad nicht neu, sondern basiert auf den nativen Starlight-Komponenten und nimmt gezielte **Overrides** vor: Der Seitenrahmen und die Inhaltsverarbeitung von Starlight bleiben erhalten, während die Anzeigekomponenten für die obere Leiste, die Seitenleiste, das Inhaltsverzeichnis und die Suche ausgetauscht werden, um das gewünschte Dreispalten-Layout und die gewünschten Interaktionen zu erhalten. Diese Seite beschreibt den Aufbau dieses Komponentensystems und wie man es ändert.
@@ -9,38 +9,42 @@ Die Oberfläche von **EpoCanvas Docs** erfindet das Rad nicht neu, sondern basie
 
 ## Der Komponenten-Override-Mechanismus
 
-Starlight erlaubt es, im `components`-Feld von `astro.config.mjs` beliebige native Komponenten durch eigene Implementierungen zu ersetzen. Dieses Projekt überschreibt 7 Komponenten:
+Registrieren Sie Overrides wie unten in `components` in `astro.config.mjs`; maßgeblich ist die aktuelle Konfiguration.
 
 ```javascript
 // astro.config.mjs (Auszug)
 components: {
   Header: './src/components/starlight/Header.astro',
+  MobileMenuToggle: './src/components/starlight/MobileMenuToggle.astro',
   Sidebar: './src/components/starlight/Sidebar.astro',
   TableOfContents: './src/components/starlight/TableOfContents.astro',
   PageTitle: './src/components/starlight/PageTitle.astro',
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
 
-Beim Build verwendet Starlight für jede Position der gerenderten Seite vorrangig die hier angegebenen Dateien. Nicht überschriebene Komponenten (z. B. der Footer oder das mobile Menü) nutzen weiterhin die native Implementierung.
+Registrierte Overrides haben beim Build Vorrang. Nicht ersetzte Komponenten nutzen weiterhin die native Starlight-Implementierung.
 
 ---
 
-## Aufgaben der sieben angepassten Komponenten
+## Aufgaben der benutzerdefinierten Overrides
 
-Der gesamte Quellcode liegt unter `src/components/starlight/`; Umfang und Aufgaben sind wie folgt:
+Die Dateien liegen in `src/components/starlight/`; ihre Hauptaufgaben sind unten aufgeführt.
 
-| Komponentendatei | Umfang | Aufgabe |
-| :--- | :--- | :--- |
-| `Header.astro` | ca. 646 Zeilen | Der gesamte Inhalt der oberen Leiste: Logo, Suchfeld, Hauptnavigation, Versionsabzeichen, Sprachumschaltung, Design-Umschaltung, Zugänge zu GitHub und Telegram |
-| `Search.astro` | ca. 837 Zeilen | Zweimodus-Suche: Suche innerhalb der Seite über die obere Leiste (Hervorhebung und Zähler) + `Ctrl+K`-Dialog für die Suche auf der gesamten Site (Pagefind UI) |
-| `Pagination.astro` | ca. 123 Zeilen | Blätterkarten „Zurück / Weiter“ am Seitenende: schmaler Rand ohne Schatten, Titel in Themenfarbe, ↙/↘ diagonale Pfeile zeigen die Blätterrichtung an |
-| `TwoColumnContent.astro` | ca. 77 Zeilen | Das Zweispalten-Gerüst aus Haupttext und Inhaltsverzeichnis rechts; steuert feste Breite und Scrollverhalten der rechten Spalte |
-| `TableOfContents.astro` | ca. 64 Zeilen | Titel „Auf dieser Seite“, Symbol und Verzeichnisliste; filtert den Seitentitel selbst heraus |
-| `PageTitle.astro` | ca. 62 Zeilen | Große Seitenüberschrift (aus dem `title` im Frontmatter) und der Zeitstempel „Zuletzt aktualisiert“ |
-| `Sidebar.astro` | ca. 22 Zeilen | Dünne Hüllkomponente: wiederverwendet die native `SidebarPersister`-Komponente von Starlight, damit die Scrollposition der Seitenleiste beim Seitenwechsel erhalten bleibt |
+| Komponentendatei | Aufgabe |
+| :--- | :--- |
+| `Header.astro` | Der gesamte Inhalt der oberen Leiste: Logo, Suchfeld, Hauptnavigation, Versionsabzeichen, Sprachumschaltung, Design-Umschaltung, Zugänge zu GitHub und Telegram |
+| `Search.astro` | Zweimodus-Suche: Suche innerhalb der Seite über die obere Leiste (Hervorhebung und Zähler) + `Ctrl+K`-Dialog für die Suche auf der gesamten Site (Pagefind UI) |
+| `Pagination.astro` | Blätterkarten „Zurück / Weiter“ am Seitenende: schmaler Rand ohne Schatten, Titel in Themenfarbe, ↙/↘ diagonale Pfeile zeigen die Blätterrichtung an |
+| `TwoColumnContent.astro` | Das Zweispalten-Gerüst aus Haupttext und Inhaltsverzeichnis rechts; steuert feste Breite und Scrollverhalten der rechten Spalte |
+| `TableOfContents.astro` | Titel „Auf dieser Seite“, Symbol und Verzeichnisliste; filtert den Seitentitel selbst heraus |
+| `PageTitle.astro` | Große Seitenüberschrift (aus dem `title` im Frontmatter) und der Zeitstempel „Zuletzt aktualisiert“ |
+| `Sidebar.astro` | Dünne Hüllkomponente: wiederverwendet die native `SidebarPersister`-Komponente von Starlight, damit die Scrollposition der Seitenleiste beim Seitenwechsel erhalten bleibt |
+| `SkipLink.astro` | Zeigt bei Tastaturfokus einen Sprunglink und fokussiert den Inhaltstitel `_top` |
+| `MobileMenuToggle.astro` | Schaltet die mobile Seitenleiste um, synchronisiert den Zustand und schließt per Esc mit Fokusrückgabe |
 
 ---
 
@@ -66,15 +70,15 @@ Das heißt: Wer den Inhalt der Oberfläche ändern will, sucht zunächst die pas
 
 ### PageTitle: Seitentitel und tatsächliches Aktualisierungsdatum
 
-Die große Seitenüberschrift liest direkt den `title` aus dem Frontmatter; schreiben Sie daher **keine zusätzliche `#`-Überschrift erster Ordnung in den Haupttext**. Der Zeitstempel „Zuletzt aktualisiert“ stammt aus der Git-Commit-Historie zum Build-Zeitpunkt (`lastUpdated: true` ist in `astro.config.mjs` aktiviert); er aktualisiert sich bei jedem Commit automatisch und muss nicht von Hand gepflegt werden.
+Die Seitenüberschrift stammt aus dem Frontmatter-`title`; schreiben Sie daher **keine zusätzliche Überschrift erster Ordnung mit `#` in den Haupttext**. Mit `lastUpdated: true` in `astro.config.mjs` und ohne überschreibendes Frontmatter-Datum liest der Build den Zeitpunkt des letzten Git-Commits, der diese Datei geändert hat. Es ist weder der Zeitpunkt jedes Repository-Commits noch jedes Builds; Änderungen an anderen Dateien ändern dieses Seitendatum nicht.
 
 :::caution
-Das Aktualisierungsdatum wird zur Build-Zeit aus der Git-Historie gelesen. Das bedeutet: **Noch nicht committete neue Dokumente zeigen kein Datum an** (unter der Überschrift bleibt nur die Standard-Signatur stehen); nach dem Commit und einem erneuten Build erscheint es. Wenn die Build-Umgebung ein Shallow-Clone ist (z. B. `fetch-depth: 1` in CI), ist die Git-Historie unvollständig und der Zeitstempel fehlt ebenfalls. In beiden Fällen schlägt der Build nicht fehl.
+Ein neues, noch nicht committetes Dokument hat keine lesbare Git-Historie und zeigt kein Datum an. Nicht committete Änderungen an einer vorhandenen Datei ändern deren Commit-Datum ebenfalls nicht. Ein Shallow-Clone (etwa `fetch-depth: 1`) kann das Datum des Grenz-Commits der abgeschnittenen Historie oder gar kein Datum liefern und ist keine vollständige Historie. Verwenden Sie für genaue Daten die vollständige Git-Historie (`fetch-depth: 0` in CI). Ein Fehler beim Lesen des Datums lässt den Build nicht fehlschlagen.
 :::
 
 ### Sidebar: Wie die Merkfunktion für die Scrollposition implementiert ist
 
-`Sidebar.astro` umfasst nur gut 20 Zeilen; der Kern ist die Wiederverwendung der offiziellen `SidebarPersister`-Komponente von Starlight: Sie verhindert beim Seitenwechsel einen Neuaufbau des Seitenleisten-DOM und bewahrt damit die Position der Bildlaufleiste. Deshalb springt das linke Verzeichnis beim Seitenwechsel nicht.
+`Sidebar.astro` nutzt Starlights `SidebarPersister`, um die Scrollposition nach Seitenwechseln wiederherzustellen. `MobileMenuToggle.astro` verwaltet Zustand und Fokus des mobilen Menüs.
 
 ### TableOfContents: Erzeugung des Verzeichnisses „Auf dieser Seite“
 
@@ -98,6 +102,8 @@ Eine Komponente enthält zwei Suchvarianten (Details siehe [Volltextsuche und Ta
 1. **Suche innerhalb der Seite**: das Eingabefeld in der oberen Leiste; mit der Eingabetaste springen Sie zwischen den Treffern der aktuellen Seite, die Hervorhebung wird per Skript mit Markierungen versehen;
 2. **Suche auf der gesamten Site**: `<dialog>`-Fenster mit der Standard-UI von Pagefind; der Index entsteht in der Phase `pnpm run build`.
 
+Das Seiten-Suchfeld erscheint erst ab `64rem`; darunter bleibt nur die websiteweite Suchschaltfläche. Für den aktuellen Artikel steht die Seitensuche des Browsers bereit. Bei abweichenden Screenshots gilt die aktuelle Oberfläche.
+
 ### Pagination: Blätterkarten
 
 Die Daten für Zurück/Weiter berechnet Starlight zur Build-Zeit anhand der `sidebar`-Reihenfolge (`Astro.locals.starlightRoute.pagination`); die Komponente rendert nur: zwei gleich breite Karten, schmaler Rand ohne Schatten, Titel in Themenfarbe; die diagonalen Pfeile ↙ / ↘ verschieben sich beim Hovern in Blättrichtung. Die Pfeile sind inline SVG-Pfade; wird die Site für RTL-Sprachen eingesetzt, spiegeln sich die Richtungen automatisch.
@@ -107,11 +113,11 @@ Die Daten für Zurück/Weiter berechnet Starlight zur Build-Zeit anhand der `sid
 ## Hinweise zur Weiterentwicklung
 
 :::caution
-Wer Komponenten überschreibt, verzichtet auf die späteren Updates der nativen Starlight-Komponenten. Beim Upgrade der Starlight-Version können sich die Props und die Struktur von `Astro.locals.starlightRoute` ändern; führen Sie nach dem Upgrade für alle 7 überschriebenen Komponenten Regressionstests durch.
+Wer Komponenten überschreibt, verzichtet auf die späteren Updates der nativen Starlight-Komponenten. Beim Upgrade der Starlight-Version können sich die Props und die Struktur von `Astro.locals.starlightRoute` ändern; führen Sie nach dem Upgrade für alle überschriebenen Komponenten Regressionstests durch.
 :::
 
 - **Stile zuerst über CSS-Variablen ändern**: Farben, Schriften und Layoutmaße sind zentral in den `:root`-Variablen von `src/styles/custom.css` gebündelt, siehe [Site-Konfiguration & Stil-Anpassung](/canvas/configuration/); die meisten Anpassungen erfordern keine Änderung an den Komponenten;
 - **Komponenten nur bei geänderten Interaktionen anfassen**: Wenn Sie Schaltflächen ergänzen oder die Struktur ändern, holen Sie die Oberflächentexte über `getTranslation(key, lang)` und ergänzen die Einträge in `i18n.ts` für alle 10 Sprachen; für fehlende Sprachen wird Chinesisch als Fallback angezeigt;
-- **Nach Änderungen unbedingt lokal prüfen**: mit `pnpm run dev` die Interaktionen kontrollieren und mit `pnpm run build` bestätigen, dass Typen und Build durchlaufen (lokale Befehle siehe [FAQ & Fehlerbehebung](/canvas/troubleshooting/)).
+- **Nach Änderungen unbedingt lokal prüfen**: mit `pnpm run dev` die Interaktionen kontrollieren und mit `pnpm run verify` bestätigen, dass Typen und Build durchlaufen (lokale Befehle siehe [FAQ & Fehlerbehebung](/canvas/troubleshooting/)).
 
 Konkrete, häufige Anpassungen finden Sie direkt unter [Häufige Anpassungsrezepte](/canvas/recipes/).

@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs는 EpoCanvas 프로젝트의 공식 문서 사이트입니다. Astro 5와 Starlight 기반으로 만들어졌으며, 3열 읽기 레이아웃, 2가지 모드의 검색, 콘텐츠 전체의 다국어 지원을 기본으로 갖추고 있습니다. 모든 콘텐츠는 표준 Markdown으로 작성되며 Cloudflare Pages에 게시됩니다.
+EpoCanvas Docs는 EpoCanvas 프로젝트의 공식 문서 사이트입니다. Astro 7와 Starlight 기반으로 만들어졌으며, 3열 읽기 레이아웃, 2가지 모드의 검색, 콘텐츠 전체의 다국어 지원을 기본으로 갖추고 있습니다. 모든 콘텐츠는 Markdown 또는 MDX으로 작성되며 Cloudflare Pages에 게시됩니다.
 
 **온라인 사이트**: [https://docs.epocanvas.com](https://docs.epocanvas.com) (미러: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
 
@@ -15,7 +15,9 @@ EpoCanvas Docs는 EpoCanvas 프로젝트의 공식 문서 사이트입니다. As
 
 ![EpoCanvas Docs 문서 홈페이지](./public/images/canvas/ui-home-landing.png)
 
-사이트는 3열 레이아웃을 사용합니다. 왼쪽은 카테고리 내비게이션, 가운데는 본문, 오른쪽은 현재 페이지의 목차입니다. 다크 테마가 기본이며 시스템 설정을 따르고 상단 바에서 수동으로 전환할 수 있습니다.
+*이전 UI 예시입니다. 공통으로 사용하는 중국어 홈페이지 스크린샷은 현재 후보가 아닌 v1.2.0과 Astro 5를 보여 줍니다. 언어 전환 문구와 컨트롤 위치는 당시 상태이므로 실제 조작은 현재 문서를 따르세요. 이 후보 버전의 인수 테스트에서 촬영한 스크린샷이 아닙니다.*
+
+사이트는 3열 레이아웃을 사용합니다. 왼쪽은 카테고리 내비게이션, 가운데는 본문, 오른쪽은 현재 페이지의 목차입니다. 처음 방문할 때는 시스템 테마를 따르며, 직접 선택하면 저장한 테마를 사용합니다.
 
 ## 주요 기능
 
@@ -27,10 +29,10 @@ EpoCanvas Docs는 EpoCanvas 프로젝트의 공식 문서 사이트입니다. As
 
 ## 요구 사항
 
-- Node.js 22.20+ (22.x) 또는 Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (고정 버전)
 
-CI는 `.node-version`에 고정된 Node.js 22.20.0을 사용합니다.
+CI는 `.node-version`에 고정된 Node.js 22.23.4을 사용합니다.
 
 ## 빠른 시작
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![대체 텍스트](/images/canvas/your-image.png)
    ```
+
+5. 나머지 9개 언어의 `src/content/docs/<locale>/canvas/`에 대응하는 번역을 작성하고 사이드바 `translations`와 `public/images/canvas/<locale>/`의 번역이 필요한 이미지를 준비합니다. 게시 전에는 10개 언어를 모두 완성해야 합니다. 중국어 폴백은 프레임워크의 보호 기능일 뿐이며, 번역이 빠지면 `pnpm run verify`와 CI가 실패합니다.
 
 커밋 전에 `pnpm run verify`를 실행해 모든 검사를 통과하는지 확인하세요.
 

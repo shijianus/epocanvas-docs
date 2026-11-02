@@ -3,7 +3,7 @@ title: FAQ et résolution des problèmes
 description: "Liste de diagnostic pour EpoCanvas Docs : erreurs d'exécution locale, documents invisibles, anomalies de rendu des encadrés, recherche défaillante et déploiement Cloudflare Pages."
 ---
 
-En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'**EpoCanvas Docs**, commencez par chercher ici la situation correspondante. Les problèmes sont classés selon l'ordre « démarrage local → rédaction de la documentation → recherche → déploiement » ; chacun est accompagné de sa cause et d'une solution vérifiée.
+En cas de problème lors de l’utilisation, de la rédaction ou du déploiement d’**EpoCanvas Docs**, cherchez ici le cas correspondant. Les problèmes suivent l’ordre « démarrage local → rédaction de la documentation → recherche → déploiement » et présentent les causes courantes et les étapes de diagnostic. Appuyez-vous sur l’erreur réelle et les résultats des contrôles ; cette page n’est pas un compte rendu de tests réussis de toutes les solutions sur la candidate actuelle.
 
 ---
 
@@ -15,12 +15,12 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 - **Solution** : démarrez sur un autre port :
 
   ```bash
-  pnpm run dev -- --port 4322
+  pnpm run dev --port 4322
   ```
 
 ### Q2 : une erreur apparaît lors de l’installation des dépendances
-- **Cause** : ce projet utilise le service d’images passthrough et ne dépend pas de Sharp. Commencez par lire l’erreur exacte du terminal ; une version de Node.js ou de pnpm hors de la base du projet est une cause fréquente.
-- **Solution** : utilisez Node.js 22.20+ (22.x) ou Node.js 24.12+ et pnpm 10.34.5, conservez `pnpm-lock.yaml` et installez les dépendances de façon reproductible :
+- **Cause** : ce site utilise le service d’images passthrough et n’optimise pas les images à l’exécution. Commencez par lire l’erreur exacte du terminal ; une version de Node.js ou de pnpm hors de la base du projet est une cause fréquente.
+- **Solution** : utilisez Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 et pnpm 10.34.5, conservez `pnpm-lock.yaml` et installez les dépendances de façon reproductible :
   ```bash
   pnpm install --frozen-lockfile
   ```
@@ -110,8 +110,8 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 
 ### Q11 : un domaine personnalisé fraîchement lié signale un échec de handshake SSL (Error 525)
 
-- **Cause** : l'émission du certificat Universal SSL par Cloudflare pour un nouveau domaine demande 2 à 5 minutes pour prendre effet à l'échelle mondiale.
-- **Solution** : attendez quelques minutes puis forcez le rechargement (`Ctrl+F5` / `Cmd+Shift+R`) ; pendant ce délai, le domaine par défaut `<nom-du-projet>.pages.dev` reste toujours accessible.
+- **Cause** : Error 525 ne suffit pas à conclure que le certificat est encore en cours d’émission. Vérifiez la validation du domaine, l’état du certificat, les enregistrements DNS, les paramètres du proxy et les détails de l’erreur.
+- **Solution** : Consultez la validation et le certificat dans **Custom domains**, puis vérifiez DNS et le proxy et comparez avec le domaine par défaut `pages.dev`. N’attendez pas simplement un nombre fixe de minutes ; vérifiez les deux domaines par des requêtes réelles. Voir le [diagnostic de déploiement](/canvas/cloudflare/).
 
 ### Q12 : `pnpm run deploy` échoue avec `Project not found`
 

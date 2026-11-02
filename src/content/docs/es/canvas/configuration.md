@@ -12,9 +12,21 @@ Si quiere usar **EpoCanvas Docs** como sitio de documentación de su propio equi
 El archivo `astro.config.mjs` en la raíz del proyecto es el archivo de configuración principal de todo el sitio de documentación. Las opciones relacionadas directamente con la información del sitio son las siguientes (los comentarios indican cuándo modificarlas):
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// Cambie el SITE_ORIGIN existente y la URL Sitemap de public/robots.txt a la vez.
+// site y hreflangXDefault() comparten este valor; no cambie solo site.
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // Dominio del sitio en producción; afecta a los enlaces SEO y a la generación del sitemap
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // si se establece en true, solo se muestra el logo y se oculta el texto del título
       },
 
-      // Enlace al repositorio de GitHub en la esquina superior derecha
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Enlaces sociales de la barra lateral de Starlight.
+      // Las URL GitHub/Telegram del encabezado se definen aparte en src/components/starlight/Header.astro.
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // Punto de entrada de la hoja de estilos personalizada
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+En Astro 7, este sitio configura `markdown.processor` con `unified()` de `@astrojs/markdown-remark` 7.3.5. Los `rehypePlugins` del ejemplo reutilizan los plugins existentes en `astro.config.mjs`; conserve sus definiciones de función al modificar la configuración.
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: nombre de la categoría o del artículo que se muestra en la barra lateral; puede ser distinto del `title` del Frontmatter (por ejemplo, usando un nombre de visualización más corto);
 - **`link`**: ruta de acceso del artículo; corresponde a la ubicación del archivo bajo `src/content/docs/`.
 
-:::warning
+:::caution
 Un archivo `.md` recién creado debe registrarse en el array `sidebar` para que aparezca en el directorio de la izquierda; crear el archivo sin registrarlo es el error más habitual entre los principiantes.
 :::
 
@@ -125,9 +140,9 @@ Las dimensiones del layout también se definen de forma centralizada al inicio d
 
 ## 4. Reemplazar el logo del sitio
 
-1. Prepare una imagen vectorial del logo de marca (se recomienda `.svg`, aunque también puede usarse un `.png` nítido);
-2. Sobrescríbelo guardándolo como `public/images/logo.svg` (la imagen grande de la portada está en `src/assets/logo.svg`);
-3. Actualiza el navegador y el icono de la barra superior y de la portada se reemplaza automáticamente.
+1. Prepare un logo vectorial `.svg` válido. Estos pasos son solo para SVG; no cambie la extensión de un PNG a `.svg`.
+2. Reemplace por separado `public/images/logo.svg` para la barra superior y `src/assets/logo.svg` para la imagen de portada.
+3. Actualice el navegador en el servidor de desarrollo local y compruebe ambos logos. El sitio publicado solo cambia después de recompilar y desplegar.
 
 :::tip
 Los dos logos tienen usos distintos: `public/images/logo.svg` se usa en la barra superior y `src/assets/logo.svg` en la imagen decorativa grande de la parte derecha de la portada; se recomienda reemplazar ambos.

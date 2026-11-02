@@ -12,9 +12,21 @@ description: EpoCanvas Docs 核心設定檔修改指南、側邊欄選單調整�
 根目錄下的 `astro.config.mjs` 是整個文件站的主設定檔。與站點資訊直接相關的選項如下（註解標明了修改時機）：
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// 改網域時修改既有 SITE_ORIGIN，並同步 public/robots.txt 的 Sitemap 網址。
+// site 與 hreflangXDefault() 共用此值，不能只修改 site。
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // 站點的正式環境網域，影響 SEO 連結與 Sitemap 產生
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // 設為 true 則只顯示 Logo、隱藏標題文字
       },
 
-      // 右上角的 GitHub 儲存庫連結
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Starlight 側邊欄中的社群連結。
+      // 頂欄 GitHub/Telegram 網址另行定義在 src/components/starlight/Header.astro。
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // 自訂樣式表入口
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+Astro 7 下，本站使用 `@astrojs/markdown-remark` 7.3.5 的 `unified()` 設定 `markdown.processor`。上例的 `rehypePlugins` 沿用 `astro.config.mjs` 中的現有外掛，修改設定時應保留這些外掛的函式定義。
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**：側邊欄上顯示的分類名或文章名，可以與 Frontmatter 的 `title` 不同（例如用更短的顯示名）；
 - **`link`**：文章的存取路徑，對應 `src/content/docs/` 下的檔案位置。
 
-:::warning
+:::caution
 新建的 `.md` 檔案必須登記到 `sidebar` 陣列中才會出現在左側目錄裡，只建立檔案不登記是新手最常踩的坑。
 :::
 
@@ -125,9 +140,9 @@ sidebar: [
 
 ## 4. 替換站點 Logo
 
-1. 準備一張品牌 Logo 向量圖（推薦 `.svg`，也可以用清晰的 `.png`）；
-2. 覆蓋儲存為 `public/images/logo.svg`（首頁大圖在 `src/assets/logo.svg`）；
-3. 重新整理瀏覽器，頂欄與首頁的圖示自動替換。
+1. 準備有效的 `.svg` 品牌 Logo 向量圖；本步驟僅適用於 SVG，不要把 PNG 直接改名為 `.svg`；
+2. 分別替換 `public/images/logo.svg`（頂欄）與 `src/assets/logo.svg`（首頁大圖）；
+3. 在本機開發伺服器中重新整理瀏覽器，確認頂欄和首頁圖示；線上站點須重新建置並部署後才會更新。
 
 :::tip
 兩處 Logo 用途不同：`public/images/logo.svg` 用於頂欄，`src/assets/logo.svg` 用於首頁右側的裝飾大圖，建議同時替換。

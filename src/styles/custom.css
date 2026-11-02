@@ -8,6 +8,7 @@
   --sl-sidebar-width: 16.5rem;
   --sl-content-width: 60rem;
   --sl-nav-height: 3.5rem;
+  --sl-menu-button-size: 2.75rem;
 
   /* Primary Tech Accent (Dignified Modern Indigo-Blue) */
   --sl-color-accent-low: rgba(37, 99, 235, 0.08);
@@ -757,16 +758,37 @@ mark.epo-doc-highlight.active {
   transform: rotate(45deg) translateX(3px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
+/* 移动菜单在窄横屏仍独立滚动，底部主题和语言入口留出安全区。 */
+@media (width < 50rem) {
+  .sidebar-pane {
+    max-height: calc(100dvh - var(--sl-nav-height));
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar-content {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  dialog::backdrop {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
 
+  .site-title:hover img,
+  .hero:hover img,
+  .matrix-card:hover,
+  .matrix-card:hover .matrix-card-arrow,
+  #starlight__search .pagefind-ui__result:hover,
+  .nav-btn:hover .ext-icon {
+    transform: none !important;
+  }
 
+  .sl-link-card:hover .icon { transform: rotate(45deg); }
+}

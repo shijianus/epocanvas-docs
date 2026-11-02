@@ -1,9 +1,9 @@
 ---
 title: Veröffentlichung auf Cloudflare Pages
-description: "Komplett illustrierte Anleitung zur Veröffentlichung von EpoCanvas Docs: Direktupload per Wrangler-Befehlszeile, automatischer Build über Git und das Anbinden einer eigenen Domain – jeder Schritt mit echten Dashboard-Screenshots."
+description: "Cloudflare-Pages-Anleitung: Wrangler-Upload, optionale Git-Integration, Domains und Prüfungen nach dem Deployment."
 ---
 
-Sobald die Dokumentation geschrieben ist, muss sie ins Internet, damit Team und Nutzer darauf zugreifen können. **EpoCanvas Docs** empfiehlt das Hosting auf **Cloudflare Pages**: kein Serverkauf, keine Nginx-Konfiguration; die statischen Dateien werden direkt hochgeladen, und das HTTPS-Zertifikat gibt es automatisch. Diese Site selbst (`docs.epocanvas.com`) wurde genau mit der hier beschriebenen Methode veröffentlicht; alle folgenden Dashboard-Screenshots stammen aus dem echten Deployment-Prozess.
+Diese Seite beschreibt das Deployment statischer Dokumentation auf **Cloudflare Pages** anhand der Repository-Scripte. Screenshots sind vorhandene Beispiele, keine Deployment- oder Testprotokolle dieses Kandidaten. Bei Abweichungen gilt das aktuelle Dashboard. Ob Prüfungen und Veröffentlichung gelungen sind, zeigen nur die tatsächlichen Protokolle und Zustände.
 
 ---
 
@@ -19,19 +19,19 @@ Sobald die Dokumentation geschrieben ist, muss sie ins Internet, damit Team und 
 
 ### Wie wählt man zwischen den beiden Deployment-Varianten
 
-![Gegenüberstellung der beiden Cloudflare-Pages-Deployment-Wege: links Direktupload per Befehlszeile vom lokalen Rechner (von dieser Site genutzt), rechts automatischer Build aus dem Git-Repository (empfohlen für Teamarbeit)](/images/canvas/docs-deploy-compare.svg)
+![Lokaler Wrangler-Upload und Git-integrierter Build](/images/canvas/docs-deploy-compare.svg)
 
-*Abbildung: Vergleich der beiden Deployment-Wege bei Cloudflare Pages. Links wird lokal gebaut und anschließend mit Wrangler direkt an den Edge übertragen (so ist es auf dieser Site tatsächlich umgesetzt), rechts löst ein GitHub-Webhook den automatischen Build in der Cloud aus.*
+*Abbildung: links lokaler Build und Wrangler-Upload, rechts durch Git ausgelöster Cloud-Build. Das Diagramm belegt keine Tests dieser Wege während dieser Überarbeitung.*
 
 | Vergleichspunkt | Variante 1: Direktupload per Befehlszeile | Variante 2: Automatischer Build über Git |
 | :--- | :--- | :--- |
 | Vorgehen | lokal `pnpm run deploy` ausführen | Code nach GitHub pushen löst automatisch aus |
 | Einstiegshürde | niedrig, zwei Befehle | mittel, einmalige Konfiguration im Dashboard nötig |
 | Passende Situation | erster Go-live, Einzelbetrieb, schnelle Updates | Zusammenarbeit im Team, gewünscht ist „Commit heißt live“ |
-| Von dieser Site genutzt | ✅ Ja (im Dashboard nachprüfbar) | nicht aktiviert, jederzeit nachrüstbar |
+| Prüfungen | Vollständiges verify vor dem Upload | Vollständiges verify als Cloud-Build konfigurieren |
 
 :::tip
-Beide Varianten können nebeneinander bestehen: im Alltag der automatische Build über Git, bei dringenden Fehlerbehebungen der lokale `pnpm run deploy`, der die Live-Version direkt überschreibt.
+Wählen Sie beim Erstellen Direct Upload oder Git-Integration. Gehen Sie nicht davon aus, dass ein Direct-Upload-Projekt direkt in ein Git-Projekt umgewandelt werden kann; erstellen Sie beim Wechsel ein passendes Projekt. Auch dringende Wrangler-Uploads müssen die Prüfungen bestehen.
 :::
 
 :::tip[Gar keine Befehle eintippen?]
@@ -42,44 +42,43 @@ Auf der Seite [Schnellstart](/canvas/deployment/) gibt es Ein-Klick-Deployment-S
 
 ## Variante 1: Direktupload über die lokale Befehlszeile (für den ersten Deployment empfohlen)
 
-Bei dieser Variante wird lokal gebaut und direkt zu Cloudflare hochgeladen; sie ist die **auf dieser Site tatsächlich eingesetzte** Methode.
+Hier wird lokal gebaut und mit Wrangler hochgeladen. `pnpm run deploy` zielt auf das Maintainer-Projekt `epocanvas-docs`; es ist kein allgemeiner Deployment-Knopf für beliebige Forks.
 
 ### Schritt 1: Beim Cloudflare-Konto anmelden
 
 Wrangler (das offizielle Cloudflare-Befehlszeilenwerkzeug) ist im Projekt bereits enthalten; bei der ersten Nutzung erfolgt die Anmeldung per Browser-Autorisierung:
 
 ```bash
-npx wrangler login
+pnpm exec wrangler login
 ```
 
 Danach zeigt das Terminal `Opening a link in your default browser...`; der Browser öffnet die Cloudflare-Autorisierungsseite, und nach einem Klick auf **Allow** meldet das Terminal den erfolgreichen Login. Den Anmeldestatus prüfen Sie mit:
 
 ```bash
-npx wrangler whoami
+pnpm exec wrangler whoami
 ```
 
 :::caution
-Führen Sie das Deployment ohne vorherige Anmeldung aus, meldet das Terminal `You are not authenticated. Please run 'wrangler login'.`; es wird dann nichts deployed.
+Eine gültige Cloudflare-Anmeldung oder Token-Berechtigung ist nötig. Prüfen Sie bei Fehlern `wrangler whoami`, Konto und Projektberechtigungen. Der genaue Fehlertext kann je nach Version variieren.
 :::
 
 ### Schritt 2: Build und Upload mit einem Befehl
 
 Das Projekt enthält in `scripts/verify-release.mjs` einen vorkonfigurierten Veröffentlichungsbefehl:
 
-einmal `npx wrangler login` zur Anmeldung ausführen, danach `pnpm run deploy`. Das Deployment übernimmt `scripts/verify-release.mjs`. Das Skript lehnt andere Branches als `main`, einen Arbeitsbaum mit Änderungen sowie einen HEAD ab, der nicht dem tatsächlichen Commit von `origin/main` auf dem Remote entspricht. Vor Wrangler läuft `pnpm run verify`. Der Projektname steht in diesem Skript, nicht in `package.json`.
+Melden Sie sich mit `pnpm exec wrangler login` an. `scripts/verify-release.mjs` verlangt `main`, einen sauberen Arbeitsbaum einschließlich ungetrackter Dateien, Upstream `origin/main` und HEAD gleich dem tatsächlichen Remote-Commit. `pnpm run deploy` führt vollständiges `pnpm run verify` aus, prüft Git erneut und ruft dann Wrangler auf. Konfigurieren Sie vor der Wiederverwendung Ihr eigenes Zielprojekt im Script.
 
 ```bash
 pnpm run deploy
 ```
 
-Nach den Vorbedingungen führt das Skript `pnpm run verify` aus: Tests, Konfigurationsprüfungen, Astro-Typprüfungen, Build sowie Inhalts- und Ausgabeprüfungen. Erst wenn alles besteht, lädt `wrangler pages deploy dist` direkt zu Cloudflare Pages hoch. Der folgende Ausschnitt ist ein Beispiel; Seitenzahl und Laufzeiten hängen vom jeweiligen Durchlauf ab:
+`pnpm run deploy` prüft Konfiguration, Astro-Typen, Build, Tests und Inhalte/Artefakte vor dem Upload. Für die Vorbedingungen allein dient der folgende Befehl. Er liest Remote-Git-Referenzen, führt aber weder vollständige Verifikation noch Build oder Upload aus. Ein erfolgreicher Dry-Run bedeutet nicht, dass Tests bestanden wurden.
 
-```text
-23:54:01 [build] 181 page(s) built in 20.78s
-23:54:01 [build] Complete!
+```bash
+pnpm run deploy --dry-run
 ```
 
-Nach dem Upload gibt Wrangler die Vorschau-Adresse dieses Deployments aus. Der Projektname wird vom `scripts/verify-release.mjs`-Skript vorgegeben (`--project-name epocanvas-docs`), daher gibt es keine interaktive Abfrage.
+Wrangler gibt die URL nach erfolgreichem Upload aus. Das Script setzt `--project-name epocanvas-docs --branch main`; prüfen Sie, ob das Projekt im Konto existiert und der Produktionsbranch stimmt.
 
 ### Schritt 3: Ihr Projekt im Dashboard finden
 
@@ -96,7 +95,7 @@ Ein Klick auf den Projektnamen öffnet die Projektdetails; der Tab **Deployments
 *Abbildung: Seite der Deployment-Historie. ① Projektname; ② Tab Deployments; ③ die Produktionsdomain ist gleichzeitig mit `docs.epocanvas.com` (eigene Domain) und `epocanvas-docs.pages.dev` (Standarddomain) verbunden; ④ jeder Deployment-Eintrag zeigt Branch und Commit-Information; ⑤ Status und Deployment-Zeitpunkt.*
 
 :::note
-Jede Ausführung von `pnpm run deploy` ergänzt oben in der Liste einen neuen Deployment-Eintrag, der automatisch zur aktuellen Produktionsversion wird. Die Historie bleibt in der Liste erhalten; bei Problemen lässt sich jederzeit ein Rollback durchführen.
+Nur ein erfolgreicher Upload erzeugt einen Eintrag. Prüfen Sie Status, Branch, Commit und Domain in Deployments. Ein abgewiesener Befehl oder eine fehlgeschlagene Prüfung aktualisiert die Website nicht.
 :::
 
 ---
@@ -110,14 +109,14 @@ Im Tab **Settings** zeigt sich der Unterschied zwischen Direktupload-Projekten u
 *Abbildung: Tab Settings. ① Zugang zu Settings; ② im Feld Git repository steht Connect (nicht verbunden) – ein Direktupload-Projekt braucht keine Git-Build-Konfiguration, der Build erfolgt vollständig auf Ihrem lokalen Rechner.*
 
 :::tip
-Das erklärt zugleich den Vorteil des Direktuploads: Die Build-Umgebung ist Ihr eigener Rechner und hängt nicht von der Cloudflare-Build-Warteschlange ab; der Preis dafür ist, dass jede Aktualisierung auf genau dem Rechner ausgeführt werden muss, der auch deployed.
+Direktupload vermeidet die Cloud-Build-Warteschlange. Der Rechner benötigt passende Node-, pnpm-, Git-Versionen und Zugangsdaten; es muss nicht stets derselbe Computer sein.
 :::
 
 ---
 
 ## Variante 2: Automatischer Build über ein verbundenes Git-Repository (optional)
 
-Wenn „Commit heißt automatisch live“ gelten soll, verbinden Sie das Projekt mit einem GitHub-Repository; Cloudflare baut dann automatisch in der Cloud.
+Für Builds per Push erstellen Sie ein Git-integriertes Pages-Projekt und verbinden das Repository. Dies ist eine Konfigurationsanleitung, keine Bestätigung, dass der Weg aktiviert oder hier getestet wurde.
 
 ### Schritt 1: Den Erstellungsablauf öffnen
 
@@ -137,12 +136,14 @@ Tragen Sie unter „Set up builds and deployments“ die folgende Konfiguration 
 | Konfigurationsfeld | Einzutragender Wert |
 | :--- | :--- |
 | Framework-Preset | `Astro` |
-| Build-Befehl | `pnpm run build` |
-| Build-Ausgabeverzeichnis | `dist` |
+| Build-Befehl | `pnpm install --frozen-lockfile && pnpm run verify` |
+| Ausgabeverzeichnis | `dist` |
+| Node.js | `22.23.4`, wie in `.node-version` |
+| pnpm | `10.34.5`, wie in `packageManager` |
 
 ### Schritt 4: Den automatischen Build prüfen
 
-Klicken Sie auf **Save and Deploy**; Cloudflare erledigt den ersten Build automatisch. Danach holt, baut und veröffentlicht Cloudflare bei jedem Push auf den Branch `main` von selbst. Das Build-Protokoll jedes Deployments sehen Sie, indem Sie im Tab **Deployments** des Projekts den entsprechenden Eintrag anklicken.
+Prüfen Sie Node und pnpm in der Cloud, wählen Sie **Save and Deploy** und lesen Sie die Deployments-Protokolle. Installation, vollständige Verifikation und Upload müssen gelingen. Spätere Pushes richten sich nach Produktionsbranch und Automatisierungseinstellungen. Ein erfolgreicher GitHub-CI-Lauf allein deployed Pages nicht.
 
 :::caution
 Auf der Settings-Seite eines Git-Projekts erscheint zusätzlich ein Block mit der Build-Konfiguration (Framework-Preset, Build-Befehl usw.); das unterscheidet sich von der Ansicht eines [Direktupload-Projekts](#die-build-konfiguration-von-direktupload-projekten-verstehen) – wenn Sie unter Settings keine Build-Konfiguration finden, handelt es sich um ein Direktupload-Projekt, was völlig normal ist.
@@ -152,7 +153,7 @@ Auf der Settings-Seite eines Git-Projekts erscheint zusätzlich ein Block mit de
 
 ## Eigene Domain anbinden
 
-Die von Cloudflare automatisch vergebene Domain `epocanvas-docs.pages.dev` lässt sich direkt verwenden; die eigene Domain (z. B. `docs.epocanvas.com`) anzubinden dauert nur wenige Minuten.
+Cloudflare stellt `<project-name>.pages.dev` bereit; eine eigene Domain ist ebenfalls möglich. Die folgenden Domains sind Beispiele. DNS- und Zertifikatslaufzeiten hängen vom tatsächlichen Zustand ab.
 
 ### Schritt 1: Die Einstellungen für eigene Domains öffnen
 
@@ -166,7 +167,7 @@ Klicken Sie in den Projektdetails auf den Tab **Custom domains** und dann auf **
 
 1. Klicken Sie auf **Set up a custom domain** und geben Sie Ihre Subdomain ein (z. B. `docs.epocanvas.com`);
 2. Liegt das DNS der Domain bereits bei Cloudflare, fügt das System den CNAME-Eintrag automatisch hinzu; bei extern gehosteten Domains müssen Sie von Hand einen CNAME-Eintrag ergänzen, der auf `<Projektname>.pages.dev` zeigt;
-3. Warten Sie auf die Zertifikatsausstellung (üblich 2–5 Minuten); sobald der Status **Active** ist (wie ③ in der Abbildung oben), ist die Seite über die neue Domain erreichbar.
+3. Warten Sie auf DNS-Prüfung und Zertifikat und testen Sie die Domain bei Status **Active**. Eine feste Minutenzahl garantiert keinen Abschluss.
 
 Das HTTPS-Zertifikat stellt Cloudflare automatisch aus und erneuert es; ein manueller Antrag oder eine manuelle Konfiguration ist nicht nötig.
 
@@ -188,7 +189,7 @@ date: Fri, 11 Sep 2026 15:32:39 GMT
 content-type: text/html; charset=utf-8
 ```
 
-Ein `200` zeigt an, dass die Site gesund ist. Nach dem Anbinden der eigenen Domain wiederholen Sie den Test mit Ihrer eigenen URL.
+`200` bestätigt nur eine erfolgreiche Antwort dieser URL, nicht korrekte Übersetzungen, Ressourcen, Suche oder aktuelle Inhalte. Führen Sie die weiteren Prüfungen auf beiden Domains aus.
 
 ### Einzelne Punkte im Browser bestätigen
 
@@ -209,10 +210,10 @@ Zwingen Sie den Browser zum Neuladen (`Ctrl+F5` / `Cmd+Shift+R`), um den Cache a
 
 ### Die eigene Domain meldet einen SSL-Handshake-Fehler (Error 525)?
 
-Die Zertifikatsausstellung braucht 2–5 Minuten, bis sie weltweit wirksam ist; warten Sie kurz und laden Sie danach neu. In der Zwischenzeit erreichen Sie die Site über die Standarddomain `epocanvas-docs.pages.dev`.
+Prüfen Sie Domainvalidierung und Zertifikat in Custom domains, anschließend DNS, Proxy und Fehlerdetails. Warten Sie nicht nur einige Minuten, sondern vergleichen Sie mit `pages.dev`.
 
 ### `pnpm run deploy` bricht mit `Project not found` ab?
 
-Führen Sie zuerst `npx wrangler whoami` aus, um die Anmeldung zu bestätigen; prüfen Sie dann, ob `--project-name` in `scripts/verify-release.mjs` exakt dem Projektnamen im Dashboard entspricht.
+Führen Sie zuerst `pnpm exec wrangler whoami` aus, um die Anmeldung zu bestätigen; prüfen Sie dann, ob `--project-name` in `scripts/verify-release.mjs` exakt dem Projektnamen im Dashboard entspricht.
 
 Weitere Punkte zur Fehlersuche finden Sie unter [FAQ & Fehlerbehebung](/canvas/troubleshooting/).

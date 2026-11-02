@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 與 Starlight 建置，內建三欄閱讀版面、雙模式搜尋與內容級多語系。所有內容以標準 Markdown 撰寫，可發布至 Cloudflare Pages。
+EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 7 與 Starlight 建置，內建三欄閱讀版面、雙模式搜尋與內容級多語系。所有內容以Markdown 或 MDX 撰寫，可發布至 Cloudflare Pages。
 
 **線上站點**：[https://docs.epocanvas.com](https://docs.epocanvas.com)（備用位址：[https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
 
@@ -15,7 +15,9 @@ EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 
 
 ![EpoCanvas Docs 文件站首頁](./public/images/canvas/ui-home-landing.png)
 
-站點採用三欄版面：左側為分類導覽，中間為內文，右側為目前頁面的目錄。預設深色主題，會跟隨系統設定，也可在頂欄手動切換。
+*歷史介面範例：這張共用的中文首頁截圖顯示 v1.2.0 和 Astro 5，並非目前候選版。圖中的語言切換文案與控制項位置屬於歷史狀態，實際操作以目前文件為準；它不是本次候選版本的驗收截圖。*
+
+站點採用三欄版面：左側為分類導覽，中間為內文，右側為目前頁面的目錄。首次造訪跟隨系統主題；手動選擇後使用儲存的主題。
 
 ## 功能特性
 
@@ -27,10 +29,10 @@ EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 
 
 ## 環境需求
 
-- Node.js 22.20+ (22.x) 或 Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (固定版本)
 
-CI 使用 `.node-version` 固定的 Node.js 22.20.0。
+CI 使用 `.node-version` 固定的 Node.js 22.23.4。
 
 ## 快速開始
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![替代文字](/images/canvas/your-image.png)
    ```
+
+5. 在其餘 9 種語言的 `src/content/docs/<locale>/canvas/` 中完成對應譯文，補齊側邊欄 `translations`，並在 `public/images/canvas/<locale>/` 中提供需要翻譯的圖片。發布前必須完成全部 10 種語言；中文回退只是框架備援，缺譯會使 `pnpm run verify` 和 CI 失敗。
 
 提交前請在本機執行 `pnpm run verify`，確認所有檢查通過。
 

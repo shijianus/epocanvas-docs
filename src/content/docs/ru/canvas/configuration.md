@@ -12,9 +12,21 @@ description: Руководство по изменению основных к�
 Файл `astro.config.mjs` в корневом каталоге — главный конфигурационный файл всего сайта документации. Связанные со сведениями о сайте параметры перечислены ниже (в комментариях указано, когда их менять):
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// Меняйте существующий SITE_ORIGIN вместе с URL Sitemap в public/robots.txt.
+// site и hreflangXDefault() используют это значение; не меняйте только site.
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // Домен продакшен-окружения сайта; влияет на SEO-ссылки и генерацию Sitemap
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // если true, отображается только логотип без текста заголовка
       },
 
-      // Ссылка на репозиторий GitHub в правом верхнем углу
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Социальные ссылки в боковой панели Starlight.
+      // URL GitHub/Telegram в шапке заданы отдельно в src/components/starlight/Header.astro.
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // Точка входа пользовательской таблицы стилей
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+В Astro 7 этот сайт задаёт `markdown.processor` через `unified()` из `@astrojs/markdown-remark` 7.3.5. Указанные выше `rehypePlugins` используют существующие плагины из `astro.config.mjs`; при изменении конфигурации сохраните определения их функций.
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**: название категории или статьи, отображаемое в боковой панели; оно может отличаться от `title` во Frontmatter (например, использовать более короткое отображаемое имя);
 - **`link`**: путь доступа к статье; соответствует расположению файла в `src/content/docs/`.
 
-:::warning
+:::caution
 Новый файл `.md` появится в каталоге слева только после того, как вы зарегистрируете его в массиве `sidebar` — создание файла без регистрации — самая частая ошибка новичков.
 :::
 
@@ -125,9 +140,9 @@ sidebar: [
 
 ## 4. Замена логотипа сайта
 
-1. Подготовьте векторное изображение фирменного логотипа (рекомендуется `.svg`, также подойдёт чёткий `.png`);
-2. Перезапишите им файл `public/images/logo.svg` (большое изображение на главной странице находится в `src/assets/logo.svg`);
-3. Обновите страницу в браузере — значки в верхней панели и на главной странице заменятся автоматически.
+1. Подготовьте корректный векторный логотип `.svg`. Эти шаги предназначены только для SVG; не переименовывайте PNG в `.svg`.
+2. Отдельно замените `public/images/logo.svg` для верхней панели и `src/assets/logo.svg` для изображения на главной странице.
+3. Обновите страницу на локальном сервере разработки и проверьте оба логотипа. Опубликованный сайт изменится только после новой сборки и развёртывания.
 
 :::tip
 Эти два логотипа используются по-разному: `public/images/logo.svg` — для верхней панели, а `src/assets/logo.svg` — для большого декоративного изображения справа на главной странице; рекомендуется заменить их одновременно.

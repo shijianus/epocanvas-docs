@@ -12,9 +12,21 @@ description: EpoCanvas Docs 核心配置文件修改指南、侧边栏菜单调�
 根目录下的 `astro.config.mjs` 是整个文档站的主配置文件。与站点信息直接相关的选项如下（注释标明了修改时机）：
 
 ```javascript
+import { unified } from '@astrojs/markdown-remark';
+
+// 改域名时修改现有 SITE_ORIGIN，并同步 public/robots.txt 的 Sitemap 地址。
+// site 与 hreflangXDefault() 共用此值，不能只修改 site。
+const SITE_ORIGIN = 'https://docs.epocanvas.com';
+
 export default defineConfig({
   // 站点的生产环境域名，影响 SEO 链接与 Sitemap 生成
-  site: 'https://docs.epocanvas.com',
+  site: SITE_ORIGIN,
+
+  markdown: {
+    processor: unified({
+      rehypePlugins: [rehypeWrapTables, rehypeLocalizeInternalLinks, rehypeLocalizeDiagramImages, rehypeLocalizeAsides, rehypeLocalizeFootnotes],
+    }),
+  },
 
   integrations: [
     starlight({
@@ -29,10 +41,11 @@ export default defineConfig({
         replacesTitle: false, // 设为 true 则只显示 Logo、隐藏标题文字
       },
 
-      // 右上角的 GitHub 仓库链接
-      social: {
-        github: 'https://github.com/shijianus/epocanvas-docs',
-      },
+      // Starlight 侧边栏中的社交链接。
+      // 顶栏 GitHub/Telegram 地址单独定义在 src/components/starlight/Header.astro。
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/shijianus/epocanvas-docs' },
+      ],
 
       // 自定义样式表入口
       customCss: ['./src/styles/custom.css'],
@@ -46,6 +59,8 @@ export default defineConfig({
   redirects: { '/mail': '/canvas/' },
 });
 ```
+
+Astro 7 下，本站使用 `@astrojs/markdown-remark` 7.3.5 的 `unified()` 配置 `markdown.processor`。上例的 `rehypePlugins` 沿用 `astro.config.mjs` 中的现有插件，修改配置时应保留这些插件的函数定义。
 
 ---
 
@@ -76,7 +91,7 @@ sidebar: [
 - **`label`**：侧边栏上显示的分类名或文章名，可以与 Frontmatter 的 `title` 不同（例如用更短的显示名）；
 - **`link`**：文章的访问路径，对应 `src/content/docs/` 下的文件位置。
 
-:::warning
+:::caution
 新建的 `.md` 文件必须登记到 `sidebar` 数组中才会出现在左侧目录里，只创建文件不登记是新手最常踩的坑。
 :::
 
@@ -125,9 +140,9 @@ sidebar: [
 
 ## 4. 替换站点 Logo
 
-1. 准备一张品牌 Logo 矢量图（推荐 `.svg`，也可以用清晰的 `.png`）；
-2. 覆盖保存为 `public/images/logo.svg`（首页大图在 `src/assets/logo.svg`）；
-3. 刷新浏览器，顶栏与首页的图标自动替换。
+1. 准备有效的 `.svg` 品牌 Logo 矢量图；本步骤仅适用于 SVG，不要把 PNG 直接改名为 `.svg`；
+2. 分别替换 `public/images/logo.svg`（顶栏）与 `src/assets/logo.svg`（首页大图）；
+3. 在本地开发服务器中刷新浏览器，确认顶栏和首页图标；线上站点须重新构建并部署后才会更新。
 
 :::tip
 两处 Logo 用途不同：`public/images/logo.svg` 用于顶栏，`src/assets/logo.svg` 用于首页右侧的装饰大图，建议同时替换。

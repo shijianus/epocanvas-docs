@@ -27,7 +27,7 @@ src/content/docs/
 - **Requisitos do nome do ficheiro**: use letras minúsculas e travessões (por exemplo, `quickstart-guide.md`); não inclua caracteres chineses nem espaços. O nome do ficheiro determina o caminho de acesso: `canvas/deployment.md` corresponde a `/canvas/deployment/`.
 - **Extensão**: normalmente basta um ficheiro `.md` de texto simples; se precisar de incorporar componentes interativos no artigo (como a grelha de cartões da página inicial), use o formato `.mdx`.
 - **Registo na barra lateral**: depois de criar um ficheiro, é preciso registá-lo no array `sidebar` do `astro.config.mjs`, caso contrário não aparece no catálogo da esquerda.
-- **Traduções multilingues**: as traduções para outros idiomas ficam em `src/content/docs/<idioma>/`, com a estrutura de subdiretórios idêntica à da versão chinesa (por exemplo, `en/canvas/deployment.md` corresponde ao início rápido em inglês); as páginas que ainda não têm tradução apresentam automaticamente o conteúdo em chinês.
+- **Traduções multilingues**: ao adicionar ou alterar um documento, atualize as versões correspondentes em `src/content/docs/<locale>/` para os outros 9 idiomas, mantendo a estrutura chinesa de subdiretórios (por exemplo `en/canvas/deployment.md`). Complete também as `translations` da barra lateral e as imagens que precisem de tradução em `public/images/canvas/<locale>/`. Os 10 idiomas têm de estar completos antes da publicação; traduções em falta fazem falhar `pnpm run verify` e o CI. O fallback para chinês é apenas uma proteção do framework, não uma autorização para publicar traduções incompletas.
 
 ---
 

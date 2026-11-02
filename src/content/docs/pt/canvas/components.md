@@ -1,6 +1,6 @@
 ---
 title: Componentes de interface e desenvolvimento personalizado
-description: "Arquitetura dos componentes de interface do EpoCanvas Docs: mecanismo de substituição de componentes do Starlight, responsabilidades e fluxo de dados dos sete componentes personalizados, e cuidados a ter no desenvolvimento adicional."
+description: "Arquitetura dos componentes de interface do EpoCanvas Docs: mecanismo de substituição de componentes do Starlight, responsabilidades e fluxo de dados dos componentes personalizados, e cuidados a ter no desenvolvimento adicional."
 ---
 
 A interface do **EpoCanvas Docs** não foi construída do zero: baseia-se nos componentes nativos do Starlight com **substituições dirigidas**. Mantém o esqueleto de página e o processamento de conteúdo do Starlight e substitui os componentes de apresentação — barra superior, barra lateral, índice, pesquisa, etc. — para obter o layout de três colunas e as interações desejadas. Esta página explica a estrutura deste sistema de componentes e como modificá-lo.
@@ -9,38 +9,42 @@ A interface do **EpoCanvas Docs** não foi construída do zero: baseia-se nos co
 
 ## Mecanismo de substituição de componentes
 
-O Starlight permite substituir qualquer componente nativo por uma implementação personalizada através do campo `components` em `astro.config.mjs`. Este projeto substitui 7 componentes:
+Registe as substituições em `components` de `astro.config.mjs`, como abaixo; a configuração atual define a lista completa.
 
 ```javascript
 // astro.config.mjs (excerto)
 components: {
   Header: './src/components/starlight/Header.astro',
+  MobileMenuToggle: './src/components/starlight/MobileMenuToggle.astro',
   Sidebar: './src/components/starlight/Sidebar.astro',
   TableOfContents: './src/components/starlight/TableOfContents.astro',
   PageTitle: './src/components/starlight/PageTitle.astro',
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
 
-No momento do build, cada posição renderizada das páginas do Starlight usa prioritariamente os ficheiros aqui indicados. Os componentes não substituídos (como o rodapé Footer ou o menu móvel) continuam a usar a implementação nativa.
+As substituições registadas têm prioridade no build. Os restantes componentes mantêm a implementação nativa do Starlight.
 
 ---
 
-## Responsabilidades dos sete componentes personalizados
+## Responsabilidades dos componentes personalizados
 
-Todo o código-fonte está em `src/components/starlight/`, com a seguinte dimensão e responsabilidades:
+Os ficheiros estão em `src/components/starlight/`; seguem-se as funções principais.
 
-| Ficheiro do componente | Dimensão | Responsabilidade |
-| :--- | :--- | :--- |
-| `Header.astro` | cerca de 646 linhas | Todo o conteúdo da barra superior: logótipo, campo de pesquisa, navegação principal, emblema de versão, seletor de idioma, alternador de tema, entradas para GitHub e Telegram |
-| `Search.astro` | cerca de 837 linhas | Pesquisa em dois modos: pesquisa dentro da página na barra superior (realce e contagem) + janela modal de pesquisa em todo o site com `Ctrl+K` (UI do Pagefind) |
-| `Pagination.astro` | cerca de 123 linhas | Cartões de navegação "anterior / seguinte" no rodapé: bordas finas, títulos na cor do tema, setas diagonais ↙/↘ a indicar o sentido da navegação |
-| `TwoColumnContent.astro` | cerca de 77 linhas | Esqueleto de duas colunas para o corpo do texto e o índice à direita; controla a largura fixa da coluna direita e a rolagem |
-| `TableOfContents.astro` | cerca de 64 linhas | Título "Nesta página", ícone e lista do índice; filtra o próprio título da página |
-| `PageTitle.astro` | cerca de 62 linhas | Título grande da página (obtido do `title` do Frontmatter) e data de "última atualização" |
-| `Sidebar.astro` | cerca de 22 linhas | Encapsulamento fino: reutiliza o `SidebarPersister` nativo do Starlight para manter a posição de rolagem da barra lateral ao mudar de página |
+| Ficheiro do componente | Responsabilidade |
+| :--- | :--- |
+| `Header.astro` | Todo o conteúdo da barra superior: logótipo, campo de pesquisa, navegação principal, emblema de versão, seletor de idioma, alternador de tema, entradas para GitHub e Telegram |
+| `Search.astro` | Pesquisa em dois modos: pesquisa dentro da página na barra superior (realce e contagem) + janela modal de pesquisa em todo o site com `Ctrl+K` (UI do Pagefind) |
+| `Pagination.astro` | Cartões de navegação "anterior / seguinte" no rodapé: bordas finas, títulos na cor do tema, setas diagonais ↙/↘ a indicar o sentido da navegação |
+| `TwoColumnContent.astro` | Esqueleto de duas colunas para o corpo do texto e o índice à direita; controla a largura fixa da coluna direita e a rolagem |
+| `TableOfContents.astro` | Título "Nesta página", ícone e lista do índice; filtra o próprio título da página |
+| `PageTitle.astro` | Título grande da página (obtido do `title` do Frontmatter) e data de "última atualização" |
+| `Sidebar.astro` | Encapsulamento fino: reutiliza o `SidebarPersister` nativo do Starlight para manter a posição de rolagem da barra lateral ao mudar de página |
+| `SkipLink.astro` | Mostra um link de salto ao receber foco do teclado e move o foco para o título `_top` |
+| `MobileMenuToggle.astro` | Abre e fecha a barra lateral móvel, sincroniza o estado e fecha com Esc devolvendo o foco |
 
 ---
 
@@ -66,15 +70,15 @@ Em resumo: para alterar o conteúdo da interface, procure primeiro o ficheiro de
 
 ### PageTitle: título da página e data real de atualização
 
-O título grande da página lê diretamente o `title` do Frontmatter, por isso **não escreva novamente um título de nível `#` no corpo do texto**. A data de "última atualização" vem do histórico de commits do Git no momento do build (`lastUpdated: true` ativado em `astro.config.mjs`) e é atualizada automaticamente a cada commit, sem manutenção manual.
+O título da página vem do `title` do Frontmatter, por isso **não acrescente um título de nível 1 com `#` no corpo do texto**. Com `lastUpdated: true` em `astro.config.mjs`, sem uma data de substituição no Frontmatter, o build lê a data do último commit do Git que alterou esse ficheiro. Não é a data de cada commit do repositório nem de cada build; alterar outros ficheiros não atualiza a data desta página.
 
 :::caution
-A data de atualização é lida do histórico do Git no momento do build, por isso: **documentos novos ainda não submetidos não mostram data** (por baixo do título permanece apenas a assinatura padrão); depois de submeter, basta reconstruir para que apareça; se o ambiente de build for um clone superficial (por exemplo, `fetch-depth: 1` em CI), o histórico do Git fica incompleto e a data também não aparece. Em nenhum dos casos o build é afetado.
+Um documento novo ainda sem commit não tem histórico Git disponível e não mostra data. Alterações sem commit num ficheiro existente também não mudam a data do seu commit. Um clone superficial (como `fetch-depth: 1`) pode devolver a data do commit no limite do histórico truncado ou não devolver data; não equivale ao histórico completo. Para datas exatas, use todo o histórico Git (`fetch-depth: 0` no CI). Uma falha na leitura da data não faz falhar o build.
 :::
 
 ### Sidebar: implementação da memória da posição de rolagem
 
-O `Sidebar.astro` tem pouco mais de 20 linhas; o essencial é a reutilização do componente oficial `SidebarPersister` do Starlight: durante a troca de página, o DOM da barra lateral não é reconstruído, preservando a posição da barra de rolagem. É este o princípio por trás do "diretório à esquerda não salta ao mudar de página".
+`Sidebar.astro` reutiliza o `SidebarPersister` do Starlight para restaurar a posição de deslocamento entre páginas. `MobileMenuToggle.astro` gere o estado e o foco do menu móvel.
 
 ### TableOfContents: geração do índice da página
 
@@ -98,6 +102,8 @@ Um único componente implementa dois sistemas de pesquisa (ver [Pesquisa em text
 1. **Pesquisa dentro da página**: campo de entrada na barra superior; Enter salta entre os trechos correspondentes na página atual, com realce feito por marcação de script;
 2. **Pesquisa em todo o site**: janela modal `<dialog>` + UI predefinida do Pagefind, com o índice gerado na fase `pnpm run build`.
 
+O campo de pesquisa na página só aparece a partir de `64rem`; abaixo fica o botão global. Use Localizar na página do browser para o artigo atual. Se as capturas diferirem, prevalece a interface atual.
+
 ### Pagination: cartões de navegação
 
 Os dados de anterior/seguinte são calculados pelo Starlight no momento do build conforme a ordem da `sidebar` (`Astro.locals.starlightRoute.pagination`); o componente apenas renderiza: dois cartões de largura igual, bordas finas sem sombra, títulos na cor do tema, e setas diagonais ↙ / ↘ que se deslocam no sentido da navegação ao passar o cursor. As setas são caminhos SVG inline e espelham automaticamente a direção se o site for usado em idiomas RTL.
@@ -107,11 +113,11 @@ Os dados de anterior/seguinte são calculados pelo Starlight no momento do build
 ## Cuidados no desenvolvimento adicional
 
 :::caution
-Substituir componentes significa abdicar das atualizações futuras dos componentes nativos do Starlight. Ao atualizar a versão do Starlight, os props dos componentes e a estrutura de `Astro.locals.starlightRoute` podem mudar; após a atualização é obrigatório fazer testes de regressão aos 7 componentes substituídos.
+Substituir componentes significa abdicar das atualizações futuras dos componentes nativos do Starlight. Ao atualizar a versão do Starlight, os props dos componentes e a estrutura de `Astro.locals.starlightRoute` podem mudar; após a atualização é obrigatório fazer testes de regressão aos componentes substituídos.
 :::
 
 - **Para alterar estilos, use primeiro variáveis CSS**: cores, tipos de letra e dimensões de layout estão concentrados nas variáveis `:root` de `src/styles/custom.css`; ver [Configuração do site e personalização de estilos](/canvas/configuration/); a maioria das personalizações não exige tocar nos componentes;
 - **Só toque nos componentes para alterar interações**: ao acrescentar botões ou ajustar a estrutura, obtenha os textos da interface com `getTranslation(key, lang)` e complete as entradas dos 10 idiomas em `i18n.ts`; os idiomas em falta recuem para a exibição em chinês;
-- **Depois de alterar, valide sempre localmente**: use `pnpm run dev` para verificar as interações e `pnpm run build` para confirmar que os tipos e o build passam (comandos locais em [FAQ e solução de problemas](/canvas/troubleshooting/)).
+- **Depois de alterar, valide sempre localmente**: use `pnpm run dev` para verificar as interações e `pnpm run verify` para confirmar que os tipos e o build passam (comandos locais em [FAQ e solução de problemas](/canvas/troubleshooting/)).
 
 Para as operações de personalização mais comuns, consulte diretamente [Receitas de personalização comuns](/canvas/recipes/).

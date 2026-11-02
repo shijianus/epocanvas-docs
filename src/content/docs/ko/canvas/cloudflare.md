@@ -1,9 +1,9 @@
 ---
 title: Cloudflare Pages 배포
-description: "EpoCanvas Docs 배포 공개 그림 튜토리얼: Wrangler 명령줄 직접 업로드, Git 자동 빌드, 커스텀 도메인 연결, 각 단계에 실제 콘솔 스크린샷 수록."
+description: "Cloudflare Pages 배포 안내: Wrangler 업로드, 선택적 Git 연동, 도메인과 배포 후 검사."
 ---
 
-문서 작성이 끝나면 팀과 사용자가 접근할 수 있도록 공개 인터넷에 배포해야 합니다. **EpoCanvas Docs**는 **Cloudflare Pages** 호스팅을 권장합니다: 서버를 구매할 필요도, Nginx를 설정할 필요도 없이 정적 파일을 직접 업로드하기만 하면 되고 HTTPS 인증서도 자동으로 받습니다. 이 사이트 자체(`docs.epocanvas.com`)도 이 글의 방법으로 배포했으며, 아래의 모든 콘솔 스크린샷은 실제 배포 과정에서 캡처한 것입니다.
+이 페이지는 저장소 스크립트를 기준으로 정적 문서를 **Cloudflare Pages**에 배포하는 방법을 설명합니다. 콘솔 이미지는 기존 예시이며 이번 후보 버전의 배포나 테스트 기록이 아닙니다. 차이가 있으면 현재 콘솔을 따르세요. 검증과 배포 성공 여부는 실제 로그와 배포 상태로 확인해야 합니다.
 
 ---
 
@@ -19,19 +19,19 @@ description: "EpoCanvas Docs 배포 공개 그림 튜토리얼: Wrangler 명령�
 
 ### 두 가지 배포 방식의 선택
 
-![Cloudflare Pages 배포 두 가지 경로 비교도: 왼쪽은 명령어 로컬 직접 업로드(이 사이트 방식), 오른쪽은 Git 저장소 자동 빌드(팀 협업 권장)](/images/canvas/docs-deploy-compare.svg)
+![로컬 Wrangler 업로드와 Git 연동 빌드 경로](/images/canvas/docs-deploy-compare.svg)
 
-*그림: Cloudflare Pages의 두 가지 배포 경로 비교. 왼쪽은 로컬에서 빌드한 후 Wrangler로 엣지에 직접 업로드(이 사이트의 실제 방식), 오른쪽은 GitHub Webhook으로 클라우드 자동 빌드를 트리거합니다.*
+*그림: 왼쪽은 로컬 빌드와 Wrangler 업로드, 오른쪽은 Git 연동 클라우드 빌드입니다. 이번 수정에서 두 경로를 실제 테스트했다는 뜻은 아닙니다.*
 
 | 비교 항목 | 방식 1: 명령어 직접 업로드 | 방식 2: Git 자동 빌드 |
 | :--- | :--- | :--- |
 | 조작 방식 | 로컬에서 `pnpm run deploy` 실행 | GitHub에 코드 푸시 시 자동 트리거 |
 | 진입 장벽 | 낮음, 두 개의 명령어 | 중간, 콘솔에서 한 번 설정 필요 |
 | 적합한 상황 | 첫 배포, 1인 유지보수, 빠른 업데이트 | 여럿 협업, "커밋하면 바로 배포" 희망 |
-| 이 사이트 채택 | ✅ 예(콘솔에서 확인 가능) | 미사용, 언제든 추가 가능 |
+| 배포 검사 | 전체 verify 통과 후 업로드 | 클라우드 빌드 명령에 전체 verify 설정 |
 
 :::tip
-두 가지 방식은 병행할 수 있습니다: 평소에는 Git 자동 빌드를 사용하고, 긴급 수정 시에는 로컬 `pnpm run deploy`로 직접 덮어써 배포합니다.
+프로젝트 생성 시 Direct Upload 또는 Git 연동을 선택하세요. 기존 직접 업로드 프로젝트를 그대로 Git 연동으로 바꿀 수 있다고 가정하지 마세요. 경로를 바꾸려면 해당 프로젝트를 만드세요. 긴급 Wrangler 배포도 검사를 건너뛰면 안 됩니다.
 :::
 
 :::tip[명령어를 아예 치고 싶지 않다면?]
@@ -42,44 +42,43 @@ description: "EpoCanvas Docs 배포 공개 그림 튜토리얼: Wrangler 명령�
 
 ## 방식 1: 로컬 명령어 직접 업로드(처음 배포 시 권장)
 
-이 방식은 로컬에서 빌드한 후 Cloudflare에 직접 업로드하며, **이 사이트가 실제로 채택한** 배포 방식입니다.
+로컬 빌드 후 Wrangler로 업로드합니다. `pnpm run deploy`는 유지 관리자의 `epocanvas-docs` 프로젝트용이며 모든 fork가 그대로 쓸 수 있는 범용 배포 버튼이 아닙니다.
 
 ### 1단계: Cloudflare 계정 로그인
 
 프로젝트에는 Wrangler(Cloudflare 공식 명령줄 도구)가 미리 포함되어 있으며, 처음 사용할 때는 브라우저로 로그인 승인이 필요합니다:
 
 ```bash
-npx wrangler login
+pnpm exec wrangler login
 ```
 
 실행하면 터미널에 `Opening a link in your default browser...`가 표시되고, 브라우저에 Cloudflare 승인 페이지가 열립니다. **Allow**를 클릭하면 터미널에 로그인 성공이 표시됩니다. 다음 명령어로 로그인 상태를 확인합니다:
 
 ```bash
-npx wrangler whoami
+pnpm exec wrangler whoami
 ```
 
 :::caution
-로그인을 건너뛰고 바로 배포를 실행하면 터미널에 `You are not authenticated. Please run 'wrangler login'.`이 표시되며 어떤 배포도 이루어지지 않습니다.
+유효한 Cloudflare 로그인이나 토큰 권한이 필요합니다. 인증 실패 시 `wrangler whoami`, 계정 및 프로젝트 권한을 확인하세요. 오류 문구는 버전에 따라 다를 수 있습니다.
 :::
 
 ### 2단계: 원클릭 빌드 및 업로드
 
 프로젝트의 `scripts/verify-release.mjs`에는 원클릭 배포 명령어가 미리 준비되어 있습니다:
 
-먼저 `npx wrangler login`으로 인증한 뒤 `pnpm run deploy`를 실행합니다. 배포를 담당하는 `scripts/verify-release.mjs`는 `main`이 아닌 브랜치, 변경 사항이 남아 있는 작업 트리, 원격 `origin/main`의 실제 커밋과 일치하지 않는 HEAD를 거부합니다. `pnpm run verify`가 통과한 뒤 Wrangler를 호출합니다. 프로젝트 이름은 `package.json`이 아니라 이 스크립트에 정의되어 있습니다.
+`pnpm exec wrangler login`으로 인증합니다. `scripts/verify-release.mjs`는 `main`, 미추적 파일까지 없는 깨끗한 작업 트리, `origin/main` 업스트림, 실제 원격 커밋과 같은 HEAD를 요구합니다. `pnpm run deploy`는 전체 `pnpm run verify` 후 Git을 다시 확인하고 Wrangler를 호출합니다. 프로젝트 이름은 스크립트에 있으므로 재사용 전 자신의 배포 대상을 설정하세요.
 
 ```bash
 pnpm run deploy
 ```
 
-전제 조건을 확인한 뒤 스크립트는 `pnpm run verify`로 테스트, 설정 검사, Astro 타입 검사, 빌드 및 콘텐츠/결과물 검사를 실행합니다. 모두 통과해야 `wrangler pages deploy dist`로 Cloudflare Pages에 직접 업로드합니다. 아래는 빌드 출력 예시이며 페이지 수와 소요 시간은 실제 실행에 따라 달라집니다.
+`pnpm run deploy`는 설정, Astro 타입, 빌드, 테스트 및 콘텐츠/결과물 검사 후 업로드합니다. 전제 조건만 확인하려면 아래 명령을 쓰세요. 원격 Git 참조는 읽지만 전체 검증, 빌드, 업로드는 하지 않습니다. dry-run 성공은 테스트 통과가 아닙니다.
 
-```text
-23:54:01 [build] 181 page(s) built in 20.78s
-23:54:01 [build] Complete!
+```bash
+pnpm run deploy --dry-run
 ```
 
-업로드가 완료되면 Wrangler가 이번 배포의 미리보기 주소를 출력합니다. 프로젝트 이름은 `scripts/verify-release.mjs` 스크립트가 `--project-name epocanvas-docs`로 미리 지정하므로, 배포 중에 대화형으로 물어보지 않습니다.
+업로드 성공 후 Wrangler가 URL을 출력합니다. 스크립트는 `--project-name epocanvas-docs --branch main`을 지정하므로 계정의 프로젝트 존재와 운영 브랜치 설정을 확인하세요.
 
 ### 3단계: 콘솔에서 내 프로젝트 찾기
 
@@ -96,7 +95,7 @@ pnpm run deploy
 *그림: 배포 이력 페이지. ① 프로젝트 이름; ② Deployments 탭; ③ 프로덕션 도메인에는 `docs.epocanvas.com`(커스텀 도메인)과 `epocanvas-docs.pages.dev`(기본 도메인)가 동시에 연결됨; ④ 각 배포 기록에 브랜치와 커밋 정보가 표시됨; ⑤ 상태와 배포 시간.*
 
 :::note
-`pnpm run deploy`를 실행할 때마다 목록 맨 위에 새 배포 기록이 추가되고 자동으로 현재 프로덕션 버전이 됩니다. 이력은 목록에 남아 있으므로 문제가 생기면 언제든 롤백할 수 있습니다.
+업로드 성공 시에만 배포 기록이 생성됩니다. Deployments에서 상태, 브랜치, 커밋, 운영 도메인을 확인하세요. 명령 거부나 검증 실패는 온라인 업데이트가 아닙니다.
 :::
 
 ---
@@ -110,14 +109,14 @@ pnpm run deploy
 *그림: Settings 탭. ① Settings 진입점; ② Git repository 항목에 Connect(연결 안 됨)가 표시됩니다. 직접 업로드 프로젝트는 Git 빌드 설정이 필요 없으며 빌드는 전부 로컬에서 완료됩니다.*
 
 :::tip
-이것이 직접 업로드 방식의 장점이기도 합니다: 빌드 환경이 바로 여러분의 로컬 컴퓨터이므로 Cloudflare 빌드 대기열의 영향을 받지 않습니다. 대신 업데이트할 때마다 배포를 실행하는 그 컴퓨터에서 명령어를 실행해야 합니다.
+직접 업로드는 클라우드 빌드 대기열을 피하지만 실행 기기에 필요한 Node, pnpm, Git과 인증 정보가 있어야 합니다. 특정 컴퓨터에만 제한되지는 않습니다.
 :::
 
 ---
 
 ## 방식 2: Git 저장소 연결 자동 빌드(선택)
 
-"코드를 커밋하면 자동으로 배포되길" 원한다면 프로젝트를 GitHub 저장소에 연결하여 Cloudflare가 클라우드에서 자동으로 빌드하도록 할 수 있습니다.
+push로 빌드하려면 Git 연동 Pages 프로젝트를 만들고 저장소를 연결하세요. 아래는 설정 안내이지 이 경로가 활성화되었거나 이번에 검증되었다는 기록이 아닙니다.
 
 ### 1단계: 생성 흐름 진입
 
@@ -137,12 +136,14 @@ Workers & Pages 프로젝트 목록 페이지에서 오른쪽 위의 **Create ap
 | 설정 항목 | 입력 값 |
 | :--- | :--- |
 | 프레임워크 프리셋 | `Astro` |
-| 빌드 명령어 | `pnpm run build` |
-| 빌드 출력 디렉터리 | `dist` |
+| 빌드 명령 | `pnpm install --frozen-lockfile && pnpm run verify` |
+| 빌드 출력 | `dist` |
+| Node.js | `22.23.4` (`.node-version`과 일치) |
+| pnpm | `10.34.5` (`packageManager`와 일치) |
 
 ### 4단계: 자동 빌드 확인
 
-**저장 및 배포**를 클릭하면 Cloudflare가 첫 빌드를 자동으로 완료합니다. 이후 `main` 브랜치에 코드를 푸시할 때마다 Cloudflare가 자동으로 가져오고 빌드하여 배포합니다. 각 배포의 빌드 로그는 프로젝트의 **Deployments** 탭에서 해당 배포를 클릭하면 볼 수 있습니다.
+클라우드의 Node와 pnpm을 확인한 뒤 **저장 및 배포**를 누르고 Deployments 로그를 확인하세요. 설치, 전체 검증, 업로드가 모두 성공해야 합니다. 이후 push는 설정한 운영 브랜치와 자동 배포 옵션을 따릅니다. GitHub CI 성공만으로 Pages가 배포되지는 않습니다.
 
 :::caution
 Git 연동 프로젝트의 Settings 페이지에는 빌드 설정 블록(프레임워크 프리셋, 빌드 명령어 등)이 추가로 나타납니다. 이는 [직접 업로드 프로젝트](#직접-업로드-프로젝트의-빌드-설정-살펴보기)와는 화면이 다른 것으로, Settings에서 빌드 설정을 찾을 수 없다면 현재 프로젝트가 직접 업로드 프로젝트라는 뜻이며 정상입니다.
@@ -152,7 +153,7 @@ Git 연동 프로젝트의 Settings 페이지에는 빌드 설정 블록(프레�
 
 ## 커스텀 도메인 연결
 
-Cloudflare가 기본으로 할당하는 `epocanvas-docs.pages.dev` 도메인은 바로 사용할 수 있으며, 자기 도메인(예: `docs.epocanvas.com`)을 연결하는 데는 몇 분밖에 걸리지 않습니다.
+Cloudflare는 `<project-name>.pages.dev`를 제공하며 사용자 도메인도 연결할 수 있습니다. 아래는 예시이고 DNS와 인증서 반영 시간은 실제 상태에 따릅니다.
 
 ### 1단계: 커스텀 도메인 설정 열기
 
@@ -166,7 +167,7 @@ Cloudflare가 기본으로 할당하는 `epocanvas-docs.pages.dev` 도메인은 
 
 1. **Set up a custom domain**을 클릭하고 자기의 서브도메인(예: `docs.epocanvas.com`)을 입력합니다;
 2. 도메인 DNS가 이미 Cloudflare에 위임되어 있으면 시스템이 자동으로 CNAME 레코드를 추가합니다. 다른 곳에 위임된 도메인은 `<프로젝트명>.pages.dev`를 가리키는 CNAME 레코드를 수동으로 추가해야 합니다;
-3. 인증서 발급을 기다립니다(보통 2~5분). 상태가 **Active**가 되면(위 그림 ③) 새 도메인으로 접근할 수 있습니다.
+3. DNS 검증과 인증서 발급을 기다린 뒤 **Active** 상태에서 새 도메인을 확인합니다. 몇 분 안에 끝난다는 보장은 없습니다.
 
 HTTPS 인증서는 Cloudflare가 자동으로 발급하고 갱신하므로 수동으로 신청하거나 설정할 필요가 없습니다.
 
@@ -188,7 +189,7 @@ date: Fri, 11 Sep 2026 15:32:39 GMT
 content-type: text/html; charset=utf-8
 ```
 
-`200`이 보이면 사이트가 정상이라는 뜻입니다. 커스텀 도메인을 연결한 후에는 URL을 자기 도메인으로 바꿔 한 번 더 테스트하세요.
+`200`은 해당 URL의 응답 성공만 뜻하며 번역, 리소스, 검색이나 최신 내용을 검증하지 않습니다. 기본 및 사용자 도메인에서 아래 항목도 확인하세요.
 
 ### 브라우저에서 항목별 확인
 
@@ -209,10 +210,10 @@ content-type: text/html; charset=utf-8
 
 ### 커스텀 도메인에서 SSL 핸드셰이크 실패(Error 525)가 표시되나요?
 
-인증서 발급에는 보통 2~5분의 전 세계 적용 시간이 필요하므로 기다린 후 강제 새로 고침하면 됩니다. 그동안은 `epocanvas-docs.pages.dev` 기본 도메인으로 먼저 접근할 수 있습니다.
+Custom domains의 도메인 검증과 인증서 상태를 확인하고 DNS, 프록시 설정, 오류 상세를 점검하세요. 몇 분 기다리는 것으로 단정하지 말고 기본 `pages.dev`와 비교하세요.
 
 ### `pnpm run deploy` 실행 시 `Project not found` 오류가 발생하나요?
 
-먼저 `npx wrangler whoami`로 로그인 여부를 확인하고, 다음으로 `scripts/verify-release.mjs`에 있는 `--project-name`이 콘솔 프로젝트 이름과 일치하는지 확인합니다.
+먼저 `pnpm exec wrangler whoami`로 로그인 여부를 확인하고, 다음으로 `scripts/verify-release.mjs`에 있는 `--project-name`이 콘솔 프로젝트 이름과 일치하는지 확인합니다.
 
 추가 확인 항목은 [자주 묻는 질문과 문제 해결 FAQ](/canvas/troubleshooting/)를 참조하세요.

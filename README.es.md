@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs es el sitio de documentación oficial del proyecto EpoCanvas. Está construido con Astro 5 y Starlight, e incorpora de serie una maquetación de lectura de tres columnas, búsqueda de doble modo y contenido multilingüe completo. Todo el contenido está escrito en Markdown estándar y se publica en Cloudflare Pages.
+EpoCanvas Docs es el sitio de documentación oficial del proyecto EpoCanvas. Está construido con Astro 7 y Starlight, e incorpora de serie una maquetación de lectura de tres columnas, búsqueda de doble modo y contenido multilingüe completo. Todo el contenido está escrito en Markdown o MDX y se publica en Cloudflare Pages.
 
 **Sitio en línea**: [https://docs.epocanvas.com](https://docs.epocanvas.com) (réplica: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev))
 
@@ -15,7 +15,9 @@ EpoCanvas Docs es el sitio de documentación oficial del proyecto EpoCanvas. Est
 
 ![Página de inicio de la documentación de EpoCanvas Docs](./public/images/canvas/ui-home-landing.png)
 
-El sitio usa una maquetación de tres columnas: el catálogo de categorías a la izquierda, el cuerpo del texto al centro y el índice de la página actual a la derecha. El tema oscuro es el predeterminado, sigue la preferencia del sistema y puede cambiarse manualmente desde la barra superior.
+*Ejemplo histórico de la interfaz: esta captura compartida de la portada en chino muestra v1.2.0 y Astro 5, no la candidata actual. El texto sobre el cambio de idioma y las posiciones de los controles corresponden a esa versión; siga la documentación actual. No es una captura de las pruebas de aceptación de esta candidata.*
+
+El sitio usa una maquetación de tres columnas: el catálogo de categorías a la izquierda, el cuerpo del texto al centro y el índice de la página actual a la derecha. El tema sigue la preferencia del sistema en la primera visita; una selección manual la sustituye.
 
 ## Características
 
@@ -27,10 +29,10 @@ El sitio usa una maquetación de tres columnas: el catálogo de categorías a la
 
 ## Requisitos
 
-- Node.js 22.20+ (22.x) o Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (versión exacta)
 
-CI usa Node.js 22.20.0, fijado en `.node-version`.
+CI usa Node.js 22.23.4, fijado en `.node-version`.
 
 ## Inicio rápido
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![texto alternativo](/images/canvas/su-imagen.png)
    ```
+
+5. Complete las páginas correspondientes en `src/content/docs/<locale>/canvas/` para los otros 9 idiomas, añada las `translations` de la barra lateral y las imágenes que necesiten traducción en `public/images/canvas/<locale>/`. Los 10 idiomas deben estar completos antes de publicar; el fallback al chino solo es una protección del framework. Las traducciones ausentes hacen fallar `pnpm run verify` y CI.
 
 Ejecute `pnpm run verify` antes de confirmar cambios y compruebe que pasan todas las verificaciones.
 

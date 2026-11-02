@@ -1,6 +1,6 @@
 ---
 title: UI 컴포넌트와 커스텀 개발
-description: "EpoCanvas Docs UI 컴포넌트 아키텍처: Starlight 컴포넌트 오버라이드 메커니즘, 7개 커스텀 컴포넌트의 역할과 데이터 흐름, 그리고 커스텀 개발 시 주의 사항."
+description: "EpoCanvas Docs UI 컴포넌트 아키텍처: Starlight 컴포넌트 오버라이드 메커니즘, 커스텀 컴포넌트의 역할과 데이터 흐름, 그리고 커스텀 개발 시 주의 사항."
 ---
 
 **EpoCanvas Docs**의 UI는 처음부터 새로 만들지 않고 Starlight 기본 컴포넌트를 기반으로 **필요한 부분만 오버라이드**하는 방식입니다: Starlight의 페이지 골격과 콘텐츠 처리 기능은 유지하되, 상단 바, 사이드바, 목차, 검색 등 표시 컴포넌트를 교체하여 원하는 3열 레이아웃과 인터랙션을 얻습니다. 이 페이지에서는 이 컴포넌트 체계의 구조와 수정 방법을 설명합니다.
@@ -9,38 +9,42 @@ description: "EpoCanvas Docs UI 컴포넌트 아키텍처: Starlight 컴포넌�
 
 ## 컴포넌트 오버라이드 메커니즘
 
-Starlight는 `astro.config.mjs`의 `components` 필드에서 임의의 기본 컴포넌트를 커스텀 구현으로 교체할 수 있게 해줍니다. 이 프로젝트에서는 7개의 컴포넌트를 오버라이드했습니다:
+아래처럼 `astro.config.mjs`의 `components`에 등록합니다. 전체 목록은 현재 설정을 기준으로 합니다.
 
 ```javascript
 // astro.config.mjs (발췌)
 components: {
   Header: './src/components/starlight/Header.astro',
+  MobileMenuToggle: './src/components/starlight/MobileMenuToggle.astro',
   Sidebar: './src/components/starlight/Sidebar.astro',
   TableOfContents: './src/components/starlight/TableOfContents.astro',
   PageTitle: './src/components/starlight/PageTitle.astro',
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
 
-빌드 시 Starlight는 페이지를 렌더링하는 각 위치에서 여기에 지정된 파일을 우선 사용합니다. 오버라이드되지 않은 컴포넌트(예: 푸터 Footer, 모바일 메뉴)는 계속 기본 구현을 사용합니다.
+등록된 커스텀 구현이 빌드 시 우선 적용됩니다. 오버라이드하지 않은 컴포넌트는 Starlight 기본 구현을 사용합니다.
 
 ---
 
-## 7개 커스텀 컴포넌트의 역할
+## 커스텀 오버라이드 컴포넌트의 역할
 
-모든 소스 코드는 `src/components/starlight/`에 있으며, 규모와 역할은 다음과 같습니다:
+소스는 `src/components/starlight/`에 있으며 주요 역할은 다음과 같습니다.
 
-| 컴포넌트 파일 | 규모 | 역할 |
-| :--- | :--- | :--- |
-| `Header.astro` | 약 646줄 | 상단 바의 전체 내용: 로고, 검색창, 메인 내비게이션, 버전 배지, 언어 전환, 테마 전환, GitHub 및 Telegram 진입점 |
-| `Search.astro` | 약 837줄 | 듀얼 모드 검색: 상단 바 페이지 내 찾기(하이라이트와 카운트) + `Ctrl+K` 사이트 전체 검색 팝업(Pagefind UI) |
-| `Pagination.astro` | 약 123줄 | 하단 "이전 페이지 / 다음 페이지" 카드: 얇은 평면 테두리, 테마 색상 제목, ↙/↘ 대각선 화살표로 페이지 이동 방향 표시 |
-| `TwoColumnContent.astro` | 약 77줄 | 본문과 오른쪽 목차의 2열 골격, 오른쪽 열의 고정 너비와 스크롤 제어 |
-| `TableOfContents.astro` | 약 64줄 | "이 페이지의 목차" 제목, 아이콘과 목차 목록, 페이지 자체 제목은 필터링 |
-| `PageTitle.astro` | 약 62줄 | 페이지 대제목(Frontmatter의 `title` 사용)과 "마지막 업데이트" 타임스탬프 |
-| `Sidebar.astro` | 약 22줄 | 얇은 래퍼: Starlight 기본 `SidebarPersister`를 재사용하여 페이지 이동 시 사이드바 스크롤 위치 유지 |
+| 컴포넌트 파일 | 역할 |
+| :--- | :--- |
+| `Header.astro` | 상단 바의 전체 내용: 로고, 검색창, 메인 내비게이션, 버전 배지, 언어 전환, 테마 전환, GitHub 및 Telegram 진입점 |
+| `Search.astro` | 듀얼 모드 검색: 상단 바 페이지 내 찾기(하이라이트와 카운트) + `Ctrl+K` 사이트 전체 검색 팝업(Pagefind UI) |
+| `Pagination.astro` | 하단 "이전 페이지 / 다음 페이지" 카드: 얇은 평면 테두리, 테마 색상 제목, ↙/↘ 대각선 화살표로 페이지 이동 방향 표시 |
+| `TwoColumnContent.astro` | 본문과 오른쪽 목차의 2열 골격, 오른쪽 열의 고정 너비와 스크롤 제어 |
+| `TableOfContents.astro` | "이 페이지의 목차" 제목, 아이콘과 목차 목록, 페이지 자체 제목은 필터링 |
+| `PageTitle.astro` | 페이지 대제목(Frontmatter의 `title` 사용)과 "마지막 업데이트" 타임스탬프 |
+| `Sidebar.astro` | 얇은 래퍼: Starlight 기본 `SidebarPersister`를 재사용하여 페이지 이동 시 사이드바 스크롤 위치 유지 |
+| `SkipLink.astro` | 키보드 포커스 시 건너뛰기 링크를 표시하고 본문 제목 `_top`으로 포커스 이동 |
+| `MobileMenuToggle.astro` | 모바일 사이드바 토글과 펼침 상태 동기화. Esc로 닫은 뒤 버튼으로 포커스 복귀 |
 
 ---
 
@@ -66,15 +70,15 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 사전 ──→ 각 컴포넌트가
 
 ### PageTitle: 페이지 제목과 실제 업데이트 시간
 
-페이지 대제목은 Frontmatter의 `title`을 직접 읽으므로 **본문에 `#` 수준 1 제목을 다시 쓰지 마세요**. "마지막 업데이트" 타임스탬프는 빌드 시점의 Git 커밋 이력에서 가져옵니다(`astro.config.mjs`에서 `lastUpdated: true` 활성화). 커밋할 때마다 자동으로 갱신되므로 수동 관리가 필요 없습니다.
+페이지 대제목은 Frontmatter의 `title`을 직접 읽으므로 **본문에 `#` 수준 1 제목을 다시 쓰지 마세요**. `astro.config.mjs`에서 `lastUpdated: true`가 활성화되어 있고 Frontmatter 날짜로 덮어쓰지 않았다면, 빌드 시 해당 파일을 마지막으로 변경한 Git 커밋 시간을 읽습니다. 저장소의 모든 커밋이나 빌드 시간이 아니므로 다른 파일만 수정해도 이 페이지 날짜가 바뀌지는 않습니다.
 
 :::caution
-업데이트 시간은 빌드 시점에 Git 이력에서 읽어옵니다. 따라서 **아직 커밋하지 않은 새 문서에는 날짜가 표시되지 않습니다**(제목 아래에는 규정된 서명만 유지됨). 커밋 후 다시 빌드하면 나타납니다. 빌드 환경이 얕은 클론(예: CI의 `fetch-depth: 1`)이면 Git 이력이 불완전하여 타임스탬프 역시 누락됩니다. 두 경우 모두 빌드에는 영향을 주지 않습니다.
+커밋하지 않은 새 문서는 읽을 Git 이력이 없어 날짜가 표시되지 않습니다. 기존 파일의 미커밋 수정도 커밋 날짜를 바꾸지 않습니다. 얕은 클론(`fetch-depth: 1` 등)은 이력이 잘린 경계 커밋의 날짜를 반환하거나 날짜를 읽지 못할 수 있으므로 완전한 이력으로 볼 수 없습니다. 정확한 날짜가 필요하면 전체 Git 이력을 사용하세요(CI에서 `fetch-depth: 0`). 날짜를 읽지 못해도 빌드는 실패하지 않습니다.
 :::
 
 ### Sidebar: 스크롤 위치 기억의 구현
 
-`Sidebar.astro`는 20여 줄에 불과하며, 핵심은 Starlight 공식 `SidebarPersister` 컴포넌트를 재사용하는 것입니다: 페이지 전환 시 사이드바 DOM을 재생성하지 않아 스크롤 위치가 유지됩니다. 이것이 왼쪽 목차가 "페이지를 이동해도 흔들리지 않는" 원리입니다.
+`Sidebar.astro`는 Starlight의 `SidebarPersister`를 재사용하여 페이지 이동 후 사이드바 스크롤 위치를 복원합니다. 모바일 메뉴 상태와 포커스는 `MobileMenuToggle.astro`가 처리합니다.
 
 ### TableOfContents: 이 페이지의 목차 생성
 
@@ -98,6 +102,8 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 사전 ──→ 각 컴포넌트가
 1. **페이지 내 찾기**: 상단 바 입력창으로, Enter 키로 현재 페이지의 매칭 텍스트 사이를 이동하며 하이라이트는 스크립트가 마커를 표시하는 방식으로 구현됩니다;
 2. **사이트 전체 검색**: `<dialog>` 팝업 + Pagefind 기본 UI, 인덱스는 `pnpm run build` 단계에서 생성됩니다.
 
+페이지 내 입력창은 화면 너비 `64rem` 이상에서만 표시됩니다. 더 좁으면 전체 검색 버튼만 남습니다. 현재 글은 브라우저의 페이지에서 찾기를 사용할 수 있습니다. 스크린샷과 다르면 현재 인터페이스를 기준으로 하세요.
+
 ### Pagination: 페이지 이동 카드
 
 이전 페이지 / 다음 페이지 데이터는 Starlight가 빌드 시점에 `sidebar` 순서에 따라 계산합니다(`Astro.locals.starlightRoute.pagination`). 컴포넌트는 렌더링만 담당합니다: 같은 너비의 두 카드, 얇은 테두리에 그림자 없음, 제목은 테마 색상, ↙ / ↘ 대각선 화살표는 호버 시 페이지 이동 방향으로 이동합니다. 화살표는 인라인 SVG 경로이며, 사이트가 RTL 언어에 사용되면 방향이 자동으로 미러링됩니다.
@@ -107,11 +113,11 @@ src/utils/i18n.ts ──→ UI_TRANSLATIONS 사전 ──→ 각 컴포넌트가
 ## 커스텀 개발 주의 사항
 
 :::caution
-컴포넌트를 오버라이드하면 Starlight 기본 컴포넌트의 이후 업데이트를 받지 못하게 됩니다. Starlight 버전을 업그레이드할 때 컴포넌트의 props와 `Astro.locals.starlightRoute` 구조가 변경될 수 있으므로, 업그레이드 후에는 7개 오버라이드 컴포넌트 전부에 대해 회귀 테스트를 해야 합니다.
+컴포넌트를 오버라이드하면 Starlight 기본 컴포넌트의 이후 업데이트를 받지 못하게 됩니다. Starlight 버전을 업그레이드할 때 컴포넌트의 props와 `Astro.locals.starlightRoute` 구조가 변경될 수 있으므로, 업그레이드 후에는 오버라이드 컴포넌트 전부에 대해 회귀 테스트를 해야 합니다.
 :::
 
 - **스타일 변경은 우선 CSS 변수 사용**: 색상, 글꼴, 레이아웃 크기는 `src/styles/custom.css`의 `:root` 변수에 모여 있습니다. [사이트 전역 설정 및 스타일 커스터마이징](/canvas/configuration/)을 참조하세요. 대부분의 커스터마이징은 컴포넌트를 수정할 필요가 없습니다;
 - **인터랙션 변경 시에만 컴포넌트 수정**: 버튼 추가, 구조 조정 시 UI 텍스트는 `getTranslation(key, lang)`으로 가져오고 `i18n.ts`에 10개 언어 항목을 보충하세요. 누락된 언어는 폴백되어 중국어가 표시됩니다;
-- **수정 후 반드시 로컬 검증**: `pnpm run dev`로 인터랙션을 확인하고, `pnpm run build`로 타입과 빌드 통과를 확인합니다(로컬 명령어는 [자주 묻는 질문과 문제 해결 FAQ](/canvas/troubleshooting/) 참조).
+- **수정 후 반드시 로컬 검증**: `pnpm run dev`로 인터랙션을 확인하고, `pnpm run verify`로 타입과 빌드 통과를 확인합니다(로컬 명령어는 [자주 묻는 질문과 문제 해결 FAQ](/canvas/troubleshooting/) 참조).
 
 자주 하는 구체적인 커스터마이징 작업은 [자주 하는 커스터마이징 모음](/canvas/recipes/)을 바로 참조하세요.

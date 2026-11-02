@@ -9,7 +9,7 @@ description: EpoCanvas Docs 版本號命名規範、版本更新的標準發布�
 
 ## 1. 語意化版本號規則 (SemVer)
 
-版本號採用 `v主版本.次版本.修訂號` 格式（目前為 `v1.3.1`）：
+穩定版採用 `vMAJOR.MINOR.PATCH`；預發布附加識別碼，如目前候選 `v1.3.2-beta.1`。候選版號不代表已建立 Release 或部署正式環境。
 
 | 變更類型 | 範例 | 觸發情境 |
 | :--- | :--- | :--- |
@@ -23,10 +23,12 @@ description: EpoCanvas Docs 版本號命名規範、版本更新的標準發布�
 
 ### 第一步：記錄更新說明 (`RELEASE_NOTES.md`)
 
-在專案根目錄的 `RELEASE_NOTES.md` 中寫清本次更新內容，這份檔案會作為 GitHub Release 的說明文字：
+在專案根目錄的 `RELEASE_NOTES.md` 中寫清本次更新內容，這份檔案會作為 GitHub Release 的說明文字。首行必須嚴格為 `# EpoCanvas Docs v<版本號>`，且版號與 `package.json` 一致；`verify:config` 會檢查此格式。下例僅示範格式，實際發版須換成尚未使用的版號；預發布還須在內文標明 `candidate` 或 `prerelease`。
 
 ```markdown
-## [v1.2.1] - 2026-09-14
+# EpoCanvas Docs v1.2.1
+
+2026-09-14
 
 ### 修復
 - 修正部署章節中的指令拼字錯誤。
@@ -35,7 +37,7 @@ description: EpoCanvas Docs 版本號命名規範、版本更新的標準發布�
 
 ### 第二步：更新 package.json 版本號
 
-導覽列版本徽標已與 `package.json` 的 `version` 欄位自動連動，作為全站版本的單一資料來源（Single Source of Truth）。在 `package.json` 中更新版本號（或執行 `pnpm version patch`），頂欄徽標會自動同步為最新版本號，無需在多處手動修改：
+導覽列版本徽標已與 `package.json` 的 `version` 欄位自動連動，作為全站版本的單一資料來源（Single Source of Truth）。在 `package.json` 中更新版本號（或執行 `pnpm version patch --no-git-tag-version`），頂欄徽標會自動同步為最新版本號，無需在多處手動修改：
 
 ```json
 {
@@ -113,7 +115,7 @@ CI（`build.yml`）執行 `pnpm run verify`，涵蓋測試、設定檢查、Astr
 
 ## 5. CI 建置檢查
 
-`.github/workflows/build.yml` 在推送到 `main` 與 Pull Request 時執行完整驗證。CI 使用 `.node-version` 固定的 Node.js 22.20.0 和 pnpm 10.34.5。提交前在本機執行相同的自檢指令：
+`.github/workflows/build.yml` 在推送到 `main` 與 Pull Request 時執行完整驗證。CI 使用 `.node-version` 固定的 Node.js 22.23.4 和 pnpm 10.34.5。提交前在本機執行相同的自檢指令：
 
 ```bash
 pnpm run verify

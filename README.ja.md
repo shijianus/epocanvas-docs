@@ -7,7 +7,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Français](./README.fr.md) | [Español](./README.es.md) | [Deutsch](./README.de.md) | [Português](./README.pt.md) | [Русский](./README.ru.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-EpoCanvas Docs は、EpoCanvas プロジェクトの公式ドキュメントサイトです。Astro 5 と Starlight を基盤とし、3 カラムの閲覧レイアウト、2 モードの検索、コンテンツ全体の多言語対応を最初から備えています。すべてのコンテンツは標準的な Markdown で書かれ、Cloudflare Pages に公開されます。
+EpoCanvas Docs は、EpoCanvas プロジェクトの公式ドキュメントサイトです。Astro 7 と Starlight を基盤とし、3 カラムの閲覧レイアウト、2 モードの検索、コンテンツ全体の多言語対応を最初から備えています。すべてのコンテンツはMarkdown または MDX で書かれ、Cloudflare Pages に公開されます。
 
 **公開サイト**: [https://docs.epocanvas.com](https://docs.epocanvas.com)（ミラー: [https://epocanvas-docs.pages.dev](https://epocanvas-docs.pages.dev)）
 
@@ -15,7 +15,9 @@ EpoCanvas Docs は、EpoCanvas プロジェクトの公式ドキュメントサ�
 
 ![EpoCanvas Docs のドキュメントホームページ](./public/images/canvas/ui-home-landing.png)
 
-サイトは 3 カラム構成です。左側にカテゴリーナビゲーション、中央に本文、右側に現在のページの目次を表示します。ダークテーマが既定で、システム設定に追従し、トップバーから手動で切り替えられます。
+*過去の UI の例です。共通で使用している中国語トップページの画像には v1.2.0 と Astro 5 が表示されており、現在の候補版ではありません。言語切り替えの文言や操作部品の位置は当時のものです。操作は現在のドキュメントに従ってください。この候補版の受け入れテストで撮影した画像ではありません。*
+
+サイトは 3 カラム構成です。左側にカテゴリーナビゲーション、中央に本文、右側に現在のページの目次を表示します。初回はシステムのテーマに従い、手動で選択するとその設定を使用します。
 
 ## 特徴
 
@@ -27,10 +29,10 @@ EpoCanvas Docs は、EpoCanvas プロジェクトの公式ドキュメントサ�
 
 ## 必要環境
 
-- Node.js 22.20+ (22.x) または Node.js 24.12+
+- Node.js `^22.23.4 || ^24.12.0`
 - pnpm 10.34.5 (固定バージョン)
 
-CI は `.node-version` で固定した Node.js 22.20.0 を使用します。
+CI は `.node-version` で固定した Node.js 22.23.4 を使用します。
 
 ## クイックスタート
 
@@ -89,6 +91,8 @@ epocanvas-docs/
    ```markdown
    ![代替テキスト](/images/canvas/your-image.png)
    ```
+
+5. 残り 9 言語の `src/content/docs/<locale>/canvas/` に対応する翻訳を用意し、サイドバーの `translations` と、翻訳が必要な画像を `public/images/canvas/<locale>/` に揃えます。公開前に全 10 言語を完成させてください。中国語へのフォールバックはフレームワークの保護機能にすぎず、翻訳が欠けると `pnpm run verify` と CI に失敗します。
 
 コミット前に `pnpm run verify` を実行し、すべてのチェックが通ることを確認してください。
 

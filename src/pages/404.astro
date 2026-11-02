@@ -41,15 +41,15 @@ const payload = escapeForInlineScript(JSON.stringify({
 		description: 'EpoCanvas Docs 404',
 		template: 'splash',
 		pagefind: false,
-		head: [
-			{
-				tag: 'meta',
-				attrs: {
-					name: 'robots',
-					content: 'noindex, nofollow',
+			head: [
+				{
+					tag: 'meta',
+					attrs: {
+						name: 'robots',
+						content: 'noindex, nofollow',
+					},
 				},
-			},
-		],
+			],
 	}}
 >
 	<div class="not-found">
@@ -147,9 +147,27 @@ const payload = escapeForInlineScript(JSON.stringify({
 					element.setAttribute('aria-label', shell[key]);
 				}
 			}
+			// 本页按浏览器语言渲染，补齐仅在 404 才需要动态替换的外链/版本标签。
+			document.querySelectorAll('[data-404-label]').forEach((element) => {
+				const text = shell[element.dataset['404Label']];
+				if (!text) return;
+				element.title = text;
+				const version = element.querySelector('.release-version')?.textContent;
+				element.setAttribute('aria-label', version ? `${text} (${version})` : text);
+			});
+			document.querySelectorAll('[data-404-title]').forEach((element) => {
+				const text = shell[element.dataset['404Title']];
+				if (text) element.title = text;
+			});
 			const search = document.querySelector('site-search');
 			if (search) {
 				search.dataset.zeroResults = shell['search.zeroResults'];
+				search.dataset.searchCopy = JSON.stringify({
+					loading: shell['search.initLoading'],
+					error: shell['search.initError'],
+					retry: shell['search.retry'],
+					development: shell['search.devUnavailable'],
+				});
 				search.dataset.translations = JSON.stringify({
 					placeholder: shell['search.placeholder'],
 					...Object.fromEntries(Object.entries(shell).filter(([key]) => key.startsWith('pagefind.')).map(([key, value]) => [key.slice(9), value])),

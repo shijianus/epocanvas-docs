@@ -147,7 +147,7 @@
     <text x="50" y="48" fill="#64748b" font-size="10">Starlight Overrides</text>
 
     <rect x="14" y="66" width="148" height="52" rx="6" fill="#0b0f19" stroke="#334155" stroke-width="0.8" />
-    <text x="22" y="84" fill="#e2e8f0" font-size="6.82" font-weight="600">Se inyectan 7 componentes propios</text>
+    <text x="22" y="84" fill="#e2e8f0" font-size="6.82" font-weight="600">Componentes propios</text>
     <text x="22" y="100" fill="#fbbf24" font-size="10">Header / Sidebar / TOC</text>
     <text x="22" y="112" fill="#64748b" font-size="7.8">TwoColumn / Search, etc.</text>
 

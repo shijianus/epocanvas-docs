@@ -12,9 +12,11 @@ description: "Lesen Sie zuerst diesen Artikel: EpoCanvas Docs ist das offizielle
 Der Begriff hat zwei Bedeutungen, die gleichzeitig gelten:
 
 1. **Es ist ein Handbuch.** Die Inhalte drehen sich um „Was ist es, wie benutzt man es, wie passt man es an, wie bringt man es online": Wie bedient man die Leseoberfläche, wie schreibt man neue Dokumente, wo wird die Konfiguration geändert, wie lautet der Bereitstellungsbefehl. Es gibt nur ein Ziel – wer EpoCanvas in der Hand hat, soll nicht überall herumfragen müssen, sondern allein anhand der Dokumentation zum Ziel kommen.
-2. **Es ist zugleich ein direkt lauffähiges Website-System.** Klonen Sie das Repository lokal und führen Sie die beiden Befehle `pnpm install` und `pnpm run dev` aus – schon erhalten Sie genau die Site, die Sie vor sich sehen. Der gesamte Code basiert auf Astro 5 und Starlight, steht unter der MIT-Lizenz und lässt sich komplett übernehmen und zur Dokumentations-Site Ihres eigenen Projekts umbauen.
+2. **Es ist zugleich ein direkt lauffähiges Website-System.** Klonen Sie das Repository lokal und führen Sie die beiden Befehle `pnpm install` und `pnpm run dev` aus – schon erhalten Sie genau die Site, die Sie vor sich sehen. Der gesamte Code basiert auf Astro 7 und Starlight, steht unter der MIT-Lizenz und lässt sich komplett übernehmen und zur Dokumentations-Site Ihres eigenen Projekts umbauen.
 
 Ein leicht übersehbares Merkmal: **Jede Funktion, die diese Dokumentation beschreibt, nutzen Sie in diesem Moment selbst.** Das dreispaltige Leselayout, die Site-weite Suche mit `Ctrl + K`, der Sprachwechsel in 10 Sprachen oben rechts – die Dokumentation beschreibt die Fähigkeiten, die diese Site selbst umsetzt; beim Lesen können Sie alles direkt ausprobieren und verifizieren.
+
+Beim ersten Besuch ohne gespeicherte Designwahl folgt die Oberfläche der Hell-/Dunkel-Einstellung des Systems; Dunkel ist kein fester Standard. Eine manuell gespeicherte Auswahl hat Vorrang.
 
 ---
 

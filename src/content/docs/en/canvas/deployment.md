@@ -61,11 +61,11 @@ One-click deployment is good for "getting the site out there first", but writing
 
 | Tool | Required version | Check command | Notes |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Environment for running JavaScript and building static pages |
+| **Node.js** | 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 | `node -v` | Environment for running JavaScript and building static pages |
 | **pnpm** | `10.34.5` | `pnpm -v` | The package-manager version pinned by this project |
 | **Git** | Latest stable version | `git --version` | Used to pull code and manage versions |
 
-CI uses Node.js 22.20.0, pinned in `.node-version`.
+CI uses Node.js 22.23.4, pinned in `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
 
 :::tip
 If `pnpm` is not installed on your computer yet, you can install it globally quickly using the npm that comes with Node.js:
@@ -113,7 +113,7 @@ pnpm run dev
 The terminal prints something like the following (the first start pre-bundles dependencies and takes a few seconds):
 
 ```text
-astro  v5.18.2  ready in 5152 ms
+astro  v7.4.4  ready in 5152 ms
 
 ┃ Local    http://localhost:4321/
 ┃ Network  use --host to expose

@@ -27,7 +27,7 @@ src/content/docs/
 - **Anforderungen an Dateinamen**: Verwenden Sie Kleinbuchstaben und Bindestriche (z. B. `quickstart-guide.md`), keine chinesischen Zeichen und keine Leerzeichen. Der Dateiname bestimmt den Zugriffspfad: `canvas/deployment.md` entspricht `/canvas/deployment/`.
 - **Dateiendung**: In der Regel genügt eine reine `.md`-Datei; wenn Sie in einem Artikel interaktive Komponenten einbetten möchten (wie das Kartenraster auf der Startseite), verwenden Sie das `.mdx`-Format.
 - **In der Seitenleiste registrieren**: Nach dem Anlegen einer neuen Datei müssen Sie sie im `sidebar`-Array in `astro.config.mjs` eintragen, sonst erscheint sie nicht im Verzeichnis links.
-- **Übersetzungen in anderen Sprachen**: Die Übersetzungen anderer Sprachen liegen im Verzeichnis `src/content/docs/<Sprache>/`; die Unterverzeichnisstruktur entspricht exakt der chinesischen Version (z. B. entspricht `en/canvas/deployment.md` dem Schnellstart der englischen Version). Seiten ohne vorhandene Übersetzung zeigen automatisch den chinesischen Inhalt als Fallback an.
+- **Übersetzungen in anderen Sprachen**: Aktualisieren Sie beim Anlegen oder Ändern eines Dokuments die entsprechenden Fassungen unter `src/content/docs/<locale>/` für die übrigen 9 Sprachen, mit derselben Unterverzeichnisstruktur wie im Chinesischen (z. B. `en/canvas/deployment.md`). Ergänzen Sie auch die `translations` der Seitenleiste und die zu übersetzenden Bilder unter `public/images/canvas/<locale>/`. Vor der Veröffentlichung müssen alle 10 Sprachen vollständig sein; fehlende Übersetzungen lassen `pnpm run verify` und CI fehlschlagen. Der chinesische Fallback ist nur eine Schutzfunktion des Frameworks und erlaubt keine Veröffentlichung unvollständiger Übersetzungen.
 
 ---
 

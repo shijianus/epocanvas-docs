@@ -3,7 +3,7 @@ title: 常見問題與故障排查 FAQ
 description: EpoCanvas Docs 本機執行報錯、文件不顯示、提示框渲染異常、搜尋失效與 Cloudflare Pages 部署的排查清單。
 ---
 
-在使用、撰寫或部署 **EpoCanvas Docs** 的過程中遇到異常時，先在這裡對號入座。問題按「本機啟動 → 文件撰寫 → 搜尋 → 部署」的順序排列，每個問題都給出原因和驗證過的解決辦法。
+在使用、撰寫或部署 **EpoCanvas Docs** 的過程中遇到異常時，先在這裡查找對應問題。問題按「本機啟動 → 文件撰寫 → 搜尋 → 部署」的順序排列，列出常見原因與排查步驟；請結合實際錯誤和檢查結果判斷，本文不是本次候選版本逐項實測通過的紀錄。
 
 ---
 
@@ -15,12 +15,12 @@ description: EpoCanvas Docs 本機執行報錯、文件不顯示、提示框渲�
 - **解決辦法**：換一個連接埠啟動：
 
   ```bash
-  pnpm run dev -- --port 4322
+  pnpm run dev --port 4322
   ```
 
 ### Q2：安裝相依套件時出現錯誤
-- **原因**：目前專案使用 passthrough 圖片服務，不依賴 Sharp。先查看終端機的具體錯誤，常見原因是 Node.js 或 pnpm 版本不符合專案需求。
-- **解決辦法**：確認 Node.js 22.20+ (22.x) 或 Node.js 24.12+ 與 pnpm 10.34.5，保留 `pnpm-lock.yaml` 後執行可重現安裝：
+- **原因**：目前站點使用 passthrough 圖片服務，不在執行階段做圖片最佳化。先查看終端機的具體錯誤，常見原因是 Node.js 或 pnpm 版本不符合專案需求。
+- **解決辦法**：確認 Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 與 pnpm 10.34.5，保留 `pnpm-lock.yaml` 後執行可重現安裝：
   ```bash
   pnpm install --frozen-lockfile
   ```
@@ -110,8 +110,8 @@ description: EpoCanvas Docs 本機執行報錯、文件不顯示、提示框渲�
 
 ### Q11：剛綁定的自訂網域提示 SSL 交握失敗 (Error 525)
 
-- **原因**：Cloudflare 為新網域簽發 Universal SSL 憑證需要 2~5 分鐘的全球生效時間。
-- **解決辦法**：等待幾分鐘後強制重新整理（`Ctrl+F5` / `Cmd+Shift+R`）；期間可先存取 `<專案名>.pages.dev` 預設網域，它始終可用。
+- **原因**：不能只憑 Error 525 就判斷為憑證正在簽發；應結合網域驗證、憑證狀態、DNS 記錄、代理設定與錯誤詳情排查。
+- **解決辦法**：先查看 **Custom domains** 中的網域驗證與憑證狀態，再檢查 DNS 和代理設定，並用預設 `pages.dev` 網域比較。不要只等待固定幾分鐘；兩個網域是否可用都應以實際請求結果為準，參見[部署排查](/canvas/cloudflare/)。
 
 ### Q12：執行 `pnpm run deploy` 報錯 `Project not found`
 

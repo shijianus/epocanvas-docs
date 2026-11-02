@@ -27,7 +27,7 @@ src/content/docs/
 - **文件名要求**：使用小写英文字母和中划线（例如 `quickstart-guide.md`），不要包含中文或空格。文件名决定访问路径：`canvas/deployment.md` 对应 `/canvas/deployment/`。
 - **扩展名**：通常使用纯文本的 `.md` 文件即可；如果需要在文章中引入交互组件（如首页的卡片网格），使用 `.mdx` 格式。
 - **登记侧边栏**：新建文件后，需要在 `astro.config.mjs` 的 `sidebar` 数组中登记，否则不会出现在左侧目录里。
-- **多语言译文**：其他语言的译文放在 `src/content/docs/<语言>/` 目录下，子目录结构与中文版一致（如 `en/canvas/deployment.md` 对应英文版快速上手）；尚未提供译文的页面会自动回退显示中文。
+- **多语言译文**：新增或修改文档时，须在其余 9 种语言的 `src/content/docs/<locale>/` 中同步对应译文，子目录结构与中文版一致（如 `en/canvas/deployment.md`）；同时补齐侧边栏 `translations` 和 `public/images/canvas/<locale>/` 中需要翻译的图片。发布前必须完成全部 10 种语言，缺译会使 `pnpm run verify` 和 CI 失败；中文回退只是框架兜底，不是允许缺译发布。
 
 ---
 

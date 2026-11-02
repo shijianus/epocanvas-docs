@@ -44,7 +44,7 @@
 
     <rect x="245" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
     <text x="257" y="68" fill="#f8fafc" font-size="11" font-weight="600">Wrangler CLI 직접 업로드 배포</text>
-    <text x="257" y="80" fill="#94a3b8" font-size="10">pnpm run deploy, 몇 초 완료</text>
+    <text x="257" y="80" fill="#94a3b8" font-size="9.5">pnpm run deploy, 전체 검증 후 배포</text>
 
     <rect x="470" y="46" width="205" height="38" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1" />
     <text x="482" y="68" fill="#f8fafc" font-size="12" font-weight="600">사용자 지정 도메인과 SSL</text>
@@ -59,7 +59,7 @@
   <g transform="translate(50, 225)" filter="url(#drop-shadow)">
     <rect width="900" height="110" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
     <rect x="0" y="0" width="6" height="110" rx="3" fill="url(#grad-accent)" />
-    <text x="30" y="30" fill="#818cf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">② UI 컴포넌트 · Starlight 기본 7개 컴포넌트 대체</text>
+    <text x="30" y="30" fill="#818cf8" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">② UI 컴포넌트 · Starlight 재정의 예시</text>
 
     <!-- 7 Component Cards -->
     <rect x="30" y="45" width="115" height="50" rx="8" fill="#1e293b" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1" />
@@ -122,10 +122,10 @@
   <g transform="translate(50, 485)" filter="url(#drop-shadow)">
     <rect width="900" height="98" rx="12" fill="url(#card-bg)" stroke="#334155" stroke-width="1.2" />
     <rect x="0" y="0" width="6" height="98" rx="3" fill="url(#grad-emerald)" />
-    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">④ 기반 · Astro 5 + Starlight 0.32</text>
+    <text x="30" y="30" fill="#34d399" font-size="12" font-weight="700" text-transform="uppercase" letter-spacing="1">④ 기반 · Astro 7.4.4 + Starlight 0.41.11</text>
 
     <rect x="30" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
-    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 5 정적 출력</text>
+    <text x="42" y="67" fill="#f8fafc" font-size="12" font-weight="600">Astro 7.4.4 정적 출력</text>
     <text x="42" y="79" fill="#94a3b8" font-size="8.7">기본적으로 클라이언트 프레임워크 런타임 불필요</text>
 
     <rect x="250" y="45" width="200" height="38" rx="8" fill="#1e293b" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />

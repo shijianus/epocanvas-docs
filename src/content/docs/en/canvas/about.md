@@ -12,9 +12,11 @@ description: "Start here: EpoCanvas Docs is the official documentation project f
 The term has two meanings, and both hold at the same time:
 
 1. **It is a manual.** The content is organized around "what it is, how to use it, how to change it, and how to publish it": how to operate the reading interface, how to write new documents, where to change the configuration, what the deploy commands are. It has exactly one purpose — so that anyone who receives EpoCanvas can get things done by following the documentation instead of asking around.
-2. **It is itself a website system you can run directly.** Clone the repository locally and run two commands, `pnpm install` and `pnpm run dev`, and you get a site identical to the one in front of you. The whole codebase is based on Astro 5 and Starlight, licensed under MIT, and can be taken wholesale and turned into the documentation site for your own project.
+2. **It is itself a website system you can run directly.** Clone the repository locally and run two commands, `pnpm install` and `pnpm run dev`, and you get a site identical to the one in front of you. The whole codebase is based on Astro 7 and Starlight, licensed under MIT, and can be taken wholesale and turned into the documentation site for your own project.
 
 One easily overlooked trait: **every feature described in this documentation is one you are using right now**. The three-column reading layout, `Ctrl + K` site-wide search, and in-place switching between 10 languages in the top-right corner — what the documentation describes is exactly what this site implements, so you can verify it as you read.
+
+On a first visit with no saved theme choice, the interface follows the system’s light/dark preference; it is not fixed to dark by default. A manually saved browser choice takes precedence.
 
 ---
 

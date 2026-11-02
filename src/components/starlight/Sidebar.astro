@@ -1,5 +1,6 @@
 ---
-import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import LanguageSelect from 'virtual:starlight/components/LanguageSelect';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
 import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
 
@@ -10,10 +11,18 @@ const { sidebar } = Astro.locals.starlightRoute;
 	<SidebarPersister>
 		<SidebarSublist sublist={sidebar} />
 	</SidebarPersister>
-	{/* 小屏下顶栏的主题/语言控件被隐藏（Header 的 sl-hidden md:sl-flex），
-	     展开的导航菜单底部必须补上这两个入口，否则移动端无法切换。桌面端由 md:sl-hidden 隐藏。 */}
-	<div class="md:sl-hidden">
-		<MobileMenuFooter />
+	{/* 与 Header 共用 starlight-theme 偏好与事件处理，不加载原生 ThemeSelect 的另一套监听。 */}
+	<div class="mobile-preferences md:sl-hidden">
+		<div class="social-icons sl-flex"><SocialIcons /></div>
+		<label class="mobile-theme-label">
+			<span class="sr-only">{Astro.locals.t('themeSelect.accessibleLabel')}</span>
+			<select data-theme-select autocomplete="off">
+				<option value="dark">{Astro.locals.t('themeSelect.dark')}</option>
+				<option value="light">{Astro.locals.t('themeSelect.light')}</option>
+				<option value="auto" selected>{Astro.locals.t('themeSelect.auto')}</option>
+			</select>
+		</label>
+		<LanguageSelect />
 	</div>
 </div>
 
@@ -24,5 +33,31 @@ const { sidebar } = Astro.locals.starlightRoute;
 		height: auto;
 		min-height: 0;
 		padding: 0.5rem 0 1.25rem 0;
+	}
+	.mobile-preferences {
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		border-top: 1px solid var(--sl-color-hairline);
+		padding-block: 1rem;
+	}
+
+	.social-icons { margin-inline-end: auto; }
+
+	.mobile-theme-label select {
+		min-height: 44px;
+		max-width: 100%;
+		padding: 0.5rem;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: 6px;
+		background: var(--sl-color-bg);
+		color: var(--sl-color-white);
+		font: inherit;
+	}
+
+	.mobile-preferences:not(.sl-hidden) { display: flex; }
+
+	@media (min-width: 50rem) {
+		.mobile-preferences { display: none !important; }
 	}
 </style>
