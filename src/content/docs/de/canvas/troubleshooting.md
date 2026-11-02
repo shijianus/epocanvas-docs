@@ -18,14 +18,11 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
   pnpm run dev -- --port 4322
   ```
 
-### Q2: Bei der Installation der Abhängigkeiten erscheint ein Kompilierungsfehler des Sharp-Moduls
-
-- **Ursache**: Sharp ist das zugrunde liegende C++-Modul für die Bildkompression zur Build-Zeit; nach einer Node.js-Versionsänderung kann der alte Cache nicht mehr kompatibel sein.
-- **Lösung**: Abhängigkeiten bereinigen und neu installieren:
-
+### Q2: Bei der Installation der Abhängigkeiten erscheint ein Fehler
+- **Ursache**: Dieses Projekt verwendet den passthrough-Bilddienst und hängt nicht von Sharp ab. Prüfen Sie zuerst die genaue Terminalmeldung; häufig liegt die Node.js- oder pnpm-Version außerhalb der Projektvorgaben.
+- **Lösung**: Verwenden Sie Node.js 22.20+ (22.x) oder Node.js 24.12+ und pnpm 10.34.5, behalten Sie `pnpm-lock.yaml` und installieren Sie reproduzierbar:
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3: `pnpm install` bricht mit `packages field missing or empty` ab
@@ -121,16 +118,18 @@ Wenn bei der Nutzung, beim Schreiben oder beim Deployment von **EpoCanvas Docs**
 - **Ursache**: Der Parameter `--project-name` im Deployment-Befehl stimmt nicht mit dem Projektnamen im Cloudflare-Dashboard überein; möglicherweise ist der lokale Rechner auch nicht angemeldet.
 - **Lösung**:
   1. Führen Sie zuerst `npx wrangler whoami` aus, um die Anmeldung zu bestätigen;
-  2. Gleichen Sie den Projektnamen im Cloudflare-Dashboard ab und passen Sie falls nötig den Parameter `--project-name` im `deploy`-Skript von `package.json` an.
+  2. Gleichen Sie den Projektnamen im Cloudflare-Dashboard ab und passen Sie falls nötig den Parameter `--project-name` in `scripts/verify-release.mjs` an.
+
+einmal `npx wrangler login` zur Anmeldung ausführen, danach `pnpm run deploy`. Das Deployment übernimmt `scripts/verify-release.mjs`. Das Skript lehnt andere Branches als `main`, einen Arbeitsbaum mit Änderungen sowie einen HEAD ab, der nicht dem tatsächlichen Commit von `origin/main` auf dem Remote entspricht. Vor Wrangler läuft `pnpm run verify`. Der Projektname steht in diesem Skript, nicht in `package.json`.
 
 ---
 
 ## 5. Lokale Selbstprüfung vor dem Commit
 
-Vor dem Push zu GitHub führen Sie die folgenden Befehle für eine vollständige Selbstprüfung aus (Typprüfung + vollständiger Build):
+Führen Sie vor dem Push zu GitHub die einheitliche Selbstprüfung aus: Tests, Konfigurationsprüfungen, Astro-Typprüfungen, Build sowie Inhalts- und Ausgabeprüfungen:
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-Wenn `astro check` `0 errors` ausgibt und der Build mit `Complete!` endet, sind die Dokumente frei von Syntaxfehlern und können bedenkenlos committet werden. Die CI des Repositorys (`build.yml`) führt nach dem Push denselben Build aus; wer lokal zuerst durchkommt, vermeidet ein CI-Fehlschlagen.
+Alle Schritte von `pnpm run verify` müssen bestehen und der Befehl muss mit Code 0 enden. Einzelne Meldungen wie `0 errors` oder `Complete!` bedeuten noch nicht, dass die gesamte Prüfung abgeschlossen ist. Die CI (`build.yml`) führt dieselben Prüfungen aus; das Erscheinungsbild muss weiterhin manuell geprüft werden.

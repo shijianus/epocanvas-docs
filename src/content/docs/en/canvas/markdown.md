@@ -368,7 +368,7 @@ Add square brackets after the type to customize the title:
 Installing dependencies with pnpm is much faster than npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -379,7 +379,7 @@ npm install -g pnpm
 Installing dependencies with pnpm is much faster than npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

@@ -91,7 +91,7 @@ It is **not suited for** scenarios that require login authentication, comments a
 | Feature | EpoCanvas Docs | Docusaurus | VitePress | GitBook Commercial |
 | :--- | :--- | :--- | :--- | :--- |
 | **Underlying technology** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Closed-source SaaS platform |
-| **Search mechanism** | Pagefind local static index | Depends on the Algolia cloud service | Minisearch in-memory search | Built-in backend search |
+| **Search mechanism** | Pagefind local static index | Depends on the an Algolia integration or another search provider | Minisearch in-memory search | Built-in backend search |
 | **Layout** | Three columns (left menu + center content + right TOC) | Requires plugin configuration to change | Two/three columns by default | Fixed two columns |
 | **Deployment** | Direct upload to Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Platform's proprietary hosting |
 | **Autonomy** | 100% open source, full source in your hands | 100% open source | 100% open source | Closed source, many paid features |
@@ -109,7 +109,7 @@ The tech stack actually used by the current version (as reflected in the build o
 | **Expressive Code** | Bundled with Starlight | Code block highlighting, title bars, line highlighting |
 | **Pagefind** | Integrated via `@pagefind/default-ui` 1.5.2 | Generates the static search index at build time |
 | **Wrangler** | v4.131.0 | Official Cloudflare CLI; runs the deployment |
-| **Runtime** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | Local development and builds; `pnpm run deploy` needs Node.js 22 or newer because of wrangler |
+| **Runtime** | Node.js 22.20+ (22.x) or Node.js 24.12+, pnpm 10.34.5 | Requirements for local development, builds, and deployment |
 
 When upgrading dependencies, also read the regression testing notes in [UI Components & Custom Development](/canvas/components/).
 

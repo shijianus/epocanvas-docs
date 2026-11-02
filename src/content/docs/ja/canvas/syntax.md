@@ -37,7 +37,7 @@ description: EpoCanvas Docs の 4 種類のカラー吹き出し（コールア�
 pnpm で依存関係をインストールすると npm よりはるかに速いです。
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

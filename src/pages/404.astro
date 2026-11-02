@@ -19,24 +19,13 @@ import { getTranslation, SUPPORTED_LANGUAGES, UI_TRANSLATIONS, localizedHref } f
 // 转义序列（见 escapeForInlineScript）——它在 JSON 字符串里合法，JSON.parse 会原样还原，
 // 而 HTML 解析器再也看不到成对的尖括号，因此不可能提前结束这个 script 元素。
 const escapeForInlineScript = (json: string) => json.replace(/</g, '\\u003c');
-const shellKeys = [
-	'search.placeholder',
-	'search.label',
-	'search.shortcutTitle',
-	'search.openModalAria',
-	'page.specification',
-	'nav.home',
-	'nav.docs',
-	'nav.quickstart',
-	'nav.guide',
-	'nav.deploy',
-	'nav.faq',
-];
+const shellKeys = Object.keys(UI_TRANSLATIONS['zh-CN']);
 const payload = escapeForInlineScript(JSON.stringify({
 	messages: Object.fromEntries(Object.keys(UI_TRANSLATIONS).map((code) => [code, getTranslation('notfound.message', code)])),
 	homeHrefs: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, localizedHref('/', lang.code)])),
 	homeLabels: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, getTranslation('nav.home', lang.code)])),
 	shortCodes: Object.fromEntries(SUPPORTED_LANGUAGES.map((lang) => [lang.code, lang.shortCode])),
+	localeDirs: Object.fromEntries(SUPPORTED_LANGUAGES.filter((lang) => lang.dir).map((lang) => [lang.dir, lang.code])),
 	shell: Object.fromEntries(
 		Object.keys(UI_TRANSLATIONS).map((code) => [
 			code,
@@ -64,7 +53,10 @@ const payload = escapeForInlineScript(JSON.stringify({
 	}}
 >
 	<div class="not-found">
-		<p class="not-found-code" aria-hidden="true">404</p>
+		{/* 页头不再渲染重复的"404"标题（PageTitle 对 title=404 跳过），这里的大号数字就是本页唯一的 h1，
+		    因此不能标 aria-hidden；无 JS 时它同样是页面上最直观的"出错了"信号。
+		    id="_top" 接管原页头 h1 的锚点角色，"跳转到内容"链接（href=#_top）仍有效（check-links 会查）。 */}
+		<h1 id="_top" class="not-found-code">404</h1>
 		<p id="not-found-message" class="not-found-message">{getTranslation('notfound.message', 'zh-CN')}</p>
 		<a id="not-found-home" class="not-found-home" href="/">{getTranslation('nav.home', 'zh-CN')}</a>
 		<script is:inline type="application/json" id="not-found-i18n" set:html={payload} />
@@ -84,12 +76,24 @@ const payload = escapeForInlineScript(JSON.stringify({
 		const codes = Object.keys(data.messages || {});
 		const wanted = (navigator.language || '').toLowerCase().replace('_', '-');
 		const findByCode = (code) => codes.find((c) => c.toLowerCase() === code);
-		let pick = findByCode(wanted) || findByCode(wanted.split('-')[0]);
+		const pathLocale = location.pathname.split('/').filter(Boolean)[0]?.toLowerCase();
+		let pick = Object.hasOwn(data.localeDirs || {}, pathLocale) ? data.localeDirs[pathLocale] : findByCode(wanted) || findByCode(wanted.split('-')[0]);
 		// 精确匹配不上的中文变体按使用习惯分派：港/澳/台与繁体声明给繁體中文
 		if (!pick && wanted.startsWith('zh')) {
 			pick = /-(hk|mo|tw)$|^zh-hant/.test(wanted) ? 'zh-TW' : 'zh-CN';
 		}
 		if (!pick) pick = 'zh-CN';
+		document.documentElement.lang = pick;
+		document.querySelector('main')?.setAttribute('lang', pick);
+		const siteTitle = document.querySelector('a.site-title');
+		if (siteTitle) siteTitle.href = data.homeHrefs[pick];
+		document.querySelectorAll('.lang-item-btn').forEach((link) => {
+			const active = link.hreflang === pick;
+			link.classList.toggle('active', active);
+			if (active) link.setAttribute('aria-current', 'true');
+			else link.removeAttribute('aria-current');
+			link.href = data.homeHrefs[link.hreflang] || '/';
+		});
 
 		const message = document.getElementById('not-found-message');
 		if (message) message.textContent = data.messages[pick];
@@ -122,18 +126,52 @@ const payload = escapeForInlineScript(JSON.stringify({
 			const langCodeEl = document.getElementById('current-lang-code');
 			if (langCodeEl && shortCode) langCodeEl.textContent = shortCode;
 
-			// 同步顶栏导航按钮文字
-			const navKeyOrder = ['nav.home', 'nav.docs', 'nav.quickstart', 'nav.guide', 'nav.deploy', 'nav.faq'];
-			const navBtns = document.querySelectorAll('.nav-links .nav-btn:not(.nav-btn-version)');
-			navBtns.forEach((btn, idx) => {
-				const key = navKeyOrder[idx];
-				if (key && shell[key]) btn.textContent = shell[key];
+			// 通过稳定键同步导航文案与目标，不依赖按钮顺序。
+			document.querySelectorAll('[data-i18n]').forEach((element) => {
+				const text = shell[element.dataset.i18n];
+				if (text) element.textContent = text;
 			});
+			document.querySelectorAll('[data-i18n-label]').forEach((element) => {
+				const text = shell[element.dataset.i18nLabel];
+				if (text) element.setAttribute('aria-label', text);
+			});
+			document.querySelectorAll('[data-nav-href]').forEach((link) => {
+				link.href = data.homeHrefs[pick] + link.dataset.navHref.replace(/^\//, '');
+				link.classList.remove('active');
+				link.removeAttribute('aria-current');
+			});
+			for (const [id, key] of [['vp-lang-btn', 'lang.select'], ['vp-theme-toggle', 'theme.toggle'], ['epo-search-prev', 'search.prevTitle'], ['epo-search-next', 'search.nextTitle'], ['epo-search-clear', 'search.clearTitle']]) {
+				const element = document.getElementById(id);
+				if (element) {
+					element.title = shell[key];
+					element.setAttribute('aria-label', shell[key]);
+				}
+			}
+			const search = document.querySelector('site-search');
+			if (search) {
+				search.dataset.zeroResults = shell['search.zeroResults'];
+				search.dataset.translations = JSON.stringify({
+					placeholder: shell['search.placeholder'],
+					...Object.fromEntries(Object.entries(shell).filter(([key]) => key.startsWith('pagefind.')).map(([key, value]) => [key.slice(9), value])),
+				});
+				search.querySelector('dialog')?.setAttribute('aria-label', shell['search.modalTitle']);
+				search.querySelectorAll('.modal-badge span, .footer-brand span').forEach((element) => { element.textContent = shell['search.modalTitle']; });
+				search.querySelector('[data-close-modal]')?.setAttribute('aria-label', shell['search.cancelLabel']);
+				search.querySelectorAll('.shortcut-text').forEach((element, index) => { element.textContent = shell[['search.hint.navigate', 'search.hint.select', 'search.hint.close'][index]]; });
+			}
 		}
 	})();
 </script>
 
 <style>
+	/* PageTitle 为空时，上游 Page 仍输出 ContentPanel；仅在本错误页移除其布局占位。 */
+		:global(main:has(.not-found) > .content-panel:first-child) {
+			display: none;
+		}
+	:global(main:has(.not-found) > .content-panel + .content-panel) {
+		border-top: none;
+	}
+
 	.not-found {
 		display: flex;
 		flex-direction: column;

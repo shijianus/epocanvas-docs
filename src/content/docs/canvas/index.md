@@ -15,7 +15,7 @@ description: EpoCanvas Docs 官方产品说明书 - 专为开源项目打造的�
 
 1. **页面打开慢、占用内存高**：很多文档工具生成的页面带有大量 JavaScript 运行时，手机或弱网环境下打开慢，滚动长文章时容易卡顿。
 2. **长文章导航费劲**：常见文档站通常只有左侧菜单，阅读数千字的长篇技术说明时，难以快速了解当前文章内部的小标题层级。
-3. **搜索依赖外部服务**：常见的 Algolia 等云端搜索服务需要额外申请账号、配置爬虫密钥，在无法访问外部服务的内网环境中完全失效。
+3. **搜索依赖外部服务**：常见的 云端搜索服务通常需要单独的账号和爬虫配置，在无法访问外部服务的内网环境中完全失效。
 4. **多语言只有半套**：不少文档站宣称支持多语言，实际只有导航按钮翻译了，点进文章正文还是原文；也有的译文缺失时直接 404，读者只能自己改 URL 找内容。
 
 EpoCanvas Docs 正是为了解决这些实际痛点而设计的。
@@ -91,7 +91,7 @@ EpoCanvas Docs 适合以下场景：
 | 功能特性 | EpoCanvas Docs | Docusaurus | VitePress | GitBook 商业版 |
 | :--- | :--- | :--- | :--- | :--- |
 | **底层技术** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | 闭源 SaaS 平台 |
-| **搜索机制** | Pagefind 本地静态索引 | 依赖 Algolia 云服务 | Minisearch 内存搜索 | 自带后端检索 |
+| **搜索机制** | Pagefind 本地静态索引 | 可选 Algolia、Typesense 或本地搜索插件 | Minisearch 内存搜索 | 自带后端检索 |
 | **布局设计** | 三栏（左菜单 + 中正文 + 右目录） | 需要配置插件改造 | 默认双栏/三栏 | 固定两栏 |
 | **部署方式** | Cloudflare Pages 直传 | S3 / Vercel / GitHub | GitHub Pages | 平台私有托管 |
 | **自主可控度** | 100% 开源，源码完全在手 | 100% 开源 | 100% 开源 | 闭源，收费功能多 |
@@ -109,7 +109,7 @@ EpoCanvas Docs 适合以下场景：
 | **Expressive Code** | 随 Starlight 集成 | 代码块高亮、标题栏、行高亮 |
 | **Pagefind** | 经 `@pagefind/default-ui` 1.5.2 集成 | 构建期生成静态搜索索引 |
 | **Wrangler** | v4.131.0 | Cloudflare 官方 CLI，执行部署 |
-| **运行环境** | Node.js 18.20.8 / 20.3+ / 22+，pnpm 10 | 本地开发与构建环境；执行 `pnpm run deploy` 时 wrangler 要求 Node.js 22 及以上 |
+| **运行环境** | Node.js 22.20+ (22.x) 或 Node.js 24.12+，pnpm 10.34.5 | 本地开发、构建与发布要求 |
 
 升级依赖时请同步阅读 [界面组件与二次开发](/canvas/components/) 中的回归测试注意事项。
 

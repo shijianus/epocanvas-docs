@@ -364,7 +364,7 @@ Des crochets après le type permettent de personnaliser le titre :
 L'installation des dépendances avec pnpm est bien plus rapide qu'avec npm :
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 L'installation des dépendances avec pnpm est bien plus rapide qu'avec npm :
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

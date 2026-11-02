@@ -3,39 +3,101 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'   # 推送以 v 开头的标签时自动触发
+      - 'v*'
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
-  release:
-    name: Publish GitHub Release
+  validate:
+    name: Validate release
     runs-on: ubuntu-latest
+    outputs:
+      prerelease: ${{ steps.metadata.outputs.prerelease }}
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
-      - name: Create GitHub Release
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Verify tag, package version and main ancestry
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # 标签名必须经环境变量传入，不能写成 "${{ github.ref_name }}"：
-          # 那是构建期文本替换，标签名里带引号或分号即可注入并执行任意 shell。
+          TAG_NAME: ${{ github.ref_name }}
+        run: node scripts/verify-release.mjs --tag
+
+      - name: Install pnpm from packageManager
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify
+        run: pnpm run verify
+
+      - name: Verify release snapshot
+        run: pnpm run verify:release
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+
+      - name: Release metadata
+        id: metadata
+        env:
           TAG_NAME: ${{ github.ref_name }}
         run: |
-          echo "Publishing release for tag: ${TAG_NAME}"
-          # 只接受规范 semver 形式的标签（vX.Y.Z，可带 -预发布）。
-          # 这里必须是严格的正则而不是 case 的 glob：glob 写法 v[0-9]*.[0-9]*.[0-9]*
-          # 会把 v1.3.1"; … 这类带任意尾缀的输入也判为合法（[0-9]* 允许后接任意字符）。
-          if ! printf '%s' "${TAG_NAME}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
-            echo "标签名 ${TAG_NAME} 不符合 vX.Y.Z[-prerelease] 规范，拒绝发布" >&2
-            exit 1
+          node --input-type=module <<'NODE'
+          import { appendFileSync, readFileSync } from 'node:fs';
+          import { releaseMetadata } from './scripts/verify-release.mjs';
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+          const { prerelease } = releaseMetadata(process.env.TAG_NAME, pkg.version);
+          appendFileSync(process.env.GITHUB_OUTPUT, `prerelease=${prerelease}\n`);
+          NODE
+
+  publish:
+    name: Publish GitHub Release
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout release notes
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: RELEASE_NOTES.md
+          sparse-checkout-cone-mode: false
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+          GH_REPO: ${{ github.repository }}
+          PRERELEASE: ${{ needs.validate.outputs.prerelease }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          releases="$(gh api --paginate "repos/${GH_REPO}/releases?per_page=100")"
+          id="$(printf '%s' "${releases}" | jq -sr --arg tag "${TAG_NAME}" 'add // [] | map(select(.tag_name == $tag)) | .[0].id // empty')"
+          latest=legacy
+          if [[ "${PRERELEASE}" == true ]]; then
+            latest=false
           fi
-          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
-          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
-          gh release create "${TAG_NAME}" \
-            --title "EpoCanvas Docs ${TAG_NAME}" \
-            --notes-file RELEASE_NOTES.md \
-            --latest
+          payload="$(mktemp)"
+          trap 'rm -f "${payload}"' EXIT
+          jq -n --arg tag "${TAG_NAME}" --arg latest "${latest}" \
+            --argjson prerelease "${PRERELEASE}" --rawfile notes RELEASE_NOTES.md \
+            '{tag_name:$tag, name:("EpoCanvas Docs " + $tag), body:$notes, draft:false, prerelease:$prerelease, make_latest:$latest}' > "${payload}"
+          if [[ -n "${id}" ]]; then
+            gh api --method PATCH "repos/${GH_REPO}/releases/${id}" --input "${payload}"
+          else
+            gh api --method POST "repos/${GH_REPO}/releases" --input "${payload}"
+          fi

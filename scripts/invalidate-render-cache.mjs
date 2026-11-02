@@ -47,13 +47,25 @@ function listTranslationFiles() {
 		});
 }
 
+function sourceConfigFingerprint() {
+	return ['src/content.config.ts', 'astro.config.mjs']
+		.map((file) => {
+			const abs = path.join(root, file);
+			if (!fs.existsSync(abs)) return file + ':missing';
+			const st = fs.statSync(abs);
+			return file + ':' + st.size + ':' + st.mtimeMs;
+		})
+		.join('\n');
+}
+
 const fingerprint = crypto
 	.createHash('sha1')
 	.update([
-		'images:' + listImages().join('\n'),
-		// rehypeLocalizeAsides() 直接读 Starlight 的翻译文件来决定提示框/脚注标签，
-		// 这些文件变化同样会让已缓存的渲染结果过期，必须一起进指纹。
-		'translations:' + listTranslationFiles().join('\n'),
+			'images:' + listImages().join('\n'),
+			// rehypeLocalizeAsides() 直接读 Starlight 的翻译文件来决定提示框/脚注标签，
+			// 这些文件变化同样会让已缓存的渲染结果过期，必须一起进指纹。
+			'translations:' + listTranslationFiles().join('\n'),
+			'configs:' + sourceConfigFingerprint(),
 	].join('\n'))
 	.digest('hex');
 

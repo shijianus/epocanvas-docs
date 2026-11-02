@@ -15,7 +15,7 @@ In der täglichen Entwicklung und im technischen Schreiben stoßen viele Teams b
 
 1. **Langsames Laden und hoher Speicherverbrauch**: Viele Dokumentationswerkzeuge liefern Seiten mit viel JavaScript-Laufzeitumgebung aus; auf dem Handy oder bei schwacher Verbindung öffnen sie langsam, und beim Scrollen langer Artikel ruckelt es leicht.
 2. **Umständliche Navigation in langen Artikeln**: Übliche Dokumentations-Sites haben meist nur ein Menü links; bei mehrseitigen technischen Erklärungen mit tausenden Wörtern verliert man schnell den Überblick über die Gliederungsebenen innerhalb des Artikels.
-3. **Suche mit Abhängigkeit von externen Diensten**: Übliche Cloud-Suchdienste wie Algolia erfordern eine separate Kontoanmeldung und die Konfiguration von Crawler-Schlüsseln; in Intranets ohne Zugriff auf externe Dienste fallen sie komplett aus.
+3. **Suche mit Abhängigkeit von externen Diensten**: Cloud-Suchdienste können je nach Anbieter ein eigenes Konto und eine Crawler-Konfiguration erfordern; in Intranets ohne Zugriff auf externe Dienste fallen sie komplett aus.
 4. **Mehrsprachigkeit nur zur Hälfte**: Manche Dokumentations-Sites werben mit Mehrsprachigkeit, in Wirklichkeit ist aber nur die Navigation übersetzt – im Artikeltext steht weiterhin der Originaltext; bei anderen fehlen Übersetzungen teils komplett und der Leser erhält direkt einen 404-Fehler und muss die URL selbst anpassen, um den Inhalt zu finden.
 
 EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
@@ -91,7 +91,7 @@ EpoCanvas Docs eignet sich für folgende Szenarien:
 | Funktion | EpoCanvas Docs | Docusaurus | VitePress | GitBook Business |
 | :--- | :--- | :--- | :--- | :--- |
 | **Grundtechnologie** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Closed-Source-SaaS-Plattform |
-| **Suchmechanismus** | Lokaler statischer Pagefind-Index | Abhängig vom Cloud-Dienst Algolia | Minisearch-In-Memory-Suche | Integrierte Backend-Suche |
+| **Suchmechanismus** | Lokaler statischer Pagefind-Index | Algolia oder ein anderer konfigurierte Suchdienst | Minisearch-In-Memory-Suche | Integrierte Backend-Suche |
 | **Layout** | Drei Spalten (Menü links + Haupttext Mitte + Inhaltsverzeichnis rechts) | Umrüstung über Plugins erforderlich | Standardmäßig zwei/drei Spalten | Feste zwei Spalten |
 | **Bereitstellung** | Direktupload zu Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Plattform-eigenes Hosting |
 | **Eigenständigkeit** | 100 % Open Source, Quellcode vollständig in eigener Hand | 100 % Open Source | 100 % Open Source | Closed Source, viele kostenpflichtige Funktionen |
@@ -109,7 +109,7 @@ Der tatsächlich verwendete Technologie-Stack der aktuellen Version (maßgeblich
 | **Expressive Code** | mit Starlight integriert | Code-Highlighting, Titelleisten, Zeilenhervorhebung |
 | **Pagefind** | integriert über `@pagefind/default-ui` 1.5.2 | Erzeugt beim Build den statischen Suchindex |
 | **Wrangler** | v4.131.0 | Offizielle Cloudflare-CLI für die Bereitstellung |
-| **Laufzeitumgebung** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | Lokale Entwicklung und Builds; `pnpm run deploy` braucht wegen wrangler Node.js 22 oder neuer |
+| **Laufzeitumgebung** | Node.js 22.20+ (22.x) oder Node.js 24.12+, pnpm 10.34.5 | Anforderungen für lokale Entwicklung, Builds und Deployment |
 
 Lesen Sie beim Aktualisieren von Abhängigkeiten bitte auch die Hinweise zu Regressionstests unter [UI-Komponenten & eigene Anpassungen](/canvas/components/).
 

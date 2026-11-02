@@ -159,7 +159,7 @@ head: [
 
 ```bash
 pnpm run dev      # 1. ブラウザでページごとに表示を確認
-pnpm exec astro check && pnpm run build   # 2. 型チェック + 完全ビルド
+pnpm run verify   # 2. テスト、設定チェック、Astro 型チェック、ビルド、コンテンツと成果物の検査を実行
 pnpm run preview  # 3. ビルド成果物をプレビューし、異常がないことを確認してから公開
 ```
 

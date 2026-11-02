@@ -364,7 +364,7 @@ Ein Titel lässt sich frei festlegen, indem man ihn in eckigen Klammern hinter d
 Die Installation der Abhängigkeiten mit pnpm ist deutlich schneller als mit npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 Die Installation der Abhängigkeiten mit pnpm ist deutlich schneller als mit npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

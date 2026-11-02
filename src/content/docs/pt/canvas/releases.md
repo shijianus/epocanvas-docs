@@ -61,51 +61,18 @@ git push origin v1.2.1
 
 ## 3. Pipeline de publicação automática com GitHub Actions
 
-O projeto inclui de origem, em `.github/workflows/release.yml`, um fluxo de trabalho de publicação automática, cujo conteúdo real é o seguinte:
+O workflow de referência é [`.github/workflows/release.yml`](https://github.com/shijianus/epocanvas-docs/blob/main/.github/workflows/release.yml); o YAML completo não é copiado aqui. É acionado ao enviar uma tag `v*`. Antes de criar a tag, execute esta verificação local; ela não escreve Releases no GitHub nem implanta o site:
 
-```yaml
-name: Release
-
-on:
-  push:
-    tags:
-      - 'v*'   # acionado automaticamente ao enviar uma tag que comece por v
-
-permissions:
-  contents: write
-
-jobs:
-  release:
-    name: Publish GitHub Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG_NAME="${{ github.ref_name }}"
-          echo "Publishing release for tag: ${TAG_NAME}"
-          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
-          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
-          gh release create "${TAG_NAME}" \
-            --title "EpoCanvas Docs ${TAG_NAME}" \
-            --notes-file RELEASE_NOTES.md \
-            --latest
+```bash
+pnpm run verify
 ```
 
-Depois de enviar a tag `v1.2.1`, o GitHub arranca automaticamente o pipeline:
-
-1. Faz checkout do código do repositório;
-2. Com `RELEASE_NOTES.md` como descrição, cria a versão oficial na página **Releases** do repositório e marca-a como latest;
-3. Os leitores podem clicar no emblema de versão da barra superior para consultar todo o arquivo de versões anteriores.
+1. O job `validate` usa permissões apenas de leitura, `contents: read`, e executa primeiro a verificação completa `pnpm run verify`.
+2. Só depois de a validação passar é que o job `publish` recebe permissões `contents: write` para criar ou atualizar a Release do GitHub com `RELEASE_NOTES.md`.
+3. As releases existentes são atualizadas no local, sem eliminação nem recriação. O GitHub determina `Latest` segundo a versão das releases estáveis; as pré-versões não são marcadas como `Latest`. O emblema de versão do cabeçalho permite consultar o histórico.
 
 :::note
-Este pipeline apenas cria o GitHub Release e **não executa a implantação do site**. A atualização online é feita pelo build automático via Git do Cloudflare Pages (ou por `pnpm run deploy` local); ambos são independentes entre si, ver [Implantação no Cloudflare Pages](/canvas/cloudflare/).
+Este workflow apenas cria ou atualiza Releases do GitHub; não implanta o site automaticamente. Fazer merge para `main` também não o implanta. A publicação usa `pnpm run deploy` em local ou uma integração Git do alojamento configurada separadamente; consulte [Implantação no Cloudflare Pages](/canvas/cloudflare/).
 :::
 
 ---
@@ -115,19 +82,19 @@ Este pipeline apenas cria o GitHub Release e **não executa a implantação do s
 Quando várias pessoas mantêm a documentação, a colaboração segue o fluxo fixo "branch → revisão → merge → publicação", garantindo que o conteúdo online está sempre compilável (build):
 
 ```text
-ramo main (sempre publicável, corresponde ao site online)
+Ramo main (origem das versões; o site só muda após uma implantação)
   │
   ├─ 1. Criar um ramo de funcionalidade a partir do main   git checkout -b docs/new-guide
   ├─ 2. Escrever/modificar Markdown
-  ├─ 3. Verificação local                                  pnpm exec astro check && pnpm run build
-  ├─ 4. Enviar o ramo e abrir um Pull Request              aciona o build de CI
-  ├─ 5. Após aprovação na revisão, fazer merge para o main aciona a implantação automática online
+  ├─ 3. Verificação local                                  pnpm run verify
+  ├─ 4. Enviar o ramo e abrir um Pull Request              aciona a validação completa de CI
+  ├─ 5. Após aprovação, fazer merge para o main             não implanta o site automaticamente
   └─ 6. Quando for preciso publicar uma versão, criar tag v* aciona o pipeline de GitHub Release
 ```
 
 ### Pontos a verificar na revisão do Pull Request
 
-O CI (`build.yml`) só garante que "o build passa"; as questões seguintes exigem revisão humana:
+O CI (`build.yml`) executa `pnpm run verify`: testes, verificações de configuração e tipos do Astro, build e verificações de conteúdo e artefactos. O aspeto visual continua a exigir revisão manual:
 
 - **Validade dos links**: se os novos links internos e âncoras funcionam; se os documentos com caminhos alterados têm redirecionamento registado;
 - **Efeito de renderização**: se a sintaxe `:::` dos blocos de aviso e as anotações dos blocos de código aparecem corretamente na página (o CI não verifica o aspeto visual);
@@ -146,8 +113,8 @@ O CI (`build.yml`) só garante que "o build passa"; as questões seguintes exige
 
 ## 5. Verificações de build no CI
 
-O repositório tem configurado `.github/workflows/build.yml`, que executa automaticamente a instalação de dependências e o build completo em cada push para o ramo `main` e em cada Pull Request, expondo antecipadamente problemas de build como links quebrados ou erros de Frontmatter. Executar localmente a mesma verificação antes de submeter evita falhas do CI depois do push:
+`.github/workflows/build.yml` executa a validação completa nos push para `main` e nos Pull Requests. O CI usa Node.js 22.20.0, fixado em `.node-version`, e pnpm 10.34.5. Execute a mesma verificação local antes de submeter:
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```

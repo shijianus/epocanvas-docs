@@ -27,12 +27,15 @@ Die Website verwendet ein dreispaltiges Layout: links die Kategorie-Navigation, 
 
 ## Voraussetzungen
 
-- Node.js 20.3+ oder 22+ (mind. 18.20.8)
-- pnpm 10
+- Node.js 22.20+ (22.x) oder Node.js 24.12+
+- pnpm 10.34.5 (exakte Version)
+
+Die CI verwendet Node.js 22.20.0, festgelegt in `.node-version`.
 
 ## Schnellstart
 
 ```bash
+npm install -g pnpm@10.34.5
 git clone https://github.com/shijianus/epocanvas-docs.git
 cd epocanvas-docs
 pnpm install
@@ -47,8 +50,9 @@ pnpm run dev
 | :--- | :--- |
 | `pnpm run dev` | Startet den lokalen Entwicklungsserver mit Hot Reload |
 | `pnpm run build` | Baut die statische Website nach `dist/` und erzeugt den Suchindex |
+| `pnpm run verify` | Führt Tests, Konfigurationsprüfungen, Astro-Typprüfungen, den Build sowie Inhalts- und Ausgabeprüfungen aus |
 | `pnpm run preview` | Zeigt das Build-Ergebnis lokal an |
-| `pnpm run deploy` | Baut und veröffentlicht auf Cloudflare Pages |
+| `pnpm run deploy` | Prüft Deployment-Voraussetzungen, führt verify aus und veröffentlicht auf Cloudflare Pages |
 
 ## Projektstruktur
 
@@ -86,18 +90,18 @@ epocanvas-docs/
    ![Alternativtext](/images/canvas/ihr-bild.png)
    ```
 
-Führen Sie vor dem Commit `pnpm run build` aus, um zu prüfen, dass die Website fehlerfrei baut.
+Führen Sie vor dem Commit `pnpm run verify` aus und stellen Sie sicher, dass alle Prüfungen bestehen.
 
 ## Bereitstellung
 
 Die Website wird auf Cloudflare Pages gehostet:
 
-- **Lokale Veröffentlichung** — einmal `wrangler login` zur Autorisierung ausführen; danach baut und veröffentlicht `pnpm run deploy` die Website.
+- **Lokale Veröffentlichung** — einmal `npx wrangler login` zur Anmeldung ausführen, danach `pnpm run deploy`. Das Deployment übernimmt `scripts/verify-release.mjs`. Das Skript lehnt andere Branches als `main`, einen Arbeitsbaum mit Änderungen sowie einen HEAD ab, der nicht dem tatsächlichen Commit von `origin/main` auf dem Remote entspricht. Vor Wrangler läuft `pnpm run verify`. Der Projektname steht in diesem Skript, nicht in `package.json`.
 - **Eigene Domain** — öffnen Sie in der Cloudflare-Verwaltung das Pages-Projekt `epocanvas-docs` und legen Sie die Domain unter *Custom domains* an. CNAME-Eintrag und SSL-Zertifikat werden automatisch eingerichtet.
 
 ## Mitwirken
 
-Issues und Pull Requests sind willkommen. Bitte führen Sie vor dem Einreichen eines PR lokal `pnpm run build` aus und stellen Sie sicher, dass der Build durchläuft.
+Issues und Pull Requests sind willkommen. Führen Sie vor dem Einreichen eines PR lokal `pnpm run verify` aus und stellen Sie sicher, dass alle Prüfungen bestehen.
 
 ## Lizenz
 

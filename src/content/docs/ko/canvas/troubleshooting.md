@@ -18,14 +18,11 @@ description: EpoCanvas Docs 로컬 실행 오류, 문서가 표시되지 않는 
   pnpm run dev -- --port 4322
   ```
 
-### Q2: 의존성 설치 시 Sharp 모듈 컴파일 오류가 표시됨
-
-- **원인**: Sharp는 빌드 시점에 이미지를 압축하는 하부 C++ 모듈로, Node.js 버전이 바뀌면 예전 캐시와 맞지 않을 수 있습니다.
-- **해결 방법**: 의존성을 정리한 후 다시 설치합니다:
-
+### Q2: 의존성 설치 중 오류가 표시됨
+- **원인**: 이 프로젝트는 passthrough 이미지 서비스를 사용하므로 Sharp에 의존하지 않습니다. 먼저 터미널의 구체적인 오류를 확인하세요. Node.js 또는 pnpm 버전이 프로젝트 기준과 맞지 않는 경우가 흔합니다.
+- **해결 방법**: Node.js 22.20+ (22.x) 또는 Node.js 24.12+와 pnpm 10.34.5을 사용하고 `pnpm-lock.yaml`을 유지한 채 재현 가능한 설치를 실행합니다.
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3: `pnpm install` 실행 시 `packages field missing or empty` 오류가 발생함
@@ -121,16 +118,18 @@ description: EpoCanvas Docs 로컬 실행 오류, 문서가 표시되지 않는 
 - **원인**: 배포 명령어의 `--project-name` 매개변수가 Cloudflare 콘솔의 프로젝트 이름과 일치하지 않거나, 이 컴퓨터에서 로그인하지 않았을 수 있습니다.
 - **해결 방법**:
   1. 먼저 `npx wrangler whoami`로 로그인 여부를 확인합니다;
-  2. Cloudflare 콘솔에서 프로젝트 이름을 확인하고, 필요하면 `package.json`의 `deploy` 스크립트에서 `--project-name` 매개변수를 수정합니다.
+  2. Cloudflare 콘솔에서 프로젝트 이름을 확인하고, 필요하면 `scripts/verify-release.mjs`에서 `--project-name` 매개변수를 수정합니다.
+
+먼저 `npx wrangler login`으로 인증한 뒤 `pnpm run deploy`를 실행합니다. 배포를 담당하는 `scripts/verify-release.mjs`는 `main`이 아닌 브랜치, 변경 사항이 남아 있는 작업 트리, 원격 `origin/main`의 실제 커밋과 일치하지 않는 HEAD를 거부합니다. `pnpm run verify`가 통과한 뒤 Wrangler를 호출합니다. 프로젝트 이름은 `package.json`이 아니라 이 스크립트에 정의되어 있습니다.
 
 ---
 
 ## 5. 제출 전 로컬 자가 점검
 
-GitHub에 푸시하기 전에 다음 명령어를 실행해 한 번 완전히 점검합니다(타입 검사 + 전체 빌드):
+GitHub에 푸시하기 전에 공통 자가 점검 명령을 실행하세요. 테스트, 설정 검사, Astro 타입 검사, 빌드 및 콘텐츠/결과물 검사를 포함합니다.
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-`astro check`가 `0 errors`를 출력하고 빌드가 `Complete!`로 끝나면 문서에 문법 오류가 없다는 뜻이므로 안심하고 커밋할 수 있습니다. 저장소의 CI(`build.yml`)는 푸시 후 동일한 빌드를 실행하므로, 로컬에서 먼저 통과하면 CI 실패를 피할 수 있습니다.
+`pnpm run verify`의 모든 단계가 통과하고 종료 코드가 0인지 확인해야 합니다. `0 errors` 또는 `Complete!`만으로는 전체 검사가 끝났다고 볼 수 없습니다. CI(`build.yml`)도 같은 검증을 실행하며 화면은 여전히 직접 확인해야 합니다.

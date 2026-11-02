@@ -37,7 +37,7 @@ Les encadrés utilisent la syntaxe à trois deux-points : ouverture par `:::type
 L'installation des dépendances avec pnpm est bien plus rapide qu'avec npm :
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

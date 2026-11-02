@@ -18,14 +18,11 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
   pnpm run dev -- --port 4322
   ```
 
-### Q2 : erreur de compilation du module Sharp lors de l'installation des dépendances
-
-- **Cause** : Sharp est le module C++ sous-jacent qui compresse les images au moment du build ; après un changement de version de Node.js, l'ancien cache peut ne plus correspondre.
-- **Solution** : nettoyez les dépendances puis réinstallez :
-
+### Q2 : une erreur apparaît lors de l’installation des dépendances
+- **Cause** : ce projet utilise le service d’images passthrough et ne dépend pas de Sharp. Commencez par lire l’erreur exacte du terminal ; une version de Node.js ou de pnpm hors de la base du projet est une cause fréquente.
+- **Solution** : utilisez Node.js 22.20+ (22.x) ou Node.js 24.12+ et pnpm 10.34.5, conservez `pnpm-lock.yaml` et installez les dépendances de façon reproductible :
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3 : `pnpm install` échoue avec `packages field missing or empty`
@@ -121,16 +118,18 @@ En cas d'anomalie lors de l'utilisation, de la rédaction ou du déploiement d'*
 - **Cause** : le paramètre `--project-name` de la commande de déploiement ne correspond pas au nom du projet dans la console Cloudflare ; il est aussi possible que la machine locale ne soit pas connectée.
 - **Solution** :
   1. Exécutez d'abord `npx wrangler whoami` pour confirmer que vous êtes connecté ;
-  2. Vérifiez le nom du projet dans la console Cloudflare et, si nécessaire, corrigez le paramètre `--project-name` du script `deploy` dans `package.json`.
+  2. Vérifiez le nom du projet dans la console Cloudflare et, si nécessaire, corrigez le paramètre `--project-name` dans `scripts/verify-release.mjs`.
+
+exécutez une fois `npx wrangler login`, puis `pnpm run deploy`. Le déploiement passe par `scripts/verify-release.mjs`, qui refuse toute branche autre que `main`, un répertoire de travail non propre ou un HEAD différent du commit réel de `origin/main` sur le serveur distant. Il exécute `pnpm run verify` avant Wrangler. Le nom du projet est défini dans ce script, pas dans `package.json`.
 
 ---
 
 ## 5. Autocontrôle local avant commit
 
-Avant de pousser vers GitHub, exécutez la commande suivante pour un autocontrôle complet (vérification des types + build intégral) :
+Avant de pousser sur GitHub, lancez la commande de vérification commune : tests, contrôles de configuration et de types Astro, build et contrôles du contenu et des artefacts :
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-Lorsque `astro check` affiche `0 errors` et que le build se termine par `Complete!`, la documentation ne contient pas d'erreur de syntaxe et le commit peut être envoyé sereinement. La CI du dépôt (`build.yml`) exécute le même build après chaque push ; passer ces vérifications en local au préalable évite un échec de CI.
+Toutes les étapes de `pnpm run verify` doivent réussir et la commande doit se terminer avec le code 0. Les seuls messages `0 errors` ou `Complete!` ne signifient pas que la vérification complète est terminée. La CI (`build.yml`) exécute les mêmes validations ; le rendu visuel reste à vérifier manuellement.

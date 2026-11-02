@@ -61,51 +61,18 @@ git push origin v1.2.1
 
 ## 3. The GitHub Actions Release Pipeline
 
-The project ships with an automated release workflow in `.github/workflows/release.yml`; its actual content is:
+The authoritative workflow is [`.github/workflows/release.yml`](https://github.com/shijianus/epocanvas-docs/blob/main/.github/workflows/release.yml); the full YAML is not duplicated here. Pushing a `v*` tag triggers it. Before tagging, run the following local check; it neither writes to GitHub Releases nor deploys the site:
 
-```yaml
-name: Release
-
-on:
-  push:
-    tags:
-      - 'v*'   # triggers automatically when a tag starting with v is pushed
-
-permissions:
-  contents: write
-
-jobs:
-  release:
-    name: Publish GitHub Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG_NAME="${{ github.ref_name }}"
-          echo "Publishing release for tag: ${TAG_NAME}"
-          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
-          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
-          gh release create "${TAG_NAME}" \
-            --title "EpoCanvas Docs ${TAG_NAME}" \
-            --notes-file RELEASE_NOTES.md \
-            --latest
+```bash
+pnpm run verify
 ```
 
-After you push the `v1.2.1` tag, GitHub starts the pipeline automatically:
-
-1. Check out the repository code;
-2. Create an official release on the repository's **Releases** page using `RELEASE_NOTES.md` as the notes, and mark it as latest;
-3. Readers can click the version badge in the header to view the archive of all historical releases.
+1. The `validate` job uses read-only `contents: read` permissions and runs the full `pnpm run verify` check first.
+2. Only after validation passes does the `publish` job receive `contents: write` permissions to create or update a GitHub Release using `RELEASE_NOTES.md`.
+3. Existing releases are updated in place, non-destructively, rather than deleted and recreated. GitHub determines `Latest` for stable releases by version; prereleases are not marked `Latest`. Readers can use the header version badge to browse release history.
 
 :::note
-This pipeline only creates the GitHub Release; it does **not deploy the site**. Live updates are handled by Cloudflare Pages' automatic Git builds (or a local `pnpm run deploy`). The two are independent of each other; see [Deploying to Cloudflare Pages](/canvas/cloudflare/) for details.
+This workflow only creates or updates GitHub Releases; it does not automatically deploy the site. Merging into `main` does not deploy it either. Publish through local `pnpm run deploy` or a separately configured hosting Git integration; see [Deploying to Cloudflare Pages](/canvas/cloudflare/).
 :::
 
 ---
@@ -115,19 +82,19 @@ This pipeline only creates the GitHub Release; it does **not deploy the site**. 
 When several people maintain the documentation, collaborate following the fixed "branch → review → merge → release" process so the live content can always be built:
 
 ```text
-main branch (always releasable, matches the live site)
+main branch (release source; live content changes only after deployment)
   │
   ├─ 1. Create a feature branch from main        git checkout -b docs/new-guide
   ├─ 2. Write/modify Markdown
-  ├─ 3. Self-check locally                       pnpm exec astro check && pnpm run build
-  ├─ 4. Push the branch and open a Pull Request  triggers the CI build
-  ├─ 5. Merge into main after review passes      triggers automatic live deployment
+  ├─ 3. Self-check locally                       pnpm run verify
+  ├─ 4. Push the branch and open a Pull Request  triggers full CI validation
+  ├─ 5. Merge into main after review passes      does not deploy the live site automatically
   └─ 6. Tag v* when a release is needed          triggers the GitHub Release pipeline
 ```
 
 ### Pull Request Review Checklist
 
-CI (`build.yml`) only guarantees that the site builds. The following need human review:
+CI (`build.yml`) runs `pnpm run verify`: tests, configuration checks, Astro type checks, the build, and content/output checks. Visual results still need human review:
 
 - **Link validity**: do new internal links and anchors work; do moved documents have redirects registered;
 - **Rendering**: do the `:::` aside syntax and code block annotations display correctly on the page (CI does not check visuals);
@@ -146,8 +113,8 @@ CI (`build.yml`) only guarantees that the site builds. The following need human 
 
 ## 5. CI Build Checks
 
-The repository has `.github/workflows/build.yml`, which automatically installs dependencies and runs a full build on every push to `main` and on every Pull Request, surfacing broken links, Frontmatter errors, and other build-time problems early. Running the same check locally before committing avoids CI failures after you push:
+`.github/workflows/build.yml` runs full validation on pushes to `main` and on Pull Requests. CI uses Node.js 22.20.0 pinned in `.node-version` and pnpm 10.34.5. Run the same self-check locally before committing:
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```

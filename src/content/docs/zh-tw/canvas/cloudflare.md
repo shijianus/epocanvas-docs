@@ -14,7 +14,7 @@ description: EpoCanvas Docs 發布上線的完整圖示教學：Wrangler 命令�
 | 事項 | 說明 |
 | :--- | :--- |
 | **Cloudflare 帳號** | 在 [dash.cloudflare.com](https://dash.cloudflare.com/) 免費註冊，Pages 服務無需付費方案 |
-| **本機能完整建置** | 先確認能順利跑完 `pnpm run build`，確認 `dist/` 目錄正常產生，參見[快速上手](/canvas/deployment/) |
+| **本機能完整建置** | 先確認能順利跑完 `pnpm run verify`，確認 `dist/` 目錄正常產生，參見[快速上手](/canvas/deployment/) |
 | **Node.js + pnpm** | 部署指令依賴本機開發環境，版本要求同快速上手章節 |
 
 ### 兩種部署方式怎麼選
@@ -64,20 +64,22 @@ npx wrangler whoami
 
 ### 第 2 步：一鍵建置並上傳
 
-專案在 `package.json` 中預置了一鍵發布指令：
+專案在 `scripts/verify-release.mjs` 中預置了一鍵發布指令：
+
+先執行一次 `npx wrangler login` 完成授權，再執行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 執行；非 `main` 分支、工作區不乾淨，或 HEAD 與遠端 `origin/main` 的實際提交不一致時會被拒絕。腳本先執行 `pnpm run verify`，通過後才呼叫 Wrangler。專案名定義在此腳本中，不在 `package.json`。
 
 ```bash
 pnpm run deploy
 ```
 
-它等價於依序執行兩步：先 `astro build` 把全站編譯到 `dist/` 目錄並產生搜尋索引，再呼叫 `wrangler pages deploy dist` 把產物直傳到 Cloudflare。建置階段的真實輸出如下：
+前置條件通過後，腳本先執行 `pnpm run verify`，涵蓋測試、設定檢查、Astro 型別檢查、建置及內容/產物檢查；全部通過後才呼叫 `wrangler pages deploy dist` 直傳至 Cloudflare Pages。以下只是建置輸出片段範例，頁數與耗時以實際執行結果為準：
 
 ```text
 23:54:01 [build] 181 page(s) built in 20.78s
 23:54:01 [build] Complete!
 ```
 
-上傳完成後，Wrangler 會輸出本次部署的預覽位址。專案名稱已由 `deploy` 腳本透過 `--project-name epocanvas-docs` 預先指定，部署過程中不會再以互動方式詢問。
+上傳完成後，Wrangler 會輸出本次部署的預覽位址。專案名稱已由 `scripts/verify-release.mjs` 腳本透過 `--project-name epocanvas-docs` 預先指定，部署過程中不會再以互動方式詢問。
 
 ### 第 3 步：在主控台找到你的專案
 
@@ -178,7 +180,7 @@ HTTPS 憑證由 Cloudflare 自動簽發和續期，不需要手動申請或設�
 curl -sI https://epocanvas-docs.pages.dev
 ```
 
-真實的回傳結果：
+回應範例（日期與狀態以實際請求為準）：
 
 ```text
 HTTP/2 200
@@ -211,6 +213,6 @@ content-type: text/html; charset=utf-8
 
 ### 執行 `pnpm run deploy` 報錯 `Project not found`？
 
-先執行 `npx wrangler whoami` 確認已登入；再核對 `package.json` 中 `deploy` 腳本的 `--project-name` 與主控台專案名是否一致。
+先執行 `npx wrangler whoami` 確認已登入；再核對 `scripts/verify-release.mjs` 中的 `--project-name` 與主控台專案名是否一致。
 
 更多排查項見[常見問題與故障排查 FAQ](/canvas/troubleshooting/)。

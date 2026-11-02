@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { scanMarkdown } from './markdown-utils.mjs';
 
 const root = process.cwd();
 const docsDir = path.join(root, 'src/content/docs');
@@ -36,44 +37,8 @@ function front(txt) {
 
 const cjk = /[\u4e00-\u9fff\u3400-\u4dbf]/;
 
-// 正文检查前先剥离不参与最终文案的部分：围栏代码块、行内代码、frontmatter。
-// 代码示例里的中文（默认配置值、注释）和行内代码里的占位符都不是翻译遗漏。
-//
-// 必须按行扫描并记住「当前围栏的标记长度」，不能用跨行正则去配 ``` ：
-// Markdown 演示嵌套代码块时按规范要用四个（或更多）反引号包裹，
-// 此时文件里 ``` 字面量的出现次数会变成奇数，跨行正则两两配对后剩下一个，
-// 它的 |$ 分支会把从这个位置到文件结尾的全部内容当成代码剥掉——
-// 那部分是货真价实的正文，于是未翻译中文和坏图片引用都会从这里静默漏检。
 function stripCode(txt) {
-	const lines = txt.split(/\r?\n/);
-	if (lines[0] === '---') {
-		for (let i = 1; i < lines.length; i++) {
-			if (lines[i] === '---') { lines.splice(0, i + 1); break; }
-		}
-	}
-	const out = [];
-	let fenceChar = null;
-	let fenceLen = 0;
-	for (const line of lines) {
-		const m = /^ {0,3}(`{3,}|~{3,})/.exec(line);
-		if (m) {
-			const marker = m[1];
-			if (fenceChar === null) { fenceChar = marker[0]; fenceLen = marker.length; continue; }
-			// CommonMark：闭合围栏须与起始围栏同种字符且不更短
-			if (marker[0] === fenceChar && marker.length >= fenceLen) { fenceChar = null; fenceLen = 0; continue; }
-		}
-		if (fenceChar === null) out.push(line);
-	}
-	// 未闭合的围栏不吞尾部：宁可多检不可漏检，交给下面的告警显式暴露
-	return out.join('\n').replace(/`[^`\n]*`/g, '');
-}
-
-// 每个文件的围栏行数必须为偶数，否则说明有一处代码块忘了闭合，
-// 剥离结果不可信，直接判为审计失败。
-function unbalancedFences(loc, f) {
-	const txt = read(loc, f);
-	const n = (txt.match(/^ {0,3}(`{3,}|~{3,})/gm) || []).length;
-	return n % 2 !== 0 ? n : 0;
+	return scanMarkdown(txt).prose.replace(/`[^`\n]*`/g, '');
 }
 
 // 合法包含 CJK 的正文行：语言名表格行（专名不翻译）与描述本地化截图的图注。
@@ -106,11 +71,16 @@ for (const loc of ['canvas', ...locales]) {
 	const list = loc === 'canvas' ? ROOT_PAGES : pages(loc);
 	for (const f of list) {
 		if (!hasPage(loc, f)) continue;
-		const n = unbalancedFences(loc, f);
-		if (n) { fenceIssues++; console.log(`  [围栏未闭合] ${loc}/canvas/${f}: 围栏行数=${n}（奇数），代码块剥离结果不可信`); }
+		const n = scanMarkdown(read(loc, f)).unclosedLine;
+		if (n) { fenceIssues++; console.log(`  [围栏未闭合] ${loc}/canvas/${f}:${n}`); }
+	}
+	const indexPath = path.join(docsDir, loc === 'canvas' ? '' : loc, 'index.mdx');
+	if (fs.existsSync(indexPath)) {
+		const n = scanMarkdown(fs.readFileSync(indexPath, 'utf8')).unclosedLine;
+		if (n) { fenceIssues++; console.log(`  [围栏未闭合] ${indexPath}:${n}`); }
 	}
 }
-if (!fenceIssues) console.log('  全部 180 篇文档围栏行数均为偶数，代码块剥离可靠');
+if (!fenceIssues) console.log('  正文与首页的代码围栏均已正确闭合');
 console.log(`0) 缺译/多页: ${parityIssues}   围栏不闭合: ${fenceIssues}`);
 
 // ---- 1. CJK leftover in latin/cyrillic locales (prose only) ----
@@ -219,8 +189,8 @@ for (const loc of locales) {
 		if (!hasPage(loc, f)) { bad.push(`${f}(缺文件)`); continue; }
 		const rootTxt = read('canvas', f);
 		const locTxt = read(loc, f);
-		const h = (s) => (s.match(/^#{2,4} /gm) || []).length;
-		const codeFences = (s) => (s.match(/^```/gm) || []).length;
+		const h = (s) => (scanMarkdown(s).prose.match(/^#{2,4} /gm) || []).length;
+		const codeFences = (s) => scanMarkdown(s).blocks;
 		const dh = h(locTxt) - h(rootTxt);
 		const dcf = codeFences(locTxt) - codeFences(rootTxt);
 		if (dh !== 0 || dcf !== 0) {

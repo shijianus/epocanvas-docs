@@ -27,12 +27,15 @@ Le site utilise une mise en page à trois colonnes : navigation par catégories 
 
 ## Prérequis
 
-- Node.js 20.3+ ou 22+ (minimum 18.20.8)
-- pnpm 10
+- Node.js 22.20+ (22.x) ou Node.js 24.12+
+- pnpm 10.34.5 (version exacte)
+
+La CI utilise Node.js 22.20.0, fixé dans `.node-version`.
 
 ## Démarrage rapide
 
 ```bash
+npm install -g pnpm@10.34.5
 git clone https://github.com/shijianus/epocanvas-docs.git
 cd epocanvas-docs
 pnpm install
@@ -47,8 +50,9 @@ Ouvrez `http://localhost:4321` dans votre navigateur. Tant que le serveur de dé
 | :--- | :--- |
 | `pnpm run dev` | Démarre le serveur de développement local avec rechargement à chaud |
 | `pnpm run build` | Compile le site statique dans `dist/` et génère l'index de recherche |
+| `pnpm run verify` | Exécute les tests, les contrôles de configuration et de types Astro, le build et les contrôles du contenu et des artefacts |
 | `pnpm run preview` | Prévisualise le résultat de la compilation en local |
-| `pnpm run deploy` | Compile et publie sur Cloudflare Pages |
+| `pnpm run deploy` | Vérifie les prérequis, exécute verify, puis publie sur Cloudflare Pages |
 
 ## Structure du projet
 
@@ -86,18 +90,18 @@ epocanvas-docs/
    ![texte alternatif](/images/canvas/your-image.png)
    ```
 
-Exécutez `pnpm run build` avant de valider afin de vérifier que le site se compile sans erreur.
+Exécutez `pnpm run verify` avant de committer et vérifiez que tous les contrôles passent.
 
 ## Déploiement
 
 Le site est hébergé sur Cloudflare Pages :
 
-- **Publication locale** — exécutez `wrangler login` une fois pour vous authentifier, puis `pnpm run deploy` compile et publie le site.
+- **Publication locale** — exécutez une fois `npx wrangler login`, puis `pnpm run deploy`. Le déploiement passe par `scripts/verify-release.mjs`, qui refuse toute branche autre que `main`, un répertoire de travail non propre ou un HEAD différent du commit réel de `origin/main` sur le serveur distant. Il exécute `pnpm run verify` avant Wrangler. Le nom du projet est défini dans ce script, pas dans `package.json`.
 - **Domaine personnalisé** — dans le tableau de bord Cloudflare, ouvrez le projet Pages `epocanvas-docs` et ajoutez le domaine dans *Custom domains*. L'enregistrement CNAME et le certificat SSL sont provisionnés automatiquement.
 
 ## Contributions
 
-Les issues et les pull requests sont les bienvenues. Avant de soumettre une PR, exécutez `pnpm run build` en local et assurez-vous que la compilation aboutit.
+Les issues et les pull requests sont les bienvenues. Avant de soumettre une PR, exécutez `pnpm run verify` en local et vérifiez que tous les contrôles passent.
 
 ## Licence
 

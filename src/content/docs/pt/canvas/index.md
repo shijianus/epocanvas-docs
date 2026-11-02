@@ -15,7 +15,7 @@ No dia a dia do desenvolvimento e da escrita técnica, muitas equipas deparam-se
 
 1. **Páginas lentas a abrir e com elevado consumo de memória**: muitas ferramentas de documentação geram páginas com um runtime de JavaScript pesado, que abre devagar em telemóveis ou redes lentas e facilmente trava ao fazer scroll em artigos longos.
 2. **Navegação complicada em artigos longos**: os sites de documentação habituais têm normalmente apenas um menu à esquerda; ao ler instruções técnicas de milhares de palavras, é difícil perceber rapidamente a hierarquia das subsecções dentro do artigo atual.
-3. **Pesquisa dependente de serviços externos**: serviços de pesquisa na cloud como o Algolia exigem registar uma conta adicional e configurar chaves de crawler, e ficam completamente inutilizáveis em ambientes de intranet sem acesso a serviços externos.
+3. **Pesquisa dependente de serviços externos**: os serviços de pesquisa na cloud podem exigir uma conta e uma configuração de crawler próprias, e ficam completamente inutilizáveis em ambientes de intranet sem acesso a serviços externos.
 4. **Multilinguagem apenas pela metade**: muitos sites de documentação dizem suportar vários idiomas, mas na prática só traduzem os botões de navegação — ao abrir o corpo do artigo, o texto continua no idioma original; noutros, quando falta uma tradução, a página devolve diretamente um 404 e o leitor tem de editar o URL à mão para encontrar o conteúdo.
 
 O EpoCanvas Docs foi desenhado precisamente para resolver estes problemas concretos.
@@ -91,7 +91,7 @@ O EpoCanvas Docs é adequado aos seguintes cenários:
 | Característica | EpoCanvas Docs | Docusaurus | VitePress | GitBook (versão comercial) |
 | :--- | :--- | :--- | :--- | :--- |
 | **Tecnologia de base** | Astro 5 + Starlight | React 18 | Vue 3 + Vite | Plataforma SaaS fechada |
-| **Mecanismo de pesquisa** | Índice estático local do Pagefind | Depende do serviço cloud Algolia | Pesquisa em memória com Minisearch | Pesquisa com backend próprio |
+| **Mecanismo de pesquisa** | Índice estático local do Pagefind | Algolia ou outro serviço de pesquisa configurado | Pesquisa em memória com Minisearch | Pesquisa com backend próprio |
 | **Desenho da disposição** | Três colunas (menu à esquerda + texto ao centro + índice à direita) | Exige configurar plugins para alterar | Duas/três colunas por predefinição | Duas colunas fixas |
 | **Forma de implantação** | Envio direto para o Cloudflare Pages | S3 / Vercel / GitHub | GitHub Pages | Alojamento privado da plataforma |
 | **Grau de controlo próprio** | 100% código aberto, com o código-fonte totalmente nas suas mãos | 100% código aberto | 100% código aberto | Código fechado, com muitas funcionalidades pagas |
@@ -109,7 +109,7 @@ Stack tecnológica realmente usada na versão atual (conforme o resultado do bui
 | **Expressive Code** | Integrado com o Starlight | Destaque de blocos de código, barra de título e destaque de linhas |
 | **Pagefind** | Integrado via `@pagefind/default-ui` 1.5.2 | Geração do índice de pesquisa estático durante o build |
 | **Wrangler** | v4.131.0 | CLI oficial do Cloudflare, executa a implantação |
-| **Ambiente de execução** | Node.js 18.20.8 / 20.3+ / 22+, pnpm 10 | Desenvolvimento e compilação locais; `pnpm run deploy` exige Node.js 22 ou mais recente por causa do wrangler |
+| **Ambiente de execução** | Node.js 22.20+ (22.x) ou Node.js 24.12+, pnpm 10.34.5 | Requisitos para desenvolvimento, compilação e implantação |
 
 Ao atualizar dependências, leia também as notas sobre testes de regressão em [Componentes da interface e desenvolvimento personalizado](/canvas/components/).
 

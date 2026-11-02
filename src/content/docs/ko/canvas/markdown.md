@@ -364,7 +364,7 @@ pnpm run build
 pnpm으로 의존성을 설치하면 npm보다 훨씬 빠릅니다:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 pnpm으로 의존성을 설치하면 npm보다 훨씬 빠릅니다:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

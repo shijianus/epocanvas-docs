@@ -61,51 +61,18 @@ git push origin v1.2.1
 
 ## 3. GitHub Actions 자동 발행 파이프라인
 
-프로젝트는 `.github/workflows/release.yml`에 자동 발행 워크플로를 미리 준비해 두었으며 실제 내용은 다음과 같습니다:
+정확한 정의는 [`.github/workflows/release.yml`](https://github.com/shijianus/epocanvas-docs/blob/main/.github/workflows/release.yml)을 참고하세요. 전체 YAML을 여기 복사하지 않습니다. `v*` 태그를 푸시하면 실행됩니다. 태그를 붙이기 전에 아래 로컬 검사를 실행할 수 있으며, GitHub Release를 쓰거나 사이트를 배포하지 않습니다.
 
-```yaml
-name: Release
-
-on:
-  push:
-    tags:
-      - 'v*'   # v로 시작하는 태그를 푸시하면 자동으로 트리거됩니다
-
-permissions:
-  contents: write
-
-jobs:
-  release:
-    name: Publish GitHub Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG_NAME="${{ github.ref_name }}"
-          echo "Publishing release for tag: ${TAG_NAME}"
-          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
-          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
-          gh release create "${TAG_NAME}" \
-            --title "EpoCanvas Docs ${TAG_NAME}" \
-            --notes-file RELEASE_NOTES.md \
-            --latest
+```bash
+pnpm run verify
 ```
 
-`v1.2.1` 태그를 푸시하면 GitHub가 자동으로 파이프라인을 시작합니다:
-
-1. 저장소 코드를 체크아웃합니다;
-2. `RELEASE_NOTES.md`를 설명으로 삼아 저장소의 **Releases** 페이지에 정식 버전을 만들고 latest로 표시합니다;
-3. 독자는 상단 바의 버전 배지를 클릭해 모든 히스토리 버전 아카이브를 볼 수 있습니다.
+1. `validate` job은 읽기 전용 `contents: read` 권한으로 먼저 `pnpm run verify` 전체 검증을 실행합니다.
+2. 검증이 통과한 뒤에만 `publish` job이 `contents: write` 권한을 사용해 `RELEASE_NOTES.md`를 설명으로 GitHub Release를 만들거나 업데이트합니다.
+3. 기존 Release는 삭제 후 재생성하지 않고 비파괴적으로 업데이트합니다. 안정 버전의 `Latest`는 GitHub가 버전에 따라 결정하며 사전 릴리스에는 `Latest`를 표시하지 않습니다. 헤더의 버전 배지에서 이전 릴리스를 확인할 수 있습니다.
 
 :::note
-이 파이프라인은 GitHub Release 생성만 담당하며 **사이트 배포는 실행하지 않습니다**. 온라인 업데이트는 Cloudflare Pages의 Git 자동 빌드(또는 로컬의 `pnpm run deploy`)로 완료되며, 둘은 서로 의존하지 않습니다. 자세한 내용은 [Cloudflare Pages 배포](/canvas/cloudflare/)를 참조하세요.
+이 워크플로는 GitHub Release만 만들거나 업데이트하며 사이트를 자동 배포하지 않습니다. `main`에 병합해도 자동 배포되지 않습니다. 로컬 `pnpm run deploy` 또는 별도로 설정한 호스팅 플랫폼의 Git 연동으로 게시합니다. [Cloudflare Pages 배포](/canvas/cloudflare/)를 참고하세요.
 :::
 
 ---
@@ -115,19 +82,19 @@ jobs:
 여러 사람이 문서를 함께 관리할 때는 "브랜치 → 검토 → 병합 → 발행"의 고정 절차로 협업하여 온라인 내용이 항상 빌드 가능한 상태를 유지하도록 합니다:
 
 ```text
-main 브랜치(항상 발행 가능, 온라인 사이트와 대응)
+main 브랜치(릴리스 원본; 사이트는 배포 후에만 업데이트)
   │
   ├─ 1. main에서 기능 브랜치 생성     git checkout -b docs/new-guide
   ├─ 2. Markdown 작성/수정
-  ├─ 3. 로컬 자가 점검                pnpm exec astro check && pnpm run build
-  ├─ 4. 브랜치 푸시 후 Pull Request 열기  CI 빌드 트리거
-  ├─ 5. 검토 통과 후 main에 병합      온라인 자동 배포 트리거
+  ├─ 3. 로컬 자가 점검                pnpm run verify
+  ├─ 4. 브랜치 푸시 후 Pull Request 열기  CI 전체 검증 실행
+  ├─ 5. 검토 통과 후 main에 병합      사이트를 자동 배포하지 않음
   └─ 6. 발행이 필요하면 v* 태그 부착   GitHub Release 파이프라인 트리거
 ```
 
 ### Pull Request 검토 핵심 항목
 
-CI(`build.yml`)는 "빌드가 통과하는지"만 보장하며, 다음 사항은 사람이 직접 검토해야 합니다:
+CI(`build.yml`)는 `pnpm run verify`로 테스트, 설정 검사, Astro 타입 검사, 빌드 및 콘텐츠/결과물 검사를 실행합니다. 화면은 여전히 직접 확인해야 합니다.
 
 - **링크 유효성**: 새로 추가된 사이트 내부 링크, 앵커가 이동되는지, 경로를 바꾼 문서에 리다이렉트가 등록되었는지;
 - **렌더링 효과**: 콜아웃의 `:::` 문법, 코드 블록 표기가 페이지에 정상적으로 표시되는지(CI는 시각적 요소를 검사하지 않음);
@@ -146,8 +113,8 @@ CI(`build.yml`)는 "빌드가 통과하는지"만 보장하며, 다음 사항은
 
 ## 5. CI 빌드 검사
 
-저장소에는 `.github/workflows/build.yml`이 구성되어 있어 `main` 브랜치로의 모든 푸시와 모든 Pull Request에서 의존성 설치와 전체 빌드가 자동 실행되며, 끊어진 링크, Frontmatter 오류 등 빌드 시점 문제를 미리 드러냅니다. 커밋 전에 로컬에서 같은 검사를 한 번 실행하면 푸시 후 CI 실패를 피할 수 있습니다:
+`.github/workflows/build.yml`은 `main` 푸시와 Pull Request에서 전체 검증을 실행합니다. CI는 `.node-version`에 고정된 Node.js 22.20.0과 pnpm 10.34.5를 사용합니다. 커밋 전에 로컬에서 같은 자가 점검을 실행하세요.
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```

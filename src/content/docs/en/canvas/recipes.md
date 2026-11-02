@@ -159,7 +159,7 @@ Whatever the customization, verify in this order before committing:
 
 ```bash
 pnpm run dev      # 1. Review each page in the browser
-pnpm exec astro check && pnpm run build   # 2. Type check + full build
+pnpm run verify   # 2. Run tests, configuration checks, Astro type checks, the build, and content/output checks
 pnpm run preview  # 3. Preview the build output and publish only after confirming there are no issues
 ```
 

@@ -27,12 +27,15 @@ The site uses a three-column layout: category navigation on the left, article co
 
 ## Requirements
 
-- Node.js 20.3+ or 22+ (minimum 18.20.8)
-- pnpm 10
+- Node.js 22.20+ (22.x) or Node.js 24.12+
+- pnpm 10.34.5 (exact version)
+
+CI uses Node.js 22.20.0, pinned in `.node-version`.
 
 ## Quick Start
 
 ```bash
+npm install -g pnpm@10.34.5
 git clone https://github.com/shijianus/epocanvas-docs.git
 cd epocanvas-docs
 pnpm install
@@ -47,8 +50,9 @@ Open `http://localhost:4321` in your browser. While the dev server is running, M
 | :--- | :--- |
 | `pnpm run dev` | Start the local dev server with hot reload |
 | `pnpm run build` | Build the static site into `dist/` and generate the search index |
+| `pnpm run verify` | Run tests, configuration checks, Astro type checks, the build, and content/output checks |
 | `pnpm run preview` | Preview the build output locally |
-| `pnpm run deploy` | Build and publish to Cloudflare Pages |
+| `pnpm run deploy` | Check deployment prerequisites, run verify, then publish to Cloudflare Pages |
 
 ## Project Structure
 
@@ -86,18 +90,18 @@ epocanvas-docs/
    ![alt text](/images/canvas/your-image.png)
    ```
 
-Run `pnpm run build` before committing to verify that the site builds without errors.
+Run `pnpm run verify` before committing and make sure all checks pass.
 
 ## Deployment
 
 The site is hosted on Cloudflare Pages:
 
-- **Local publishing** — run `wrangler login` once to authorize, then `pnpm run deploy` builds and publishes the site.
+- **Local publishing** — run `npx wrangler login` once to authorize, then `pnpm run deploy`. Deployment is handled by `scripts/verify-release.mjs`, which rejects any branch other than `main`, a dirty working tree, or a HEAD that differs from the actual remote `origin/main` commit. It runs `pnpm run verify` before Wrangler. The project name is defined in this script, not in `package.json`.
 - **Custom domain** — in the Cloudflare dashboard, open the Pages project `epocanvas-docs` and add the domain under *Custom domains*. The CNAME record and the SSL certificate are provisioned automatically.
 
 ## Contributing
 
-Issues and pull requests are welcome. Please run `pnpm run build` locally and make sure it passes before submitting a PR.
+Issues and pull requests are welcome. Please run `pnpm run verify` locally and make sure all checks pass before submitting a PR.
 
 ## License
 

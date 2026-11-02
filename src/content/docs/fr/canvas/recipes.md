@@ -159,7 +159,7 @@ Quel que soit le type de personnalisation, vérifiez dans cet ordre avant de com
 
 ```bash
 pnpm run dev      # 1. vérifier le rendu page par page dans le navigateur
-pnpm exec astro check && pnpm run build   # 2. vérification des types + build complet
+pnpm run verify   # 2. Exécute les tests, les contrôles de configuration et de types Astro, le build et les contrôles du contenu et des artefacts
 pnpm run preview  # 3. prévisualiser le résultat du build, publier une fois tout vérifié
 ```
 

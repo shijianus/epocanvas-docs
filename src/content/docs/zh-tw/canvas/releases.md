@@ -61,51 +61,18 @@ git push origin v1.2.1
 
 ## 3. GitHub Actions 自動發布流水線
 
-專案在 `.github/workflows/release.yml` 中預置了自動發布工作流程，實際內容如下：
+自動發布以 [`.github/workflows/release.yml`](https://github.com/shijianus/epocanvas-docs/blob/main/.github/workflows/release.yml) 為準，此處不複製完整 YAML。推送 `v*` 標籤時觸發工作流。打標籤前可在本機執行以下指令；它不會寫入 GitHub Release，也不會部署網站：
 
-```yaml
-name: Release
-
-on:
-  push:
-    tags:
-      - 'v*'   # 推送以 v 開頭的標籤時自動觸發
-
-permissions:
-  contents: write
-
-jobs:
-  release:
-    name: Publish GitHub Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG_NAME="${{ github.ref_name }}"
-          echo "Publishing release for tag: ${TAG_NAME}"
-          # 同名 release 已存在时（例如重新推送 tag，或 tag 删除后旧 release 转为草稿）先删掉，再按当前 RELEASE_NOTES.md 重新发布
-          gh release delete "${TAG_NAME}" --yes 2>/dev/null || true
-          gh release create "${TAG_NAME}" \
-            --title "EpoCanvas Docs ${TAG_NAME}" \
-            --notes-file RELEASE_NOTES.md \
-            --latest
+```bash
+pnpm run verify
 ```
 
-推上 `v1.2.1` 標籤後，GitHub 會自動啟動流水線：
-
-1. 檢出儲存庫程式碼；
-2. 以 `RELEASE_NOTES.md` 為說明，在儲存庫的 **Releases** 頁面建立正式版本並標記為 latest；
-3. 讀者點擊頂欄的版本徽標即可查看所有歷史版本歸檔。
+1. `validate` job 使用 `contents: read` 唯讀權限，先執行 `pnpm run verify` 完整驗證。
+2. 驗證通過後，只有 `publish` job 取得 `contents: write` 權限，以 `RELEASE_NOTES.md` 為說明建立或更新 GitHub Release。
+3. 已有 Release 原位非破壞更新，不刪除後重建。穩定版本由 GitHub 按版本決定 `Latest`；預發布不標記為 `Latest`。讀者可透過頂欄版本徽標查看歷史版本。
 
 :::note
-這條流水線只負責建立 GitHub Release，**不執行網站部署**。線上更新由 Cloudflare Pages 的 Git 自動建置（或本機 `pnpm run deploy`）完成，兩者互不依賴，詳見 [Cloudflare Pages 部署上線](/canvas/cloudflare/)。
+此工作流只建立或更新 GitHub Release，不自動部署網站。合併到 `main` 也不會自動部署；線上更新由本機 `pnpm run deploy` 或另行設定的託管平台 Git 整合完成，詳見 [Cloudflare Pages 部署上線](/canvas/cloudflare/)。
 :::
 
 ---
@@ -115,19 +82,19 @@ jobs:
 多人維護文件時，按「分支 → 審查 → 合併 → 發布」的固定流程協作，保證線上內容始終可建置：
 
 ```text
-main 分支（始終可發布，對應線上網站）
+main 分支（發布來源；線上內容僅在部署後更新）
   │
   ├─ 1. 從 main 拉出功能分支        git checkout -b docs/new-guide
   ├─ 2. 編寫/修改 Markdown
-  ├─ 3. 本機自檢                    pnpm exec astro check && pnpm run build
-  ├─ 4. 推送分支並開 Pull Request   觸發 CI 建置
-  ├─ 5. 審查通過後合併到 main       觸發線上自動部署
+  ├─ 3. 本機自檢                    pnpm run verify
+  ├─ 4. 推送分支並開 Pull Request   觸發 CI 完整驗證
+  ├─ 5. 審查通過後合併到 main       不會自動部署線上網站
   └─ 6. 需要發版時打 v* 標籤        觸發 GitHub Release 流水線
 ```
 
 ### Pull Request 審查要點
 
-CI（`build.yml`）只保證「能建置通過」，以下問題需要人工審查：
+CI（`build.yml`）執行 `pnpm run verify`，涵蓋測試、設定檢查、Astro 型別檢查、建置及內容/產物檢查；視覺效果仍需人工審查：
 
 - **連結有效性**：新增的站內連結、錨點能否跳轉；改路徑的文件是否登記了重新導向；
 - **渲染效果**：提示框用的 `:::` 語法、程式碼區塊標註在頁面上顯示是否正常（CI 不檢查視覺）；
@@ -146,8 +113,8 @@ CI（`build.yml`）只保證「能建置通過」，以下問題需要人工審�
 
 ## 5. CI 建置檢查
 
-儲存庫設定了 `.github/workflows/build.yml`，在每次推送到 `main` 分支和每個 Pull Request 上自動執行依賴安裝與全量建置，提前暴露斷鏈、Frontmatter 錯誤等建置期問題。提交前在本機跑一遍同樣的檢查，可以避免推送後 CI 失敗：
+`.github/workflows/build.yml` 在推送到 `main` 與 Pull Request 時執行完整驗證。CI 使用 `.node-version` 固定的 Node.js 22.20.0 和 pnpm 10.34.5。提交前在本機執行相同的自檢指令：
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```

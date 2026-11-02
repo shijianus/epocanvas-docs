@@ -37,7 +37,7 @@ description: "Практическое применение и реальный 
 Установка зависимостей через pnpm заметно быстрее, чем через npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

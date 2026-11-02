@@ -37,7 +37,7 @@ Inside an aside you can keep using lists, code blocks, tables, and other syntax:
 Installing dependencies with pnpm is much faster than with npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

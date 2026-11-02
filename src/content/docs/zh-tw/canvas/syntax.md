@@ -37,7 +37,7 @@ description: EpoCanvas Docs 4 種彩色提示框、程式碼區塊標題與行�
 使用 pnpm 安裝依賴比 npm 快得多：
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

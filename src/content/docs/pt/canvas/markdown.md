@@ -364,7 +364,7 @@ Acrescentando parênteses retos após o tipo, pode personalizar o título:
 Instalar dependências com pnpm é muito mais rápido do que com npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 Instalar dependências com pnpm é muito mais rápido do que com npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

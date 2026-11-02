@@ -364,7 +364,7 @@ pnpm run build
 Установка зависимостей через pnpm заметно быстрее, чем через npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 Установка зависимостей через pnpm заметно быстрее, чем через npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

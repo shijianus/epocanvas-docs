@@ -59,17 +59,19 @@ Les trois boutons fonctionnent selon le même mécanisme : cloner le dépôt sou
 
 Le déploiement en un clic convient pour « mettre d'abord le site en ligne », mais la rédaction et la modification de la documentation se font forcément en local. Si vous comptez écrire du contenu, vérifiez d'abord que votre ordinateur dispose des environnements de développement de base suivants :
 
-| Outil | Version recommandée | Commande de vérification | Description |
+| Outil | Version requise | Commande de vérification | Description |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.20.8` (20.3+ ou 22 LTS recommandé) | `node -v` | Environnement de base pour exécuter JavaScript et construire les pages statiques |
-| **pnpm** | `>= 9` (10 en environnement CI) | `pnpm -v` | Gestionnaire de paquets recommandé : installation rapide et économie d'espace disque |
+| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Environnement pour exécuter JavaScript et compiler les pages statiques |
+| **pnpm** | `10.34.5` | `pnpm -v` | Version du gestionnaire de paquets utilisée par le projet |
 | **Git** | Dernière version stable | `git --version` | Sert à récupérer le code et à gérer les versions |
+
+La CI utilise Node.js 22.20.0, fixé dans `.node-version`.
 
 :::tip
 Si `pnpm` n'est pas encore installé sur votre ordinateur, vous pouvez l'installer rapidement en global via le npm fourni avec Node.js :
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 
@@ -94,10 +96,10 @@ cd epocanvas-docs
 pnpm install
 ```
 
-pnpm télécharge automatiquement les dépendances front-end requises d'après `pnpm-lock.yaml`, notamment Astro, Starlight et le module de traitement des images locales ; cela prend généralement quelques dizaines de secondes. À la fin de l'installation, le terminal affiche la durée totale :
+pnpm télécharge les dépendances, notamment Astro et Starlight, selon `pnpm-lock.yaml`. La sortie ci-dessous est un exemple, pas une mesure effectuée lors de cette révision ; la durée dépend du réseau, du cache et de la machine :
 
 ```text
-Done in 1m 3.2s using pnpm v9.15.9
+Done in 1m 3.2s using pnpm v10.34.5
 ```
 
 ### Étape 3 : démarrer le serveur de prévisualisation de développement local
@@ -135,8 +137,11 @@ Lors de la rédaction quotidienne de la documentation ou de la maintenance du pr
 | :--- | :--- | :--- |
 | `pnpm run dev` | **Rédaction quotidienne de la documentation** | Démarre le service de débogage local avec rechargement à chaud (HMR). Après modification d'un fichier `.md`, le navigateur se rafraîchit automatiquement avec le contenu à jour. |
 | `pnpm run build` | **Test de build** | Compile intégralement en local les pages statiques de l'ensemble du site et génère dans le répertoire `dist/` le HTML, le CSS ainsi que l'index de recherche Pagefind. |
+| `pnpm run verify` | **Vérification complète** | Exécute les tests, les contrôles de configuration et de types Astro, le build et les contrôles du contenu et des artefacts |
 | `pnpm run preview` | **Prévisualisation des artefacts de build** | Démarre en local un serveur Web léger qui exécute les artefacts de `dist/`, pour vérifier avant la publication officielle que les liens et les styles fonctionnent. |
-| `pnpm run deploy` | **Publication en un clic** | Exécute d'abord automatiquement le build, puis appelle l'outil Wrangler pour pousser `dist/` vers l'environnement de production en ligne de Cloudflare Pages. |
+| `pnpm run deploy` | **Publication en un clic** | Vérifie les prérequis, exécute verify, puis publie sur Cloudflare Pages |
+
+exécutez une fois `npx wrangler login`, puis `pnpm run deploy`. Le déploiement passe par `scripts/verify-release.mjs`, qui refuse toute branche autre que `main`, un répertoire de travail non propre ou un HEAD différent du commit réel de `origin/main` sur le serveur distant. Il exécute `pnpm run verify` avant Wrangler. Le nom du projet est défini dans ce script, pas dans `package.json`.
 
 Pour les étapes de publication complètes et les méthodes de vérification en ligne, lisez **[Déploiement et mise en ligne via Cloudflare Pages](/canvas/cloudflare/)**.
 

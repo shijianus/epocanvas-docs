@@ -30,8 +30,26 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 	</div>
 
 	<div class="header-right print:hidden">
-	{/* Dynamic & Flexible Navigation Buttons */}
-	<nav class="nav-links sl-flex" aria-label={getTranslation('nav.ariaLabel', lang)}>
+		{/* 无侧栏页面在导航收起后仍提供可用入口，原生 details 支持无 JS 导航。 */}
+		{!Astro.locals.starlightRoute.hasSidebar && (
+			<details class="compact-nav">
+				<summary aria-label={getTranslation('nav.ariaLabel', lang)} data-i18n-label="nav.ariaLabel">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+				</summary>
+				<nav class="compact-nav-panel" aria-label={getTranslation('nav.ariaLabel', lang)} data-i18n-label="nav.ariaLabel">
+					{navigationConfig.map((item) => (
+						<a href={item.isExternal ? item.href : localizedHref(item.href, lang)}
+							data-nav-href={item.isExternal ? undefined : item.href}
+							data-i18n={item.labelKey}
+							target={item.isExternal ? '_blank' : undefined}
+							rel={item.isExternal ? 'noopener noreferrer' : undefined}>
+							{getTranslation(item.labelKey, lang)}
+						</a>
+					))}
+				</nav>
+			</details>
+		)}
+		<nav class="nav-links sl-flex" aria-label={getTranslation('nav.ariaLabel', lang)} data-i18n-label="nav.ariaLabel">
 			{
 				navigationConfig.map((item) => {
 					const isActive = item.match ? item.match(matchPath) : matchPath === item.href;
@@ -53,7 +71,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 						);
 					}
 					return (
-						<a href={href} class:list={['nav-btn', { active: isActive }]}>
+						<a href={href} data-nav-href={item.href} data-i18n={item.labelKey} aria-current={isActive ? 'page' : undefined} class:list={['nav-btn', { active: isActive }]}>
 							{getTranslation(item.labelKey, lang)}
 						</a>
 					);
@@ -61,7 +79,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 			}
 		</nav>
 
-		<div class="nav-divider"></div>
+		<div class="nav-divider nav-divider-menu"></div>
 
 		{/* Multi-Language Picker with 10 Mainstream Languages */}
 		<div class="lang-dropdown-wrapper">
@@ -72,6 +90,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 				aria-label={getTranslation('lang.select', lang)}
 				aria-haspopup="true"
 				aria-expanded="false"
+				aria-controls="vp-lang-menu"
 				title={getTranslation('lang.select', lang)}
 			>
 				<svg class="icon-translate" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -139,7 +158,7 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 			</button>
 		</div>
 
-		<div class="nav-divider"></div>
+		<div class="nav-divider nav-divider-social"></div>
 
 		{/* Social Icons */}
 		<div class="header-social-links sl-flex">
@@ -193,16 +212,46 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 				langBtn.setAttribute('aria-expanded', 'false');
 			}
 		});
+
+		// Esc 收起语言菜单并把焦点还给按钮，键盘用户不必 Tab 一圈才能离开
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && langWrapper.classList.contains('open')) {
+				langWrapper.classList.remove('open');
+				langBtn.setAttribute('aria-expanded', 'false');
+				langBtn.focus();
+			}
+		});
 	}
 
-	// Theme Toggle Setup
+		const compactNav = document.querySelector<HTMLDetailsElement>('.compact-nav');
+		if (compactNav) {
+			document.addEventListener('click', (event) => {
+				if (event.target instanceof Node && !compactNav.contains(event.target)) compactNav.open = false;
+			});
+			compactNav.addEventListener('keydown', (event) => {
+				if (event.key === 'Escape' && !event.isComposing) {
+					compactNav.open = false;
+					compactNav.querySelector('summary')?.focus();
+				}
+			});
+			compactNav.addEventListener('focusout', (event) => {
+				if (event.relatedTarget instanceof Node && !compactNav.contains(event.relatedTarget)) compactNav.open = false;
+			});
+		}
+
+		// Theme Toggle Setup
+
 	const themeBtn = document.getElementById('vp-theme-toggle');
 	if (themeBtn) {
-		const updateTheme = (theme: string) => {
-			document.documentElement.dataset.theme = theme;
-			localStorage.setItem('starlight-theme', theme);
-			themeBtn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
-		};
+			const updateTheme = (theme: string) => {
+				document.documentElement.dataset.theme = theme;
+				themeBtn.setAttribute('aria-checked', theme === 'dark' ? 'true' : 'false');
+				try {
+					localStorage.setItem('starlight-theme', theme);
+				} catch {
+					// 浏览器拒绝存储时，主题和 ARIA 状态仍保持同步。
+				}
+			};
 
 		themeBtn.addEventListener('click', () => {
 			const current = document.documentElement.dataset.theme || 'light';
@@ -216,8 +265,9 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 </script>
 
 <style>
-	.header {
-		display: flex;
+		.header {
+			position: relative;
+			display: flex;
 		align-items: center;
 		height: 100%;
 		width: 100%;
@@ -241,9 +291,6 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		.header-left {
 			padding-left: 0.5rem;
 			padding-right: 0.25rem;
-		}
-		:global(.site-title span) {
-			display: none !important;
 		}
 	}
 
@@ -319,9 +366,29 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 			padding-right: 1.25rem;
 		}
 
+		:global(:root:not([data-has-sidebar])) .header-right .header-social-links,
+		:global(:root:not([data-has-sidebar])) .header-right .nav-divider-social {
+			display: flex;
+		}
+	}
+
+	@media (min-width: 80rem) and (max-width: 89.99rem) {
+		:global(:root:not([data-has-sidebar])) .header-right .header-social-links,
+		:global(:root:not([data-has-sidebar])) .header-right .nav-divider-social {
+			display: none;
+		}
+	}
+
+	@media (min-width: 80rem) {
 		:global(:root:not([data-has-sidebar])) .header-right .nav-links,
-		:global(:root:not([data-has-sidebar])) .header-right .nav-divider,
-		:global(:root:not([data-has-sidebar])) .header-right .header-social-links {
+		:global(:root:not([data-has-sidebar])) .header-right .nav-divider-menu {
+			display: flex;
+		}
+	}
+
+	@media (min-width: 90rem) {
+		:global(:root:not([data-has-sidebar])) .header-right .header-social-links,
+		:global(:root:not([data-has-sidebar])) .header-right .nav-divider-social {
 			display: flex;
 		}
 	}
@@ -402,6 +469,38 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 
 	:root[data-theme='dark'] .nav-divider {
 		background: #1e293b;
+	}
+
+	/* 顶栏元素按宽度分三档渐进显示（实测德/俄导航一排约 590-660px、社交图标约 105px）：
+	   50-80rem：搜索框 + 语言 + 主题（导航收起，由左侧边栏承担，搜索框保住 180px 下限）；
+	   80-90rem：导航按钮回归，社交图标让位（GitHub 仍可从版本徽章进入）；
+	   ≥90rem（1440px）：全部显示。实测 10 语言 × 1024/1152/1280/1366/1440 全部无重叠、无溢出。 */
+	@media (min-width: 50rem) {
+		.header-right .nav-links,
+		.header-right .nav-divider-menu {
+			display: none;
+		}
+	}
+
+	@media (min-width: 80rem) and (max-width: 89.99rem) {
+		.header-right .header-social-links,
+		.header-right .nav-divider-social {
+			display: none;
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.header-right .nav-links,
+		.header-right .nav-divider-menu {
+			display: flex;
+		}
+	}
+
+	@media (min-width: 90rem) {
+		.header-right .header-social-links,
+		.header-right .nav-divider-social {
+			display: flex;
+		}
 	}
 
 	/* Language Picker */
@@ -665,10 +764,54 @@ const langMenuPath = /^\/404\/?$/.test(pathname) ? '/' : pathname;
 		background-color: #1e293b;
 	}
 
-	.header-mobile {
-		align-items: center;
-		gap: 0.5rem;
-	}
+		.compact-nav {
+			position: static;
+		}
+
+		.compact-nav summary {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 44px;
+			height: 44px;
+			list-style: none;
+			cursor: pointer;
+			border-radius: 7px;
+			color: var(--sl-color-white);
+		}
+
+		.compact-nav summary::-webkit-details-marker { display: none; }
+
+		.compact-nav-panel {
+			position: absolute;
+			top: calc(100% + 4px);
+			right: 0;
+			width: min(18rem, calc(100vw - 2rem));
+			max-height: calc(100dvh - var(--sl-nav-height) - 1rem);
+			overflow-y: auto;
+			padding: 0.5rem;
+			background: var(--sl-color-bg);
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 8px;
+			box-shadow: var(--sl-shadow-lg);
+		}
+
+		.compact-nav-panel a {
+			display: flex;
+			align-items: center;
+			min-height: 44px;
+			padding: 0.4rem 0.75rem;
+			color: var(--sl-color-white);
+			text-decoration: none;
+		}
+
+		.compact-nav-panel a:hover { background: var(--sl-color-gray-6); }
+		.vp-lang-btn, .lang-item-btn { min-height: 44px; }
+
+		@media (min-width: 80rem) {
+			.compact-nav { display: none; }
+		}
+
 
 	@media (max-width: 50rem) {
 		.header {

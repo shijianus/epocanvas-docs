@@ -159,7 +159,7 @@ Welche Anpassung Sie auch vornehmen: Prüfen Sie vor dem Commit in dieser Reihen
 
 ```bash
 pnpm run dev      # 1. Ergebnis Seite für Seite im Browser ansehen
-pnpm exec astro check && pnpm run build   # 2. Typprüfung + vollständiger Build
+pnpm run verify   # 2. Führt Tests, Konfigurationsprüfungen, Astro-Typprüfungen, den Build sowie Inhalts- und Ausgabeprüfungen aus
 pnpm run preview  # 3. Build-Ergebnis in der Vorschau prüfen und erst dann veröffentlichen
 ```
 

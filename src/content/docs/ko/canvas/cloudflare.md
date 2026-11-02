@@ -14,7 +14,7 @@ description: "EpoCanvas Docs 배포 공개 그림 튜토리얼: Wrangler 명령�
 | 항목 | 설명 |
 | :--- | :--- |
 | **Cloudflare 계정** | [dash.cloudflare.com](https://dash.cloudflare.com/)에서 무료로 가입, Pages 서비스는 유료 플랜이 필요 없음 |
-| **로컬에서 완전한 빌드 가능** | 먼저 `pnpm run build`를 통과하고 `dist/` 디렉터리가 정상 생성되는지 확인, [빠른 시작](/canvas/deployment/) 참조 |
+| **로컬에서 완전한 빌드 가능** | 먼저 `pnpm run verify`를 통과하고 `dist/` 디렉터리가 정상 생성되는지 확인, [빠른 시작](/canvas/deployment/) 참조 |
 | **Node.js + pnpm** | 배포 명령어는 로컬 개발 환경에 의존하며, 버전 요구 사항은 빠른 시작 장과 동일 |
 
 ### 두 가지 배포 방식의 선택
@@ -64,20 +64,22 @@ npx wrangler whoami
 
 ### 2단계: 원클릭 빌드 및 업로드
 
-프로젝트의 `package.json`에는 원클릭 배포 명령어가 미리 준비되어 있습니다:
+프로젝트의 `scripts/verify-release.mjs`에는 원클릭 배포 명령어가 미리 준비되어 있습니다:
+
+먼저 `npx wrangler login`으로 인증한 뒤 `pnpm run deploy`를 실행합니다. 배포를 담당하는 `scripts/verify-release.mjs`는 `main`이 아닌 브랜치, 변경 사항이 남아 있는 작업 트리, 원격 `origin/main`의 실제 커밋과 일치하지 않는 HEAD를 거부합니다. `pnpm run verify`가 통과한 뒤 Wrangler를 호출합니다. 프로젝트 이름은 `package.json`이 아니라 이 스크립트에 정의되어 있습니다.
 
 ```bash
 pnpm run deploy
 ```
 
-이는 두 단계를 순서대로 실행하는 것과 같습니다: 먼저 `astro build`가 사이트 전체를 `dist/` 디렉터리로 컴파일하고 검색 인덱스를 생성한 뒤, `wrangler pages deploy dist`를 호출하여 결과물을 Cloudflare에 직접 업로드합니다. 빌드 단계의 실제 출력은 다음과 같습니다:
+전제 조건을 확인한 뒤 스크립트는 `pnpm run verify`로 테스트, 설정 검사, Astro 타입 검사, 빌드 및 콘텐츠/결과물 검사를 실행합니다. 모두 통과해야 `wrangler pages deploy dist`로 Cloudflare Pages에 직접 업로드합니다. 아래는 빌드 출력 예시이며 페이지 수와 소요 시간은 실제 실행에 따라 달라집니다.
 
 ```text
 23:54:01 [build] 181 page(s) built in 20.78s
 23:54:01 [build] Complete!
 ```
 
-업로드가 완료되면 Wrangler가 이번 배포의 미리보기 주소를 출력합니다. 프로젝트 이름은 `deploy` 스크립트가 `--project-name epocanvas-docs`로 미리 지정하므로, 배포 중에 대화형으로 물어보지 않습니다.
+업로드가 완료되면 Wrangler가 이번 배포의 미리보기 주소를 출력합니다. 프로젝트 이름은 `scripts/verify-release.mjs` 스크립트가 `--project-name epocanvas-docs`로 미리 지정하므로, 배포 중에 대화형으로 물어보지 않습니다.
 
 ### 3단계: 콘솔에서 내 프로젝트 찾기
 
@@ -178,7 +180,7 @@ HTTPS 인증서는 Cloudflare가 자동으로 발급하고 갱신하므로 수�
 curl -sI https://epocanvas-docs.pages.dev
 ```
 
-실제 반환 결과:
+응답 예시(날짜와 상태는 실제 요청에 따라 달라집니다):
 
 ```text
 HTTP/2 200
@@ -211,6 +213,6 @@ content-type: text/html; charset=utf-8
 
 ### `pnpm run deploy` 실행 시 `Project not found` 오류가 발생하나요?
 
-먼저 `npx wrangler whoami`로 로그인 여부를 확인하고, 다음으로 `package.json`의 `deploy` 스크립트에 있는 `--project-name`이 콘솔 프로젝트 이름과 일치하는지 확인합니다.
+먼저 `npx wrangler whoami`로 로그인 여부를 확인하고, 다음으로 `scripts/verify-release.mjs`에 있는 `--project-name`이 콘솔 프로젝트 이름과 일치하는지 확인합니다.
 
 추가 확인 항목은 [자주 묻는 질문과 문제 해결 FAQ](/canvas/troubleshooting/)를 참조하세요.

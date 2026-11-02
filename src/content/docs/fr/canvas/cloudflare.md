@@ -14,7 +14,7 @@ Une fois la documentation rédigée, il faut la publier sur Internet pour la ren
 | Élément | Détail |
 | :--- | :--- |
 | **Compte Cloudflare** | Inscription gratuite sur [dash.cloudflare.com](https://dash.cloudflare.com/) ; le service Pages ne nécessite aucun forfait payant |
-| **Build complet possible en local** | Vérifiez d'abord que `pnpm run build` fonctionne et que le répertoire `dist/` est bien généré, voir [Démarrage rapide](/canvas/deployment/) |
+| **Build complet possible en local** | Vérifiez d'abord que `pnpm run verify` fonctionne et que le répertoire `dist/` est bien généré, voir [Démarrage rapide](/canvas/deployment/) |
 | **Node.js + pnpm** | Les commandes de déploiement dépendent de l'environnement de développement local ; les versions requises sont celles du chapitre de prise en main |
 
 ### Comment choisir entre les deux méthodes de déploiement
@@ -64,20 +64,22 @@ Si vous lancez le déploiement sans être connecté, le terminal affiche `You ar
 
 ### Étape 2 : construire et téléverser en une commande
 
-Le projet fournit dans `package.json` une commande de publication en un clic :
+Le projet fournit dans `scripts/verify-release.mjs` une commande de publication en un clic :
+
+exécutez une fois `npx wrangler login`, puis `pnpm run deploy`. Le déploiement passe par `scripts/verify-release.mjs`, qui refuse toute branche autre que `main`, un répertoire de travail non propre ou un HEAD différent du commit réel de `origin/main` sur le serveur distant. Il exécute `pnpm run verify` avant Wrangler. Le nom du projet est défini dans ce script, pas dans `package.json`.
 
 ```bash
 pnpm run deploy
 ```
 
-Elle équivaut à exécuter deux étapes successives : d'abord `astro build` compile tout le site dans le répertoire `dist/` et génère l'index de recherche, puis `wrangler pages deploy dist` téléverse le résultat directement vers Cloudflare. Voici la sortie réelle de l'étape de build :
+Après les prérequis, le script exécute `pnpm run verify` : tests, contrôles de configuration et de types Astro, build et contrôles du contenu et des artefacts. Il appelle `wrangler pages deploy dist` pour le transfert direct vers Cloudflare Pages uniquement si tout passe. Cet extrait de sortie est un exemple ; le nombre de pages et les durées dépendent de chaque exécution :
 
 ```text
 23:54:01 [build] 181 page(s) built in 20.78s
 23:54:01 [build] Complete!
 ```
 
-Une fois le téléversement terminé, Wrangler affiche l'URL d'aperçu du déploiement. Le nom du projet est prédéfini par le script `deploy` (`--project-name epocanvas-docs`) ; aucune demande interactive n'apparaît pendant le déploiement.
+Une fois le téléversement terminé, Wrangler affiche l'URL d'aperçu du déploiement. Le nom du projet est prédéfini par le script `scripts/verify-release.mjs` (`--project-name epocanvas-docs`) ; aucune demande interactive n'apparaît pendant le déploiement.
 
 ### Étape 3 : retrouver votre projet dans la console
 
@@ -140,7 +142,7 @@ Dans « Set up builds and deployments », renseignez la configuration suivante :
 
 ### Étape 4 : vérifier le build automatique
 
-Cliquez sur **Enregistrer et déployer** ; Cloudflare effectue automatiquement le premier build. Ensuite, chaque push vers la branche `main` déclenche automatiquement la récupération, la construction et la mise en ligne. Les journaux de build de chaque déploiement sont consultables dans l'onglet **Deployments** du projet, en cliquant sur le déploiement correspondant.
+Cliquez sur **Enregistrer et déployer** ; Cloudflare effectue automatiquement le premier build. Ensuite, chaque push sur la branche de production configurée déclenche un nouveau build et un déploiement pour ce projet intégré à Git. Cette automatisation est optionnelle et ne s'applique pas au projet à transfert direct utilisé par ce site. Les journaux de build de chaque déploiement sont consultables dans l'onglet **Deployments** du projet, en cliquant sur le déploiement correspondant.
 
 :::caution
 La page Settings d'un projet intégré à Git comporte une section supplémentaire de configuration de build (preset de framework, commande de build, etc.), différente de l'interface d'un [projet à transfert direct](#comprendre-la-configuration-de-build-dun-projet-à-transfert-direct) — si vous ne trouvez pas la configuration de build dans Settings, c'est que le projet courant est un projet à transfert direct ; c'est un comportement normal.
@@ -178,7 +180,7 @@ Le certificat HTTPS est émis et renouvelé automatiquement par Cloudflare, sans
 curl -sI https://epocanvas-docs.pages.dev
 ```
 
-Résultat réel obtenu :
+Exemple de réponse (la date et le statut dépendent de la requête réelle) :
 
 ```text
 HTTP/2 200
@@ -211,6 +213,6 @@ L'émission du certificat nécessite 2 à 5 minutes pour prendre effet à l'éch
 
 ### `pnpm run deploy` échoue avec `Project not found` ?
 
-Exécutez d'abord `npx wrangler whoami` pour confirmer que vous êtes connecté ; vérifiez ensuite que le `--project-name` du script `deploy` dans `package.json` correspond bien au nom du projet dans la console.
+Exécutez d'abord `npx wrangler whoami` pour confirmer que vous êtes connecté ; vérifiez ensuite que le `--project-name` dans `scripts/verify-release.mjs` correspond bien au nom du projet dans la console.
 
 Pour les autres points de diagnostic, voir [FAQ et résolution des problèmes](/canvas/troubleshooting/).

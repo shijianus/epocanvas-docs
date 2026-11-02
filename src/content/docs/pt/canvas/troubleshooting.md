@@ -18,14 +18,11 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
   pnpm run dev -- --port 4322
   ```
 
-### Q2: Ao instalar as dependências, surge um erro de compilação do módulo Sharp
-
-- **Causa**: o Sharp é o módulo C++ subjacente usado para comprimir imagens no build; após uma mudança da versão do Node.js, a cache antiga pode deixar de ser compatível.
-- **Solução**: limpe as dependências e reinstale:
-
+### Q2: aparece um erro ao instalar as dependências
+- **Causa**: este projeto usa o serviço de imagens passthrough e não depende do Sharp. Primeiro leia o erro exato no terminal; uma versão de Node.js ou pnpm fora da base do projeto é uma causa comum.
+- **Solução**: use Node.js 22.20+ (22.x) ou Node.js 24.12+ e pnpm 10.34.5, mantenha `pnpm-lock.yaml` e faça uma instalação reproduzível:
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3: Ao executar `pnpm install`, surge o erro `packages field missing or empty`
@@ -121,16 +118,18 @@ Quando surgir uma anomalia ao usar, escrever ou implantar o **EpoCanvas Docs**, 
 - **Causa**: o parâmetro `--project-name` do comando de implantação não coincide com o nome do projeto na consola Cloudflare; também pode acontecer por a máquina não ter sessão iniciada.
 - **Solução**:
   1. Execute primeiro `npx wrangler whoami` para confirmar que a sessão está iniciada;
-  2. Confirme o nome do projeto na consola Cloudflare e, se necessário, corrija o parâmetro `--project-name` do script `deploy` em `package.json`.
+  2. Confirme o nome do projeto na consola Cloudflare e, se necessário, corrija o parâmetro `--project-name` em `scripts/verify-release.mjs`.
+
+execute uma vez `npx wrangler login` e depois `pnpm run deploy`. A implantação é executada por `scripts/verify-release.mjs`, que rejeita ramos diferentes de `main`, uma árvore de trabalho com alterações ou um HEAD diferente do commit real de `origin/main` no remoto. Executa `pnpm run verify` antes do Wrangler. O nome do projeto está definido neste script, não em `package.json`.
 
 ---
 
 ## 5. Autoverificação local antes de submeter
 
-Antes de enviar para o GitHub, execute o seguinte comando para uma autoverificação completa (verificação de tipos + build integral):
+Antes de enviar alterações para o GitHub, execute a verificação comum: testes, verificações de configuração e tipos do Astro, build e verificações de conteúdo e artefactos:
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-Quando o `astro check` devolve `0 errors` e o build termina com `Complete!`, a documentação está sem erros de sintaxe e pode ser submetida com confiança. O CI do repositório (`build.yml`) executa o mesmo build após cada push; passar primeiro em local evita falhas no CI.
+Todas as etapas de `pnpm run verify` devem passar e o comando deve terminar com o código 0. Ver apenas `0 errors` ou `Complete!` não significa que a verificação completa terminou. O CI (`build.yml`) executa as mesmas validações; o aspeto visual continua a exigir revisão manual.

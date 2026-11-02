@@ -46,7 +46,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 		{/* In-Page Match Navigation Controls (Shown when active query matches) */}
 		<div id="epo-search-nav" class="epo-search-nav" style="display: none;">
-			<span id="epo-search-count" class="epo-search-count">0/0</span>
+				<span id="epo-search-count" class="epo-search-count" role="status" aria-live="polite" aria-atomic="true">0/0</span>
 			<button type="button" id="epo-search-prev" class="inpage-nav-btn" title={t('search.prevTitle')}>
 				<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
 			</button>
@@ -66,15 +66,18 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			class="search-shortcut-badge"
 			title={t('search.shortcutTitle')}
 			aria-label={t('search.openModalAria')}
-			aria-keyshortcuts="Control+K"
+			aria-keyshortcuts="Control+K Meta+K"
+			aria-haspopup="dialog"
+			aria-controls="epo-search-dialog"
 		>
+			<svg class="global-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
 			<kbd class="key-mod">Ctrl</kbd>
 			<kbd class="key-char">K</kbd>
 		</button>
 	</div>
 
 	{/* Full-featured Pagefind Global Search Modal Dialog (Triggered by Ctrl+K or Shortcut Badge) */}
-	<dialog class="epo-search-dialog" aria-label={t('search.label')} style="padding:0">
+		<dialog id="epo-search-dialog" class="epo-search-dialog" aria-label={t('search.modalTitle')}>
 		<div class="epo-search-modal-frame">
 			<div class="modal-header">
 				<div class="modal-title-row">
@@ -103,7 +106,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			<div class="modal-footer">
 				<div class="footer-shortcuts">
 					<span class="shortcut-item">
-						<kbd>↑</kbd><kbd>↓</kbd>
+						<kbd>Tab</kbd>
 						<span class="shortcut-text">{t('search.hint.navigate')}</span>
 					</span>
 					<span class="shortcut-item">
@@ -161,7 +164,9 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 			let matches: HTMLElement[] = [];
 			let currentIndex = -1;
-			let debounceTimer: any = null;
+			let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+				let composing = false;
+				const isImeKey = (event: KeyboardEvent) => event.isComposing || event.key === 'Process' || event.key === 'Unidentified';
 
 			// --- In-Page Highlighting & Jump Engine (EpoCanvas High-Contrast Pattern) ---
 			const clearHighlights = () => {
@@ -194,7 +199,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				const currentMark = matches[currentIndex];
 				if (currentMark) {
 					currentMark.classList.add('active');
-					currentMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					currentMark.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
 				}
 
 				if (searchCount) {
@@ -208,10 +213,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 				const clean = query.trim();
 				if (!clean) return;
 
-				const container =
-					document.querySelector('.sl-markdown-content') ||
-					document.querySelector('main') ||
-					document.body;
+				const container = document.querySelector('main');
 				if (!container) return;
 
 				const walker = document.createTreeWalker(
@@ -235,10 +237,8 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 								return NodeFilter.FILTER_REJECT;
 							}
 							if (
-								parent.closest('.epo-site-search') ||
-								parent.closest('.not-content') ||
-								parent.closest('.right-sidebar-panel') ||
-								parent.closest('header')
+							parent.closest('script, style, textarea, input, button, select, mark, [hidden], [aria-hidden="true"], [contenteditable]:not([contenteditable="false"]), .epo-site-search, .right-sidebar-panel, .page-metadata, nav, footer, header') ||
+							!parent.getClientRects().length
 							) {
 								return NodeFilter.FILTER_REJECT;
 							}
@@ -302,14 +302,23 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 			// Input events: instant in-page filtering
 			if (inpageInput) {
-				inpageInput.addEventListener('input', () => {
+				const queueSearch = () => {
 					clearTimeout(debounceTimer);
-					debounceTimer = setTimeout(() => {
-						performInpageSearch(inpageInput.value);
-					}, 50);
+					if (composing) return;
+					debounceTimer = setTimeout(() => performInpageSearch(inpageInput.value), 50);
+				};
+				inpageInput.addEventListener('compositionstart', () => {
+					composing = true;
+					clearTimeout(debounceTimer);
 				});
+				inpageInput.addEventListener('compositionend', () => {
+					composing = false;
+					queueSearch();
+				});
+				inpageInput.addEventListener('input', queueSearch);
 
 				inpageInput.addEventListener('keydown', (e) => {
+						if (composing || isImeKey(e)) return;
 					if (e.key === 'Enter') {
 						e.preventDefault();
 						if (e.shiftKey) {
@@ -318,6 +327,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 							updateActiveMatch(currentIndex + 1);
 						}
 					} else if (e.key === 'Escape') {
+						clearTimeout(debounceTimer);
 						inpageInput.value = '';
 						clearHighlights();
 						inpageInput.blur();
@@ -343,6 +353,7 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			if (clearBtn) {
 				clearBtn.addEventListener('click', (e) => {
 					e.stopPropagation();
+					clearTimeout(debounceTimer);
 					if (inpageInput) inpageInput.value = '';
 					clearHighlights();
 					inpageInput?.focus();
@@ -359,8 +370,9 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 			}
 
 			// --- Global Pagefind Search Modal Engine (Ctrl+K / Modal Trigger) ---
+			let returnFocus: HTMLElement | null = null;
 			const onClick = (event: MouseEvent) => {
-				const isLink = 'href' in (event.target || {});
+				const isLink = event.target instanceof Element && !!event.target.closest('a[href]');
 				if (
 					isLink ||
 					(document.body.contains(event.target as Node) &&
@@ -372,17 +384,21 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 			const openModal = (event?: MouseEvent) => {
 				event?.stopPropagation();
+				if (dialog.open) return;
+				clearTimeout(debounceTimer);
+				returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : modalTrigger;
 				dialog.showModal();
-				document.body.toggleAttribute('data-search-modal-open', true);
+				document.body.setAttribute('data-search-modal-open', '');
 				this.querySelector<HTMLInputElement>('#starlight__search input')?.focus();
 				window.addEventListener('click', onClick);
 			};
 
-			const closeModal = () => {
-				dialog.close();
-				document.body.toggleAttribute('data-search-modal-open', false);
-				window.removeEventListener('click', onClick);
-			};
+				const closeModal = () => {
+					if (!dialog.open) return;
+					dialog.close();
+					document.body.removeAttribute('data-search-modal-open');
+					window.removeEventListener('click', onClick);
+				};
 
 			modalTrigger.addEventListener('click', (e) => {
 				openModal(e);
@@ -390,12 +406,37 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 
 			closeBtn.addEventListener('click', closeModal);
 
+			// 关闭途径有三条：关闭按钮、点击遮罩、Esc（触发原生 cancel+close）。
+			// 统一在这里清掉 body 标记；Esc 再显式兜一次底，确保状态不残留。
 			dialog.addEventListener('close', () => {
-				document.body.toggleAttribute('data-search-modal-open', false);
+				if (dialog.open) return;
+				document.body.removeAttribute('data-search-modal-open');
 				window.removeEventListener('click', onClick);
+				const target = returnFocus?.isConnected && returnFocus.getClientRects().length ? returnFocus : modalTrigger;
+				target.focus({ preventScroll: true });
 			});
 
+			let modalComposing = false;
+			dialog.addEventListener('compositionstart', () => { modalComposing = true; });
+			dialog.addEventListener('compositionend', () => { modalComposing = false; });
+			dialog.addEventListener('cancel', (event) => {
+				if (modalComposing) event.preventDefault();
+			});
+			// 在 Pagefind 的输入监听前拦截 IME 按键；不 preventDefault，保留候选确认/取消。
+			dialog.addEventListener('keydown', (e) => {
+					if (modalComposing || isImeKey(e)) {
+					e.stopImmediatePropagation();
+					return;
+				}
+				if (e.key === 'Escape') {
+					e.preventDefault();
+					e.stopPropagation();
+					closeModal();
+				}
+			}, true);
+
 			window.addEventListener('keydown', (e) => {
+					if (isImeKey(e) || composing || modalComposing || e.repeat || e.altKey) return;
 				if ((e.metaKey === true || e.ctrlKey === true) && e.key.toLowerCase() === 'k') {
 					e.preventDefault();
 					dialog.open ? closeModal() : openModal();
@@ -456,13 +497,11 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		display: flex;
 		align-items: center;
 		position: relative;
-		height: 36px;
-		width: 380px;
-		max-width: 420px;
-		/* 顶栏拥挤时（德/俄等长文案语言）允许搜索框收缩，占位文字自带省略号；
-		   原先 min-width: 300px 会把收缩下限顶进右侧导航区，盖住前两个导航项 */
-		min-width: 0;
-		flex-shrink: 1;
+			height: 44px;
+			width: 380px;
+			max-width: 100%;
+			min-width: 0;
+			flex-shrink: 1;
 		padding: 0 0.5rem 0 0.75rem;
 		border: 1px solid var(--sl-color-hairline, #e2e8f0);
 		border-radius: 9px;
@@ -548,13 +587,20 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 	}
 
 	/* In-page match controls */
-	.epo-search-nav {
-		display: flex;
-		align-items: center;
-		gap: 3px;
-		padding-right: 4px;
-		flex-shrink: 0;
-	}
+		.epo-search-nav {
+			display: flex;
+			align-items: center;
+			gap: 3px;
+			position: absolute;
+			top: calc(100% + 4px);
+			right: 0;
+			max-width: calc(100vw - 2rem);
+			padding: 4px;
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 7px;
+			background: var(--sl-color-bg);
+			box-shadow: var(--sl-shadow-lg);
+		}
 
 	.epo-search-count {
 		font-size: 0.72rem;
@@ -577,8 +623,8 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 20px;
-		height: 20px;
+				width: 44px;
+				height: 44px;
 		border-radius: 4px;
 		border: none;
 		background: transparent;
@@ -644,6 +690,31 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		font-family: var(--sl-font-mono, monospace);
 		font-weight: 600;
 	}
+
+		/* 搜索入口始终可点击，窄屏只收起页内输入，不收起全站检索。 */
+		.search-shortcut-badge {
+			min-width: 44px;
+			min-height: 44px;
+			justify-content: center;
+			color: var(--sl-color-gray-2);
+		}
+		.global-search-icon { display: none; }
+
+		@media (width < 64rem) {
+			.epo-search-box {
+				width: 44px !important;
+				min-width: 44px;
+				padding: 0 !important;
+				border: none;
+				background: transparent;
+			}
+			.search-box-icon, .epo-search-input, .epo-search-nav {
+				display: none !important;
+			}
+			.search-shortcut-badge { margin: 0; }
+			.search-shortcut-badge kbd { display: none; }
+			.global-search-icon { display: block; }
+		}
 
 	/* Search Modal Dialog */
 	.epo-search-dialog {
@@ -744,8 +815,8 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 28px;
-		height: 28px;
+			width: 44px;
+			height: 44px;
 		border-radius: 6px;
 		border: 1px solid transparent;
 		background: transparent;
@@ -824,24 +895,35 @@ if (project.trailingSlash === 'never') dataAttributes['data-strip-trailing-slash
 		letter-spacing: 0.02em;
 	}
 
-	@media (max-width: 64rem) {
-		.epo-search-box {
-			width: 280px;
-			min-width: 0;
+		@media (min-width: 64.01rem) and (max-width: 80rem) {
+			.epo-search-box {
+				width: 280px;
+			}
 		}
-	}
 
-	@media (max-width: 50rem) {
-		.epo-search-box {
-			width: 200px;
-			min-width: 0;
-			padding: 0 0.4rem 0 0.5rem;
+		@media (max-width: 50rem) {
+			.modal-footer {
+				display: none;
+			}
 		}
-		.search-shortcut-badge {
-			display: none;
+
+		:global(body[data-search-modal-open]) {
+			overflow: hidden;
 		}
-		.modal-footer {
-			display: none;
+
+		.modal-body {
+			overscroll-behavior: contain;
 		}
-	}
+
+		@media (prefers-reduced-motion: reduce) {
+			.epo-search-dialog::backdrop,
+			.epo-search-modal-frame,
+			.epo-search-box,
+			.search-shortcut-badge,
+			.inpage-nav-btn,
+			.inpage-clear-btn {
+				animation: none !important;
+				transition: none !important;
+			}
+		}
 </style>

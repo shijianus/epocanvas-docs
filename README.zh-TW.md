@@ -27,12 +27,15 @@ EpoCanvas Docs 是 EpoCanvas 專案的官方技術文件站點，基於 Astro 5 
 
 ## 環境需求
 
-- Node.js 20.3+ 或 22+（最低 18.20.8）
-- pnpm 10
+- Node.js 22.20+ (22.x) 或 Node.js 24.12+
+- pnpm 10.34.5 (固定版本)
+
+CI 使用 `.node-version` 固定的 Node.js 22.20.0。
 
 ## 快速開始
 
 ```bash
+npm install -g pnpm@10.34.5
 git clone https://github.com/shijianus/epocanvas-docs.git
 cd epocanvas-docs
 pnpm install
@@ -47,8 +50,9 @@ pnpm run dev
 | :--- | :--- |
 | `pnpm run dev` | 啟動本地開發伺服器，支援熱更新 |
 | `pnpm run build` | 將靜態站點建置至 `dist/`，並產生搜尋索引 |
+| `pnpm run verify` | 執行測試、設定檢查、Astro 型別檢查、建置及內容/產物檢查 |
 | `pnpm run preview` | 本地預覽建置成果 |
-| `pnpm run deploy` | 建置並發布至 Cloudflare Pages |
+| `pnpm run deploy` | 檢查部署前置條件，通過 verify 後發布至 Cloudflare Pages |
 
 ## 目錄結構
 
@@ -86,18 +90,18 @@ epocanvas-docs/
    ![替代文字](/images/canvas/your-image.png)
    ```
 
-提交前請先在本地執行 `pnpm run build`，確認站點可以完整建置、無錯誤。
+提交前請在本機執行 `pnpm run verify`，確認所有檢查通過。
 
 ## 部署
 
 站點託管於 Cloudflare Pages：
 
-- **本地發布**：先執行一次 `wrangler login` 完成授權，之後執行 `pnpm run deploy` 即可建置並發布。
+- **本地發布**：先執行一次 `npx wrangler login` 完成授權，再執行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 執行；非 `main` 分支、工作區不乾淨，或 HEAD 與遠端 `origin/main` 的實際提交不一致時會被拒絕。腳本先執行 `pnpm run verify`，通過後才呼叫 Wrangler。專案名定義在此腳本中，不在 `package.json`。
 - **自訂網域**：在 Cloudflare 控制台開啟 Pages 專案 `epocanvas-docs`，在 *Custom domains* 中新增網域，CNAME 記錄與 SSL 憑證會自動設定。
 
 ## 參與貢獻
 
-歡迎提交 Issue 與 Pull Request。提交 PR 前請在本地執行 `pnpm run build` 並確認建置通過。
+歡迎提交 Issue 與 Pull Request。提交 PR 前請在本機執行 `pnpm run verify` 並確認所有檢查通過。
 
 ## 授權條款
 

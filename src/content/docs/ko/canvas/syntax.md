@@ -37,7 +37,7 @@ description: EpoCanvas Docs의 4가지 색상 콜아웃, 코드 블록 제목과
 pnpm으로 의존성을 설치하면 npm보다 훨씬 빠릅니다:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

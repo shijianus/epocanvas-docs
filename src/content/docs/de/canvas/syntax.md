@@ -37,7 +37,7 @@ Innerhalb einer Hinweisbox können Listen, Codeblöcke, Tabellen und weitere Syn
 Abhängigkeiten mit pnpm zu installieren ist deutlich schneller als mit npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

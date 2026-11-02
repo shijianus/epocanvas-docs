@@ -14,7 +14,7 @@ Depois de escrever a documentação, é preciso publicá-la na internet para que
 | Item | Explicação |
 | :--- | :--- |
 | **Conta Cloudflare** | Registo gratuito em [dash.cloudflare.com](https://dash.cloudflare.com/); o serviço Pages não exige plano pago |
-| **Build completo em local** | Primeiro execute `pnpm run build` com sucesso e confirme que o diretório `dist/` é gerado corretamente; ver [Início rápido](/canvas/deployment/) |
+| **Build completo em local** | Primeiro execute `pnpm run verify` com sucesso e confirme que o diretório `dist/` é gerado corretamente; ver [Início rápido](/canvas/deployment/) |
 | **Node.js + pnpm** | Os comandos de implantação dependem do ambiente de desenvolvimento local; os requisitos de versão são os mesmos do capítulo de início rápido |
 
 ### Como escolher entre os dois métodos de implantação
@@ -64,20 +64,22 @@ Se saltar a sessão e executar a implantação diretamente, o terminal mostra `Y
 
 ### Passo 2: Build e upload num só comando
 
-O projeto traz pré-definido em `package.json` um comando de publicação com um só passo:
+O projeto traz pré-definido em `scripts/verify-release.mjs` um comando de publicação com um só passo:
+
+execute uma vez `npx wrangler login` e depois `pnpm run deploy`. A implantação é executada por `scripts/verify-release.mjs`, que rejeita ramos diferentes de `main`, uma árvore de trabalho com alterações ou um HEAD diferente do commit real de `origin/main` no remoto. Executa `pnpm run verify` antes do Wrangler. O nome do projeto está definido neste script, não em `package.json`.
 
 ```bash
 pnpm run deploy
 ```
 
-É equivalente a executar duas etapas em sequência: primeiro `astro build` compila todo o site para o diretório `dist/` e gera o índice de pesquisa; depois `wrangler pages deploy dist` envia o resultado diretamente para o Cloudflare. O resultado real da fase de build é o seguinte:
+Após verificar os pré-requisitos, o script executa `pnpm run verify`: testes, verificações de configuração e tipos do Astro, build e verificações de conteúdo e artefactos. Só quando tudo passa é que executa `wrangler pages deploy dist` para o envio direto para o Cloudflare Pages. O excerto abaixo é um exemplo; o número de páginas e os tempos dependem de cada execução:
 
 ```text
 23:54:01 [build] 181 page(s) built in 20.78s
 23:54:01 [build] Complete!
 ```
 
-Concluído o upload, o Wrangler mostra o endereço de pré-visualização dessa implantação. O nome do projeto é predefinido pelo script `deploy` (`--project-name epocanvas-docs`), pelo que não é perguntado de forma interativa.
+Concluído o upload, o Wrangler mostra o endereço de pré-visualização dessa implantação. O nome do projeto é predefinido pelo script `scripts/verify-release.mjs` (`--project-name epocanvas-docs`), pelo que não é perguntado de forma interativa.
 
 ### Passo 3: Localizar o seu projeto na consola
 
@@ -178,7 +180,7 @@ O certificado HTTPS é emitido e renovado automaticamente pelo Cloudflare, sem p
 curl -sI https://epocanvas-docs.pages.dev
 ```
 
-Resultado real devolvido:
+Exemplo de resposta (a data e o estado dependem do pedido real):
 
 ```text
 HTTP/2 200
@@ -211,6 +213,6 @@ A emissão do certificado precisa de 2 a 5 minutos para ficar ativa a nível glo
 
 ### O comando `pnpm run deploy` devolve o erro `Project not found`?
 
-Primeiro execute `npx wrangler whoami` para confirmar que a sessão está iniciada; depois verifique se o `--project-name` do script `deploy` em `package.json` coincide com o nome do projeto na consola.
+Primeiro execute `npx wrangler whoami` para confirmar que a sessão está iniciada; depois verifique se o `--project-name` em `scripts/verify-release.mjs` coincide com o nome do projeto na consola.
 
 Para mais pontos de verificação, veja [FAQ e solução de problemas](/canvas/troubleshooting/).

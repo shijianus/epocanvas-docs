@@ -1,4 +1,44 @@
 ---
-// 覆写 Starlight 默认 SkipLink：本站不提供「跳转到内容」快捷跳转（产品决策）。
-// 输出为空，以移除页首 a.astro-*::before 之跳转链接。
+import { PAGE_TITLE_ID } from './PageTitle.astro';
+import { getLangFromLocale, getTranslation } from '../../utils/i18n';
+
+const lang = getLangFromLocale(Astro.currentLocale);
 ---
+
+<a class="skip-link" href={`#${PAGE_TITLE_ID}`} data-i18n="skipLink.label">{getTranslation('skipLink.label', lang)}</a>
+
+<script>
+	// 保留 Starlight 的 #_top 契约；普通页、Hero 与 404 共用同一个目标。
+	document.querySelector<HTMLAnchorElement>('.skip-link')?.addEventListener('click', () => {
+		const target = document.getElementById('_top');
+		if (!target) return;
+		target.setAttribute('tabindex', '-1');
+		target.focus({ preventScroll: true });
+	});
+</script>
+
+<style>
+	.skip-link {
+		position: fixed;
+		top: 0.5rem;
+		inset-inline-start: 0.5rem;
+		clip-path: inset(50%);
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	.skip-link:focus {
+		clip-path: none;
+		width: auto;
+		height: auto;
+		min-height: 44px;
+		padding: 0.5rem 1rem;
+		z-index: var(--sl-z-index-skiplink, 10000);
+		background: var(--sl-color-bg);
+		color: var(--sl-color-white);
+		outline: 2px solid var(--sl-color-accent);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+</style>

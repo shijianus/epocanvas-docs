@@ -59,17 +59,19 @@ Los tres botones funcionan igual: clonan el repositorio en su cuenta de GitHub y
 
 El despliegue con un clic sirve para "publicar primero el sitio", pero redactar y modificar la documentación siempre se hace en local. Si piensa escribir contenido, compruebe primero que su ordenador tiene instalados los siguientes entornos de desarrollo básicos:
 
-| Herramienta | Versión recomendada | Comando de comprobación | Descripción |
+| Herramienta | Versión requerida | Comando de comprobación | Descripción |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.20.8` (se recomienda 20.3+ o 22 LTS) | `node -v` | Entorno base para ejecutar JavaScript y compilar las páginas estáticas |
-| **pnpm** | `>= 9` (en CI se usa la 10) | `pnpm -v` | Gestor de paquetes recomendado: instala rápido y ahorra espacio en disco |
+| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Entorno para ejecutar JavaScript y compilar páginas estáticas |
+| **pnpm** | `10.34.5` | `pnpm -v` | Versión del gestor de paquetes fijada por el proyecto |
 | **Git** | Última versión estable | `git --version` | Se usa para descargar el código y gestionar las versiones |
+
+CI usa Node.js 22.20.0, fijado en `.node-version`.
 
 :::tip
 Si su ordenador aún no tiene instalado `pnpm`, puede instalarlo globalmente de forma rápida con el npm que trae el propio Node.js:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 
@@ -94,10 +96,10 @@ En la raíz del proyecto, ejecute el comando de instalación:
 pnpm install
 ```
 
-pnpm descarga automáticamente las dependencias de frontend necesarias según `pnpm-lock.yaml`, incluidos Astro, Starlight y el módulo de procesamiento local de imágenes; normalmente termina en unas decenas de segundos. Al acabar, la terminal muestra el tiempo total empleado:
+pnpm descarga dependencias como Astro y Starlight según `pnpm-lock.yaml`. La salida siguiente es un ejemplo, no una medición realizada en esta revisión; el tiempo depende de la red, la caché y el equipo:
 
 ```text
-Done in 1m 3.2s using pnpm v9.15.9
+Done in 1m 3.2s using pnpm v10.34.5
 ```
 
 ### Paso 3: iniciar el servidor local de desarrollo y previsualización
@@ -135,8 +137,11 @@ Al redactar documentación o mantener el proyecto en el día a día, se usan sob
 | :--- | :--- | :--- |
 | `pnpm run dev` | **Redacción diaria de documentos** | Inicia el servicio local de depuración con recarga en caliente (HMR). Tras modificar cualquier archivo `.md`, el navegador se actualiza automáticamente con el nuevo contenido. |
 | `pnpm run build` | **Compilación de prueba** | Compila por completo todas las páginas estáticas del sitio en local y genera en el directorio `dist/` el HTML, el CSS y el índice de búsqueda de Pagefind. |
+| `pnpm run verify` | **Verificación completa** | Ejecuta pruebas, comprobaciones de configuración y tipos de Astro, la compilación y comprobaciones de contenido y artefactos |
 | `pnpm run preview` | **Previsualizar el resultado de la compilación** | Arranca en local un servidor web ligero que sirve el contenido de `dist/`, para comprobar que los enlaces y los estilos funcionan antes de la publicación definitiva. |
-| `pnpm run deploy` | **Publicación en línea con un clic** | Ejecuta primero la build de forma automática y luego usa la herramienta Wrangler para subir `dist/` al entorno de producción en línea de Cloudflare Pages. |
+| `pnpm run deploy` | **Publicación en línea con un clic** | Comprueba los requisitos de despliegue, ejecuta verify y publica en Cloudflare Pages |
+
+ejecute una vez `npx wrangler login` y después `pnpm run deploy`. El despliegue lo ejecuta `scripts/verify-release.mjs`, que rechaza ramas distintas de `main`, un árbol de trabajo con cambios o un HEAD que no coincida con el commit real de `origin/main` en el remoto. Ejecuta `pnpm run verify` antes de Wrangler. El nombre del proyecto está definido en este script, no en `package.json`.
 
 Para los pasos completos de publicación y los métodos de verificación en línea, lea **[Despliegue en Cloudflare Pages](/canvas/cloudflare/)**.
 

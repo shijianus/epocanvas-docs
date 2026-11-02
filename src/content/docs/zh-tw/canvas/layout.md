@@ -25,7 +25,7 @@ description: EpoCanvas Docs 三欄式排版設計、介面各區域互動細節�
 
 ![頂欄各元素的標註特寫：① Logo ② 搜尋框 ③ 主導覽 ④ 版本徽標 ⑤ 語言切換 ⑥ 主題切換 ⑦ GitHub ⑧ Telegram](/images/canvas/ui-topnav-annotated.png)
 
-*圖：頂欄元素標註特寫。① Logo 與網站名稱；② 全域搜尋框；③ 主導覽按鈕組；④ 版本徽標；⑤ 語言切換器；⑥ 深淺色主題切換；⑦ GitHub 儲存庫入口；⑧ Telegram 社群入口。*
+*圖：頂欄元素標註特寫。① Logo 與網站名稱；② 全域搜尋框；③ 主導覽按鈕組；④ 版本徽標；⑤ 語言切換器；⑥ 深淺色主題切換；⑦ GitHub 儲存庫入口；⑧ Telegram 频道入口。*
 
 - **網站 Logo 與標題（①）**：左側展示 EpoCanvas 圖示與專案名稱，點擊可快速回到文件站首頁。
 - **全域搜尋框（②）**：在框內輸入關鍵字直接查找目前頁面內容；按 `Ctrl+K` / `Cmd+K` 開啟全站檢索彈窗，詳見 [全文搜尋與快捷鍵使用](/canvas/search-engine/)。

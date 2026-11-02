@@ -18,14 +18,11 @@ description: EpoCanvas Docs 本機執行報錯、文件不顯示、提示框渲�
   pnpm run dev -- --port 4322
   ```
 
-### Q2：安裝相依套件時提示 Sharp 模組編譯錯誤
-
-- **原因**：Sharp 是建置期壓縮圖片的底層 C++ 模組，Node.js 版本變動後舊快取可能與之不匹配。
-- **解決辦法**：清理相依套件後重裝：
-
+### Q2：安裝相依套件時出現錯誤
+- **原因**：目前專案使用 passthrough 圖片服務，不依賴 Sharp。先查看終端機的具體錯誤，常見原因是 Node.js 或 pnpm 版本不符合專案需求。
+- **解決辦法**：確認 Node.js 22.20+ (22.x) 或 Node.js 24.12+ 與 pnpm 10.34.5，保留 `pnpm-lock.yaml` 後執行可重現安裝：
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3：執行 `pnpm install` 時報 `packages field missing or empty`
@@ -121,16 +118,18 @@ description: EpoCanvas Docs 本機執行報錯、文件不顯示、提示框渲�
 - **原因**：部署指令中 `--project-name` 參數與 Cloudflare 主控台裡的專案名不一致；也可能是本機未登入。
 - **解決辦法**：
   1. 先執行 `npx wrangler whoami` 確認已登入；
-  2. 在 Cloudflare 主控台核對專案名，必要時修改 `package.json` 中 `deploy` 腳本的 `--project-name` 參數。
+  2. 在 Cloudflare 主控台核對專案名，必要時修改 `scripts/verify-release.mjs` 中的 `--project-name` 參數。
+
+先執行一次 `npx wrangler login` 完成授權，再執行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 執行；非 `main` 分支、工作區不乾淨，或 HEAD 與遠端 `origin/main` 的實際提交不一致時會被拒絕。腳本先執行 `pnpm run verify`，通過後才呼叫 Wrangler。專案名定義在此腳本中，不在 `package.json`。
 
 ---
 
 ## 五、提交前的本機自我檢查
 
-向 GitHub 推送前，執行以下指令做一次完整自我檢查（型別檢查 + 全量建置）：
+向 GitHub 推送前，執行以下統一自檢指令，涵蓋測試、設定檢查、Astro 型別檢查、建置及內容/產物檢查：
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-`astro check` 輸出 `0 errors`、建置以 `Complete!` 結束時，說明文件沒有語法錯誤，可以放心提交。儲存庫的 CI（`build.yml`）會在推送後執行同樣的建置，本機先通過可以避免 CI 失敗。
+只有 `pnpm run verify` 的所有階段通過且結束代碼為 0，才表示這些自動檢查通過；單獨看到 `0 errors` 或 `Complete!` 不代表完整自檢結束。CI（`build.yml`）執行同一套驗證，頁面視覺效果仍需人工確認。

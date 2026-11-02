@@ -18,39 +18,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install pnpm
+      - name: Install pnpm from packageManager
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .node-version
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: pnpm run build
-
-      - name: Type check (astro check)
-        run: pnpm exec astro check
-
-      - name: i18n content audit
-        run: node scripts/audit-i18n.mjs
-
-      - name: Anchor link check
-        run: node scripts/check-anchors.mjs
-
-      - name: Image sanity check
-        run: node scripts/check-images.mjs
-
-      - name: Localized image reference check
-        run: node scripts/check-localized-images.mjs
-
-      # 上面几道门只看 src/content/ 源文件，不看构建产物；这道门把 dist/ 里真正发出去的
-      # 每条链接、每个锚点、每组 hreflang 实际解析一遍（rehype 改写与构建钩子的回归只有这里拦得住）。
-      - name: Built-output link & hreflang check
-        run: node scripts/check-links.mjs
+      # 与本地及发布流程共用：配置、astro check、build、源文件与产物静态检查。
+      - name: Verify
+        run: pnpm run verify

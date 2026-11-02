@@ -59,17 +59,19 @@ All three buttons work the same way: they clone the repository to your GitHub ac
 
 One-click deployment is good for "getting the site out there first", but writing and editing documentation ultimately happens locally. If you plan to write content, first make sure your computer has the following basic development environment:
 
-| Tool | Recommended version | Check command | Notes |
+| Tool | Required version | Check command | Notes |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.20.8` (20.3+ or 22 LTS recommended) | `node -v` | Base environment for running JavaScript and building static pages |
-| **pnpm** | `>= 9` (10 in CI environments) | `pnpm -v` | The recommended package manager; installs quickly and saves disk space |
+| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | Environment for running JavaScript and building static pages |
+| **pnpm** | `10.34.5` | `pnpm -v` | The package-manager version pinned by this project |
 | **Git** | Latest stable version | `git --version` | Used to pull code and manage versions |
+
+CI uses Node.js 22.20.0, pinned in `.node-version`.
 
 :::tip
 If `pnpm` is not installed on your computer yet, you can install it globally quickly using the npm that comes with Node.js:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 
@@ -94,10 +96,10 @@ Run the install command in the project root:
 pnpm install
 ```
 
-pnpm automatically downloads the required front-end dependencies according to `pnpm-lock.yaml`, including Astro, Starlight, and the local image processing module; it usually finishes within tens of seconds. When the installation ends, the terminal shows the total time:
+pnpm downloads dependencies such as Astro and Starlight according to `pnpm-lock.yaml`. The following is an illustrative installation result, not a measurement from this revision; timing depends on the network, cache, and machine:
 
 ```text
-Done in 1m 3.2s using pnpm v9.15.9
+Done in 1m 3.2s using pnpm v10.34.5
 ```
 
 ### Step 3: Start the Local Dev Preview Server
@@ -135,8 +137,11 @@ When writing documentation or maintaining the project day to day, these are the 
 | :--- | :--- | :--- |
 | `pnpm run dev` | **Day-to-day writing** | Starts the local dev server with hot module replacement (HMR). After editing any `.md` file, the browser refreshes automatically to show the updated content. |
 | `pnpm run build` | **Build test** | Compiles the full site's static pages locally and generates HTML, CSS, and the Pagefind search index in the `dist/` directory. |
+| `pnpm run verify` | **Full self-check** | Run tests, configuration checks, Astro type checks, the build, and content/output checks |
 | `pnpm run preview` | **Preview the build output** | Starts a lightweight local web server to serve the `dist/` output, used to check that links and styles are correct before the official release. |
-| `pnpm run deploy` | **One-click publish** | Runs build automatically first, then uses the Wrangler tool to push `dist/` to the live Cloudflare Pages production environment. |
+| `pnpm run deploy` | **One-click publish** | Check deployment prerequisites, run verify, then publish to Cloudflare Pages |
+
+run `npx wrangler login` once to authorize, then `pnpm run deploy`. Deployment is handled by `scripts/verify-release.mjs`, which rejects any branch other than `main`, a dirty working tree, or a HEAD that differs from the actual remote `origin/main` commit. It runs `pnpm run verify` before Wrangler. The project name is defined in this script, not in `package.json`.
 
 For the full publishing steps and how to verify the result online, read **[Deploying to Cloudflare Pages](/canvas/cloudflare/)**.
 

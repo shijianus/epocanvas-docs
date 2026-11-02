@@ -67,7 +67,7 @@ sidebar: [
   {
     label: 'Guide utilisateur',
     items: [
-      { label: 'Création de compte et connexion', link: '/canvas/login/' },
+      { label: 'Guide de rédaction et de mise en forme Markdown', link: '/canvas/markdown/' },
     ],
   },
 ];

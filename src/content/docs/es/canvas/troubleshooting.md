@@ -18,14 +18,11 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
   pnpm run dev -- --port 4322
   ```
 
-### Q2: Al instalar las dependencias aparece un error de compilación del módulo Sharp
-
-- **Causa**: Sharp es el módulo C++ subyacente que comprime las imágenes durante la compilación; tras cambiar la versión de Node.js, la caché antigua puede no coincidir con él.
-- **Solución**: limpie las dependencias y reinstale:
-
+### Q2: Aparece un error al instalar las dependencias
+- **Causa**: Este proyecto usa el servicio de imágenes passthrough y no depende de Sharp. Revise primero el error exacto de la terminal; una causa habitual es usar una versión de Node.js o pnpm fuera de la base del proyecto.
+- **Solución**: Use Node.js 22.20+ (22.x) o Node.js 24.12+ y pnpm 10.34.5, conserve `pnpm-lock.yaml` y haga una instalación reproducible:
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3: Al ejecutar `pnpm install` se produce el error `packages field missing or empty`
@@ -121,16 +118,18 @@ Si encuentra alguna anomalía al usar, redactar o desplegar **EpoCanvas Docs**, 
 - **Causa**: el parámetro `--project-name` del comando de despliegue no coincide con el nombre del proyecto en la consola de Cloudflare; también puede ser que no haya iniciado sesión en esa máquina.
 - **Solución**:
   1. Ejecute primero `npx wrangler whoami` para confirmar que la sesión está iniciada;
-  2. Verifica el nombre del proyecto en la consola de Cloudflare y, si hace falta, modifica el parámetro `--project-name` del script `deploy` en `package.json`.
+  2. Verifica el nombre del proyecto en la consola de Cloudflare y, si hace falta, modifica el parámetro `--project-name` en `scripts/verify-release.mjs`.
+
+ejecute una vez `npx wrangler login` y después `pnpm run deploy`. El despliegue lo ejecuta `scripts/verify-release.mjs`, que rechaza ramas distintas de `main`, un árbol de trabajo con cambios o un HEAD que no coincida con el commit real de `origin/main` en el remoto. Ejecuta `pnpm run verify` antes de Wrangler. El nombre del proyecto está definido en este script, no en `package.json`.
 
 ---
 
 ## 5. Autoverificación local antes de confirmar cambios
 
-Antes de hacer push a GitHub, ejecute el siguiente comando para una autoverificación completa (comprobación de tipos + compilación total):
+Antes de enviar cambios a GitHub, ejecute la comprobación común: pruebas, comprobaciones de configuración y tipos de Astro, compilación y comprobaciones de contenido y artefactos:
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-Cuando `astro check` muestra `0 errors` y la compilación termina con `Complete!`, la documentación no tiene errores de sintaxis y puede confirmar con tranquilidad. El CI del repositorio (`build.yml`) ejecuta la misma compilación tras cada push; pasarla primero en local evita fallos del CI.
+Todas las etapas de `pnpm run verify` deben pasar y el comando debe terminar con código 0. Ver solo `0 errors` o `Complete!` no significa que la verificación completa haya terminado. CI (`build.yml`) ejecuta las mismas validaciones; el resultado visual sigue requiriendo revisión manual.

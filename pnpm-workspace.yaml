@@ -1,6 +1,12 @@
 packages:
   - .
 
+# 保留 prebuild 缓存失效钩子；工具版本不匹配时直接提示，避免静默换版本。
+enablePrePostScripts: true
+engineStrict: true
+packageManagerStrictVersion: true
+managePackageManagerVersions: false
+
 onlyBuiltDependencies:
   - esbuild
   - workerd

@@ -18,14 +18,11 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
   pnpm run dev -- --port 4322
   ```
 
-### Q2: A Sharp module compilation error appears while installing dependencies
-
-- **Cause**: Sharp is the underlying C++ module used to compress images at build time. After a Node.js version change, the old cache may no longer match it.
-- **Fix**: Clean the dependencies and reinstall:
-
+### Q2: An error appears while installing dependencies
+- **Cause**: This project uses the passthrough image service and does not depend on Sharp. Read the exact terminal error first; a common cause is a Node.js or pnpm version outside the project baseline.
+- **Fix**: Use Node.js 22.20+ (22.x) or Node.js 24.12+ and pnpm 10.34.5, keep `pnpm-lock.yaml`, and install reproducibly:
   ```bash
-  rm -rf node_modules pnpm-lock.yaml
-  pnpm install
+  pnpm install --frozen-lockfile
   ```
 
 ### Q3: `pnpm install` fails with `packages field missing or empty`
@@ -121,16 +118,18 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 - **Cause**: The `--project-name` argument in the deploy command does not match the project name in the Cloudflare dashboard; or the local machine is not logged in.
 - **Fix**:
   1. Run `npx wrangler whoami` first to confirm you are logged in;
-  2. Check the project name in the Cloudflare dashboard and, if necessary, correct the `--project-name` argument in the `deploy` script of `package.json`.
+  2. Check the project name in the Cloudflare dashboard and, if necessary, correct the `--project-name` argument in `scripts/verify-release.mjs`.
+
+run `npx wrangler login` once to authorize, then `pnpm run deploy`. Deployment is handled by `scripts/verify-release.mjs`, which rejects any branch other than `main`, a dirty working tree, or a HEAD that differs from the actual remote `origin/main` commit. It runs `pnpm run verify` before Wrangler. The project name is defined in this script, not in `package.json`.
 
 ---
 
 ## 5. Pre-Commit Self-Check
 
-Before pushing to GitHub, run the following command for a complete self-check (type check + full build):
+Before pushing to GitHub, run the standard self-check command, covering tests, configuration checks, Astro type checks, the build, and content/output checks:
 
 ```bash
-pnpm exec astro check && pnpm run build
+pnpm run verify
 ```
 
-When `astro check` reports `0 errors` and the build ends with `Complete!`, the documentation has no syntax errors and is safe to commit. The repository's CI (`build.yml`) runs the same build after every push, so passing locally first avoids CI failures.
+All stages of `pnpm run verify` must pass and the command must exit with code 0. Seeing only `0 errors` or `Complete!` does not mean the full verification has finished. CI (`build.yml`) runs the same validation; visual results still need manual review.

@@ -59,17 +59,19 @@ description: EpoCanvas Docs 本地环境准备、安装依赖、启动本地开�
 
 一键部署适合"先把站点发出去"，但撰写和修改文档总归要在本地进行。如果打算动手写内容，请先确认你的电脑上安装了以下基础开发环境：
 
-| 工具 | 推荐版本 | 检查命令 | 说明 |
+| 工具 | 要求版本 | 检查命令 | 说明 |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.20.8`（推荐 20.3+ 或 22 LTS） | `node -v` | 运行 JavaScript 与构建静态页面的底座环境 |
-| **pnpm** | `>= 9`（CI 环境使用 10） | `pnpm -v` | 推荐使用的包管理器，安装速度快且节省硬盘空间 |
+| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | 运行 JavaScript 与构建静态页面的环境 |
+| **pnpm** | `10.34.5` | `pnpm -v` | 项目固定使用的包管理器版本 |
 | **Git** | 最新稳定版 | `git --version` | 用于拉取代码与版本管理 |
+
+CI 使用 `.node-version` 固定的 Node.js 22.20.0。
 
 :::tip
 如果你的电脑上还没安装 `pnpm`，可以通过 Node.js 自带的 npm 快速全局安装：
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 
@@ -94,10 +96,10 @@ cd epocanvas-docs
 pnpm install
 ```
 
-pnpm 会自动根据 `pnpm-lock.yaml` 下载所需的前端依赖，包含 Astro、Starlight 和本地图片处理模块，通常几十秒即可完成。安装结束时终端会显示总耗时：
+pnpm 会按 `pnpm-lock.yaml` 下载 Astro、Starlight 等依赖。以下是安装完成输出的示例，并非本次实测；耗时取决于网络、缓存和机器：
 
 ```text
-Done in 1m 3.2s using pnpm v9.15.9
+Done in 1m 3.2s using pnpm v10.34.5
 ```
 
 ### 第三步：启动本地开发预览服务器
@@ -135,8 +137,11 @@ watching for file changes...
 | :--- | :--- | :--- |
 | `pnpm run dev` | **日常写文档** | 启动本地调试服务，支持热更新（HMR）。修改任意 `.md` 文件后，浏览器会自动刷新更新内容。 |
 | `pnpm run build` | **打包测试** | 在本地完整编译全站静态页面，并在 `dist/` 目录下生成 HTML、CSS 以及 Pagefind 搜索索引。 |
+| `pnpm run verify` | **完整自检** | 执行测试、配置检查、Astro 类型检查、构建及内容/产物检查 |
 | `pnpm run preview` | **预览打包产物** | 本地启动轻量 Web 服务器来运行 `dist/` 产物，用于在正式发布前检查链接和样式是否正常。 |
-| `pnpm run deploy` | **一键发布上线** | 先自动执行 build，再调用 Wrangler 工具将 `dist/` 推送到 Cloudflare Pages 线上生产环境。 |
+| `pnpm run deploy` | **一键发布上线** | 检查部署前置条件，通过 verify 后发布至 Cloudflare Pages |
+
+先执行一次 `npx wrangler login` 完成授权，再运行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 执行；非 `main` 分支、工作区不干净，或 HEAD 与远端 `origin/main` 的实际提交不一致时会被拒绝。脚本先运行 `pnpm run verify`，通过后才调用 Wrangler。项目名定义在此脚本中，不在 `package.json`。
 
 完整的发布步骤与线上验证方法，请阅读 **[Cloudflare Pages 部署上线](/canvas/cloudflare/)**。
 

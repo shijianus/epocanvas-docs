@@ -27,12 +27,15 @@ EpoCanvas Docs は、EpoCanvas プロジェクトの公式ドキュメントサ�
 
 ## 必要環境
 
-- Node.js 20.3+ または 22+（最低 18.20.8）
-- pnpm 10
+- Node.js 22.20+ (22.x) または Node.js 24.12+
+- pnpm 10.34.5 (固定バージョン)
+
+CI は `.node-version` で固定した Node.js 22.20.0 を使用します。
 
 ## クイックスタート
 
 ```bash
+npm install -g pnpm@10.34.5
 git clone https://github.com/shijianus/epocanvas-docs.git
 cd epocanvas-docs
 pnpm install
@@ -47,8 +50,9 @@ pnpm run dev
 | :--- | :--- |
 | `pnpm run dev` | ホットリロード付きのローカル開発サーバーを起動 |
 | `pnpm run build` | 静的サイトを `dist/` にビルドし、検索インデックスを生成 |
+| `pnpm run verify` | テスト、設定チェック、Astro 型チェック、ビルド、コンテンツと成果物の検査を実行 |
 | `pnpm run preview` | ビルド結果をローカルでプレビュー |
-| `pnpm run deploy` | ビルドして Cloudflare Pages へ公開 |
+| `pnpm run deploy` | デプロイ条件を確認し、verify 通過後に Cloudflare Pages へ公開 |
 
 ## プロジェクト構成
 
@@ -86,18 +90,18 @@ epocanvas-docs/
    ![代替テキスト](/images/canvas/your-image.png)
    ```
 
-コミット前に `pnpm run build` を実行し、サイトがエラーなくビルドできることを確認してください。
+コミット前に `pnpm run verify` を実行し、すべてのチェックが通ることを確認してください。
 
 ## デプロイ
 
 サイトは Cloudflare Pages でホストしています:
 
-- **ローカルからの公開** — 最初に `wrangler login` で認証すると、以降は `pnpm run deploy` でビルドと公開が完了します。
+- **ローカルからの公開** — 最初に `npx wrangler login` で認証し、`pnpm run deploy` を実行します。デプロイを担当する `scripts/verify-release.mjs` は、`main` 以外のブランチ、変更の残る作業ツリー、リモートの実際の `origin/main` コミットと一致しない HEAD を拒否します。`pnpm run verify` が通ってから Wrangler を呼び出します。プロジェクト名の定義先はこのスクリプトであり、`package.json` ではありません。
 - **カスタムドメイン** — Cloudflare のコンソールで Pages プロジェクト `epocanvas-docs` を開き、*Custom domains* にドメインを追加します。CNAME レコードと SSL 証明書は自動で設定されます。
 
 ## コントリビュート
 
-Issue と Pull Request を歓迎します。PR を送る前にローカルで `pnpm run build` を実行し、ビルドが通ることを確認してください。
+Issue と Pull Request を歓迎します。PR を送る前にローカルで `pnpm run verify` を実行し、すべてのチェックが通ることを確認してください。
 
 ## ライセンス
 

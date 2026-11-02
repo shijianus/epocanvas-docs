@@ -2,12 +2,22 @@
   "name": "epocanvas-docs",
   "version": "1.3.1",
   "type": "module",
+  "engines": {
+    "node": "^22.20.0 || ^24.12.0",
+    "pnpm": ">=10.0.0 <11.0.0"
+  },
+  "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "prebuild": "node scripts/invalidate-render-cache.mjs",
     "build": "astro build",
-    "deploy": "pnpm run build && wrangler pages deploy dist --project-name epocanvas-docs --branch main",
+    "verify": "pnpm run verify:config && pnpm run prebuild && pnpm exec astro check && pnpm run build && pnpm run verify:static",
+    "verify:config": "node scripts/verify-release.mjs --config",
+    "verify:static": "node --test scripts/quality.test.mjs && node scripts/audit-i18n.mjs && node scripts/check-anchors.mjs && node scripts/check-images.mjs && node scripts/check-localized-images.mjs && node scripts/check-links.mjs",
+    "verify:release": "node scripts/verify-release.mjs --tag",
+    "verify:deploy": "node scripts/verify-release.mjs --deploy-check",
+    "deploy": "node scripts/verify-release.mjs --deploy",
     "preview": "astro preview",
     "astro": "astro"
   },

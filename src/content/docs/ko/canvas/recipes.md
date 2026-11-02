@@ -159,7 +159,7 @@ head: [
 
 ```bash
 pnpm run dev      # 1. 브라우저에서 페이지별로 효과 확인
-pnpm exec astro check && pnpm run build   # 2. 타입 검사 + 전체 빌드
+pnpm run verify   # 2. 테스트, 설정 검사, Astro 타입 검사, 빌드 및 콘텐츠/결과물 검사를 실행합니다
 pnpm run preview  # 3. 빌드 결과물 미리보기, 이상 없음을 확인한 후 배포
 ```
 

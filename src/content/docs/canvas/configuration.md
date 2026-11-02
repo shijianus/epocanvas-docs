@@ -67,7 +67,7 @@ sidebar: [
   {
     label: '用户指南',
     items: [
-      { label: '账号注册与登录', link: '/canvas/login/' },
+      { label: 'Markdown 编写与排版指南', link: '/canvas/markdown/' },
     ],
   },
 ];

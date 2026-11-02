@@ -59,17 +59,19 @@ description: EpoCanvas Docs 로컬 환경 준비, 의존성 설치, 로컬 개�
 
 원클릭 배포는 "사이트를 먼저 내보내는" 데 적합하지만, 문서를 작성하고 수정하는 일은 결국 로컬에서 이루어져야 합니다. 직접 내용을 작성할 계획이라면, 컴퓨터에 다음과 같은 기본 개발 환경이 설치되어 있는지 먼저 확인하세요:
 
-| 도구 | 권장 버전 | 확인 명령어 | 설명 |
+| 도구 | 필수 버전 | 확인 명령어 | 설명 |
 | :--- | :--- | :--- | :--- |
-| **Node.js** | `>= 18.20.8`(20.3+ 또는 22 LTS 권장) | `node -v` | JavaScript를 실행하고 정적 페이지를 빌드하는 기반 환경 |
-| **pnpm** | `>= 9`(CI 환경에서는 10) | `pnpm -v` | 권장 패키지 관리자. 설치 속도가 빠르고 디스크 공간을 절약합니다 |
+| **Node.js** | 22.20+ (22.x) / 24.12+ (24.x) | `node -v` | JavaScript 실행과 정적 페이지 빌드에 사용하는 환경 |
+| **pnpm** | `10.34.5` | `pnpm -v` | 프로젝트에서 고정한 패키지 관리자 버전 |
 | **Git** | 최신 안정 버전 | `git --version` | 코드 가져오기와 버전 관리에 사용 |
+
+CI는 `.node-version`에 고정된 Node.js 22.20.0을 사용합니다.
 
 :::tip
 컴퓨터에 `pnpm`이 아직 설치되어 있지 않다면, Node.js에 내장된 npm으로 빠르게 전역 설치할 수 있습니다:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 
@@ -94,10 +96,10 @@ cd epocanvas-docs
 pnpm install
 ```
 
-pnpm은 `pnpm-lock.yaml`에 따라 필요한 프런트엔드 의존성을 자동으로 내려받습니다. Astro, Starlight, 로컬 이미지 처리 모듈이 포함되며 보통 수십 초면 완료됩니다. 설치가 끝나면 터미널에 총 소요 시간이 표시됩니다:
+pnpm은 `pnpm-lock.yaml`에 따라 Astro, Starlight 등의 의존성을 내려받습니다. 아래는 설치 완료 출력 예시이며 이번 수정에서 측정한 결과가 아닙니다. 소요 시간은 네트워크, 캐시, 컴퓨터에 따라 달라집니다.
 
 ```text
-Done in 1m 3.2s using pnpm v9.15.9
+Done in 1m 3.2s using pnpm v10.34.5
 ```
 
 ### 3단계: 로컬 개발 미리보기 서버 시작
@@ -135,8 +137,11 @@ watching for file changes...
 | :--- | :--- | :--- |
 | `pnpm run dev` | **일상적인 문서 작성** | 로컬 디버그 서버를 시작하며 핫 리로드(HMR)를 지원합니다. 아무 `.md` 파일이나 수정하면 브라우저가 자동으로 새로고침되어 내용을 갱신합니다. |
 | `pnpm run build` | **패키징 테스트** | 사이트 전체 정적 페이지를 로컬에서 완전히 컴파일하고, `dist/` 디렉터리에 HTML, CSS, Pagefind 검색 인덱스를 생성합니다. |
+| `pnpm run verify` | **전체 자가 점검** | 테스트, 설정 검사, Astro 타입 검사, 빌드 및 콘텐츠/결과물 검사를 실행합니다 |
 | `pnpm run preview` | **빌드 결과물 미리보기** | 로컬에서 경량 웹 서버를 시작해 `dist/` 결과물을 실행하며, 정식 게시 전에 링크와 스타일이 정상인지 확인하는 데 사용합니다. |
-| `pnpm run deploy` | **원클릭 게시** | 먼저 build를 자동 실행한 뒤 Wrangler 도구를 호출해 `dist/`를 Cloudflare Pages 온라인 프로덕션 환경으로 푸시합니다. |
+| `pnpm run deploy` | **원클릭 게시** | 배포 조건을 확인하고 verify 통과 후 Cloudflare Pages에 게시합니다 |
+
+먼저 `npx wrangler login`으로 인증한 뒤 `pnpm run deploy`를 실행합니다. 배포를 담당하는 `scripts/verify-release.mjs`는 `main`이 아닌 브랜치, 변경 사항이 남아 있는 작업 트리, 원격 `origin/main`의 실제 커밋과 일치하지 않는 HEAD를 거부합니다. `pnpm run verify`가 통과한 뒤 Wrangler를 호출합니다. 프로젝트 이름은 `package.json`이 아니라 이 스크립트에 정의되어 있습니다.
 
 전체 게시 절차와 온라인 확인 방법은 **[Cloudflare Pages 배포](/canvas/cloudflare/)**를 읽어 주세요.
 

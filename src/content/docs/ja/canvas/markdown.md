@@ -364,7 +364,7 @@ pnpm run build
 pnpm で依存関係をインストールすると npm よりはるかに速いです:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 pnpm で依存関係をインストールすると npm よりはるかに速いです:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

@@ -1,143 +1,140 @@
 // 一次性校验脚本：检查所有语言文档里的锚点链接是否指向真实标题。
-// 规则：与 github-slugger 相同的 slug 算法（小写、去标点、空格转连字符、重复标题加 -1）。
+// 这里用于源码层友好诊断；最终路径和锚点仍由构建产物检查器复核。
 import fs from 'node:fs';
 import path from 'node:path';
+import { resolveSiteUrl } from './link-utils.mjs';
 
-const ROOT = 'src/content/docs';
+const ROOT = path.resolve('src/content/docs');
 const LOCALES = ['', 'zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
+const LOCALE_SET = new Set(LOCALES.filter(Boolean));
 
 function slugify(text) {
-	return text
-		.trim()
-		.toLowerCase()
-		.replace(/[^\p{L}\p{N}\p{M}\s_\-]/gu, '')
-		.replace(/ /g, '-');
+  const base = text
+    .trim()
+    .toLowerCase()
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/\*\*?([^*]*)\*\*?/g, '$1')
+    .replace(/[^\p{L}\p{N}\p{M}\s_-]/gu, '')
+    .replace(/ /g, '-');
+  return base || 'section';
 }
 
-// 提取非代码块内的标题与链接，返回 { headings: [{depth,text}], links: [{href, line}] }
 function parseMarkdown(md) {
-	const headings = [];
-	const links = [];
-	const lines = md.split(/\r?\n/);
-	let fenceChar = null;
-	let fenceLen = 0;
-	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i];
-		const fenceMatch = /^ {0,3}(`{3,}|~{3,})/.exec(line);
-		if (fenceMatch) {
-			const marker = fenceMatch[1];
-			if (fenceChar === null) {
-				fenceChar = marker[0];
-				fenceLen = marker.length;
-				continue;
-			}
-			if (marker[0] === fenceChar && marker.length >= fenceLen) {
-				fenceChar = null;
-				fenceLen = 0;
-				continue;
-			}
-		}
-		if (fenceChar !== null) continue;
-		const h = line.match(/^(#{1,6})\s+(.*)$/);
-		if (h) {
-			// 去掉标题尾部多余的 # 与行内格式
-			let text = h[2].replace(/\s+#+\s*$/, '');
-			text = text.replace(/`([^`]*)`/g, '$1').replace(/\*\*?([^*]*)\*\*?/g, '$1');
-			headings.push({ depth: h[1].length, text, line: i + 1 });
-		}
-		const linkRe = /\[([^\]]*)\]\(([^)]+)\)/g;
-		let m;
-		while ((m = linkRe.exec(line))) {
-			links.push({ text: m[1], href: m[2].trim(), line: i + 1 });
-		}
-	}
-	return { headings, links };
+  const headings = [];
+  const links = [];
+  const lines = md.split(/\r?\n/);
+  let fence = null;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const match = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line);
+    if (match) {
+      const marker = match[1];
+      if (!fence) fence = { char: marker[0], length: marker.length };
+      else if (marker[0] === fence.char && marker.length >= fence.length && !match[2].trim()) fence = null;
+      continue;
+    }
+    if (fence) continue;
+    const heading = /^(#{1,6})\s+(.*)$/.exec(line);
+    if (heading) headings.push({ depth: heading[1].length, text: heading[2].replace(/\s+#+\s*$/, ''), line: i + 1 });
+    const linkRe = /\[([^\]]*)\]\(([^)]+)\)/g;
+    let link;
+    while ((link = linkRe.exec(line))) links.push({ text: link[1], href: link[2].trim(), line: i + 1 });
+  }
+  return { headings, links };
 }
 
 function slugSet(headings) {
-	const map = new Map();
-	const seen = new Map();
-	for (const h of headings) {
-		let s = slugify(h.text);
-		if (seen.has(s)) {
-			const n = seen.get(s);
-			seen.set(s, n + 1);
-			s = `${s}-${n}`;
-		} else {
-			seen.set(s, 1);
-		}
-		map.set(s, h.line);
-	}
-	return map;
+  const slugs = new Map();
+  const used = new Set();
+  const nextCounts = new Map();
+  for (const heading of headings) {
+    const base = slugify(heading.text);
+    let count = nextCounts.get(base) ?? 0;
+    let slug = count ? `${base}-${count}` : base;
+    while (used.has(slug)) {
+      count += 1;
+      slug = `${base}-${count}`;
+    }
+    nextCounts.set(base, count + 1);
+    used.add(slug);
+    slugs.set(slug, heading.line);
+  }
+  return slugs;
 }
 
-function fileFor(locale, linkPath) {
-	// linkPath 形如 /canvas/deployment/ 或 /en/canvas/i18n/
-	let p = linkPath.replace(/^\//, '').replace(/\/$/, '');
-	// 跨语言链接：映射到本 locale 目录下同路径文件
-	const first = p.split('/')[0];
-	if (LOCALES.includes(first)) p = p.slice(first.length + 1);
-	const base = locale ? `${locale}/${p}` : p;
-	for (const ext of ['.md', '.mdx']) {
-		const f = path.join(ROOT, base + ext);
-		if (fs.existsSync(f)) return f;
-	}
-	return null;
+function sourceRoute(file) {
+  const parts = path.relative(ROOT, file).split(path.sep);
+  const stem = parts.pop().replace(/\.(md|mdx)$/, '');
+  if (stem !== 'index') parts.push(stem);
+  return parts.length ? '/' + parts.join('/') + '/' : '/';
+}
+
+function fileFor(sourceLocale, absolutePath) {
+  const pathname = absolutePath.split(/[?#]/, 1)[0];
+  const segments = pathname.split('/').filter(Boolean);
+  let targetLocale = sourceLocale;
+  if (segments.length && LOCALE_SET.has(segments[0].toLowerCase())) targetLocale = segments.shift().toLowerCase();
+  const base = targetLocale ? path.join(ROOT, targetLocale, ...segments) : path.join(ROOT, ...segments);
+  const candidates = [];
+  if (!segments.length) candidates.push(targetLocale ? path.join(ROOT, targetLocale, 'index.mdx') : path.join(ROOT, 'index.mdx'));
+  else candidates.push(`${base}.md`, `${base}.mdx`, path.join(base, 'index.md'), path.join(base, 'index.mdx'));
+  return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
+}
+
+function targetFileFor(sourceLocale, sourceFile, pathPart) {
+  const pathname = resolveSiteUrl(pathPart, sourceRoute(sourceFile)).pathname;
+  // Root-absolute Markdown links are localized by the rehype plugin; relative links are not.
+  return fileFor(pathPart.startsWith('/') ? sourceLocale : '', pathname);
+}
+
+function walkMarkdown(dir, skipLocaleDirs = false) {
+  const files = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (skipLocaleDirs && LOCALE_SET.has(entry.name)) continue;
+      files.push(...walkMarkdown(full));
+    } else if (/\.(md|mdx)$/.test(entry.name)) files.push(full);
+  }
+  return files;
 }
 
 const problems = [];
 for (const locale of LOCALES) {
-	const dir = locale ? path.join(ROOT, locale) : ROOT;
-	const files = [];
-	const walk = (d, top) => {
-		for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-			const f = path.join(d, e.name);
-			if (e.isDirectory()) {
-				// 根目录扫描时跳过各语言子目录，避免同一文件被扫描两次产生误报
-				if (top && LOCALES.slice(1).includes(e.name)) continue;
-				walk(f, false);
-			} else if (/\.(md|mdx)$/.test(e.name)) files.push(f);
-		}
-	};
-	walk(dir, true);
-	for (const file of files) {
-		const md = fs.readFileSync(file, 'utf8');
-		const { links } = parseMarkdown(md);
-		for (const link of links) {
-			if (link.href.startsWith('http') || link.href.startsWith('mailto:')) continue;
-			const hashIdx = link.href.indexOf('#');
-			if (hashIdx === -1) continue;
-			const target = link.href.slice(hashIdx + 1);
-			const pathPart = link.href.slice(0, hashIdx);
-			let targetFile = file;
-			if (pathPart) {
-				// 跨页链接（绝对或相对路径）
-				if (!pathPart.startsWith('/')) continue; // 相对路径链接（如图片）不在本次检查范围
-				targetFile = fileFor(locale, pathPart);
-				if (!targetFile) {
-					problems.push({ file, line: link.line, type: '目标页面不存在', href: link.href });
-					continue;
-				}
-			}
-			const targetMd = fs.readFileSync(targetFile, 'utf8');
-			const targetSlugs = slugSet(parseMarkdown(targetMd).headings);
-			if (!targetSlugs.has(target)) {
-				problems.push({ file, line: link.line, type: '锚点不存在', href: link.href });
-			}
-		}
-	}
+  const dir = locale ? path.join(ROOT, locale) : ROOT;
+  if (!fs.existsSync(dir)) continue;
+  const files = locale ? walkMarkdown(dir) : walkMarkdown(dir, true);
+  for (const file of files) {
+    const parsed = parseMarkdown(fs.readFileSync(file, 'utf8'));
+    for (const link of parsed.links) {
+      if (/^(?:https?:|mailto:|tel:|data:|javascript:)/i.test(link.href)) continue;
+      const hashIndex = link.href.indexOf('#');
+      if (hashIndex < 0) continue;
+      let target;
+      try { target = decodeURIComponent(link.href.slice(hashIndex + 1)); }
+      catch { problems.push({ file, line: link.line, type: '锚点编码无效', href: link.href }); continue; }
+      const pathPart = link.href.slice(0, hashIndex);
+      let targetFile;
+      try { targetFile = pathPart ? targetFileFor(locale, file, pathPart) : file; }
+      catch { targetFile = null; }
+      if (!targetFile) {
+        problems.push({ file, line: link.line, type: '目标页面不存在', href: link.href });
+        continue;
+      }
+      const targetSlugs = slugSet(parseMarkdown(fs.readFileSync(targetFile, 'utf8')).headings);
+      if (target && !targetSlugs.has(target)) problems.push({ file, line: link.line, type: '锚点不存在', href: link.href });
+    }
+  }
 }
 
-if (problems.length === 0) {
-	console.log('OK: 所有锚点均能命中');
-	process.exit(0);
-} else {
-	const byType = {};
-	for (const p of problems) {
-		byType[p.type] = (byType[p.type] || 0) + 1;
-		console.log(`[${p.type}] ${p.file}:${p.line} -> ${p.href}`);
-	}
-	console.log('\n汇总:', JSON.stringify(byType));
-	// 非零码退出，供 CI（build.yml）作为质量门使用
-	process.exit(1);
+if (!problems.length) {
+  console.log('OK: 所有源码锚点均能命中');
+  process.exit(0);
 }
+const byType = {};
+for (const problem of problems) {
+  byType[problem.type] = (byType[problem.type] || 0) + 1;
+  console.log(`[${problem.type}] ${problem.file}:${problem.line} -> ${problem.href}`);
+}
+console.log('\n汇总:', JSON.stringify(byType));
+process.exit(1);

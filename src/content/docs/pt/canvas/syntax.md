@@ -37,7 +37,7 @@ Dentro de um bloco de aviso é possível continuar a usar listas, blocos de cód
 Instalar dependências com pnpm é muito mais rápido do que com npm:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 

@@ -159,7 +159,7 @@ Independentemente do tipo de personalização, verifique nesta ordem antes de su
 
 ```bash
 pnpm run dev      # 1. rever o resultado página a página no navegador
-pnpm exec astro check && pnpm run build   # 2. verificação de tipos + build completo
+pnpm run verify   # 2. Executa testes, verificações de configuração e tipos do Astro, o build e verificações de conteúdo e artefactos
 pnpm run preview  # 3. pré-visualizar o resultado do build e só publicar depois de confirmar que está tudo correto
 ```
 

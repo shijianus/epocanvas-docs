@@ -364,7 +364,7 @@ pnpm run build
 使用 pnpm 安装依赖比 npm 快得多：
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 ````
@@ -375,7 +375,7 @@ npm install -g pnpm
 使用 pnpm 安装依赖比 npm 快得多：
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@10.34.5
 ```
 :::
 
