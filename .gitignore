@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # Qoder CLI 本地会话目录
 .qoder/
+
+# ZCode agent 本地会话与审计脚本
+.zcode/

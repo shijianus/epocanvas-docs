@@ -42,3 +42,13 @@ test('custom i18n JSON content change invalidates cached renders', () => fixture
 	invalidateRenderCache(root);
 	assert.equal(fs.existsSync(cacheFile), false);
 }));
+
+test('dependency manifest or lockfile change invalidates cached renders', () => fixture((root) => {
+	fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify({ version: '1.0.0' }));
+	fs.writeFileSync(path.join(root, 'pnpm-lock.yaml'), 'lockfileVersion: 9\n');
+	invalidateRenderCache(root);
+	const cacheFile = makeCache(root);
+	fs.writeFileSync(path.join(root, 'pnpm-lock.yaml'), 'lockfileVersion: 9\nchanged\n');
+	invalidateRenderCache(root);
+	assert.equal(fs.existsSync(cacheFile), false);
+}));

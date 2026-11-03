@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import fs from 'node:fs';
-import { checkReleaseNotes } from './verify-release.mjs';
+import { assertBuildMetadata, checkReleaseNotes } from './verify-release.mjs';
 import { assertPreviewBuild, assertPreviewSource, runPreview } from './pages-preview.mjs';
 
 test('release notes identify exactly the package version', () => {
@@ -11,6 +11,17 @@ test('release notes identify exactly the package version', () => {
   assert.throws(() => checkReleaseNotes('# EpoCanvas Docs v1.3.2-beta.1\n', '1.3.2-beta.1'));
   const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
   checkReleaseNotes(fs.readFileSync(new URL('../RELEASE_NOTES.md', import.meta.url), 'utf8'), pkg.version);
+});
+
+test('production deploy requires build metadata from the current clean commit', () => {
+  const current = { commit: 'a'.repeat(40), version: '1.3.2', dirty: false };
+  assert.doesNotThrow(() => assertBuildMetadata(current, current));
+  for (const metadata of [
+    null,
+    { ...current, dirty: true },
+    { ...current, commit: 'b'.repeat(40) },
+    { ...current, version: '1.3.1' },
+  ]) assert.throws(() => assertBuildMetadata(metadata, current));
 });
 
 test('preview source checks do not require stale build output', () => {

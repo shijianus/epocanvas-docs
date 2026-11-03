@@ -32,11 +32,16 @@ export function invalidateRenderCache(root = process.cwd()) {
 		const file = path.join(root, rel);
 		return `${rel}:${fs.existsSync(file) ? contentHash(file) : 'missing'}`;
 	});
+	const dependencyFiles = ['package.json', 'pnpm-lock.yaml'].map((rel) => {
+		const file = path.join(root, rel);
+		return `${rel}:${fs.existsSync(file) ? contentHash(file) : 'missing'}`;
+	});
 	const fingerprint = crypto.createHash('sha1').update([
 		'images:' + listFiles(imagesDir).join('\n'),
 		'translations:' + translationFiles.join('\n'),
 		'custom-i18n:' + customI18nFiles.join('\n'),
 		'configs:' + configFiles.join('\n'),
+		'dependencies:' + dependencyFiles.join('\n'),
 	].join('\n')).digest('hex');
 	const previous = fs.existsSync(keyFile) ? fs.readFileSync(keyFile, 'utf8').trim() : null;
 	if (previous !== fingerprint) {

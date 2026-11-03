@@ -35,6 +35,13 @@ export function checkReleaseNotes(notes, version) {
   return meta;
 }
 
+/** 生产部署前确认 dist/build-info.json 确实来自当前干净提交，而不是旧构建或脏工作树。 */
+export function assertBuildMetadata(metadata, { commit, version }) {
+  if (!metadata || metadata.commit !== commit || metadata.version !== version || metadata.dirty) {
+    throw new Error('dist/build-info.json 与当前提交或版本不一致，或构建时工作树不干净，拒绝部署。');
+  }
+}
+
 function run(command, args, capture = false) {
   const result = spawnSync(command, args, {
     cwd: ROOT,
@@ -149,6 +156,10 @@ export function main(args = process.argv.slice(2)) {
       }
       pnpm('run', 'verify');
       if (checkDeploy() !== head) throw new Error('验证期间 HEAD 已变化，拒绝部署，请重新运行。');
+      assertBuildMetadata(
+        JSON.parse(readFileSync(path.join(ROOT, 'dist', 'build-info.json'), 'utf8')),
+        { commit: head, version: pkg.version },
+      );
       pnpm('exec', 'wrangler', 'pages', 'deploy', 'dist', '--project-name', 'epocanvas-docs', '--branch', 'main');
     }
   }

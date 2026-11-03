@@ -64,7 +64,7 @@ for (const loc of locales) {
 	const locIdx = path.join(docsDir, loc, 'index.mdx');
 	if (fs.existsSync(rootIdx) && !fs.existsSync(locIdx)) { parityIssues++; console.log(`  [缺译] ${loc}/index.mdx`); }
 	if (!fs.existsSync(rootIdx) && fs.existsSync(locIdx)) { parityIssues++; console.log(`  [多余页] ${loc}/index.mdx`); }
-	if (!missing.length && !extra.length) console.log(`  ${loc}: 17 篇正文 + 首页，与根目录一致`);
+	if (!missing.length && !extra.length) console.log(`  ${loc}: ${ROOT_PAGES.length} 篇正文 + 首页，与根目录一致`);
 }
 let fenceIssues = 0;
 for (const loc of ['canvas', ...locales]) {
