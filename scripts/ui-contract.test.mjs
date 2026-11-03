@@ -102,6 +102,14 @@ test('404 alone synchronizes external/version labels and theme wrapper title', (
   assert.match(notFound, /search\.dataset\.searchCopy = JSON\.stringify/);
 });
 
+test('404 also localizes custom footer actions without replacing their icons', () => {
+  const footer = read('src/components/starlight/Footer.astro');
+  for (const key of ['page.feedback', 'page.reportIssue', 'page.backToTop']) {
+    assert.match(footer, new RegExp(`<span[^>]*data-i18n="${key}"[^>]*>`), key);
+  }
+  assert.match(notFound, /querySelectorAll\('\[data-i18n\]'\)/);
+});
+
 test('static 404 path variants switch languages to locale homepages only', () => {
   const pattern = header.match(/const langMenuPath = (\/[^;]+?)\.test\(pathname\)/)?.[1];
   assert.ok(pattern, 'Header must derive the language menu path from a 404 matcher');
@@ -136,7 +144,7 @@ test('all ten locales provide search initialization and retry messages', () => {
   const translations = vm.runInNewContext(`(${literal})`);
   assert.equal(Object.keys(translations).length, 10);
   for (const [lang, dictionary] of Object.entries(translations)) {
-    for (const key of ['search.initLoading', 'search.initError', 'search.retry', 'search.devUnavailable']) {
+    for (const key of ['search.initLoading', 'search.initError', 'search.retry', 'search.devUnavailable', 'page.breadcrumb', 'page.feedback', 'page.reportIssue', 'page.backToTop']) {
       assert.ok(typeof dictionary[key] === 'string' && dictionary[key].trim(), `${lang}: ${key}`);
     }
   }

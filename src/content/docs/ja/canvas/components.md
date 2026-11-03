@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ components: {
 | `Pagination.astro` | 下部の「前のページ / 次のページ」カード。フラットな細枠、テーマカラーのタイトル、↙/↘ の斜め矢印でページ送りの方向を表示 |
 | `TwoColumnContent.astro` | 本文と右側目次の 2 カラム骨格。右カラムの固定幅とスクロールを制御 |
 | `TableOfContents.astro` | 「目次」の見出し、アイコンと目次リスト。ページ自身のタイトルは除外 |
-| `PageTitle.astro` | ページの大きな見出し（Frontmatter の `title` を使用）と「最終更新」タイムスタンプ |
+| `PageTitle.astro` | パンくずリスト、ページの大きな見出し（Frontmatter の `title` を使用）、「最終更新」タイムスタンプ |
 | `Sidebar.astro` | 薄いラッパー。Starlight 公式の `SidebarPersister` を再利用し、ページ移動時にサイドバーのスクロール位置を維持 |
 | `SkipLink.astro` | キーボードフォーカス時にスキップリンクを表示し、本文タイトル `_top` にフォーカスを移す |
 | `MobileMenuToggle.astro` | モバイルのサイドバー開閉と状態同期。Esc で閉じてボタンへフォーカスを戻す |
+| `ThemeProvider.astro` | CSS 読み込み前に保存済みまたはシステムのテーマを適用し、テーマのちらつきを防ぐインラインスクリプト |
+| `Footer.astro` | フッター：ページ編集、問題報告、ページ上部へ戻る、前後ページのナビゲーション |
 
 ---
 

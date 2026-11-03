@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ Os ficheiros estão em `src/components/starlight/`; seguem-se as funções princ
 | `Pagination.astro` | Cartões de navegação "anterior / seguinte" no rodapé: bordas finas, títulos na cor do tema, setas diagonais ↙/↘ a indicar o sentido da navegação |
 | `TwoColumnContent.astro` | Esqueleto de duas colunas para o corpo do texto e o índice à direita; controla a largura fixa da coluna direita e a rolagem |
 | `TableOfContents.astro` | Título "Nesta página", ícone e lista do índice; filtra o próprio título da página |
-| `PageTitle.astro` | Título grande da página (obtido do `title` do Frontmatter) e data de "última atualização" |
+| `PageTitle.astro` | Trilha de navegação, título grande da página (obtido do `title` do Frontmatter) e data de "última atualização" |
 | `Sidebar.astro` | Encapsulamento fino: reutiliza o `SidebarPersister` nativo do Starlight para manter a posição de rolagem da barra lateral ao mudar de página |
 | `SkipLink.astro` | Mostra um link de salto ao receber foco do teclado e move o foco para o título `_top` |
 | `MobileMenuToggle.astro` | Abre e fecha a barra lateral móvel, sincroniza o estado e fecha com Esc devolvendo o foco |
+| `ThemeProvider.astro` | Script inline que aplica o tema guardado ou do sistema antes do CSS para evitar cintilação |
+| `Footer.astro` | Rodapé: editar esta página, comunicar um problema, voltar ao topo e navegação anterior/seguinte |
 
 ---
 

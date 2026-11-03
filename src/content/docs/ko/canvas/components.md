@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ components: {
 | `Pagination.astro` | 하단 "이전 페이지 / 다음 페이지" 카드: 얇은 평면 테두리, 테마 색상 제목, ↙/↘ 대각선 화살표로 페이지 이동 방향 표시 |
 | `TwoColumnContent.astro` | 본문과 오른쪽 목차의 2열 골격, 오른쪽 열의 고정 너비와 스크롤 제어 |
 | `TableOfContents.astro` | "이 페이지의 목차" 제목, 아이콘과 목차 목록, 페이지 자체 제목은 필터링 |
-| `PageTitle.astro` | 페이지 대제목(Frontmatter의 `title` 사용)과 "마지막 업데이트" 타임스탬프 |
+| `PageTitle.astro` | 이동 경로, 페이지 대제목(Frontmatter의 `title` 사용), "마지막 업데이트" 타임스탬프 |
 | `Sidebar.astro` | 얇은 래퍼: Starlight 기본 `SidebarPersister`를 재사용하여 페이지 이동 시 사이드바 스크롤 위치 유지 |
 | `SkipLink.astro` | 키보드 포커스 시 건너뛰기 링크를 표시하고 본문 제목 `_top`으로 포커스 이동 |
 | `MobileMenuToggle.astro` | 모바일 사이드바 토글과 펼침 상태 동기화. Esc로 닫은 뒤 버튼으로 포커스 복귀 |
+| `ThemeProvider.astro` | CSS 로드 전에 저장된 테마나 시스템 테마를 적용해 테마 깜빡임을 막는 인라인 스크립트 |
+| `Footer.astro` | 바닥글: 페이지 편집, 문제 신고, 맨 위로, 이전/다음 페이지 탐색 |
 
 ---
 

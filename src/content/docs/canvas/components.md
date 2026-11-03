@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ components: {
 | `Pagination.astro` | 底部"上一页 / 下一页"翻页卡片：扁平细边框、主题色标题、↙/↘ 斜向箭头指示翻页方向 |
 | `TwoColumnContent.astro` | 正文与右侧目录的双栏骨架，控制右栏固定宽度与滚动 |
 | `TableOfContents.astro` | "本页目录"标题、图标与目录列表，过滤掉页面自身标题 |
-| `PageTitle.astro` | 页面大标题（取 Frontmatter 的 `title`）与"最后更新于"时间戳 |
+| `PageTitle.astro` | 面包屑导航、页面大标题（取 Frontmatter 的 `title`）与"最后更新于"时间戳 |
 | `Sidebar.astro` | 薄封装：复用 Starlight 原生的 `SidebarPersister`，实现换页时侧边栏滚动位置不变 |
 | `SkipLink.astro` | 键盘聚焦时显示跳转链接，将焦点移到正文标题 `_top` |
 | `MobileMenuToggle.astro` | 移动端侧边栏开关，同步展开状态，支持 Esc 关闭并归还焦点 |
+| `ThemeProvider.astro` | 首屏内联脚本：在 CSS 加载前应用已保存或系统主题，避免主题闪烁 |
+| `Footer.astro` | 页脚：编辑此页、报告问题、回到顶部与上一页/下一页翻页 |
 
 ---
 

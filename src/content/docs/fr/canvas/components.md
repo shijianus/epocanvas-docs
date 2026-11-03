@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ Les fichiers se trouvent dans `src/components/starlight/` ; voici leurs rôles p
 | `Pagination.astro` | Cartes « Page précédente / Page suivante » en bas de page : fines bordures sans relief, titres aux couleurs du thème, flèches obliques ↙/↘ indiquant le sens de navigation |
 | `TwoColumnContent.astro` | Squelette à deux colonnes pour le corps du texte et le sommaire à droite ; contrôle la largeur fixe de la colonne droite et son défilement |
 | `TableOfContents.astro` | Titre « Sommaire de cette page », icône et liste du sommaire ; filtre le titre de la page elle-même |
-| `PageTitle.astro` | Grand titre de la page (issu du `title` du Frontmatter) et horodatage « Dernière mise à jour » |
+| `PageTitle.astro` | Fil d'Ariane, grand titre de la page (issu du `title` du Frontmatter) et horodatage « Dernière mise à jour » |
 | `Sidebar.astro` | Fine encapsulation : réutilise le composant natif `SidebarPersister` de Starlight pour conserver la position de défilement de la barre latérale lors des changements de page |
 | `SkipLink.astro` | Affiche un lien d’accès au contenu au focus clavier et déplace le focus vers le titre `_top` |
 | `MobileMenuToggle.astro` | Ouvre et ferme la barre latérale mobile, synchronise son état et restitue le focus après Échap |
+| `ThemeProvider.astro` | Script en ligne appliqué avant le CSS pour utiliser le thème enregistré ou système et éviter tout clignotement |
+| `Footer.astro` | Pied de page : modifier cette page, signaler un problème, retour en haut et navigation précédent/suivant |
 
 ---
 

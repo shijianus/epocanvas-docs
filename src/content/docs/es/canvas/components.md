@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ Los archivos están en `src/components/starlight/`; sus funciones principales so
 | `Pagination.astro` | Tarjetas de paginación "anterior / siguiente" al pie: borde fino plano, título en el color del theme, flechas diagonales ↙/↘ que indican la dirección de navegación |
 | `TwoColumnContent.astro` | Esqueleto de dos columnas para el cuerpo del texto y el índice de la derecha; controla el ancho fijo y el desplazamiento de la columna derecha |
 | `TableOfContents.astro` | Título "En esta página", icono y lista del índice; filtra el propio título de la página |
-| `PageTitle.astro` | Título grande de la página (toma el `title` del Frontmatter) y marca de tiempo de "última actualización" |
+| `PageTitle.astro` | Ruta de navegación, título grande de la página (toma el `title` del Frontmatter) y marca de tiempo de "última actualización" |
 | `Sidebar.astro` | Envoltorio ligero: reutiliza el `SidebarPersister` nativo de Starlight para que la posición de desplazamiento de la barra lateral no cambie al pasar de página |
 | `SkipLink.astro` | Muestra el enlace de salto al recibir foco de teclado y lleva el foco al título `_top` |
 | `MobileMenuToggle.astro` | Abre y cierra la barra lateral móvil, sincroniza el estado y cierra con Esc devolviendo el foco |
+| `ThemeProvider.astro` | Script en línea que aplica el tema guardado o del sistema antes de cargar el CSS para evitar parpadeos |
+| `Footer.astro` | Pie: editar esta página, informar de un problema, volver arriba y navegación anterior/siguiente |
 
 ---
 

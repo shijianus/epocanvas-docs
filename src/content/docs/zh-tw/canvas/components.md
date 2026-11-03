@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ components: {
 | `Pagination.astro` | 底部「上一頁 / 下一頁」翻頁卡片：扁平細邊框、主題色標題、↙/↘ 斜向箭頭指示翻頁方向 |
 | `TwoColumnContent.astro` | 內文與右側目錄的雙欄骨架，控制右欄固定寬度與捲動 |
 | `TableOfContents.astro` | 「本頁目錄」標題、圖示與目錄列表，過濾掉頁面自身標題 |
-| `PageTitle.astro` | 頁面大標題（取 Frontmatter 的 `title`）與「最後更新於」時間戳記 |
+| `PageTitle.astro` | 麵包屑導覽、頁面大標題（取 Frontmatter 的 `title`）與「最後更新於」時間戳記 |
 | `Sidebar.astro` | 薄封裝：複用 Starlight 原生的 `SidebarPersister`，實現換頁時側邊欄捲動位置不變 |
 | `SkipLink.astro` | 鍵盤聚焦時顯示跳轉連結，將焦點移到內文標題 `_top` |
 | `MobileMenuToggle.astro` | 行動版側邊欄開關，同步展開狀態，支援 Esc 關閉並歸還焦點 |
+| `ThemeProvider.astro` | 首屏內嵌腳本：在 CSS 載入前套用已儲存或系統主題，避免主題閃爍 |
+| `Footer.astro` | 頁尾：編輯此頁、回報問題、回到頂部與上一頁/下一頁翻頁 |
 
 ---
 

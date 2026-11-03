@@ -41,7 +41,7 @@ const { toc, isMobile = false, depth = 0 } = Astro.props;
 	}
 	a {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		padding-block: 0.32rem;
 		padding-inline-start: calc(0.7rem * var(--depth) + 0.85rem);
 		padding-inline-end: 1rem;
@@ -55,10 +55,13 @@ const { toc, isMobile = false, depth = 0 } = Astro.props;
 	}
 
 	.toc-text {
-		display: block;
-		white-space: nowrap;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
 		overflow: hidden;
-		text-overflow: ellipsis;
+		white-space: normal;
+		overflow-wrap: anywhere;
+		line-height: 1.35;
 	}
 
 	a:hover {

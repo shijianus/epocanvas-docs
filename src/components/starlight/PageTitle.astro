@@ -1,20 +1,54 @@
 ---
-import { getLangFromLocale, getTranslation } from '../../utils/i18n';
+import { getLangFromLocale, getTranslation, localizedHref } from '../../utils/i18n';
 
 export const PAGE_TITLE_ID = '_top';
 
-const { entry, lastUpdated, lang: pageLang } = Astro.locals.starlightRoute;
+const { entry, lastUpdated, lang: pageLang, sidebar } = Astro.locals.starlightRoute;
 const lang = getLangFromLocale(Astro.currentLocale);
 const title = entry.data.title;
 // 仅错误路由省略标题与元信息，不影响恰好题为“404”的普通文档。
 const showPageTitle = !/^404(?:\.html)?\/?$/.test(entry.id);
 // 中文用全角冒号，其他语言用半角冒号加空格。
 const updatedColon = lang.startsWith('zh') ? '：' : ': ';
+
+// 面包屑只取当前页所属的侧边栏分组，不重复页标题。
+// 分组标题已经由 Starlight 按当前语言解析，无需再维护一份翻译。
+type SidebarEntry = { type: string; label?: string; entries?: SidebarEntry[]; href?: string; isCurrent?: boolean };
+function findCurrentGroup(entries: SidebarEntry[], parent?: SidebarEntry): SidebarEntry | undefined {
+	for (const item of entries) {
+		if (item.type === 'group') {
+			const found = findCurrentGroup(item.entries ?? [], item);
+			if (found) return found;
+		} else if (item.isCurrent) {
+			return parent;
+		}
+	}
+	return undefined;
+}
+const currentGroup = findCurrentGroup(sidebar ?? []);
 ---
 
 {
 	showPageTitle && (
 		<div class="page-title-wrapper">
+			{
+				currentGroup && (
+					<nav class="page-breadcrumb" aria-label={getTranslation('page.breadcrumb', lang)}>
+						<a href={localizedHref('/', lang)}>
+							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+								<polyline points="9 22 9 12 15 12 15 22" />
+							</svg>
+							{getTranslation('nav.home', lang)}
+						</a>
+						<svg class="breadcrumb-separator" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="m9 18 6-6-6-6" />
+						</svg>
+						{/* 分组不是独立页面，不做链接，避免把分类名指向任意一个子页。 */}
+						<span class="page-breadcrumb-current">{currentGroup.label}</span>
+					</nav>
+				)
+			}
 			<h1 id={PAGE_TITLE_ID} class="page-title-heading">
 				{title}
 			</h1>
@@ -51,6 +85,42 @@ const updatedColon = lang.startsWith('zh') ? '：' : ': ';
 		color: var(--sl-color-white);
 		letter-spacing: -0.025em;
 		margin: 0 0 0.65rem 0;
+	}
+
+	.page-breadcrumb {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-bottom: 0.6rem;
+		font-size: 0.78rem;
+		line-height: 1.4;
+		color: var(--sl-color-gray-3);
+	}
+
+	.page-breadcrumb a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		color: var(--sl-color-gray-3);
+		text-decoration: none;
+		border-radius: 3px;
+	}
+
+	.page-breadcrumb a:hover {
+		color: var(--sl-color-accent);
+		text-decoration: underline;
+		text-underline-offset: 0.18em;
+	}
+
+	.page-breadcrumb a:focus-visible {
+		outline: 2px solid var(--sl-color-accent);
+		outline-offset: 2px;
+	}
+
+	.breadcrumb-separator {
+		flex-shrink: 0;
+		color: var(--sl-color-gray-4);
 	}
 
 	.page-metadata {

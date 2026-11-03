@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ Die Dateien liegen in `src/components/starlight/`; ihre Hauptaufgaben sind unten
 | `Pagination.astro` | Blätterkarten „Zurück / Weiter“ am Seitenende: schmaler Rand ohne Schatten, Titel in Themenfarbe, ↙/↘ diagonale Pfeile zeigen die Blätterrichtung an |
 | `TwoColumnContent.astro` | Das Zweispalten-Gerüst aus Haupttext und Inhaltsverzeichnis rechts; steuert feste Breite und Scrollverhalten der rechten Spalte |
 | `TableOfContents.astro` | Titel „Auf dieser Seite“, Symbol und Verzeichnisliste; filtert den Seitentitel selbst heraus |
-| `PageTitle.astro` | Große Seitenüberschrift (aus dem `title` im Frontmatter) und der Zeitstempel „Zuletzt aktualisiert“ |
+| `PageTitle.astro` | Seitennavigation, große Seitenüberschrift (aus dem `title` im Frontmatter) und der Zeitstempel „Zuletzt aktualisiert“ |
 | `Sidebar.astro` | Dünne Hüllkomponente: wiederverwendet die native `SidebarPersister`-Komponente von Starlight, damit die Scrollposition der Seitenleiste beim Seitenwechsel erhalten bleibt |
 | `SkipLink.astro` | Zeigt bei Tastaturfokus einen Sprunglink und fokussiert den Inhaltstitel `_top` |
 | `MobileMenuToggle.astro` | Schaltet die mobile Seitenleiste um, synchronisiert den Zustand und schließt per Esc mit Fokusrückgabe |
+| `ThemeProvider.astro` | Inline-Skript, das vor dem Laden des CSS das gespeicherte oder System-Theme setzt und Themen-Flackern vermeidet |
+| `Footer.astro` | Fußzeile: Seite bearbeiten, Problem melden, nach oben und vorherige/nächste Seite |
 
 ---
 

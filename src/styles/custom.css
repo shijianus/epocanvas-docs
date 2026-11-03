@@ -348,6 +348,20 @@ nav.sidebar {
   margin: 1.15rem 0;
   font-size: 1rem;
   line-height: 1.75;
+  text-wrap: pretty;
+}
+
+/* 中日文断行：避免行首出现句读、括号等禁则字符；Chrome 支持时按词组断行。 */
+:lang(zh) .sl-markdown-content,
+:lang(ja) .sl-markdown-content,
+:lang(zh) .hero,
+:lang(ja) .hero {
+  line-break: strict;
+}
+
+:lang(ja) .sl-markdown-content,
+:lang(ja) .hero {
+  word-break: auto-phrase;
 }
 
 .sl-markdown-content ul,

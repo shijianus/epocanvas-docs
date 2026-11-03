@@ -22,6 +22,7 @@ components: {
   TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
   Search: './src/components/starlight/Search.astro',
   Pagination: './src/components/starlight/Pagination.astro',
+  Footer: './src/components/starlight/Footer.astro',
   SkipLink: './src/components/starlight/SkipLink.astro',
 },
 ```
@@ -41,10 +42,12 @@ Source files live in `src/components/starlight/`; their main responsibilities ar
 | `Pagination.astro` | Bottom "previous / next" cards: flat thin borders, theme-colored titles, and ↙/↘ diagonal arrows indicating the paging direction |
 | `TwoColumnContent.astro` | Two-column skeleton for body text and the right-side table of contents; controls the fixed width and scrolling of the right column |
 | `TableOfContents.astro` | The "On this page" title, icon, and TOC list; filters out the page's own title |
-| `PageTitle.astro` | The page's main title (taken from the Frontmatter `title`) and the "Last updated" timestamp |
+| `PageTitle.astro` | Breadcrumb navigation, the page's main title (taken from the Frontmatter `title`), and the "Last updated" timestamp |
 | `Sidebar.astro` | A thin wrapper that reuses Starlight's native `SidebarPersister` to keep the sidebar scroll position across page changes |
 | `SkipLink.astro` | Shows a skip link on keyboard focus and moves focus to the body title `_top` |
 | `MobileMenuToggle.astro` | Toggles the mobile sidebar, synchronizes expanded state, and closes on Esc with focus returned |
+| `ThemeProvider.astro` | Inline first-paint script that applies the saved or system theme before CSS loads, avoiding a theme flash |
+| `Footer.astro` | Footer: edit this page, report an issue, back to top, and previous/next pagination |
 
 ---
 

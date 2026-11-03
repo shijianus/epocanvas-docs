@@ -485,6 +485,10 @@ export default defineConfig({
 				],
 			// 页面"最后更新于"时间戳取自构建时的 Git 提交历史
 			lastUpdated: true,
+			// 页脚"编辑此页"直接打开 GitHub 上对应的 Markdown 源文件
+			editLink: {
+				baseUrl: 'https://github.com/shijianus/epocanvas-docs/edit/main/',
+			},
 			customCss: ['./src/styles/custom.css'],
 			// Local Component Overrides for Clean Documentation Theme
 			components: {
@@ -497,6 +501,7 @@ export default defineConfig({
 				TwoColumnContent: './src/components/starlight/TwoColumnContent.astro',
 				Search: './src/components/starlight/Search.astro',
 				Pagination: './src/components/starlight/Pagination.astro',
+				Footer: './src/components/starlight/Footer.astro',
 				// 覆写 SkipLink：提供键盘跳转与正文焦点。
 				SkipLink: './src/components/starlight/SkipLink.astro',
 			},
