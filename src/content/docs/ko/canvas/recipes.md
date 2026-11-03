@@ -59,11 +59,11 @@ description: "EpoCanvas Docs 자주 쓰는 커스터마이징 작업 빠른 참�
 페이지 경로가 바뀌어 상단 바 하이라이트가 잘못될 때는 `navigation.ts`에서 해당 항목의 `match` 함수를 수정합니다:
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// 새 페이지 slug를 허용 목록에 추가합니다. isCanvasPage는 언어 접두사를 먼저 제거합니다
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-규칙은 정확 매칭 우선, `includes`로 폴백하는 방식이며, 여러 버튼의 `match`에 교집합이 있으면 안 됩니다. 그렇지 않으면 두 버튼이 동시에 하이라이트됩니다.
+`isCanvasPage`는 정확한 slug로 판단하므로 `includes` 부분 문자열 일치로 되돌리지 마세요. 여러 버튼의 `match`가 겹치면 두 버튼이 동시에 켜질 수 있습니다.
 
 ---
 

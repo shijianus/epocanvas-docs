@@ -38,7 +38,7 @@ Le résultat du build est du HTML + CSS pur. La navigation entre pages, la lectu
 
 ### Poids des images maîtrisé à la source
 
-Ce site ne traite pas les images au build : `astro.config.mjs` définit `image.service` sur `passthroughImageService()`, les fichiers de `public/` sont donc copiés tels quels dans `dist/`, sans compression ni redimensionnement. Le site n’optimise pas les images à l’exécution. Le poids se maîtrise avant la validation : captures d'interface de 1440 pixels de large compressées hors ligne, et schémas d'architecture toujours en SVG.
+Ce site ne traite pas les images au build : `astro.config.mjs` définit `image.service` sur `passthroughImageService()`, les fichiers de `public/` sont donc copiés tels quels dans `dist/`, sans compression ni redimensionnement. Le site n’optimise pas les images à l’exécution. Le poids se maîtrise avant la validation : captures d'interface compressées hors ligne à la largeur nécessaire (souvent 1440 pixels), et schémas d'architecture toujours en SVG.
 
 ### Chargement de l'index de recherche à la demande
 

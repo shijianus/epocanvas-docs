@@ -19,7 +19,7 @@ En cas de problème lors de l’utilisation, de la rédaction ou du déploiement
   ```
 
 ### Q2 : une erreur apparaît lors de l’installation des dépendances
-- **Cause** : ce site utilise le service d’images passthrough et n’optimise pas les images à l’exécution. Commencez par lire l’erreur exacte du terminal ; une version de Node.js ou de pnpm hors de la base du projet est une cause fréquente.
+- **Cause** : Commencez par lire l’erreur exacte du terminal ; une version de Node.js ou de pnpm hors de la base du projet est une cause fréquente.
 - **Solution** : utilisez Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 et pnpm 10.34.5, conservez `pnpm-lock.yaml` et installez les dépendances de façon reproductible :
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ En cas de problème lors de l’utilisation, de la rédaction ou du déploiement
 
 - **Cause** : le paramètre `--project-name` de la commande de déploiement ne correspond pas au nom du projet dans la console Cloudflare ; il est aussi possible que la machine locale ne soit pas connectée.
 - **Solution** :
-  1. Exécutez d'abord `npx wrangler whoami` pour confirmer que vous êtes connecté ;
+  1. Exécutez d'abord `pnpm exec wrangler whoami` pour confirmer que vous êtes connecté ;
   2. Vérifiez le nom du projet dans la console Cloudflare et, si nécessaire, corrigez le paramètre `--project-name` dans `scripts/verify-release.mjs`.
 
-exécutez une fois `npx wrangler login`, puis `pnpm run deploy`. Le déploiement passe par `scripts/verify-release.mjs`, qui refuse toute branche autre que `main`, un répertoire de travail non propre ou un HEAD différent du commit réel de `origin/main` sur le serveur distant. Il exécute `pnpm run verify` avant Wrangler. Le nom du projet est défini dans ce script, pas dans `package.json`.
+exécutez une fois `pnpm exec wrangler login`, puis `pnpm run deploy`. Le déploiement passe par `scripts/verify-release.mjs`, qui refuse toute branche autre que `main`, un répertoire de travail non propre ou un HEAD différent du commit réel de `origin/main` sur le serveur distant. Il exécute `pnpm run verify` avant Wrangler. Le nom du projet est défini dans ce script, pas dans `package.json`.
 
 ---
 

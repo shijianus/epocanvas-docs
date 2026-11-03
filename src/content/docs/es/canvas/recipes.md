@@ -59,11 +59,11 @@ Si creas el archivo sin registrarlo en la `sidebar`, la página es accesible per
 Si un cambio en la ruta de la página provoca un resaltado incorrecto en la barra superior, modifica la función `match` de la entrada correspondiente en `navigation.ts`:
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// Añade el slug de la nueva página a la lista; isCanvasPage quita antes el prefijo de idioma
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-La regla es que la coincidencia exacta tiene prioridad y `includes` actúa como fallback; los `match` de varios botones no deben solaparse, de lo contrario dos botones aparecerán resaltados a la vez.
+`isCanvasPage` compara el slug exacto; no vuelvas a `includes` para coincidencias parciales. Las funciones `match` de varios botones no deben solaparse, o dos botones se resaltarán a la vez.
 
 ---
 

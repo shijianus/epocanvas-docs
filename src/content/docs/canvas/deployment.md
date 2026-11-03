@@ -65,7 +65,7 @@ description: EpoCanvas Docs 本地环境准备、安装依赖、启动本地开�
 | **pnpm** | `10.34.5` | `pnpm -v` | 项目固定使用的包管理器版本 |
 | **Git** | 最新稳定版 | `git --version` | 用于拉取代码与版本管理 |
 
-CI 使用 `.node-version` 固定的 Node.js 22.23.4。 Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
+CI 使用 `.node-version` 固定的 Node.js 22.23.4。
 
 :::tip
 如果你的电脑上还没安装 `pnpm`，可以通过 Node.js 自带的 npm 快速全局安装：

@@ -4,7 +4,10 @@ import test from 'node:test';
 
 const root = new URL('../', import.meta.url);
 const read = (path) => fs.readFileSync(new URL(path, root), 'utf8').replace(/\r\n/g, '\n');
-const names = ['docs-architecture', 'docs-deploy-compare', 'docs-i18n-workflow', 'docs-layout-3tier', 'docs-render-pipeline', 'docs-search-flow'];
+const names = fs.readdirSync(new URL('../public/images/canvas/', import.meta.url))
+  .filter((name) => /^docs-.*\.svg$/.test(name))
+  .map((name) => name.replace(/\.svg$/, ''))
+  .sort();
 const locales = ['en', 'zh-tw', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
 const dictionaries = Object.fromEntries(await Promise.all(locales.map(async (locale) => [
   locale, (await import(`./diagram-i18n/${locale}.mjs`)).default,

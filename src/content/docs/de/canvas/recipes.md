@@ -59,11 +59,11 @@ Wer nur die Datei anlegt, ohne sie im `sidebar` zu registrieren, erhält eine er
 Wenn sich Seitenpfade geändert haben und die obere Leiste die falsche Schaltfläche hervorhebt, passen Sie die `match`-Funktion des betreffenden Eintrags in `navigation.ts` an:
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// Neuen Seiten-Slug in die Liste aufnehmen; isCanvasPage entfernt zuerst das Sprachpräfix
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-Die Regel lautet: exakte Treffer haben Vorrang, `includes` dient als Auffangnetz. Die `match`-Funktionen mehrerer Schaltflächen dürfen sich nicht überschneiden, sonst werden zwei Schaltflächen gleichzeitig hervorgehoben.
+`isCanvasPage` prüft den exakten Slug; kehren Sie nicht zu Teilstring-Prüfungen mit `includes` zurück. Die `match`-Funktionen mehrerer Buttons dürfen sich nicht überschneiden, sonst leuchten zwei Buttons gleichzeitig.
 
 ---
 

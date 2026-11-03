@@ -59,11 +59,11 @@ Si vous créez le fichier sans l'enregistrer dans la `sidebar`, la page reste ac
 Lorsqu'un changement de chemin de page provoque une surbrillance erronée dans la barre supérieure, modifiez la fonction `match` de l'entrée concernée dans `navigation.ts` :
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// Ajoutez le slug de la nouvelle page à la liste ; isCanvasPage retire d'abord le préfixe de langue
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-La règle : la correspondance exacte est prioritaire, `includes` sert de repli ; les fonctions `match` de plusieurs boutons ne doivent pas se chevaucher, sinon deux boutons peuvent être surlignés en même temps.
+`isCanvasPage` compare le slug exact ; ne revenez pas à `includes` pour une correspondance partielle. Les fonctions `match` de plusieurs boutons ne doivent pas se chevaucher, sinon deux boutons s'allument en même temps.
 
 ---
 

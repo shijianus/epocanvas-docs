@@ -214,4 +214,19 @@ export default {
 	'特点：静态反向索引 · 按需下载 · 跨文档全文覆盖 · 内网部署可用': 'Índice invertido estático · transferência a pedido · todo o site · válido em intranet',
 	'✓ 本地化与隐私保障': '✓ 100% local',
 	'两种搜索均完全在读者浏览器本地执行，不需要配置任何外部云端服务或爬虫密钥（如 Algolia），即使部署在无法访问外网的公司内网中也能顺畅检索。': 'As duas pesquisas executam-se por inteiro no navegador de quem lê: sem serviços externos nem chaves de rastreio (como Algolia), e funcionam mesmo numa intranet sem saída para a internet.',
+
+	// ===== docs-release-flow =====
+	"EpoCanvas Docs 发布流程 (Release Workflow)": "Fluxo de publicação do EpoCanvas Docs (Release Workflow)",
+	"从修改到上线：五个检查点，标签发布与站点部署相互独立": "Da edição à publicação: cinco pontos de verificação; a release por tag e a implantação do site são independentes",
+	"修改内容": "Editar conteúdo",
+	"Markdown 与配置": "Markdown e configuração",
+	"本地自检": "Verificação local",
+	"提交审查": "Enviar para revisão",
+	"PR 与 CI 完整验证": "PR e verificação completa de CI",
+	"合并 main": "Mesclar em main",
+	"保持工作区干净": "Manter a árvore de trabalho limpa",
+	"打标签 v*": "Criar a tag v*",
+	"站点部署": "Implantação do site",
+	"在 main 上运行 pnpm run deploy": "Executar pnpm run deploy em main",
+	"打标签不会自动部署站点；部署前在 main 上重新验证。": "Criar a tag não implanta o site; verifique novamente em main antes de implantar.",
 };

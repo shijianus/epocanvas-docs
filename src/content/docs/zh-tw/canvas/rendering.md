@@ -17,7 +17,7 @@ description: EpoCanvas Docs 完整渲染規則：從 Markdown 檔案到最終頁
 
 1. **內容收集**：Astro 啟動或建置時掃描 `src/content/docs/` 目錄，把每個 `.md` / `.mdx` 檔案登記為內容條目，並校驗 Frontmatter（缺少 `title` 會直接報錯）。
 2. **Markdown 編譯**：內文由 Markdown 編譯器（含 GFM 擴充）轉換為 HTML。表格、任務清單、刪除線等擴充語法在這一步生效。
-3. **程式碼區塊高亮**：所有程式碼圍欄交給 Expressive Code 處理，產生帶語法高亮、標題欄、行號與複製按鈕的程式碼區塊。
+3. **程式碼區塊高亮**：所有程式碼圍欄交給 Expressive Code 處理，產生帶語法高亮、可選標題欄、行高亮與複製按鈕的程式碼區塊。
 4. **套用網站佈局**：編譯後的 HTML 被塞進 Starlight 的頁面骨架——頂欄、左側目錄、右側本頁目錄都由 `src/components/starlight/` 下的客製化元件渲染。
 5. **產生索引與靜態檔案**：`pnpm run build` 時 Pagefind 走訪所有產物頁面擷取全文索引；最終 `dist/` 目錄中的純 HTML 可直接託管到任何靜態伺服器。
 

@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage retire le préfixe de langue, puis compare une liste exacte de slugs
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // suivent guide (guide de rédaction), deploy (déploiement), faq (questions fréquentes)
   // ainsi que l'entrée externe release vers les GitHub Releases
@@ -76,7 +70,7 @@ C'est pourquoi chaque élément de navigation déclare son périmètre de surbri
 - Sur les pages dont le chemin contient `deployment`, seul le bouton « Prise en main » est activé, à l'exclusion de tout autre ;
 - Le bouton actif porte un fond en forme de pilule à la couleur du thème, ce qui le distingue nettement des boutons inactifs.
 
-Lors de l'ajout d'une page de documentation, pensez à ajouter le mot-clé du chemin dans la règle `match` de l'élément de navigation correspondant, sinon la barre supérieure ne mettra pas correctement en surbrillance.
+Lors de l'ajout d'une page, ajoutez son slug à la liste `isCanvasPage([...])` de l'élément de navigation correspondant. N'utilisez pas `includes` pour une correspondance partielle : un chemin comme `i18n-guide` allumerait à tort le bouton `i18n`.
 
 ---
 

@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage quita el prefijo de idioma y compara contra una lista exacta de slugs
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // Después siguen guide (normas de redacción), deploy (despliegue) y faq (preguntas frecuentes),
   // además de la entrada externa release que apunta a GitHub Releases
@@ -76,7 +70,7 @@ Por eso cada elemento de navegación declara su ámbito de resaltado con una fun
 - Al entrar en páginas cuya ruta contiene `deployment`, se activa de forma exclusiva el botón "inicio rápido";
 - El botón activo lleva un fondo de cápsula en el color del theme, que contrasta claramente con los botones inactivos.
 
-Al añadir una página de documentación nueva, recuerde incorporar la palabra clave de su ruta a la regla `match` del elemento de navegación correspondiente; de lo contrario, la barra superior no se resaltará correctamente.
+Al añadir una página, incluya su slug en la lista `isCanvasPage([...])` del elemento de navegación correspondiente. No use coincidencias parciales con `includes`: una ruta como `i18n-guide` activaría por error el botón `i18n`.
 
 ---
 

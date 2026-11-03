@@ -59,11 +59,11 @@ description: EpoCanvas Docs 高頻客製操作速查：新增文件、導覽按�
 頁面路徑變化導致頂欄高亮錯誤時，修改 `navigation.ts` 中對應條目的 `match` 函式：
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// 把新頁面的 slug 加進白名單；isCanvasPage 會先去掉語言前綴
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-規則是精確比對優先、`includes` 兜底，多個按鈕的 `match` 不要有交集，否則會出現兩個按鈕同時高亮。
+`isCanvasPage` 按精確 slug 判斷，不要改回 `includes` 子字串比對；多個按鈕的 `match` 不要有交集，否則會出現兩個按鈕同時高亮。
 
 ---
 

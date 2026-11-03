@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage 先去掉语言前缀，再按精确 slug 白名单判断
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // 后续还有 guide（编写规范）、deploy（部署上线）、faq（常见问题）
   // 以及指向 GitHub Releases 的 release 外部条目
@@ -76,7 +70,7 @@ export const navigationConfig: NavItem[] = [
 - 进入 `deployment` 路径的页面时，排他地激活"快速上手"按钮；
 - 激活状态的按钮带主题色胶囊背景，与未激活按钮形成明显对比。
 
-新增文档页面时，记得把路径关键字加进对应导航项的 `match` 规则里，否则顶栏不会正确高亮。
+新增文档页面时，把新页面的 slug 加进对应导航项的 `isCanvasPage([...])` 白名单里；不要用 `includes` 做子串匹配，`i18n-guide` 这类路径会误亮 `i18n` 对应的按钮。
 
 ---
 

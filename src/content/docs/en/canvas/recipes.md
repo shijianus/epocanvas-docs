@@ -59,11 +59,11 @@ If you create the file without registering it in `sidebar`, the page is accessib
 When a page path change causes the wrong top bar button to be highlighted, modify the `match` function of the corresponding entry in `navigation.ts`:
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// Add the new page slug to the allowlist; isCanvasPage strips the language prefix first
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-The rule of thumb: exact matches take priority and `includes` serves as the fallback. The `match` functions of multiple buttons must not overlap, otherwise two buttons can be highlighted at the same time.
+`isCanvasPage` matches an exact slug, so do not change it back to `includes` substring matching. The `match` functions of multiple buttons must not overlap, otherwise two buttons can be highlighted at the same time.
 
 ---
 

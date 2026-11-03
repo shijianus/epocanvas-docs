@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage는 언어 접두사를 제거한 뒤 정확한 slug 허용 목록으로 판단합니다
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // 뒤이어 guide(작성 규범), deploy(배포 및 출시), faq(자주 묻는 질문) 항목이 있고
   // 그리고 GitHub Releases를 가리키는 release 외부 항목이 있습니다
@@ -76,7 +70,7 @@ export const navigationConfig: NavItem[] = [
 - `deployment` 경로의 페이지로 들어가면 "빠른 시작" 버튼이 배타적으로 활성화됩니다;
 - 활성 상태의 버튼은 테마 색 캡슐 배경을 가지며 비활성 버튼과 뚜렷이 대비됩니다.
 
-새 문서 페이지를 추가할 때는 경로 키워드를 해당 내비게이션 항목의 `match` 규칙에 넣는 것을 잊지 마세요. 그렇지 않으면 상단 바가 올바르게 하이라이트되지 않습니다.
+페이지를 추가할 때 새 slug를 해당 내비게이션 항목의 `isCanvasPage([...])` 허용 목록에 넣으세요. `includes` 부분 문자열 일치는 쓰지 마세요. `i18n-guide` 같은 경로가 `i18n` 버튼을 잘못 켤 수 있습니다.
 
 ---
 

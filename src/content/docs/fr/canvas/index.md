@@ -31,7 +31,7 @@ EpoCanvas Docs est précisément conçu pour résoudre ces problèmes concrets.
 ### 1. Une interface de lecture claire en trois colonnes
 
 - **Barre de navigation à gauche** : organise toutes les catégories de documentation par module, avec repli hiérarchique, sans saut au changement de page.
-- **Zone de corps de texte au centre** : largeur maximale du corps de texte de 60rem, interligne de 1,68, blocs de code à largeur adaptative — la lecture prolongée fatigue moins.
+- **Zone de corps de texte au centre** : largeur maximale du corps de texte de 60rem, interligne de 1,75, blocs de code à largeur adaptative — la lecture prolongée fatigue moins.
 - **Colonne de plan à droite** : extrait automatiquement les titres `h2` et `h3` de l'article pour générer « Sur cette page », met en évidence la position de lecture courante au fil du défilement, et permet un déplacement fluide en cliquant sur n'importe quel sous-titre.
 
 ### 2. Recherche en deux modes : recherche dans la page + recherche sur l'ensemble du site

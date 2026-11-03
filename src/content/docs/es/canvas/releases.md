@@ -5,6 +5,8 @@ description: Convención de numeración de versiones de EpoCanvas Docs, pasos es
 
 Para que el lector sepa con claridad "a qué versión del producto corresponde la documentación actual" y para que el equipo pueda seguir el historial de cambios de forma ordenada, **EpoCanvas Docs** adopta números de versión semánticos y un flujo de publicación fijo.
 
+![Flujo de publicación: cinco puntos de control desde la edición del contenido y la ejecución local de pnpm run verify, pasando por la revisión y la fusión en main, hasta el etiquetado v*; la etiqueta solo crea una GitHub Release, mientras que el despliegue del sitio requiere ejecutar pnpm run deploy en main por separado](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. Reglas del versionado semántico (SemVer)

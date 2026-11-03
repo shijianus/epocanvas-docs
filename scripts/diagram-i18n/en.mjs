@@ -215,4 +215,19 @@ export default {
 	'特点：静态反向索引 · 按需下载 · 跨文档全文覆盖 · 内网部署可用': 'Static inverted index · on-demand download · site-wide · intranet-ready',
 	'✓ 本地化与隐私保障': '✓ Local-first',
 	'两种搜索均完全在读者浏览器本地执行，不需要配置任何外部云端服务或爬虫密钥（如 Algolia），即使部署在无法访问外网的公司内网中也能顺畅检索。': 'Both searches run entirely in the reader\'s browser — no external service or crawler key (e.g. Algolia) needed; works even on offline intranets.',
+
+	// ===== docs-release-flow =====
+	"EpoCanvas Docs 发布流程 (Release Workflow)": "EpoCanvas Docs Release Workflow",
+	"从修改到上线：五个检查点，标签发布与站点部署相互独立": "From edit to launch: five checkpoints; tag release and site deployment are independent",
+	"修改内容": "Edit content",
+	"Markdown 与配置": "Markdown and config",
+	"本地自检": "Local checks",
+	"提交审查": "Submit for review",
+	"PR 与 CI 完整验证": "PR and full CI checks",
+	"合并 main": "Merge to main",
+	"保持工作区干净": "Keep the worktree clean",
+	"打标签 v*": "Tag v*",
+	"站点部署": "Site deployment",
+	"在 main 上运行 pnpm run deploy": "Run pnpm run deploy on main",
+	"打标签不会自动部署站点；部署前在 main 上重新验证。": "Tagging does not deploy the site; re-run verification on main before deploying.",
 };

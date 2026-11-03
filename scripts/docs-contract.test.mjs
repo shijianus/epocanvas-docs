@@ -145,9 +145,12 @@ test('diagram archive instructions name the actual generator input and current r
   const generator = read(path.join(ROOT, 'scripts/generate-diagram-locales.mjs'));
   assert.ok(guide.includes('public/images/canvas/docs-*.svg'));
   assert.match(generator, /path\.join\(['"]public\/images\/canvas['"]/);
-  const rows = [...guide.matchAll(/^\| (docs-[^|]+\.svg) \| ([^|]+) \|$/gm)];
-  assert.equal(rows.length, 6);
-  for (const [, name, references] of rows) {
+  const rows = [...guide.matchAll(/^\| (docs-[^|]+\.svg) \| ([^|]+) \|$/gm)]
+    .map(([, name, references]) => [name, references]);
+  const sources = readdirSync(path.join(ROOT, 'public/images/canvas'))
+    .filter((entry) => /^docs-.*\.svg$/.test(entry)).sort();
+  assert.deepEqual(rows.map(([name]) => name).sort(), sources, '图表说明表必须与 public/images/canvas 下的中文源图一一对应');
+  for (const [name, references] of rows) {
     const actual = readdirSync(path.join(DOCS, 'canvas')).filter((entry) => entry.endsWith('.md'))
       .filter((entry) => prose(read(path.join(DOCS, 'canvas', entry))).includes(`/images/canvas/${name}`))
       .map((entry) => path.basename(entry, '.md')).sort();

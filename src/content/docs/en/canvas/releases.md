@@ -5,6 +5,8 @@ description: The version numbering scheme of EpoCanvas Docs, the standard steps 
 
 So that readers know which version of the product the current documentation corresponds to, and so the team can track changes in an orderly way, **EpoCanvas Docs** uses semantic version numbers and a fixed release process.
 
+![Release workflow: five checkpoints from editing content and running pnpm run verify locally, through review and merge to main, to tagging v*; tagging only creates a GitHub Release, while site deployment requires running pnpm run deploy on main separately](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. Semantic Versioning Rules (SemVer)

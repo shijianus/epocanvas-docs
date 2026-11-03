@@ -19,7 +19,7 @@ description: EpoCanvas Docs のローカル実行エラー、ドキュメント�
   ```
 
 ### Q2: 依存関係のインストール時にエラーが出る
-- **原因**: このサイトは passthrough 画像サービスを使っており、実行時に画像を最適化しません。まずターミナルの具体的なエラーを確認してください。Node.js または pnpm のバージョンが基準外であることがよくあります。
+- **原因**: まずターミナルの具体的なエラーを確認してください。Node.js または pnpm のバージョンが基準外であることがよくあります。
 - **解決方法**: Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 と pnpm 10.34.5 を使い、`pnpm-lock.yaml` を残したまま再現可能なインストールを実行します:
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ description: EpoCanvas Docs のローカル実行エラー、ドキュメント�
 
 - **原因**: デプロイコマンドの `--project-name` パラメータが、Cloudflare コンソールのプロジェクト名と一致していません。または、このマシンでログインしていない可能性もあります。
 - **解決方法**:
-  1. まず `npx wrangler whoami` を実行してログイン済みか確認します。
+  1. まず `pnpm exec wrangler whoami` を実行してログイン済みか確認します。
   2. Cloudflare コンソールでプロジェクト名を確認し、必要に応じて `scripts/verify-release.mjs` の `--project-name` パラメータを修正します。
 
-最初に `npx wrangler login` で認証し、`pnpm run deploy` を実行します。デプロイを担当する `scripts/verify-release.mjs` は、`main` 以外のブランチ、変更の残る作業ツリー、リモートの実際の `origin/main` コミットと一致しない HEAD を拒否します。`pnpm run verify` が通ってから Wrangler を呼び出します。プロジェクト名の定義先はこのスクリプトであり、`package.json` ではありません。
+最初に `pnpm exec wrangler login` で認証し、`pnpm run deploy` を実行します。デプロイを担当する `scripts/verify-release.mjs` は、`main` 以外のブランチ、変更の残る作業ツリー、リモートの実際の `origin/main` コミットと一致しない HEAD を拒否します。`pnpm run verify` が通ってから Wrangler を呼び出します。プロジェクト名の定義先はこのスクリプトであり、`package.json` ではありません。
 
 ---
 

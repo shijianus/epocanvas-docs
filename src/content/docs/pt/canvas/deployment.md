@@ -65,7 +65,7 @@ A implantação com um clique serve para "publicar o site primeiro", mas escreve
 | **pnpm** | `10.34.5` | `pnpm -v` | Versão do gestor de pacotes fixada pelo projeto |
 | **Git** | Versão estável mais recente | `git --version` | Usado para obter o código e gerir versões |
 
-O CI usa Node.js 22.23.4, fixado em `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
+O CI usa Node.js 22.23.4, fixado em `.node-version`.
 
 :::tip
 Se ainda não tem o `pnpm` instalado, pode instalá-lo rapidamente de forma global através do npm que vem com o Node.js:

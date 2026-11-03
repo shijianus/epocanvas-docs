@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage strips the language prefix, then matches an exact slug allowlist
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // Further entries follow: guide (authoring standards), deploy (deployment), faq (FAQ)
   // plus the external release entry pointing to GitHub Releases
@@ -76,7 +70,7 @@ That is why each navigation item declares its own highlight scope with a `match`
 - On pages under the `deployment` path, the "Quickstart" button is activated exclusively;
 - The active button gets a pill-shaped background in the theme color, clearly contrasting with inactive buttons.
 
-When you add a new documentation page, remember to add its path keyword to the `match` rule of the corresponding navigation item, otherwise the header will not highlight correctly.
+When you add a page, add its slug to the `isCanvasPage([...])` allowlist of the matching navigation item. Do not use `includes` substring matching: a path like `i18n-guide` would wrongly light up the `i18n` button.
 
 ---
 

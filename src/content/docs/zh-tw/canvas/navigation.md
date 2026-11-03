@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage 先去掉語言前綴，再按精確 slug 白名單判斷
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // 後續還有 guide（編寫規範）、deploy（部署上線）、faq（常見問題）
   // 以及指向 GitHub Releases 的 release 外部條目
@@ -76,7 +70,7 @@ export const navigationConfig: NavItem[] = [
 - 進入 `deployment` 路徑的頁面時，排他地啟用「快速上手」按鈕；
 - 啟用狀態的按鈕帶主題色膠囊背景，與未啟用按鈕形成明顯對比。
 
-新增文件頁面時，記得把路徑關鍵字加進對應導覽項的 `match` 規則裡，否則頂欄不會正確高亮。
+新增文件頁面時，把新頁面的 slug 加進對應導覽項的 `isCanvasPage([...])` 白名單裡；不要用 `includes` 做子字串比對，`i18n-guide` 這類路徑會誤亮 `i18n` 對應的按鈕。
 
 ---
 

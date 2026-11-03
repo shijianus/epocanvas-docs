@@ -17,7 +17,7 @@ A Markdown file goes through the following five steps between being saved and be
 
 1. **Content collection**: when Astro starts or builds, it scans the `src/content/docs/` directory, registers every `.md` / `.mdx` file as a content entry, and validates the Frontmatter (a missing `title` fails the build immediately).
 2. **Markdown compilation**: the body text is converted to HTML by the Markdown compiler (with GFM extensions). Extended syntax such as tables, task lists, and strikethrough takes effect at this step.
-3. **Code block highlighting**: all code fences are handed to Expressive Code, which produces code blocks with syntax highlighting, a title bar, line numbers, and a copy button.
+3. **Code block highlighting**: all code fences are handed to Expressive Code, which produces code blocks with syntax highlighting, an optional title bar, line highlighting, and a copy button.
 4. **Site layout applied**: the compiled HTML is placed into the Starlight page skeleton — the header, left sidebar, and right-hand on-this-page outline are all rendered by the custom components under `src/components/starlight/`.
 5. **Index and static files generated**: during `pnpm run build`, Pagefind walks every output page and extracts the full-text index; the pure HTML in the final `dist/` directory can be hosted on any static server.
 

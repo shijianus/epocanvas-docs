@@ -65,7 +65,7 @@ One-click deployment is good for "getting the site out there first", but writing
 | **pnpm** | `10.34.5` | `pnpm -v` | The package-manager version pinned by this project |
 | **Git** | Latest stable version | `git --version` | Used to pull code and manage versions |
 
-CI uses Node.js 22.23.4, pinned in `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
+CI uses Node.js 22.23.4, pinned in `.node-version`.
 
 :::tip
 If `pnpm` is not installed on your computer yet, you can install it globally quickly using the npm that comes with Node.js:

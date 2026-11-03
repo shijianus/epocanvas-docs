@@ -5,6 +5,8 @@ description: EpoCanvas Docs のバージョン番号の命名規則、バージ�
 
 読者が「このドキュメントは製品のどのバージョンに対応しているのか」をはっきり分かるようにし、チームが変更履歴を整理して追跡できるようにするため、**EpoCanvas Docs** ではセマンティックバージョニングと決まったリリース手順を採用しています。
 
+![リリースフロー図：コンテンツの編集、ローカルでの pnpm run verify、レビューと main へのマージ、v* タグの作成という 5 つのチェックポイント。タグ付けは GitHub Release を作成するだけで、サイトのデプロイは main で別途 pnpm run deploy を実行します](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. セマンティックバージョニングの規則 (SemVer)

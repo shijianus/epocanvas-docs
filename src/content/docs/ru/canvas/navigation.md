@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage убирает языковой префикс и сравнивает с точным списком slug
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // Далее следуют guide (правила написания), deploy (развёртывание), faq (частые вопросы)
   // а также внешний элемент release, ведущий на GitHub Releases
@@ -76,7 +70,7 @@ export const navigationConfig: NavItem[] = [
 - при переходе на страницы с путём `deployment` исключительно активируется кнопка «Быстрый старт»;
 - активная кнопка имеет капсульную подложку цвета темы и заметно контрастирует с неактивными.
 
-Добавляя новую страницу документации, не забудьте включить ключевое слово пути в правило `match` соответствующего элемента навигации, иначе верхняя панель не будет подсвечиваться правильно.
+При добавлении страницы внесите её slug в список `isCanvasPage([...])` соответствующего пункта навигации. Не используйте частичное совпадение через `includes`: путь вроде `i18n-guide` ошибочно подсветит кнопку `i18n`.
 
 ---
 

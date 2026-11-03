@@ -31,7 +31,7 @@ O EpoCanvas Docs foi desenhado precisamente para resolver estes problemas concre
 ### 1. Interface de leitura clara em três colunas
 
 - **Barra de navegação à esquerda**: organiza todas as categorias de documentos por módulo, com árvore recolhível, sem saltos ao trocar de página.
-- **Área central do texto**: o corpo do texto tem uma largura máxima de 60rem, espaçamento entre linhas de 1,68, blocos de código com largura adaptável — menos fadiga em leituras prolongadas.
+- **Área central do texto**: o corpo do texto tem uma largura máxima de 60rem, espaçamento entre linhas de 1,75, blocos de código com largura adaptável — menos fadiga em leituras prolongadas.
 - **Barra de índice à direita**: extrai automaticamente os títulos `h2` e `h3` do artigo para gerar o índice da página, destaca a posição de leitura atual à medida que se faz scroll, e salta suavemente para qualquer subsecção com um clique.
 
 ### 2. Pesquisa em dois modos: dentro da página + em todo o site

@@ -19,7 +19,7 @@ Si encuentra un problema al usar, redactar o desplegar **EpoCanvas Docs**, busqu
   ```
 
 ### Q2: Aparece un error al instalar las dependencias
-- **Causa**: Este sitio usa el servicio de imágenes passthrough y no optimiza imágenes en tiempo de ejecución. Revise primero el error exacto de la terminal; una causa habitual es usar una versión de Node.js o pnpm fuera de la base del proyecto.
+- **Causa**: Revise primero el error exacto de la terminal; una causa habitual es usar una versión de Node.js o pnpm fuera de la base del proyecto.
 - **Solución**: Use Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 y pnpm 10.34.5, conserve `pnpm-lock.yaml` y haga una instalación reproducible:
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ Si encuentra un problema al usar, redactar o desplegar **EpoCanvas Docs**, busqu
 
 - **Causa**: el parámetro `--project-name` del comando de despliegue no coincide con el nombre del proyecto en la consola de Cloudflare; también puede ser que no haya iniciado sesión en esa máquina.
 - **Solución**:
-  1. Ejecute primero `npx wrangler whoami` para confirmar que la sesión está iniciada;
+  1. Ejecute primero `pnpm exec wrangler whoami` para confirmar que la sesión está iniciada;
   2. Verifica el nombre del proyecto en la consola de Cloudflare y, si hace falta, modifica el parámetro `--project-name` en `scripts/verify-release.mjs`.
 
-ejecute una vez `npx wrangler login` y después `pnpm run deploy`. El despliegue lo ejecuta `scripts/verify-release.mjs`, que rechaza ramas distintas de `main`, un árbol de trabajo con cambios o un HEAD que no coincida con el commit real de `origin/main` en el remoto. Ejecuta `pnpm run verify` antes de Wrangler. El nombre del proyecto está definido en este script, no en `package.json`.
+ejecute una vez `pnpm exec wrangler login` y después `pnpm run deploy`. El despliegue lo ejecuta `scripts/verify-release.mjs`, que rechaza ramas distintas de `main`, un árbol de trabajo con cambios o un HEAD que no coincida con el commit real de `origin/main` en el remoto. Ejecuta `pnpm run verify` antes de Wrangler. El nombre del proyecto está definido en este script, no en `package.json`.
 
 ---
 

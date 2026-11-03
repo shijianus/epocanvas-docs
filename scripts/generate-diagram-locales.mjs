@@ -6,14 +6,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const DIAGRAMS = [
-	'docs-architecture',
-	'docs-deploy-compare',
-	'docs-i18n-workflow',
-	'docs-layout-3tier',
-	'docs-render-pipeline',
-	'docs-search-flow',
-];
+// 以 public/images/canvas/docs-*.svg 为唯一清单：新增图表只需放入中文源图和翻译表，
+// 不必再到本文件、契约测试和说明表各维护一份名单。
+const DIAGRAMS = fs.readdirSync(path.join('public', 'images', 'canvas'))
+	.filter((name) => /^docs-.*\.svg$/.test(name))
+	.map((name) => path.basename(name, '.svg'))
+	.sort();
+if (!DIAGRAMS.length) throw new Error('public/images/canvas 下没有找到 docs-*.svg 源图。');
 const LOCALES = [
 	['zh-tw', (await import('./diagram-i18n/zh-tw.mjs')).default],
 	['en', (await import('./diagram-i18n/en.mjs')).default],

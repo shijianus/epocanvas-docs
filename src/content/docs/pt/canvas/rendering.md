@@ -17,7 +17,7 @@ Um ficheiro Markdown, desde ser guardado até chegar ao leitor, passa pelas segu
 
 1. **Recolha do conteúdo**: quando o Astro arranca ou faz o build, percorre o diretório `src/content/docs/`, regista cada ficheiro `.md` / `.mdx` como entrada de conteúdo e valida o Frontmatter (a falta de `title` origina um erro imediato).
 2. **Compilação do Markdown**: o corpo do texto é convertido em HTML pelo compilador de Markdown (com extensões GFM). As sintaxes estendidas como tabelas, listas de tarefas e texto riscado tomam efeito nesta etapa.
-3. **Realce dos blocos de código**: todas as cercas de código são tratadas pelo Expressive Code, que gera blocos de código com realce de sintaxe, barra de título, números de linha e botão de copiar.
+3. **Realce dos blocos de código**: todas as cercas de código são tratadas pelo Expressive Code, que gera blocos de código com realce de sintaxe, barra de título opcional, realce de linhas e botão de copiar.
 4. **Aplicação do layout do site**: o HTML compilado é inserido no esqueleto de página do Starlight — a barra superior, o índice à esquerda e o índice da página à direita são renderizados pelos componentes personalizados em `src/components/starlight/`.
 5. **Geração do índice e dos ficheiros estáticos**: ao executar `pnpm run build`, o Pagefind percorre todas as páginas geradas e extrai o índice de texto completo; o HTML puro do diretório `dist/` pode ser alojado diretamente em qualquer servidor estático.
 

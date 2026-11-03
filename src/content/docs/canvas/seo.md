@@ -38,7 +38,7 @@ Frontmatter 的 `title` 和 `description` 是搜索引擎展示的主要素材�
 
 ### 图片体积在源头控制
 
-本站没有启用构建期图片处理：`astro.config.mjs` 把 `image.service` 设为 `passthroughImageService()`，`public/` 下的图片原样拷贝进 `dist/`，既不压缩也不改尺寸。站点不在运行时做图片优化。体积因此在提交前控制：界面截图统一 1440 像素宽并先离线压好，架构图一律用 SVG 矢量图。
+本站没有启用构建期图片处理：`astro.config.mjs` 把 `image.service` 设为 `passthroughImageService()`，`public/` 下的图片原样拷贝进 `dist/`，既不压缩也不改尺寸。站点不在运行时做图片优化。体积因此在提交前控制：界面截图在提交前离线压缩，宽度按需设置（多数为 1440 像素），架构图一律用 SVG 矢量图。
 
 ### 搜索索引按需加载
 

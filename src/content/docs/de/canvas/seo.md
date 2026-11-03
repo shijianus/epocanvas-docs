@@ -38,7 +38,7 @@ Das Build-Ergebnis ist reines HTML + CSS. Seitennavigation, Lesen und die hervor
 
 ### Bildvolumen an der Quelle begrenzen
 
-Diese Site verarbeitet Bilder nicht zur Build-Zeit: In `astro.config.mjs` ist `image.service` auf `passthroughImageService()` gesetzt, Dateien aus `public/` werden daher unverändert nach `dist/` kopiert – ohne Kompression und ohne Größenänderung. Die Site optimiert Bilder nicht zur Laufzeit. Begrenzt wird das Volumen vor dem Einchecken: Screenshots einheitlich 1440 Pixel breit und offline vorkomprimiert, Architekturbilder ausschließlich als SVG.
+Diese Site verarbeitet Bilder nicht zur Build-Zeit: In `astro.config.mjs` ist `image.service` auf `passthroughImageService()` gesetzt, Dateien aus `public/` werden daher unverändert nach `dist/` kopiert – ohne Kompression und ohne Größenänderung. Die Site optimiert Bilder nicht zur Laufzeit. Begrenzt wird das Volumen vor dem Einchecken: Screenshots in der jeweils benötigten Breite (meist 1440 Pixel) offline vorkomprimiert, Architekturbilder ausschließlich als SVG.
 
 ### Bedarfsgesteuertes Laden des Suchindex
 

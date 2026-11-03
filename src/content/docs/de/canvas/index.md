@@ -31,7 +31,7 @@ EpoCanvas Docs wurde genau entwickelt, um diese praktischen Probleme zu lösen.
 ### 1. Klare dreispaltige Leseoberfläche
 
 - **Navigationsleiste links**: Ordnet alle Dokumentkategorien nach Modulen, mit einklappbaren Ebenen; beim Seitenwechsel springt nichts.
-- **Haupttext in der Mitte**: Maximale Breite des Haupttexts 60rem, Zeilenabstand 1,68; Codeblöcke passen ihre Breite an – so ermüdet längeres Lesen weniger.
+- **Haupttext in der Mitte**: Maximale Breite des Haupttexts 60rem, Zeilenabstand 1,75; Codeblöcke passen ihre Breite an – so ermüdet längeres Lesen weniger.
 - **Gliederungsleiste rechts**: Erfasst automatisch die `h2`- und `h3`-Überschriften des Artikels und erzeugt daraus das Inhaltsverzeichnis „Auf dieser Seite“; die aktuelle Leseposition wird beim Scrollen hervorgehoben, ein Klick auf eine Überschrift springt sanft dorthin.
 
 ### 2. Zwei Suchmodi: Seite durchsuchen + Site-weite Suche

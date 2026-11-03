@@ -31,7 +31,7 @@ EpoCanvas Docs was designed specifically to solve these real pain points.
 ### 1. A Clear Three-Column Reading Interface
 
 - **Left navigation**: organizes all documentation categories by module, with collapsible levels, and stays stable when you move between pages.
-- **Center content area**: body text is capped at a 60rem max width with 1.68 line height, and code blocks resize to fit, which reduces fatigue during long reading sessions.
+- **Center content area**: body text is capped at a 60rem max width with 1.75 line height, and code blocks resize to fit, which reduces fatigue during long reading sessions.
 - **Right outline panel**: automatically pulls the `h2` and `h3` headings from the article to build the "On this page" table of contents, highlights the current reading position as you scroll, and smooth-scrolls to any heading you click.
 
 ### 2. Two Search Modes: In-Page Find + Site-Wide Search

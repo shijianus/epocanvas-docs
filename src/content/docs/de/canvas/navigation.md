@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage entfernt das Sprachpräfix und prüft gegen eine exakte Slug-Liste
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // Außerdem folgen noch guide (Schreibregeln), deploy (Bereitstellung) und faq (häufige Fragen)
   // sowie der externe Eintrag release mit Verweis auf die GitHub Releases
@@ -76,7 +70,7 @@ Deshalb deklariert jeder Navigationseintrag mit einer `match`-Funktion seinen ei
 - bei Seiten unter dem Pfad `deployment` wird ausschließlich der Button „Schnellstart" aktiviert;
 - aktivierte Buttons erhalten einen pillenförmigen Hintergrund in Themenfarbe und heben sich so klar von inaktiven Buttons ab.
 
-Wenn Sie neue Dokumentseiten anlegen, denken Sie daran, das Pfad-Schlüsselwort in die `match`-Regel des zuständigen Navigationseintrags aufzunehmen – sonst hebt die Kopfzeile die Seite nicht korrekt hervor.
+Wenn Sie eine Seite hinzufügen, nehmen Sie ihren Slug in die `isCanvasPage([...])`-Liste des passenden Navigationseintrags auf. Verwenden Sie keine Teilstring-Prüfung mit `includes`: Ein Pfad wie `i18n-guide` würde den Button `i18n` fälschlich hervorheben.
 
 ---
 

@@ -59,11 +59,11 @@ description: EpoCanvas Docs の頻出カスタマイズ操作早見表。新規�
 ページのパスが変わってトップバーのハイライトが正しく動かなくなった場合は、`navigation.ts` の該当エントリの `match` 関数を修正します:
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// 新しいページの slug を許可リストに追加。isCanvasPage は言語プレフィックスを先に除去します
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-ルールは「完全一致を優先し、`includes` を fallback にする」です。複数のボタンの `match` に重複があると、2 つのボタンが同時にハイライトされてしまいます。
+`isCanvasPage` は slug の完全一致で判定します。`includes` の部分一致に戻さないでください。複数ボタンの `match` は重複させないでください。重複すると 2 つのボタンが同時に点灯します。
 
 ---
 

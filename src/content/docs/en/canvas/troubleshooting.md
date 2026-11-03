@@ -19,7 +19,7 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
   ```
 
 ### Q2: An error appears while installing dependencies
-- **Cause**: This site uses the passthrough image service and does not optimize images at runtime. Read the exact terminal error first; a common cause is a Node.js or pnpm version outside the project baseline.
+- **Cause**: Read the exact terminal error first; a common cause is a Node.js or pnpm version outside the project baseline.
 - **Fix**: Use Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 and pnpm 10.34.5, keep `pnpm-lock.yaml`, and install reproducibly:
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ When something goes wrong while using, writing, or deploying **EpoCanvas Docs**,
 
 - **Cause**: The `--project-name` argument in the deploy command does not match the project name in the Cloudflare dashboard; or the local machine is not logged in.
 - **Fix**:
-  1. Run `npx wrangler whoami` first to confirm you are logged in;
+  1. Run `pnpm exec wrangler whoami` first to confirm you are logged in;
   2. Check the project name in the Cloudflare dashboard and, if necessary, correct the `--project-name` argument in `scripts/verify-release.mjs`.
 
-run `npx wrangler login` once to authorize, then `pnpm run deploy`. Deployment is handled by `scripts/verify-release.mjs`, which rejects any branch other than `main`, a dirty working tree, or a HEAD that differs from the actual remote `origin/main` commit. It runs `pnpm run verify` before Wrangler. The project name is defined in this script, not in `package.json`.
+run `pnpm exec wrangler login` once to authorize, then `pnpm run deploy`. Deployment is handled by `scripts/verify-release.mjs`, which rejects any branch other than `main`, a dirty working tree, or a HEAD that differs from the actual remote `origin/main` commit. It runs `pnpm run verify` before Wrangler. The project name is defined in this script, not in `package.json`.
 
 ---
 

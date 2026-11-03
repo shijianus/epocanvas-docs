@@ -65,7 +65,7 @@ description: EpoCanvas Docs 로컬 환경 준비, 의존성 설치, 로컬 개�
 | **pnpm** | `10.34.5` | `pnpm -v` | 프로젝트에서 고정한 패키지 관리자 버전 |
 | **Git** | 최신 안정 버전 | `git --version` | 코드 가져오기와 버전 관리에 사용 |
 
-CI는 `.node-version`에 고정된 Node.js 22.23.4을 사용합니다. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
+CI는 `.node-version`에 고정된 Node.js 22.23.4을 사용합니다.
 
 :::tip
 컴퓨터에 `pnpm`이 아직 설치되어 있지 않다면, Node.js에 내장된 npm으로 빠르게 전역 설치할 수 있습니다:

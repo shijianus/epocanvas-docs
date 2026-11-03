@@ -19,7 +19,7 @@ description: EpoCanvas Docs 로컬 실행 오류, 문서가 표시되지 않는 
   ```
 
 ### Q2: 의존성 설치 중 오류가 표시됨
-- **원인**: 이 사이트는 passthrough 이미지 서비스를 사용하며 런타임에 이미지를 최적화하지 않습니다. 먼저 터미널의 구체적인 오류를 확인하세요. Node.js 또는 pnpm 버전이 프로젝트 기준과 맞지 않는 경우가 흔합니다.
+- **원인**: 먼저 터미널의 구체적인 오류를 확인하세요. Node.js 또는 pnpm 버전이 프로젝트 기준과 맞지 않는 경우가 흔합니다.
 - **해결 방법**: Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 및 pnpm 10.34.5를 사용하고 `pnpm-lock.yaml`을 유지한 채 재현 가능한 설치를 실행합니다.
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ description: EpoCanvas Docs 로컬 실행 오류, 문서가 표시되지 않는 
 
 - **원인**: 배포 명령어의 `--project-name` 매개변수가 Cloudflare 콘솔의 프로젝트 이름과 일치하지 않거나, 이 컴퓨터에서 로그인하지 않았을 수 있습니다.
 - **해결 방법**:
-  1. 먼저 `npx wrangler whoami`로 로그인 여부를 확인합니다;
+  1. 먼저 `pnpm exec wrangler whoami`로 로그인 여부를 확인합니다;
   2. Cloudflare 콘솔에서 프로젝트 이름을 확인하고, 필요하면 `scripts/verify-release.mjs`에서 `--project-name` 매개변수를 수정합니다.
 
-먼저 `npx wrangler login`으로 인증한 뒤 `pnpm run deploy`를 실행합니다. 배포를 담당하는 `scripts/verify-release.mjs`는 `main`이 아닌 브랜치, 변경 사항이 남아 있는 작업 트리, 원격 `origin/main`의 실제 커밋과 일치하지 않는 HEAD를 거부합니다. `pnpm run verify`가 통과한 뒤 Wrangler를 호출합니다. 프로젝트 이름은 `package.json`이 아니라 이 스크립트에 정의되어 있습니다.
+먼저 `pnpm exec wrangler login`으로 인증한 뒤 `pnpm run deploy`를 실행합니다. 배포를 담당하는 `scripts/verify-release.mjs`는 `main`이 아닌 브랜치, 변경 사항이 남아 있는 작업 트리, 원격 `origin/main`의 실제 커밋과 일치하지 않는 HEAD를 거부합니다. `pnpm run verify`가 통과한 뒤 Wrangler를 호출합니다. 프로젝트 이름은 `package.json`이 아니라 이 스크립트에 정의되어 있습니다.
 
 ---
 

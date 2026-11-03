@@ -17,7 +17,7 @@ Von der Speicherung bis zur Anzeige beim Leser durchläuft ein Markdown-File die
 
 1. **Inhalte einsammeln**: Beim Start oder Build von Astro wird das Verzeichnis `src/content/docs/` durchsucht, jede `.md`-/`.mdx`-Datei wird als Inhaltseintrag registriert und das Frontmatter wird geprüft (fehlt `title`, gibt es sofort einen Fehler).
 2. **Markdown kompilieren**: Der Haupttext wird vom Markdown-Compiler (inklusive GFM-Erweiterungen) in HTML umgewandelt. Erweiterte Syntax wie Tabellen, Aufgabenlisten und Durchstreichung wird in diesem Schritt wirksam.
-3. **Codeblöcke hervorheben**: Alle Code-Fences werden von Expressive Code verarbeitet und zu Codeblöcken mit Syntaxhervorhebung, Titelleiste, Zeilennummern und Kopieren-Button ausgebaut.
+3. **Codeblöcke hervorheben**: Alle Code-Fences werden von Expressive Code verarbeitet und zu Codeblöcken mit Syntaxhervorhebung, optionaler Titelleiste, Zeilenhervorhebung und Kopieren-Button ausgebaut.
 4. **Seitenlayout anwenden**: Das kompilierte HTML wird in das Seitengerüst von Starlight eingesetzt – Kopfnavigation, linke Seitenleiste und rechte Gliederung „Auf dieser Seite" werden von den angepassten Komponenten unter `src/components/starlight/` gerendert.
 5. **Index und statische Dateien erzeugen**: Bei `pnpm run build` durchläuft Pagefind alle erzeugten Seiten und extrahiert den Volltextindex; das reine HTML im `dist/`-Verzeichnis lässt sich direkt auf jedem statischen Server hosten.
 

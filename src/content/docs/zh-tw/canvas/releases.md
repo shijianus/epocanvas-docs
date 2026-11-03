@@ -5,6 +5,8 @@ description: EpoCanvas Docs 版本號命名規範、版本更新的標準發布�
 
 為了讓讀者清楚「目前文件對應產品的哪個版本」，也讓團隊有條理地追蹤修改歷史，**EpoCanvas Docs** 採用語意化版本號與固定的發布流程。
 
+![發布流程示意圖：修改內容、在本機執行 pnpm run verify、提交審查、合併到 main、建立 v* 標籤五個檢查點；建立標籤只會建立 GitHub Release，網站部署需在 main 上另行執行 pnpm run deploy](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. 語意化版本號規則 (SemVer)

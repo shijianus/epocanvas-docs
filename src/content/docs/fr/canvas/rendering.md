@@ -17,7 +17,7 @@ Entre l'enregistrement d'un fichier Markdown et sa lecture par un lecteur, cinq 
 
 1. **Collecte du contenu** : au démarrage ou au build, Astro analyse le répertoire `src/content/docs/`, enregistre chaque fichier `.md` / `.mdx` comme entrée de contenu et valide le Frontmatter (l'absence de `title` provoque une erreur immédiate).
 2. **Compilation Markdown** : le corps du texte est converti en HTML par le compilateur Markdown (avec les extensions GFM). Les syntaxes étendues telles que les tableaux, les listes de tâches et le texte barré prennent effet à cette étape.
-3. **Coloration des blocs de code** : toutes les barrières de code sont traitées par Expressive Code, qui génère des blocs de code avec coloration syntaxique, barre de titre, numéros de ligne et bouton de copie.
+3. **Coloration des blocs de code** : toutes les barrières de code sont traitées par Expressive Code, qui génère des blocs de code avec coloration syntaxique, barre de titre facultative, surbrillance de lignes et bouton de copie.
 4. **Application de la mise en page du site** : le HTML compilé est inséré dans le squelette de page de Starlight — la barre supérieure, la table des matières à gauche et le plan de la page à droite sont rendus par les composants personnalisés situés sous `src/components/starlight/`.
 5. **Génération des index et des fichiers statiques** : lors de `pnpm run build`, Pagefind parcourt toutes les pages produites pour extraire l'index plein texte ; le HTML pur du répertoire `dist/` peut ensuite être hébergé directement sur n'importe quel serveur statique.
 

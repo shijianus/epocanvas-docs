@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage remove o prefixo de idioma e compara com uma lista exata de slugs
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // Seguem-se ainda guide (normas de escrita), deploy (implantação) e faq (perguntas frequentes)
   // bem como o item externo release, que aponta para os GitHub Releases
@@ -76,7 +70,7 @@ Por isso, cada item de navegação declara a sua própria área de destaque atra
 - Ao entrar em páginas do caminho `deployment`, o botão "Começar rapidamente" é ativado de forma exclusiva;
 - O botão no estado ativo tem um fundo em cápsula na cor do tema, em claro contraste com os botões inativos.
 
-Ao acrescentar novas páginas de documentação, lembre-se de acrescentar a palavra-chave do caminho à regra `match` do item de navegação correspondente; caso contrário, a barra superior não destacará corretamente.
+Ao adicionar uma página, inclua o slug na lista `isCanvasPage([...])` do item de navegação correspondente. Não use correspondência parcial com `includes`: um caminho como `i18n-guide` acenderia o botão `i18n` por engano.
 
 ---
 

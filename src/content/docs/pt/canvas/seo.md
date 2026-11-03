@@ -38,7 +38,7 @@ O resultado do build é HTML + CSS puros. A navegação entre páginas, a leitur
 
 ### Tamanho das imagens controlado na origem
 
-Este site não processa imagens no momento do build: `astro.config.mjs` define `image.service` como `passthroughImageService()`, pelo que os ficheiros em `public/` são copiados tal como estão para `dist/`, sem compressão nem redimensionamento. O site não otimiza imagens em tempo de execução. O tamanho controla-se antes do commit: capturas de interface com 1440 píxeis de largura, comprimidas offline, e diagramas de arquitetura sempre em SVG.
+Este site não processa imagens no momento do build: `astro.config.mjs` define `image.service` como `passthroughImageService()`, pelo que os ficheiros em `public/` são copiados tal como estão para `dist/`, sem compressão nem redimensionamento. O site não otimiza imagens em tempo de execução. O tamanho controla-se antes do commit: capturas de interface comprimidas offline na largura necessária (normalmente 1440 píxeis), e diagramas de arquitetura sempre em SVG.
 
 ### Carregamento do índice de pesquisa a pedido
 

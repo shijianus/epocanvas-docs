@@ -19,7 +19,7 @@ description: EpoCanvas Docs 本地运行报错、文档不显示、提示框渲�
   ```
 
 ### Q2：安装依赖时出现错误
-- **原因**：当前站点使用 passthrough 图片服务，不在运行时做图片优化。先查看终端输出的具体错误，常见原因是 Node.js 或 pnpm 版本不符合项目要求。
+- **原因**：先查看终端输出的具体错误，常见原因是 Node.js 或 pnpm 版本不符合项目要求。
 - **解决办法**：确认 Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 和 pnpm 10.34.5，保留 `pnpm-lock.yaml` 执行可复现安装：
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ description: EpoCanvas Docs 本地运行报错、文档不显示、提示框渲�
 
 - **原因**：部署命令中 `--project-name` 参数与 Cloudflare 控制台里的项目名不一致；也可能是本机未登录。
 - **解决办法**：
-  1. 先执行 `npx wrangler whoami` 确认已登录；
+  1. 先执行 `pnpm exec wrangler whoami` 确认已登录；
   2. 在 Cloudflare 控制台核对项目名，必要时修改 `scripts/verify-release.mjs` 中的 `--project-name` 参数。
 
-先执行一次 `npx wrangler login` 完成授权，再运行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 执行；非 `main` 分支、工作区不干净，或 HEAD 与远端 `origin/main` 的实际提交不一致时会被拒绝。脚本先运行 `pnpm run verify`，通过后才调用 Wrangler。项目名定义在此脚本中，不在 `package.json`。
+先执行一次 `pnpm exec wrangler login` 完成授权，再运行 `pnpm run deploy`。部署由 `scripts/verify-release.mjs` 执行；非 `main` 分支、工作区不干净，或 HEAD 与远端 `origin/main` 的实际提交不一致时会被拒绝。脚本先运行 `pnpm run verify`，通过后才调用 Wrangler。项目名定义在此脚本中，不在 `package.json`。
 
 ---
 

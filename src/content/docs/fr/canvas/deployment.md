@@ -65,7 +65,7 @@ Le déploiement en un clic convient pour « mettre d'abord le site en ligne », 
 | **pnpm** | `10.34.5` | `pnpm -v` | Version du gestionnaire de paquets utilisée par le projet |
 | **Git** | Dernière version stable | `git --version` | Sert à récupérer le code et à gérer les versions |
 
-La CI utilise Node.js 22.23.4, fixé dans `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
+La CI utilise Node.js 22.23.4, fixé dans `.node-version`.
 
 :::tip
 Si `pnpm` n'est pas encore installé sur votre ordinateur, vous pouvez l'installer rapidement en global via le npm fourni avec Node.js :

@@ -5,6 +5,8 @@ description: Norma de numeração de versões do EpoCanvas Docs, passos padrão 
 
 Para que os leitores saibam com clareza "a que versão do produto corresponde a documentação atual" e para que a equipa consiga acompanhar o histórico de alterações de forma organizada, o **EpoCanvas Docs** adota numeração de versões semântica e um fluxo de publicação fixo.
 
+![Fluxo de publicação: cinco pontos de verificação, desde a edição do conteúdo e a execução local de pnpm run verify, passando pela revisão e merge em main, até a criação da tag v*; a tag cria apenas um GitHub Release, enquanto a implantação do site exige executar pnpm run deploy em main separadamente](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. Regra de numeração semântica de versões (SemVer)

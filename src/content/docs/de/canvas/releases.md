@@ -5,6 +5,8 @@ description: Benennungsregeln für Versionsnummern in EpoCanvas Docs, der standa
 
 Damit Leser jederzeit wissen, welcher Produktversion das aktuelle Dokument entspricht, und damit das Team die Änderungshistorie geordnet nachverfolgen kann, verwendet **EpoCanvas Docs** semantische Versionsnummern und einen festen Release-Ablauf.
 
+![Release-Ablauf: fünf Kontrollpunkte vom Bearbeiten der Inhalte und dem lokalen Ausführen von pnpm run verify über Review und Merge nach main bis zum Setzen des Tags v*; das Tag erstellt nur ein GitHub Release, während die Website-Bereitstellung separat durch pnpm run deploy auf main erfolgt](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. Regeln für semantische Versionsnummern (SemVer)

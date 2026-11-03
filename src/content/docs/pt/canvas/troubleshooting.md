@@ -19,7 +19,7 @@ Se surgir um problema ao usar, escrever ou implantar o **EpoCanvas Docs**, procu
   ```
 
 ### Q2: aparece um erro ao instalar as dependências
-- **Causa**: este site usa o serviço de imagens passthrough e não otimiza imagens em tempo de execução. Primeiro leia o erro exato no terminal; uma versão de Node.js ou pnpm fora da base do projeto é uma causa comum.
+- **Causa**: Primeiro leia o erro exato no terminal; uma versão de Node.js ou pnpm fora da base do projeto é uma causa comum.
 - **Solução**: use Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 e pnpm 10.34.5, mantenha `pnpm-lock.yaml` e faça uma instalação reproduzível:
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ Se surgir um problema ao usar, escrever ou implantar o **EpoCanvas Docs**, procu
 
 - **Causa**: o parâmetro `--project-name` do comando de implantação não coincide com o nome do projeto na consola Cloudflare; também pode acontecer por a máquina não ter sessão iniciada.
 - **Solução**:
-  1. Execute primeiro `npx wrangler whoami` para confirmar que a sessão está iniciada;
+  1. Execute primeiro `pnpm exec wrangler whoami` para confirmar que a sessão está iniciada;
   2. Confirme o nome do projeto na consola Cloudflare e, se necessário, corrija o parâmetro `--project-name` em `scripts/verify-release.mjs`.
 
-execute uma vez `npx wrangler login` e depois `pnpm run deploy`. A implantação é executada por `scripts/verify-release.mjs`, que rejeita ramos diferentes de `main`, uma árvore de trabalho com alterações ou um HEAD diferente do commit real de `origin/main` no remoto. Executa `pnpm run verify` antes do Wrangler. O nome do projeto está definido neste script, não em `package.json`.
+execute uma vez `pnpm exec wrangler login` e depois `pnpm run deploy`. A implantação é executada por `scripts/verify-release.mjs`, que rejeita ramos diferentes de `main`, uma árvore de trabalho com alterações ou um HEAD diferente do commit real de `origin/main` no remoto. Executa `pnpm run verify` antes do Wrangler. O nome do projeto está definido neste script, não em `package.json`.
 
 ---
 

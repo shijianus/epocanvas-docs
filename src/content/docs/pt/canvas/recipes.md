@@ -59,11 +59,11 @@ Se criar apenas o ficheiro sem o registar na `sidebar`, a página é acessível 
 Quando uma alteração no caminho da página faz o realce da barra superior ficar errado, modifique a função `match` da entrada correspondente em `navigation.ts`:
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// Adicione o slug da nova página à lista; isCanvasPage remove primeiro o prefixo de idioma
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-A regra é: correspondência exata primeiro, `includes` como recurso; os `match` de vários botões não devem ter interseções, senão dois botões podem ficar realçados ao mesmo tempo.
+`isCanvasPage` compara o slug exato; não volte a usar `includes` para correspondência parcial. As funções `match` de vários botões não devem se sobrepor, senão dois botões serão realçados ao mesmo tempo.
 
 ---
 

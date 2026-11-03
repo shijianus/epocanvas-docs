@@ -38,7 +38,7 @@ El resultado de la compilación es HTML + CSS puro. La navegación entre página
 
 ### Control del peso de las imágenes en el origen
 
-Este sitio no procesa imágenes en tiempo de compilación: `astro.config.mjs` fija `image.service` en `passthroughImageService()`, así que los archivos de `public/` se copian tal cual a `dist/`, sin compresión ni cambio de tamaño. El sitio no optimiza imágenes en tiempo de ejecución. El peso se controla antes de confirmar: capturas de interfaz de 1440 píxeles de ancho comprimidas fuera de línea y diagramas de arquitectura siempre en SVG.
+Este sitio no procesa imágenes en tiempo de compilación: `astro.config.mjs` fija `image.service` en `passthroughImageService()`, así que los archivos de `public/` se copian tal cual a `dist/`, sin compresión ni cambio de tamaño. El sitio no optimiza imágenes en tiempo de ejecución. El peso se controla antes de confirmar: capturas de interfaz comprimidas fuera de línea con el ancho que necesite cada página (normalmente 1440 píxeles) y diagramas de arquitectura siempre en SVG.
 
 ### Carga del índice de búsqueda bajo demanda
 

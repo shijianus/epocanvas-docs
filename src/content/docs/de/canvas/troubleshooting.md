@@ -19,7 +19,7 @@ Suchen Sie bei Problemen mit Nutzung, Dokumentation oder Deployment von **EpoCan
   ```
 
 ### Q2: Bei der Installation der Abhängigkeiten erscheint ein Fehler
-- **Ursache**: Diese Site verwendet den passthrough-Bilddienst und optimiert Bilder nicht zur Laufzeit. Prüfen Sie zuerst die genaue Terminalmeldung; häufig liegt die Node.js- oder pnpm-Version außerhalb der Projektvorgaben.
+- **Ursache**: Prüfen Sie zuerst die genaue Terminalmeldung; häufig liegt die Node.js- oder pnpm-Version außerhalb der Projektvorgaben.
 - **Lösung**: Verwenden Sie Node.js 22.x ≥ 22.23.4 / 24.x ≥ 24.12.0 und pnpm 10.34.5, behalten Sie `pnpm-lock.yaml` und installieren Sie reproduzierbar:
   ```bash
   pnpm install --frozen-lockfile
@@ -117,10 +117,10 @@ Suchen Sie bei Problemen mit Nutzung, Dokumentation oder Deployment von **EpoCan
 
 - **Ursache**: Der Parameter `--project-name` im Deployment-Befehl stimmt nicht mit dem Projektnamen im Cloudflare-Dashboard überein; möglicherweise ist der lokale Rechner auch nicht angemeldet.
 - **Lösung**:
-  1. Führen Sie zuerst `npx wrangler whoami` aus, um die Anmeldung zu bestätigen;
+  1. Führen Sie zuerst `pnpm exec wrangler whoami` aus, um die Anmeldung zu bestätigen;
   2. Gleichen Sie den Projektnamen im Cloudflare-Dashboard ab und passen Sie falls nötig den Parameter `--project-name` in `scripts/verify-release.mjs` an.
 
-einmal `npx wrangler login` zur Anmeldung ausführen, danach `pnpm run deploy`. Das Deployment übernimmt `scripts/verify-release.mjs`. Das Skript lehnt andere Branches als `main`, einen Arbeitsbaum mit Änderungen sowie einen HEAD ab, der nicht dem tatsächlichen Commit von `origin/main` auf dem Remote entspricht. Vor Wrangler läuft `pnpm run verify`. Der Projektname steht in diesem Skript, nicht in `package.json`.
+einmal `pnpm exec wrangler login` zur Anmeldung ausführen, danach `pnpm run deploy`. Das Deployment übernimmt `scripts/verify-release.mjs`. Das Skript lehnt andere Branches als `main`, einen Arbeitsbaum mit Änderungen sowie einen HEAD ab, der nicht dem tatsächlichen Commit von `origin/main` auf dem Remote entspricht. Vor Wrangler läuft `pnpm run verify`. Der Projektname steht in diesem Skript, nicht in `package.json`.
 
 ---
 

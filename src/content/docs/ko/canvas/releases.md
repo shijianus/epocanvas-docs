@@ -5,6 +5,8 @@ description: EpoCanvas Docs의 버전 번호 명명 규칙, 버전 업데이트�
 
 독자가 "현재 문서가 제품의 어느 버전에 대응하는지" 명확히 알 수 있게 하고, 팀이 수정 이력을 체계적으로 추적할 수 있도록 **EpoCanvas Docs**는 유의적 버전 번호와 고정된 발행 절차를 채택합니다.
 
+![릴리스 흐름도: 콘텐츠 수정, 로컬에서 pnpm run verify 실행, 검토 및 main 병합, v* 태그 생성의 다섯 단계. 태그 생성은 GitHub Release만 만들며, 사이트 배포는 main에서 별도로 pnpm run deploy를 실행해야 합니다](/images/canvas/docs-release-flow.svg)
+
 ---
 
 ## 1. 유의적 버전 번호 규칙 (SemVer)

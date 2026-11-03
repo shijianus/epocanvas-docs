@@ -65,7 +65,7 @@ Die Ein-Klick-Bereitstellung eignet sich, um die Site zunächst zu veröffentlic
 | **pnpm** | `10.34.5` | `pnpm -v` | Vom Projekt festgelegte Paketmanager-Version |
 | **Git** | neueste stabile Version | `git --version` | Für das Abrufen des Codes und die Versionsverwaltung |
 
-Die CI verwendet Node.js 22.23.4, festgelegt in `.node-version`. Node.js: `^22.23.4 || ^24.12.0`; pnpm: `10.34.5`.
+Die CI verwendet Node.js 22.23.4, festgelegt in `.node-version`.
 
 :::tip
 Falls `pnpm` auf Ihrem Rechner noch nicht installiert ist, können Sie es schnell global über das in Node.js enthaltene npm installieren:

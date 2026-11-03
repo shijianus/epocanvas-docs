@@ -59,11 +59,11 @@ description: EpoCanvas Docs 高频定制操作速查：新增文档、导航按�
 页面路径变化导致顶栏高亮错误时，修改 `navigation.ts` 中对应条目的 `match` 函数：
 
 ```typescript
-match: (pathname: string) =>
-  pathname === '/canvas/' || pathname.includes('layout'),
+// 把新页面的 slug 加进白名单；isCanvasPage 会先去掉语言前缀
+match: isCanvasPage(['layout', 'navigation']),
 ```
 
-规则是精确匹配优先、`includes` 兜底，多个按钮的 `match` 不要有交集，否则会出现两个按钮同时高亮。
+`isCanvasPage` 按精确 slug 判断，不要改回 `includes` 子串匹配；多个按钮的 `match` 不要有交集，否则会出现两个按钮同时高亮。
 
 ---
 

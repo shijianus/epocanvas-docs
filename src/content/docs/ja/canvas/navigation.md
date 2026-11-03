@@ -40,21 +40,15 @@ export const navigationConfig: NavItem[] = [
     labelKey: 'nav.docs',
     defaultLabel: '产品说明',
     href: '/canvas/',
-    match: (pathname: string) =>
-      pathname === '/canvas' ||
-      pathname === '/canvas/' ||
-      pathname.includes('about') ||
-      pathname.includes('layout') ||
-      pathname.includes('search-engine') ||
-      pathname.includes('i18n') ||
-      pathname.includes('navigation'),
+    // isCanvasPage は言語プレフィックスを外し、slug の許可リストで完全一致を判定します
+    match: isCanvasPage(['', 'about', 'layout', 'search-engine', 'i18n', 'navigation']),
   },
   {
     id: 'quickstart',
     labelKey: 'nav.quickstart',
     defaultLabel: '快速上手',
     href: '/canvas/deployment/',
-    match: (pathname: string) => pathname.includes('deployment'),
+    match: isCanvasPage(['deployment']),
   },
   // この先には guide（執筆ガイドライン）、deploy（デプロイ）、faq（よくある質問）などもある
   // また、GitHub Releases を指す release の外部エントリーもある
@@ -76,7 +70,7 @@ export const navigationConfig: NavItem[] = [
 - `deployment` パスのページに入ったときは「クイックスタート」ボタンだけが排他的にアクティブになります。
 - アクティブなボタンにはテーマカラーのカプセル状の背景が付き、非アクティブなボタンと明確に区別できます。
 
-新しいドキュメントページを追加するときは、パスのキーワードを対応するナビゲーション項目の `match` ルールに加えるのを忘れないでください。忘れるとトップバーが正しくハイライトされません。
+ページを追加するときは、新しい slug を対応するナビゲーション項目の `isCanvasPage([...])` 許可リストに追加してください。`includes` の部分一致は使わないでください。`i18n-guide` のようなパスが `i18n` ボタンを誤って点灯させます。
 
 ---
 
