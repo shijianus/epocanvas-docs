@@ -5,6 +5,7 @@
 // 缺译的节点自动保留中文原文，并在报告中列出，不会产出半翻译的空图。
 import fs from 'node:fs';
 import path from 'node:path';
+import { localizeDiagram } from './diagram-render.mjs';
 
 // 以 public/images/canvas/docs-*.svg 为唯一清单：新增图表只需放入中文源图和翻译表，
 // 不必再到本文件、契约测试和说明表各维护一份名单。
@@ -25,29 +26,7 @@ const LOCALES = [
 	['pt', (await import('./diagram-i18n/pt.mjs')).default],
 ];
 
-// 估算显示宽度：CJK 全角记 1，半角记 0.55，用于字号自适应。
-function widthUnits(s) {
-	let u = 0;
-	for (const ch of s) u += /[\u2e80-\ua4cf\uf900-\ufaff\ufe30-\ufe4f\uff01-\uff60\u3000-\u303f]|[\u{20000}-\u{2ffff}]/u.test(ch) ? 1 : 0.55;
-	return u;
-}
-
-function escapeXml(s) {
-	return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-// 译文字面变宽时按比例缩小该节点的 font-size（下限 0.62），避免溢出图框。
-function fitFontSize(attrs, original, translated) {
-	const m = attrs.match(/font-size="([\d.]+)"/);
-	if (!m) return attrs;
-	const fs = parseFloat(m[1]);
-	const estOrig = widthUnits(original) * fs;
-	const estNew = widthUnits(translated) * fs;
-	if (estNew <= estOrig * 1.03) return attrs;
-	const scaled = Math.max(fs * 0.62, Math.floor((fs * estOrig) / estNew * 10) / 10);
-	return attrs.replace(/font-size="[\d.]+"/, `font-size="${scaled}"`);
-}
-
+// 估算显示宽度与字号缩放逻辑集中在 diagram-render.mjs，生成器和契约测试共用。
 const usedKeys = new Set();
 let totalMissing = 0;
 
@@ -58,34 +37,15 @@ for (const name of DIAGRAMS) {
 	for (const [locale, dict] of LOCALES) {
 		const outDir = path.join('public/images/canvas', locale);
 		fs.mkdirSync(outDir, { recursive: true });
-		let matched = 0;
-		const missed = [];
-		const out = svg.replace(/<text([^>]*)>([\s\S]*?)<\/text>/g, (full, attrs, inner) => {
-			const raw = inner.replace(/<[^>]+>/g, '').trim();
-			if (!raw || !/[\u4e00-\u9fff]/.test(raw)) return full;
-			usedKeys.add(raw);
-			const tr = dict[raw];
-			if (!tr) { missed.push(raw); return full; }
-			matched++;
-			let formattedTr = escapeXml(tr);
-			const tspanMatch = /<tspan([^>]*)>([\s\S]*?)<\/tspan>/.exec(inner);
-			if (tspanMatch) {
-				const tspanAttrs = tspanMatch[1];
-				const parts = tr.split(' / ');
-				if (parts.length > 1) {
-					const last = parts.pop();
-					formattedTr = escapeXml(parts.join(' / ') + ' / ') + `<tspan${tspanAttrs}>${escapeXml(last)}</tspan>`;
-				}
-			}
-			return `<text${fitFontSize(attrs, raw, tr)}>${formattedTr}</text>`;
-		});
+		const { svg: out, usedKeys: keys, missed } = localizeDiagram(svg, dict);
+		keys.forEach((key) => usedKeys.add(key));
 		fs.writeFileSync(path.join(outDir, `${name}.svg`), out, 'utf8');
 		totalMissing += missed.length;
 		if (missed.length) {
-			console.log(`[${locale}] ${name}: ${matched} 翻译, ${missed.length} 缺失（保留中文）`);
+			console.log(`[${locale}] ${name}: ${keys.length - missed.length} 翻译, ${missed.length} 缺失（保留中文）`);
 			missed.slice(0, 6).forEach((k) => console.log('   MISS ' + JSON.stringify(k.slice(0, 44))));
 		} else {
-			console.log(`[${locale}] ${name}: ${matched}/${matched} 全部翻译`);
+			console.log(`[${locale}] ${name}: ${keys.length}/${keys.length} 全部翻译`);
 		}
 	}
 }

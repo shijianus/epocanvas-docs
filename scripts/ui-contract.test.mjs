@@ -107,7 +107,10 @@ test('404 also localizes custom footer actions without replacing their icons', (
   for (const key of ['page.feedback', 'page.reportIssue', 'page.backToTop']) {
     assert.match(footer, new RegExp(`<span[^>]*data-i18n="${key}"[^>]*>`), key);
   }
+  assert.match(footer, /data-report-issue/);
   assert.match(notFound, /querySelectorAll\('\[data-i18n\]'\)/);
+  assert.match(notFound, /data-report-issue/);
+  assert.match(notFound, /location\.href/);
 });
 
 test('static 404 path variants switch languages to locale homepages only', () => {

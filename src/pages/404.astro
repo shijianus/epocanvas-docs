@@ -102,6 +102,14 @@ const payload = escapeForInlineScript(JSON.stringify({
 			home.href = data.homeHrefs[pick];
 			home.textContent = data.homeLabels[pick];
 		}
+		// 静态 404 构建时只能拿到 /404 自身；用当前地址覆盖报告正文，提交问题时带上真正失效的 URL。
+		const report = document.querySelector('[data-report-issue]');
+		if (report) {
+			const reportUrl = new URL(report.href);
+			reportUrl.searchParams.set('title', `[Docs] 404: ${location.pathname}`);
+			reportUrl.searchParams.set('body', `页面 / Page: ${location.href}\n\n问题描述 / What is wrong:\n`);
+			report.href = reportUrl.href;
+		}
 		// 顶栏与页头的壳层文字同步切换；苹果平台的 Ctrl 提示与搜索组件一样替换为 ⌘
 		const shell = (data.shell || {})[pick];
 		if (shell) {

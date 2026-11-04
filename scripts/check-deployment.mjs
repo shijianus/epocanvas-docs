@@ -7,6 +7,9 @@ const origin = new URL(base);
 if (origin.protocol !== 'https:' || !origin.hostname.endsWith('.epocanvas-docs.pages.dev')) throw new Error('此检查仅用于 epocanvas-docs 的 HTTPS 预览地址。');
 const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const locales = ['', 'zh-tw', 'en', 'ja', 'ko', 'es', 'fr', 'de', 'ru', 'pt'];
+// 每种语言都应有 17 篇正文 + 1 个首页；从源目录派生，新增页面时不必再改部署检查。
+const expectedPageCount = fs.readdirSync(new URL('../src/content/docs/canvas/', import.meta.url))
+  .filter((name) => /\.mdx?$/.test(name)).length + 1;
 
 async function get(route) {
   const response = await fetch(new URL(route, origin), { redirect: 'manual', signal: AbortSignal.timeout(30000) });
@@ -49,7 +52,7 @@ const manifest = await get('/pagefind/pagefind-entry.json');
 assert.equal(manifest.response.status, 200);
 const languages = JSON.parse(manifest.text).languages;
 assert.equal(Object.keys(languages).length, 10);
-for (const [language, data] of Object.entries(languages)) assert.equal(data.page_count, 18, `Pagefind ${language}`);
+for (const [language, data] of Object.entries(languages)) assert.equal(data.page_count, expectedPageCount, `Pagefind ${language}`);
 const module = await get('/pagefind/pagefind.js');
 assert.equal(module.response.status, 200);
 assert.ok(!/^\s*<!doctype html/i.test(module.text), 'Pagefind 模块不能回退成 HTML');

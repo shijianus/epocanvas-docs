@@ -9,11 +9,32 @@ const LANG_DIRS = new Map([
   ['es', 'es'], ['fr', 'fr'], ['de', 'de'], ['ru', 'ru'], ['pt', 'pt'],
 ]);
 const EXPECTED = [...LANG_DIRS.keys(), 'x-default'];
-const EXPRESSIVE_CODE_LABELS = new Map([
-  ['zh-CN', { terminal: '终端窗口', copy: '复制到剪贴板', copied: '复制成功！' }],
-  ['en', { terminal: 'Terminal window', copy: 'Copy to clipboard', copied: 'Copied!' }],
-  ['de', { terminal: 'Terminalfenster', copy: 'In die Zwischenablage kopieren', copied: 'Kopiert!' }],
-]);
+// 代码块标题与复制按钮来自 Starlight 翻译；英文、德文缺少的键由 src/content/i18n 覆盖。
+// 从实际文件读取而不是在检查器里再抄一份 10 语言文案，避免翻译更新后检查器仍验旧值。
+const TRANSLATION_FILES = {
+  'zh-CN': 'zh-CN.json', 'zh-TW': 'zh-TW.json', en: 'en.json', ja: 'ja.json',
+  ko: 'ko.json', es: 'es.json', fr: 'fr.json', de: 'de.json', ru: 'ru.json', pt: 'pt.json',
+};
+function loadExpressiveCodeLabels() {
+  const labels = new Map();
+  for (const [lang, file] of Object.entries(TRANSLATION_FILES)) {
+    const starlight = JSON.parse(fs.readFileSync(new URL(`../node_modules/@astrojs/starlight/translations/${file}`, import.meta.url), 'utf8'));
+    const customUrl = new URL(`../src/content/i18n/${lang}.json`, import.meta.url);
+    const custom = fs.existsSync(customUrl) ? JSON.parse(fs.readFileSync(customUrl, 'utf8')) : {};
+    const value = (key) => custom[key] ?? starlight[key];
+    const entry = {
+      terminal: value('expressiveCode.terminalWindowFallbackTitle'),
+      copy: value('expressiveCode.copyButtonTooltip'),
+      copied: value('expressiveCode.copyButtonCopied'),
+    };
+    if (Object.values(entry).some((text) => typeof text !== 'string' || !text)) {
+      throw new Error(`[check-links] ${lang} 缺少 Expressive Code 翻译键`);
+    }
+    labels.set(lang, entry);
+  }
+  return labels;
+}
+const EXPRESSIVE_CODE_LABELS = loadExpressiveCodeLabels();
 if (!fs.existsSync(dist)) {
   console.error('[check-links] 未找到 dist/，请先运行 pnpm run build');
   process.exit(1);

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
+import { localizeDiagram } from './diagram-render.mjs';
 
 const root = new URL('../', import.meta.url);
 const read = (path) => fs.readFileSync(new URL(path, root), 'utf8').replace(/\r\n/g, '\n');
@@ -45,6 +46,29 @@ test('all diagram translation keys are used and every generated text matches its
         return dict[text];
       });
       assert.deepEqual(actual, expected, `${locale}/${name}: stale or untranslated text`);
+    }
+  }
+});
+
+test('every diagram variant retains a complete SVG root element', () => {
+  for (const name of names) {
+    for (const [locale, svg] of variants(name)) {
+      assert.match(svg.trim(), /^<svg\b/, `${locale}/${name}: missing <svg>`);
+      assert.match(svg.trim(), /<\/svg>$/, `${locale}/${name}: missing </svg>`);
+    }
+  }
+});
+
+test('all generated diagrams exactly match the current source and dictionaries', () => {
+  for (const locale of locales) {
+    for (const name of names) {
+      const generated = localizeDiagram(source[name], dictionaries[locale]);
+      assert.deepEqual(generated.missed, [], `${locale}/${name}: missing translation`);
+      assert.equal(
+        read(`public/images/canvas/${locale}/${name}.svg`),
+        generated.svg,
+        `${locale}/${name}: generated SVG is stale; rerun node scripts/generate-diagram-locales.mjs`,
+      );
     }
   }
 });
